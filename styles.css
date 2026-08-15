@@ -884,3 +884,18 @@ textarea:focus {
     align-items: flex-end;
   }
 }
+
+/* Mobile Feinschliff – Welten kompakter */
+@media (max-width: 600px) {
+
+  #view-welten .view-header {
+    margin-bottom: 18px;
+  }
+
+  #view-welten .world-stage {
+    transform: scale(.90);
+    transform-origin: top center;
+    margin-bottom: -45px;
+  }
+
+}
