@@ -935,3 +935,41 @@ textarea:focus {
       0 0 35px rgba(212,160,58,.34);
   }
 }
+
+/* MOBILE – Weltbuttons garantiert über allen Ebenen */
+
+@media (max-width:600px){
+
+  .world-stage{
+    position:relative;
+    isolation:isolate;
+  }
+
+  .world-stage::before,
+  .world-stage::after{
+    z-index:1 !important;
+    pointer-events:none !important;
+  }
+
+  .world-core{
+    z-index:2 !important;
+    pointer-events:none !important;
+  }
+
+  .world-bubble{
+    z-index:20 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation;
+    position:absolute;
+  }
+
+  .world-inner.selected,
+  .world-action.selected{
+    transform:translateX(-50%) scale(1.15);
+  }
+
+  .world-body.selected,
+  .world-reset.selected{
+    transform:translateY(-50%) scale(1.15);
+  }
+}
