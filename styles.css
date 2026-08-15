@@ -1,0 +1,886 @@
+/* =========================================================
+   ICS APP V6 NEU
+   Inner Code Systems
+   ========================================================= */
+
+:root {
+  --black: #070704;
+  --black-soft: #0d0c08;
+  --panel: #11100b;
+  --panel-light: #17140d;
+  --gold: #d4a03a;
+  --gold-light: #f0c55d;
+  --cream: #f6f1e7;
+  --muted: #aaa18f;
+  --line: rgba(212, 160, 58, 0.38);
+  --glow: rgba(212, 160, 58, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212,160,58,.08), transparent 28rem),
+    linear-gradient(180deg, #0d0b05 0%, #050504 65%);
+  color: var(--cream);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 0 20px 120px;
+}
+
+.app-view {
+  display: none;
+  min-height: 100vh;
+  animation: viewIn .38s ease;
+}
+
+.app-view.active {
+  display: block;
+}
+
+@keyframes viewIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   TYPOGRAFIE
+   ========================================================= */
+
+h1,
+h2,
+h3,
+strong {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 4.6rem);
+  line-height: .98;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.05;
+  font-weight: 500;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.section-kicker {
+  color: var(--gold);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  text-align: center;
+  padding: 38px 0 46px;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-stage {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 24px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.app-logo {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 25px;
+  position: relative;
+  z-index: 3;
+  box-shadow:
+    0 0 0 1px var(--gold),
+    0 0 30px rgba(212,160,58,.32);
+}
+
+.logo-ring {
+  position: absolute;
+  border: 1px solid rgba(212,160,58,.35);
+  border-radius: 50%;
+}
+
+.ring-one {
+  width: 150px;
+  height: 150px;
+  animation: rotateRing 16s linear infinite;
+}
+
+.ring-two {
+  width: 180px;
+  height: 90px;
+  animation: rotateRingReverse 11s linear infinite;
+}
+
+@keyframes rotateRing {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateRingReverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.brand-name {
+  margin: 0;
+  color: var(--cream);
+  letter-spacing: .5em;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.brand-subtitle {
+  margin: 6px 0 26px;
+  color: var(--gold);
+  letter-spacing: .22em;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.hero h1 {
+  max-width: 680px;
+  margin: 0 auto 20px;
+}
+
+.hero-line {
+  color: #c1b69f;
+  font-size: .72rem;
+  letter-spacing: .3em;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.premium-card {
+  position: relative;
+  background:
+    radial-gradient(circle at 80% 15%, rgba(212,160,58,.08), transparent 15rem),
+    linear-gradient(145deg, rgba(21,19,12,.98), rgba(8,8,6,.98));
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: 28px;
+  margin-bottom: 22px;
+  box-shadow: inset 0 0 40px rgba(212,160,58,.025);
+}
+
+.card-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  color: var(--gold);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  margin-bottom: 24px;
+}
+
+.code-badge {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  letter-spacing: .08em;
+}
+
+.daily-card h2 {
+  max-width: 600px;
+}
+
+.gold-button {
+  border: 0;
+  color: #111;
+  background: linear-gradient(135deg, #f5cf70, #c99021);
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 14px 22px;
+  box-shadow: 0 5px 22px rgba(212,160,58,.2);
+}
+
+.gold-button:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   4 CODES
+   ========================================================= */
+
+.code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.code-card {
+  min-height: 135px;
+  text-align: left;
+  padding: 20px;
+  color: var(--cream);
+  background: rgba(7,7,5,.88);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.code-card span {
+  display: block;
+  color: var(--gold);
+  font-size: .72rem;
+  margin-bottom: 30px;
+}
+
+.code-card strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.code-card small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* =========================================================
+   HEUTE / DASHBOARD
+   ========================================================= */
+
+.welcome-card {
+  margin-top: 24px;
+}
+
+.today-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mini-card {
+  min-height: 190px;
+  padding: 20px;
+  border: 1px solid rgba(212,160,58,.22);
+  border-radius: 19px;
+  background:
+    radial-gradient(circle at 70% 0%, rgba(212,160,58,.1), transparent 9rem),
+    rgba(5,5,4,.55);
+}
+
+.mini-card > span {
+  color: var(--gold);
+}
+
+.mini-card small {
+  display: block;
+  color: var(--gold);
+  font-size: .62rem;
+  letter-spacing: .15em;
+  margin: 15px 0 10px;
+}
+
+.mini-card strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.mini-card p {
+  font-size: .78rem;
+  margin-top: 8px;
+}
+
+.mini-card button {
+  width: 100%;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 10px;
+  font-size: .75rem;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-top: 24px;
+  accent-color: var(--gold);
+}
+
+/* =========================================================
+   VIEW HEADER
+   ========================================================= */
+
+.view-header {
+  text-align: center;
+  padding: 70px 10px 32px;
+}
+
+.view-header h1 {
+  margin-bottom: 16px;
+}
+
+.view-header p:last-child {
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   MEIN ICS
+   ========================================================= */
+
+.progress-card {
+  text-align: center;
+}
+
+.progress-circle {
+  width: 180px;
+  height: 180px;
+  margin: 25px auto 5px;
+  border-radius: 50%;
+  border: 7px solid rgba(212,160,58,.13);
+  box-shadow:
+    inset 0 0 0 2px rgba(212,160,58,.5),
+    0 0 35px rgba(212,160,58,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-circle strong {
+  font-size: 2.5rem;
+}
+
+.progress-circle small {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.tool-list,
+.menu-list {
+  display: grid;
+  gap: 12px;
+}
+
+.tool-card,
+.menu-card {
+  width: 100%;
+  color: var(--cream);
+  background: linear-gradient(145deg, #100f0b, #080806);
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+}
+
+.tool-card > span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.tool-card div,
+.menu-card div {
+  flex: 1;
+}
+
+.tool-card strong,
+.menu-card strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.tool-card small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.tool-card b,
+.menu-card b {
+  color: var(--gold);
+  font-size: 1.6rem;
+}
+
+/* =========================================================
+   JOURNAL
+   ========================================================= */
+
+.journal-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.journal-choice {
+  min-height: 120px;
+  padding: 15px 8px;
+  color: var(--cream);
+  border: 1px solid var(--line);
+  background: rgba(5,5,4,.7);
+  border-radius: 17px;
+}
+
+.journal-choice strong,
+.journal-choice small {
+  display: block;
+}
+
+.journal-choice strong {
+  margin: 9px 0 5px;
+}
+
+.journal-choice small {
+  color: var(--muted);
+  font-size: .68rem;
+}
+
+.journal-choice.active {
+  background: rgba(212,160,58,.13);
+  border-color: var(--gold);
+  box-shadow: inset 0 0 25px rgba(212,160,58,.07);
+}
+
+textarea {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  background: rgba(3,3,2,.75);
+  color: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: var(--gold);
+}
+
+.journal-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 14px;
+}
+
+#journalCount {
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+#journalFeedback {
+  margin: 18px 0 0;
+  color: var(--gold-light);
+  font-size: .85rem;
+}
+
+.empty-state {
+  border: 1px dashed rgba(212,160,58,.25);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0 0;
+}
+
+/* =========================================================
+   WELTEN
+   ========================================================= */
+
+.world-stage {
+  width: min(100%, 540px);
+  aspect-ratio: 1 / 1;
+  margin: 10px auto 28px;
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid rgba(212,160,58,.15);
+  background:
+    radial-gradient(circle, rgba(212,160,58,.13), transparent 42%),
+    radial-gradient(circle, transparent 45%, rgba(212,160,58,.08) 46%, transparent 47%);
+}
+
+.world-stage::before,
+.world-stage::after {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border: 1px solid rgba(212,160,58,.2);
+  border-radius: 50%;
+  animation: worldOrbit 18s linear infinite;
+}
+
+.world-stage::after {
+  inset: 27%;
+  animation-direction: reverse;
+  animation-duration: 13s;
+}
+
+@keyframes worldOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.world-core {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #050504;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 40px rgba(212,160,58,.18);
+}
+
+.world-core img {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+}
+
+.world-bubble {
+  position: absolute;
+  z-index: 4;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,160,58,.55);
+  color: var(--cream);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(212,160,58,.17), transparent 60%),
+    #100e09;
+  box-shadow: 0 0 25px rgba(212,160,58,.08);
+}
+
+.world-bubble span,
+.world-bubble strong,
+.world-bubble small {
+  display: block;
+}
+
+.world-bubble span {
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+
+.world-bubble strong {
+  font-size: 1rem;
+}
+
+.world-bubble small {
+  color: var(--muted);
+  font-size: .55rem;
+  margin-top: 4px;
+}
+
+.world-bubble.selected {
+  box-shadow:
+    0 0 0 4px rgba(212,160,58,.08),
+    0 0 35px rgba(212,160,58,.32);
+  transform: scale(1.06);
+}
+
+.world-inner {
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.world-body {
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.world-action {
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.world-reset {
+  left: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.world-inner.selected,
+.world-action.selected {
+  transform: translateX(-50%) scale(1.06);
+}
+
+.world-body.selected,
+.world-reset.selected {
+  transform: translateY(-50%) scale(1.06);
+}
+
+.world-message-card {
+  text-align: center;
+}
+
+.world-message-card p {
+  margin: 0;
+}
+
+/* =========================================================
+   MEHR
+   ========================================================= */
+
+.menu-card {
+  padding: 24px;
+}
+
+.menu-card small {
+  display: block;
+  color: var(--gold);
+  letter-spacing: .15em;
+  font-size: .62rem;
+  margin-bottom: 7px;
+}
+
+.menu-card strong {
+  font-size: 1.4rem;
+}
+
+.menu-card p {
+  margin: 7px 0 0;
+  font-size: .82rem;
+}
+
+/* =========================================================
+   BOTTOM NAV
+   ========================================================= */
+
+.bottom-nav {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: min(calc(100% - 24px), 620px);
+  height: 72px;
+  padding: 7px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: rgba(8,7,4,.96);
+  border: 1px solid rgba(212,160,58,.5);
+  border-radius: 24px;
+  box-shadow:
+    0 10px 45px rgba(0,0,0,.55),
+    inset 0 0 25px rgba(212,160,58,.03);
+  backdrop-filter: blur(14px);
+}
+
+.nav-item {
+  border: 0;
+  background: transparent;
+  color: #958d7e;
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item span {
+  font-size: 1.05rem;
+  color: var(--gold);
+}
+
+.nav-item small {
+  font-size: .67rem;
+}
+
+.nav-item.active {
+  color: var(--cream);
+  background: linear-gradient(180deg, rgba(212,160,58,.15), rgba(212,160,58,.05));
+  box-shadow: inset 0 0 0 1px rgba(212,160,58,.38);
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toast {
+  position: fixed;
+  z-index: 200;
+  left: 50%;
+  bottom: 105px;
+  transform: translate(-50%, 20px);
+  width: min(calc(100% - 40px), 420px);
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #17130b;
+  border: 1px solid var(--line);
+  color: var(--cream);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: .25s ease;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .app-shell {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero {
+    padding-top: 28px;
+  }
+
+  .logo-stage {
+    width: 130px;
+    height: 130px;
+  }
+
+  .app-logo {
+    width: 92px;
+    height: 92px;
+  }
+
+  .ring-one {
+    width: 125px;
+    height: 125px;
+  }
+
+  .ring-two {
+    width: 145px;
+    height: 75px;
+  }
+
+  .premium-card {
+    padding: 21px;
+    border-radius: 21px;
+  }
+
+  .today-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mini-card {
+    min-height: auto;
+  }
+
+  .journal-options {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-choice {
+    min-height: 90px;
+  }
+
+  .world-bubble {
+    width: 88px;
+    height: 88px;
+  }
+
+  .world-core {
+    width: 85px;
+    height: 85px;
+  }
+
+  .world-core img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .world-bubble strong {
+    font-size: .83rem;
+  }
+
+  .bottom-nav {
+    bottom: 8px;
+    height: 68px;
+  }
+
+  .nav-item small {
+    font-size: .59rem;
+  }
+
+  .journal-bottom {
+    align-items: flex-end;
+  }
+}

@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!--
+ICS 99 INNER CODES · V6 MASTER
+Nummer + Titel + Bereich synchronisiert mit dem vierteiligen Buch-Inhaltsverzeichnis.
+01–25 ERKENNEN · 26–50 HEILEN · 51–75 GESTALTEN · 76–99 VERKÖRPERN
+Impuls / Reflexion / Handlung bleiben vorerst vorhandene Prototyptexte.
+-->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>99 Inner Codes – Inner Code Systems</title>
+  <meta name="theme-color" content="#1A1A1A" />
+  <style>
+    :root {
+      --black: #1A1A1A;
+      --black-soft: #24211d;
+      --gold: #D4A03A;
+      --gold-soft: rgba(212,160,58,.18);
+      --cream: #FAF1CB;
+      --cream-soft: rgba(250,241,203,.78);
+      --line: rgba(212,160,58,.38);
+      --shadow: 0 24px 60px rgba(0,0,0,.38);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at top, rgba(212,160,58,.12), transparent 34%),
+        linear-gradient(180deg, #151515 0%, var(--black) 62%, #111 100%);
+    }
+
+    button, textarea { font: inherit; }
+
+    .shell {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 22px 16px 56px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      color: var(--cream-soft);
+    }
+
+    .brand-dot {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-weight: 700;
+      box-shadow: 0 0 0 6px rgba(212,160,58,.05);
+    }
+
+    .mini-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--gold);
+    }
+
+    .hero {
+      text-align: center;
+      margin: 0 auto 28px;
+      max-width: 620px;
+    }
+
+    .hero h1 {
+      margin: 8px 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      font-size: clamp(2.25rem, 8vw, 4.8rem);
+      line-height: .96;
+      letter-spacing: -.03em;
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 520px;
+      color: var(--cream-soft);
+      line-height: 1.65;
+      font-size: .98rem;
+    }
+
+    .mode-switch {
+      margin: 26px auto 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(212,160,58,.18);
+      border-radius: 999px;
+      padding: 6px;
+      max-width: 440px;
+    }
+
+    .mode-btn {
+      border: 0;
+      color: var(--cream-soft);
+      background: transparent;
+      padding: 11px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .25s ease;
+    }
+
+    .mode-btn.active {
+      background: linear-gradient(180deg, rgba(212,160,58,.2), rgba(212,160,58,.09));
+      color: var(--cream);
+      box-shadow: inset 0 0 0 1px rgba(212,160,58,.35);
+    }
+
+    .card-wrap {
+      perspective: 1800px;
+      margin: 18px auto 24px;
+      max-width: 540px;
+    }
+
+    .code-card {
+      position: relative;
+      min-height: 650px;
+      transform-style: preserve-3d;
+      transition: transform .9s cubic-bezier(.22,.78,.22,1);
+    }
+
+    .code-card.flipped { transform: rotateY(180deg); }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid rgba(212,160,58,.4);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.018), transparent 30%),
+        var(--black-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .face::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(212,160,58,.23);
+      border-radius: calc(var(--radius-xl) - 9px);
+      pointer-events: none;
+    }
+
+    .front {
+      display: grid;
+      place-items: center;
+      padding: 36px;
+      text-align: center;
+    }
+
+    .front::after {
+      content: "99";
+      position: absolute;
+      font-family: Georgia, serif;
+      font-size: 14rem;
+      line-height: 1;
+      color: rgba(212,160,58,.035);
+      z-index: 0;
+    }
+
+    .front-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-height: 420px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .sigil {
+      width: 82px;
+      height: 82px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: Georgia, serif;
+      font-size: 1.45rem;
+      color: var(--gold);
+      box-shadow: 0 0 0 10px rgba(212,160,58,.045), 0 0 35px rgba(212,160,58,.08);
+    }
+
+    .front h2 {
+      margin: 8px 0 0;
+      font-family: Georgia, serif;
+      font-size: clamp(1.8rem, 6vw, 2.7rem);
+      font-weight: 500;
+      line-height: 1.08;
+    }
+
+    .front p {
+      margin: 0;
+      max-width: 340px;
+      color: var(--cream-soft);
+      line-height: 1.6;
+      font-size: .95rem;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      border-radius: 999px;
+      padding: 14px 20px;
+      cursor: pointer;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+    }
+
+    .primary-btn {
+      border: 1px solid var(--gold);
+      color: #17130d;
+      background: linear-gradient(180deg, #e2b656, var(--gold));
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(212,160,58,.18);
+    }
+
+    .secondary-btn {
+      border: 1px solid rgba(212,160,58,.38);
+      color: var(--cream);
+      background: rgba(255,255,255,.02);
+    }
+
+    .primary-btn:active,
+    .secondary-btn:active { transform: scale(.98); }
+
+    .secondary-btn:disabled { opacity: .42; cursor: default; }
+
+    .back {
+      transform: rotateY(180deg);
+      padding: 32px 24px 28px;
+      overflow-y: auto;
+    }
+
+    .card-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .code-no {
+      color: var(--gold);
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .today-chip {
+      border: 1px solid rgba(212,160,58,.24);
+      color: var(--cream-soft);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: .73rem;
+      background: rgba(255,255,255,.018);
+    }
+
+    .code-title {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 8px;
+      font-family: Georgia, serif;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      line-height: .98;
+      font-weight: 500;
+    }
+
+    .code-kicker {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 22px;
+      color: var(--cream-soft);
+      line-height: 1.6;
+    }
+
+    .accordion {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      border: 1px solid rgba(212,160,58,.22);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.018);
+      overflow: hidden;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 17px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      font-weight: 650;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      color: var(--gold);
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+
+    details[open] summary::after { content: "–"; }
+
+    summary b {
+      color: var(--gold);
+      font-size: .72rem;
+      letter-spacing: .12em;
+    }
+
+    .open-hint {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+
+    details[open] .open-hint {
+      color: var(--gold);
+    }
+
+    .detail-body {
+      padding: 0 17px 17px;
+      color: var(--cream-soft);
+      line-height: 1.66;
+      font-size: .95rem;
+    }
+
+    .reflection {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(212,160,58,.16);
+    }
+
+    .reflection label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--cream);
+      font-size: .92rem;
+      font-weight: 650;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 98px;
+      resize: vertical;
+      border-radius: 14px;
+      border: 1px solid rgba(212,160,58,.22);
+      background: rgba(0,0,0,.16);
+      color: var(--cream);
+      padding: 14px;
+      outline: none;
+    }
+
+    textarea::placeholder { color: rgba(250,241,203,.35); }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .hint {
+      text-align: center;
+      color: rgba(250,241,203,.46);
+      font-size: .78rem;
+      line-height: 1.5;
+      margin: 12px auto 0;
+      max-width: 520px;
+    }
+
+    .book-cta {
+      margin: 42px auto 0;
+      max-width: 620px;
+      border-top: 1px solid rgba(212,160,58,.16);
+      padding-top: 34px;
+      text-align: center;
+    }
+
+    .book-cta h3 {
+      margin: 7px 0 9px;
+      font-family: Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
+
+    .book-cta p {
+      color: var(--cream-soft);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto 18px;
+    }
+
+    .book-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(212,160,58,.46);
+      padding: 6px 0;
+      font-weight: 650;
+    }
+
+    .book-link[aria-disabled="true"] {
+      opacity: .62;
+      pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .shell { padding-top: 34px; }
+      .actions { grid-template-columns: 1fr 1fr; }
+      .back { padding: 36px 34px 32px; }
+      .code-card { min-height: 565px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
+      .code-card { transition: none; }
+    }
+  
+    /* V5 mobile flip reliability */
+    .code-card .front {
+      pointer-events: auto;
+    }
+    .code-card .back {
+      pointer-events: none;
+    }
+    .code-card.flipped .front {
+      pointer-events: none;
+    }
+    .code-card.flipped .back {
+      pointer-events: auto;
+    }
+    .primary-btn, .secondary-btn, .mode-btn, summary {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(212,160,58,.14);
+    }
+
+  
+    /* V7 – direkte Code-Navigation */
+    .code-nav {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0 4px;
+      padding: 10px;
+      border: 1px solid rgba(212,160,58,.28);
+      border-radius: 999px;
+      background: rgba(10,10,9,.28);
+    }
+    .code-nav { display: grid; }
+    .code-nav button {
+      min-height: 46px;
+      border: 0;
+      background: transparent;
+      color: var(--cream);
+      font: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(212,160,58,.14);
+    }
+    .code-nav button:first-child { text-align: left; }
+    .code-nav button:last-child { text-align: right; }
+    .code-nav .counter {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: .14em;
+      white-space: nowrap;
+    }
+    @media (max-width: 430px) {
+      .code-nav { gap: 4px; padding: 8px 10px; }
+      .code-nav button { font-size: 13px; }
+      .code-nav .counter { font-size: 12px; }
+    }
+
+  
+    .code-nav {
+      margin: 18px 0 10px;
+    }
+
+  
+    /* V15 – Favoriten */
+    .favorite-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 14px 0 4px;
+    }
+    .favorite-btn, .favorites-toggle {
+      min-height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,160,58,.38);
+      background: rgba(212,160,58,.07);
+      color: var(--cream);
+      padding: 10px 15px;
+      font: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .favorite-btn.is-favorite {
+      color: var(--gold);
+      background: rgba(212,160,58,.14);
+    }
+    .favorites-panel {
+      display: none;
+      margin: 12px 0 6px;
+      padding: 14px;
+      border: 1px solid rgba(212,160,58,.24);
+      border-radius: 18px;
+      background: rgba(10,10,9,.32);
+    }
+    .favorites-panel.open { display: block; }
+    .favorites-panel h3 {
+      margin: 0 0 10px;
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .favorite-list {
+      display: grid;
+      gap: 8px;
+    }
+    .favorite-item {
+      width: 100%;
+      min-height: 44px;
+      text-align: left;
+      border-radius: 14px;
+      border: 1px solid rgba(212,160,58,.22);
+      background: rgba(255,255,255,.025);
+      color: var(--cream);
+      padding: 10px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .favorite-empty {
+      margin: 0;
+      color: rgba(250,241,203,.62);
+      font-size: 13px;
+    }
+
+  
+    /* WEBSITE MASTER V1 */
+    body.website-master.daily-active .code-nav {
+      display: none !important;
+    }
+    body.website-master.daily-active #newBtn {
+      display: none !important;
+    }
+    body.website-master.random-active .code-nav {
+      display: grid;
+    }
+    .website-note {
+      margin: 12px auto 0;
+      max-width: 580px;
+      text-align: center;
+      color: rgba(250,241,203,.55);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .book-cta {
+      margin-top: 28px;
+      padding: 24px 20px;
+      border: 1px solid rgba(212,160,58,.26);
+      border-radius: 24px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(212,160,58,.07), rgba(212,160,58,.02));
+    }
+    .book-cta h3 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .book-cta p {
+      margin: 0 auto 16px;
+      max-width: 520px;
+      color: rgba(250,241,203,.68);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .book-cta .secondary-btn {
+      width: 100%;
+      max-width: 320px;
+    }
+
+  
+.takeaway-box{margin-top:16px;padding:16px;border:1px solid rgba(212,160,58,.28);border-radius:18px;background:rgba(212,160,58,.045)}
+.takeaway-box label{display:block;margin-bottom:8px;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.takeaway-box textarea{width:100%;min-height:92px;resize:vertical;border-radius:14px;border:1px solid rgba(212,160,58,.28);background:rgba(0,0,0,.22);color:var(--cream);padding:12px 13px;font:inherit;line-height:1.5;outline:none}
+.takeaway-box textarea:focus{border-color:rgba(212,160,58,.65);box-shadow:0 0 0 3px rgba(212,160,58,.08)}
+.takeaway-actions{display:flex;gap:9px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.save-takeaway{min-height:44px;border-radius:999px;border:1px solid rgba(212,160,58,.42);background:rgba(212,160,58,.12);color:var(--cream);padding:9px 15px;font:inherit;cursor:pointer;touch-action:manipulation}
+.save-state{color:rgba(250,241,203,.58);font-size:12px}
+
+
+/* ERLEBNIS V3 – Meine Erkenntnisse */
+.insights-wrap{margin:14px 0 6px}
+.insights-toggle{width:100%;min-height:48px;border-radius:999px;border:1px solid rgba(212,160,58,.38);background:rgba(212,160,58,.07);color:var(--cream);padding:10px 15px;font:inherit;cursor:pointer;touch-action:manipulation}
+.insights-panel{display:none;margin-top:12px;padding:15px;border:1px solid rgba(212,160,58,.24);border-radius:18px;background:rgba(10,10,9,.32)}
+.insights-panel.open{display:block}
+.insights-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}
+.insights-head h3{margin:0;color:var(--gold);font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.insights-count{font-size:12px;color:rgba(250,241,203,.55)}
+.insights-list{display:grid;gap:10px}
+.insight-item{padding:12px;border:1px solid rgba(212,160,58,.2);border-radius:15px;background:rgba(255,255,255,.025)}
+.insight-meta{font-size:11px;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.insight-text{margin:0;color:rgba(250,241,203,.86);font-size:13px;line-height:1.55;white-space:pre-wrap}
+.insight-actions{display:flex;gap:8px;margin-top:10px}
+.insight-open,.insight-delete{min-height:38px;border-radius:999px;padding:7px 11px;font:inherit;font-size:12px;cursor:pointer}
+.insight-open{border:1px solid rgba(212,160,58,.3);background:rgba(212,160,58,.08);color:var(--cream)}
+.insight-delete{border:1px solid rgba(250,241,203,.14);background:transparent;color:rgba(250,241,203,.58)}
+.insights-empty{margin:0;color:rgba(250,241,203,.6);font-size:13px;line-height:1.5}
+
+
+/* ERLEBNIS V4 – Sticky Code-Kontext */
+.sticky-code-context{
+  position:fixed;top:0;left:0;right:0;z-index:999;display:none;
+  align-items:center;justify-content:center;min-height:42px;padding:8px 14px;
+  background:rgba(20,19,17,.94);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,160,58,.28);
+  color:var(--cream);box-shadow:0 8px 24px rgba(0,0,0,.18)
+}
+.sticky-code-context.visible{display:flex}
+.sticky-code-context .sticky-inner{
+  width:min(100%,720px);display:flex;align-items:center;justify-content:center;
+  gap:8px;font-size:12px;letter-spacing:.05em;white-space:nowrap
+}
+.sticky-code-context .sticky-code{color:var(--gold);font-weight:700}
+.sticky-code-context .sticky-sep{color:rgba(250,241,203,.35)}
+.sticky-code-context .sticky-area{color:rgba(250,241,203,.72)}
+.takeaway-context{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.takeaway-context .context-code{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.takeaway-context .context-area{padding:5px 9px;border-radius:999px;border:1px solid rgba(212,160,58,.28);color:rgba(250,241,203,.72);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+body.sticky-visible{padding-top:42px}
+
+
+/* ERLEBNIS V5 – Zieh-Moment */
+.draw-ritual{
+  position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:rgba(12,11,10,.92);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity .28s ease
+}
+.draw-ritual.show{opacity:1;pointer-events:auto}
+.draw-ritual-inner{text-align:center;max-width:420px;width:100%}
+.draw-orbit{
+  width:138px;height:138px;margin:0 auto 24px;border-radius:50%;
+  border:1px solid rgba(212,160,58,.5);position:relative;
+  box-shadow:0 0 50px rgba(212,160,58,.12),inset 0 0 30px rgba(212,160,58,.05);
+  animation:ritualPulse 1.15s ease-in-out infinite alternate
+}
+.draw-orbit:before,.draw-orbit:after{
+  content:"";position:absolute;border-radius:50%;border:1px solid rgba(212,160,58,.22)
+}
+.draw-orbit:before{inset:12px;animation:ritualSpin 2.6s linear infinite}
+.draw-orbit:after{inset:28px;border-color:rgba(250,241,203,.16)}
+.draw-symbol{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-family:Georgia,"Times New Roman",serif;font-size:34px
+}
+.draw-kicker{color:var(--gold);font-size:12px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.draw-title{margin:0;color:var(--cream);font-family:Georgia,"Times New Roman",serif;font-size:34px;font-weight:500;line-height:1.12}
+.draw-sub{margin:12px auto 0;color:rgba(250,241,203,.62);font-size:14px;line-height:1.6}
+@keyframes ritualPulse{from{transform:scale(.96);box-shadow:0 0 28px rgba(212,160,58,.08)}to{transform:scale(1.03);box-shadow:0 0 64px rgba(212,160,58,.2)}}
+@keyframes ritualSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  .draw-orbit,.draw-orbit:before{animation:none}
+  .draw-ritual{transition:none}
+}
+
+
+/* V5.1 – Herkunft des gezogenen Codes */
+.draw-origin{
+  margin:10px auto 0;
+  color:rgba(212,160,58,.78);
+  font-size:11px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  text-align:center;
+}
+
+
+    /* ICS App integration */
+    .app-back-link {
+      display:inline-flex;align-items:center;justify-content:center;gap:7px;
+      min-height:40px;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(212,160,58,.34);color:var(--cream);
+      background:rgba(212,160,58,.07);text-decoration:none;font-size:.76rem;
+      letter-spacing:.04em;white-space:nowrap;transition:.22s ease;
+    }
+    .app-back-link:hover,.app-back-link:focus-visible {
+      border-color:rgba(212,160,58,.72);background:rgba(212,160,58,.13);
+    }
+    @media(max-width:430px){
+      .brand{align-items:flex-start}.brand-mark{gap:8px;font-size:.68rem}.mini-label{font-size:.62rem}
+      .app-back-link{font-size:.7rem;padding:8px 10px}
+    }
+
+</style>
+</head>
+<body class="website-master daily-active">
+  <div class="draw-ritual" id="drawRitual" aria-hidden="true">
+    <div class="draw-ritual-inner">
+      <div class="draw-orbit"><div class="draw-symbol">99</div></div>
+      <div class="draw-kicker" id="drawKicker">DEIN MOMENT</div>
+      <h2 class="draw-title" id="drawTitle">Dein Code zeigt sich …</h2>
+      <p class="draw-sub" id="drawSub">Ein kurzer Moment nur für dich.</p>
+    </div>
+  </div>
+
+
+  <div class="sticky-code-context" id="stickyCodeContext" aria-live="polite">
+    <div class="sticky-inner">
+      <span class="sticky-code" id="stickyCodeText">CODE 01 · BEWUSSTSEIN</span>
+      <span class="sticky-sep">·</span>
+      <span class="sticky-area" id="stickyAreaText">ERKENNEN</span>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div style="margin-bottom:14px"><a class="app-back-link" href="index.html" aria-label="Zurück zur ICS App">← Zurück zur ICS App</a></div>
+    <header class="brand">
+      <div class="brand-mark">
+        <div class="brand-dot">ICS</div>
+        <span>Inner Code Systems</span>
+      </div>
+      <div class="mini-label">99 Inner Codes</div>
+    </header>
+
+    <section class="hero">
+      <div class="mini-label">Dein Moment. Dein Impuls.</div>
+      <h1>Welcher Code begleitet dich heute?</h1>
+      <p>
+        Ziehe einen Inner Code und nutze ihn nicht nur zum Lesen, sondern als kleinen Impuls für deinen Tag.
+      </p>
+    </section>
+
+    <div class="mode-switch" aria-label="Ziehmodus auswählen">
+      <button class="mode-btn active" id="dailyMode" type="button">Code des Tages</button>
+      <button class="mode-btn" id="randomMode" type="button">Freier Code</button>
+    </div>
+    <p class="website-note" id="modeNote">
+      Dein Tagescode bleibt heute derselbe. Nimm dir Zeit für diesen einen Impuls.
+    </p>
+
+    <section class="card-wrap" aria-live="polite">
+      <article class="code-card" id="codeCard">
+        <div class="face front">
+          <div class="front-content">
+            <div class="sigil">99</div>
+            <div>
+              <div class="mini-label">Interaktive Karte</div>
+              <h2>Deinen Code entdecken</h2>
+            </div>
+            <p id="frontCopy">Heute wartet ein fester Tagescode auf dich.</p>
+            <button class="primary-btn" id="drawBtn" type="button">Meinen Code entdecken</button>
+          </div>
+        </div>
+
+        <div class="face back">
+          <div class="card-topline">
+            <div class="code-no" id="codeNumber">Code 01</div>
+            <div class="today-chip" id="modeChip">Dein Tagescode</div>
+          </div>
+
+          <h2 class="code-title" id="codeTitle">BEWUSSTSEIN</h2>
+          <p class="code-kicker" id="codeKicker">Der Anfang jeder Veränderung.</p>
+
+          <div class="accordion">
+            <details>
+              <summary><span><b>01</b> &nbsp; Impuls</span><span class="open-hint">öffnen</span></summary>
+              <div class="detail-body" id="impulseText">Bewusstsein zeigt sich in den kleinen Momenten. Im Zuhören. Im Beobachten. Im Innehalten. Es bedeutet, präsent zu sein und deine Aufmerksamkeit bewusst zu lenken. Je öfter du bewusst wahrnimmst, desto mehr gestaltest du dein Leben – statt von ihm gesteuert zu werden.</div>
+            </details>
+
+            <details>
+              <summary><span><b>02</b> &nbsp; Reflexion</span><span class="open-hint">öffnen</span></summary>
+              <div class="detail-body" id="questionText">Welche Entscheidungen treffe ich aus Bewusstsein – und welche aus Gewohnheit?</div>
+            </details>
+
+            <details>
+              <summary><span><b>03</b> &nbsp; Handlung</span><span class="open-hint">öffnen</span></summary>
+              <div class="detail-body" id="actionText">Sei heute achtsam in allem, was du tust. Hinterfrage eine automatische Reaktion und wähle einmal ganz bewusst – nicht aus Gewohnheit.</div>
+            </details>
+          </div>
+
+          <div class="reflection">
+            <label for="takeaway">Was nimmst du heute mit?</label>
+            <textarea id="takeaway" placeholder="Ein Satz für dich …"></textarea>
+          </div>
+        
+          <section class="takeaway-box" id="takeawayBox">
+
+            <div class="takeaway-context">
+              <span class="context-code" id="takeawayCodeContext">CODE 01 · BEWUSSTSEIN</span>
+              <span class="context-area" id="takeawayAreaContext">ERKENNEN</span>
+            </div>
+
+            <label for="takeawayInput">Was nimmst du heute mit?</label>
+            <textarea id="takeawayInput" maxlength="500" placeholder="Schreib deinen persönlichen Satz zu diesem Code …"></textarea>
+            <div class="takeaway-actions">
+              <button class="save-takeaway" id="saveTakeawayBtn" type="button">Für heute speichern</button>
+              <span class="save-state" id="takeawayState" aria-live="polite"></span>
+            </div>
+          </section>
+</div>
+      </article>
+    </section>
+
+    
+    <div class="favorite-bar" id="favoriteBar">
+      <button type="button" class="favorite-btn" id="favoriteBtn">♡ Code merken</button>
+      <button type="button" class="favorites-toggle" id="favoritesToggle">Meine Codes</button>
+    </div>
+    <section class="favorites-panel" id="favoritesPanel" aria-label="Meine gespeicherten Codes">
+      <h3>Meine Codes</h3>
+      <div class="favorite-list" id="favoriteList"></div>
+    </section>
+    <section class="insights-wrap" aria-label="Meine Erkenntnisse">
+      <button type="button" class="insights-toggle" id="insightsToggle">Meine Erkenntnisse</button>
+      <div class="insights-panel" id="insightsPanel">
+        <div class="insights-head">
+          <h3>Meine Erkenntnisse</h3>
+          <span class="insights-count" id="insightsCount"></span>
+        </div>
+        <div class="insights-list" id="insightsList"></div>
+      </div>
+    </section>
+
+
+    <nav class="code-nav" id="codeNav" aria-label="Inner Code Navigation">
+            <button type="button" id="prevCode" aria-label="Vorheriger Code">← <span id="prevLabel">Code 01</span></button>
+            <span class="counter" id="codeCounter">01 / 02</span>
+            <button type="button" id="nextCode" aria-label="Nächster Code"><span id="nextLabel">Code 02</span> →</button>
+          </nav>
+
+    <div class="actions">
+      <button class="secondary-btn" id="backBtn" type="button">Karte schließen</button>
+<button class="secondary-btn" id="newBtn" type="button" title="Neuen Code ziehen">Neuen Code ziehen</button>
+    </div>
+    <p class="hint" id="hintText">
+      Im Modus „Code des Tages“ bleibt dein Code für diesen Kalendertag gleich.
+    </p>
+
+    <section class="book-cta">
+      <div class="mini-label">Wenn du tiefer gehen möchtest</div>
+      <h3>Entdecke alle 99 Inner Codes</h3>
+      <p>
+        Die interaktive Karte ist ein Impuls. Das vollständige Buch führt dich tiefer durch die einzelnen Codes und ihre Bedeutung.
+      </p>
+      <a class="book-link" href="#" aria-disabled="true">Buchseite folgt später →</a>
+    </section>
+  
+    <section class="book-cta">
+      <div class="mini-label">99 Inner Codes · Das Buch</div>
+      <h3>Du möchtest tiefer gehen?</h3>
+      <p>
+        Die interaktive Karte ist dein täglicher Impuls. Das vollständige Buch führt dich tiefer
+        in die 99 Inner Codes, ihre Hintergründe, Reflexionen und Übungen.
+      </p>
+      <button class="secondary-btn" type="button" id="bookBtn">Das Buch entdecken</button>
+    </section>
+
+  </main>
+
+  <script>
+    // Nur echte, bereits vorhandene Codes eintragen.
+    // Fehlende Texte bleiben bewusst als Platzhalter markiert.
+    // Website Master V1: Inhalte zusätzlich separat in 99-inner-codes-data-v1.json.
+    const codes = [
+      {
+        number: 1,
+        title: "BEWUSSTSEIN",
+        kicker: "Der Anfang jeder Veränderung.",
+        impulse: "Bewusstsein zeigt sich in den kleinen Momenten. Im Zuhören. Im Beobachten. Im Innehalten. Es bedeutet, präsent zu sein und deine Aufmerksamkeit bewusst zu lenken.",
+        question: "Welche Entscheidungen treffe ich aus Bewusstsein – und welche aus Gewohnheit?",
+        action: "Beobachte heute eine automatische Reaktion. Halte einen Moment inne und wähle einmal bewusst, statt nur aus Gewohnheit zu handeln."
+      },
+      {
+        number: 2,
+        title: "WAHRHEIT",
+        kicker: "Wahrheit schafft Klarheit. Klarheit schafft Freiheit.",
+        impulse: "Wahrheit beginnt bei dir selbst. Je ehrlicher du zu dir bist, desto klarer wird dein Weg und desto leichter wird dein Leben.",
+        question: "Was ist für mich wirklich wahr – unabhängig von den Meinungen anderer?",
+        action: "Wähle heute eine kleine, ehrliche Handlung, die dich deiner Wahrheit näher bringt. Sei du – in einem Moment."
+      },
+      {
+        number: 3,
+        title: "SELBSTBILD",
+        kicker: "Die Geschichte, die du über dich selbst erzählst.",
+        impulse: "Dein Selbstbild beeinflusst, was du dir zutraust, wie du Entscheidungen triffst und was du für möglich hältst. Nicht jede Geschichte über dich ist noch wahr.",
+        question: "Welche Geschichte erzähle ich über mich selbst – und möchte ich sie heute noch glauben?",
+        action: "Beobachte heute einen Satz, den du innerlich über dich sagst. Frage dich: Ist das eine Tatsache – oder eine alte Geschichte?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 4,
+        title: "MUSTER",
+        kicker: "Was sich wiederholt, will gesehen werden.",
+        impulse: "Muster entstehen durch Wiederholung. Manche schützen dich, manche begrenzen dich. Veränderung beginnt dort, wo du erkennst, was automatisch abläuft.",
+        question: "Welches Muster wiederholt sich gerade in meinem Leben – und was löst es immer wieder aus?",
+        action: "Beobachte heute einen Moment, in dem du automatisch reagierst. Halte kurz inne und frage dich: Was würde ich tun, wenn ich dieses Muster heute nicht wiederholen müsste?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 5,
+        title: "GLAUBENSSÄTZE",
+        kicker: "Was du glaubst, bestimmt, was du für möglich hältst.",
+        impulse: "Glaubenssätze wirken oft leise im Hintergrund. Sie beeinflussen, wie du dich siehst, was du erwartest und welche Möglichkeiten du überhaupt wahrnimmst.",
+        question: "Welcher Satz über mich oder mein Leben beeinflusst mich gerade besonders stark?",
+        action: "Achte heute auf einen inneren Satz, der mit „Ich bin“, „Ich kann nicht“ oder „Das geht bei mir nicht“ beginnt. Prüfe bewusst: Ist das wirklich wahr – oder nur oft gedacht?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 6,
+        title: "GEDANKEN",
+        kicker: "Gedanken sind nicht nur Worte. Sie lenken deine Aufmerksamkeit.",
+        impulse: "Gedanken kommen oft automatisch. Doch du musst nicht jedem Gedanken folgen. Sobald du bemerkst, was in dir denkt, entsteht Raum für eine neue Wahl.",
+        question: "Welcher Gedanke begleitet mich heute immer wieder – und wohin führt er meine Aufmerksamkeit?",
+        action: "Beobachte heute einen wiederkehrenden Gedanken. Unterbrich ihn für einen Moment und richte deine Aufmerksamkeit bewusst auf etwas, das dir Klarheit oder Ruhe gibt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 7,
+        title: "SPRACHE",
+        kicker: "Deine Worte formen die Beziehung zu dir und deiner Welt.",
+        impulse: "Sprache macht sichtbar, wie du über dich, andere und dein Leben denkst. Worte können begrenzen – oder neue Möglichkeiten öffnen.",
+        question: "Welche Worte benutze ich immer wieder über mich selbst – und welche Wirkung haben sie auf mich?",
+        action: "Achte heute bewusst auf einen Satz, den du häufig sagst. Formuliere ihn einmal so neu, dass er klar, ehrlich und zugleich stärkend ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 8,
+        title: "AUFMERKSAMKEIT",
+        kicker: "Wohin deine Aufmerksamkeit geht, dorthin fließt deine Energie.",
+        impulse: "Deine Aufmerksamkeit entscheidet, was in deinem Erleben größer wird. Was du immer wieder fokussierst, bekommt Bedeutung, Energie und Raum.",
+        question: "Womit füttere ich heute meine Aufmerksamkeit – und tut mir das wirklich gut?",
+        action: "Wähle heute bewusst einen Moment, in dem du deine Aufmerksamkeit neu ausrichtest. Weg von Ablenkung oder Sorge – hin zu dem, was dir wirklich wichtig ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 9,
+        title: "INTUITION",
+        kicker: "Nicht jede Antwort entsteht durch Nachdenken.",
+        impulse: "Intuition zeigt sich oft leise – als erstes Gefühl, klare innere Wahrnehmung oder unmittelbares Wissen, bevor der Verstand beginnt, alles zu erklären.",
+        question: "Was weiß ich eigentlich schon, bevor ich beginne, es zu zerdenken?",
+        action: "Achte heute bei einer kleinen Entscheidung auf deinen allerersten inneren Impuls. Nimm ihn wahr, bevor du Argumente dafür oder dagegen sammelst.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 10,
+        title: "INNERE STIMME",
+        kicker: "Die leise Stimme in dir braucht Raum, nicht Lautstärke.",
+        impulse: "Zwischen Erwartungen, Gedanken und äußeren Stimmen gibt es eine Wahrnehmung, die nur dir gehört. Du hörst sie leichter, wenn du nicht sofort nach einer Antwort suchst.",
+        question: "Welche Antwort taucht in mir auf, wenn ich für einen Moment niemandem etwas beweisen muss?",
+        action: "Nimm dir heute zwei ruhige Minuten ohne Ablenkung. Stelle dir eine Frage und notiere den ersten klaren Satz, der in dir auftaucht.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 11,
+        title: "KLARHEIT",
+        kicker: "Klarheit entsteht, wenn das Wesentliche wieder sichtbar wird.",
+        impulse: "Nicht jede offene Frage braucht mehr Denken. Manchmal entsteht Klarheit, wenn du Unwichtiges ausblendest und ehrlich benennst, worum es wirklich geht.",
+        question: "Was ist in dieser Situation wirklich wesentlich?",
+        action: "Schreibe heute zu einem Thema einen einzigen klaren Satz: Was ist jetzt wichtig? Streiche alles, was nicht dazugehört.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 12,
+        title: "AKZEPTANZ",
+        kicker: "Annehmen heißt nicht aufgeben. Es heißt sehen, was gerade ist.",
+        impulse: "Solange du gegen die Realität eines Moments kämpfst, bindest du Energie. Akzeptanz schafft einen Ausgangspunkt, von dem aus Veränderung überhaupt möglich wird.",
+        question: "Was versuche ich gerade innerlich wegzudrücken, obwohl es längst da ist?",
+        action: "Benenne heute eine Tatsache ohne Bewertung. Sage innerlich: So ist es gerade. Entscheide erst danach, was dein nächster Schritt ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 13,
+        title: "SELBSTVERTRAUEN",
+        kicker: "Vertrauen in dich wächst durch gelebte Erfahrung.",
+        impulse: "Selbstvertrauen entsteht nicht nur durch positive Gedanken. Es wächst jedes Mal, wenn du dir selbst zuhörst, eine Entscheidung triffst und erlebst, dass du deinen Weg gehen kannst.",
+        question: "Wo habe ich mir bereits bewiesen, dass ich mir vertrauen kann?",
+        action: "Erinnere dich heute an eine Situation, die du aus eigener Kraft gemeistert hast. Nutze diese Erinnerung für einen kleinen nächsten Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 14,
+        title: "SELBSTWERT",
+        kicker: "Dein Wert beginnt nicht dort, wo andere dich bestätigen.",
+        impulse: "Wenn dein Wert ständig von Leistung, Anerkennung oder Zustimmung abhängt, bleibt er verhandelbar. Selbstwert beginnt mit der Entscheidung, dich nicht permanent beweisen zu müssen.",
+        question: "Wo mache ich meinen Wert noch von der Reaktion anderer abhängig?",
+        action: "Tu heute etwas Gutes für dich, ohne es dir vorher verdienen zu müssen und ohne dafür Anerkennung zu erwarten.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 15,
+        title: "AUTHENTIZITÄT",
+        kicker: "Authentisch sein heißt, innen und außen näher zusammenzubringen.",
+        impulse: "Authentizität bedeutet nicht, jederzeit alles auszusprechen. Sie beginnt dort, wo dein Verhalten nicht dauerhaft gegen das gerichtet ist, was du innerlich wirklich empfindest und weißt.",
+        question: "Wo passe ich mich gerade stärker an, als es mir entspricht?",
+        action: "Wähle heute einen kleinen Moment, in dem du klar und respektvoll das sagst oder tust, was wirklich zu dir passt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 16,
+        title: "IDENTITÄT",
+        kicker: "Du bist mehr als die Rollen, die du gelernt hast zu erfüllen.",
+        impulse: "Identität entsteht aus Geschichten, Rollen und Erfahrungen. Manche davon tragen dich. Andere beschreiben nur eine frühere Version von dir.",
+        question: "Welche Rolle halte ich noch fest, obwohl sie nicht mehr zu mir passt?",
+        action: "Beobachte heute einen Satz wie „So bin ich eben“. Frage dich anschließend: Bin ich das wirklich – oder war ich das bisher?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 17,
+        title: "WERTE",
+        kicker: "Werte geben deinen Entscheidungen eine innere Richtung.",
+        impulse: "Wenn du deine Werte kennst, musst du nicht jede Entscheidung neu erfinden. Sie werden zu einem inneren Kompass dafür, was zu dir passt und was nicht.",
+        question: "Welcher Wert soll meine Entscheidungen heute bestimmen?",
+        action: "Wähle einen Wert, der dir wichtig ist. Setze ihn heute in einer konkreten kleinen Handlung sichtbar um.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 18,
+        title: "ENTSCHEIDUNGEN",
+        kicker: "Eine Entscheidung beendet das endlose Dazwischen.",
+        impulse: "Nicht jede Entscheidung braucht absolute Sicherheit. Oft entsteht der nächste Weg erst dadurch, dass du dich ausrichtest und beginnst, entsprechend zu handeln.",
+        question: "Welche Entscheidung halte ich offen, obwohl ich innerlich längst eine Richtung spüre?",
+        action: "Triff heute eine kleine Entscheidung bewusst und setze unmittelbar eine Handlung, die zu dieser Entscheidung passt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 19,
+        title: "FOKUS",
+        kicker: "Was du bündelst, bekommt Kraft.",
+        impulse: "Fokus bedeutet nicht, alles andere für immer auszuschließen. Er bedeutet, für einen bestimmten Moment zu entscheiden, was jetzt deine Aufmerksamkeit und Energie verdient.",
+        question: "Was verdient heute wirklich meinen Fokus – und was darf warten?",
+        action: "Wähle eine einzige wichtige Sache. Gib ihr heute 20 ungestörte Minuten, ohne zwischen anderen Aufgaben zu wechseln.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 20,
+        title: "DISZIPLIN",
+        kicker: "Disziplin verbindet deine Entscheidung mit deinem Alltag.",
+        impulse: "Disziplin bedeutet nicht Härte gegen dich selbst. Sie bedeutet, einer bewussten Entscheidung auch dann Richtung zu geben, wenn Motivation gerade nicht verfügbar ist.",
+        question: "Welche Entscheidung verdient heute meine Verbindlichkeit?",
+        action: "Wähle eine kleine Handlung, die zu deinem Ziel passt, und erledige sie heute unabhängig davon, ob du gerade Lust darauf hast.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 21,
+        title: "GEWOHNHEITEN",
+        kicker: "Was du wiederholst, wird Teil deines Lebens.",
+        impulse: "Gewohnheiten entstehen aus kleinen Wiederholungen. Nicht die einzelne große Veränderung prägt deinen Alltag, sondern das, was du immer wieder tust.",
+        question: "Welche Gewohnheit stärkt die Person, die ich sein möchte – und welche hält mich im Alten?",
+        action: "Verändere heute eine einzige kleine Wiederholung bewusst. Mach den gewünschten Schritt so klein, dass du ihn wirklich ausführst.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 22,
+        title: "VERÄNDERUNG",
+        kicker: "Veränderung beginnt, wenn du nicht mehr nur erkennst, sondern anders handelst.",
+        impulse: "Erkenntnis öffnet eine Tür. Veränderung entsteht jedoch erst, wenn du beginnst, neue Erfahrungen zuzulassen und deine bisherigen Abläufe tatsächlich zu unterbrechen.",
+        question: "Was weiß ich längst – aber lebe ich noch nicht?",
+        action: "Setze heute einen kleinen Schritt, der sichtbar anders ist als dein bisheriges Verhalten.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 23,
+        title: "LOSLASSEN",
+        kicker: "Nicht alles, was einmal wichtig war, muss mit dir weitergehen.",
+        impulse: "Loslassen bedeutet nicht, etwas ungeschehen zu machen. Es bedeutet, aufzuhören, deine heutige Energie dauerhaft an etwas Vergangenes zu binden.",
+        question: "Was halte ich noch fest, obwohl es mir heute keine Richtung mehr gibt?",
+        action: "Wähle heute eine Sache, einen Gedanken oder eine Verpflichtung, die du bewusst nicht weiter mittragen möchtest. Mach einen kleinen sichtbaren Schritt des Loslassens.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 24,
+        title: "DANKBARKEIT",
+        kicker: "Dankbarkeit verändert, was du im Vorhandenen wahrnimmst.",
+        impulse: "Dankbarkeit bedeutet nicht, Schwieriges schönzureden. Sie erweitert deinen Blick um das, was trotz allem bereits trägt, nährt oder wertvoll ist.",
+        question: "Was ist heute bereits da, das ich im Funktionieren leicht übersehe?",
+        action: "Nenne heute drei konkrete Dinge, für die du dankbar bist. Bleibe bei einem davon für einen Moment bewusst stehen.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 25,
+        title: "VERTRAUEN",
+        kicker: "Vertrauen lässt dich gehen, bevor du den ganzen Weg sehen kannst.",
+        impulse: "Du wirst nicht für jeden nächsten Schritt vollständige Sicherheit bekommen. Vertrauen heißt, mit dem zu arbeiten, was du heute weißt, und trotzdem weiterzugehen.",
+        question: "Wo warte ich auf Sicherheit, obwohl eigentlich ein nächster Schritt möglich wäre?",
+        action: "Setze heute einen kleinen Schritt in eine Richtung, die sich stimmig anfühlt, auch wenn noch nicht jede Antwort vorhanden ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 26,
+        title: "HINGABE",
+        kicker: "Mut beginnt nicht ohne Angst, sondern trotz Unsicherheit.",
+        impulse: "Mut zeigt sich oft nicht in großen Gesten. Er entsteht in dem Moment, in dem du etwas Wichtiges tust, obwohl ein Teil von dir lieber ausweichen würde.",
+        question: "Was würde ich heute tun, wenn meine Unsicherheit nicht entscheiden dürfte?",
+        action: "Wähle heute eine kleine Handlung, vor der du dich bisher gedrückt hast, und gehe einen konkreten ersten Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 27,
+        title: "HEILUNG",
+        kicker: "Ein klares Nein kann ein tiefes Ja zu dir selbst sein.",
+        impulse: "Grenzen zeigen, wofür du Verantwortung übernimmst und wofür nicht. Sie schützen nicht vor Beziehung – sie schaffen Klarheit innerhalb von Beziehung.",
+        question: "Wo sage ich noch Ja, obwohl ich innerlich längst Nein meine?",
+        action: "Setze heute eine kleine, respektvolle Grenze. Erkläre nicht mehr als nötig und bleibe klar bei dem, was für dich stimmt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 28,
+        title: "FRIEDEN",
+        kicker: "Verantwortung beginnt dort, wo du deinen eigenen Einfluss wieder erkennst.",
+        impulse: "Du kannst nicht alles kontrollieren, was geschieht. Aber du kannst entscheiden, wie du darauf antwortest und welchen Teil du selbst gestalten kannst.",
+        question: "Welchen Teil dieser Situation kann ich tatsächlich beeinflussen?",
+        action: "Trenne heute bewusst zwischen dem, was außerhalb deiner Kontrolle liegt, und einer Sache, für die du Verantwortung übernehmen kannst. Handle bei dieser einen Sache.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 29,
+        title: "VERGEBUNG",
+        kicker: "Ein anderer Blickwinkel kann dieselbe Situation verändern.",
+        impulse: "Deine erste Sichtweise ist nicht immer die einzige Wahrheit. Wenn du den Blickwinkel wechselst, entstehen manchmal Möglichkeiten, die vorher unsichtbar waren.",
+        question: "Wie würde ich diese Situation sehen, wenn ich sie nicht nur aus meiner bisherigen Perspektive betrachte?",
+        action: "Nimm heute ein festgefahrenes Thema und formuliere drei andere mögliche Sichtweisen darauf – ohne sofort zu entscheiden, welche richtig ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 30,
+        title: "AKZEPTANZ",
+        kicker: "Annehmen schafft den Boden für echte Veränderung.",
+        impulse: "Akzeptanz bedeutet nicht, dass du alles gutheißen musst. Sie bedeutet, die Realität eines Moments klar zu sehen, statt deine Kraft im Widerstand zu verlieren.",
+        question: "Was darf ich heute zuerst anerkennen, bevor ich es verändern will?",
+        action: "Benenne heute eine Situation so, wie sie gerade ist – ohne Bewertung. Entscheide erst danach deinen nächsten Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 31,
+        title: "DANKBARKEIT",
+        kicker: "Dankbarkeit öffnet deinen Blick für das, was bereits trägt.",
+        impulse: "Wenn du bewusst wahrnimmst, was schon da ist, verändert sich dein innerer Fokus. Dankbarkeit ergänzt das Schwierige um das Wertvolle, das gleichzeitig existiert.",
+        question: "Was trägt mich gerade, obwohl ich es im Alltag leicht übersehe?",
+        action: "Nenne drei konkrete Dinge, die heute bereits gut oder wertvoll sind. Bleibe bei einem davon für einen Moment bewusst.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 32,
+        title: "LIEBE",
+        kicker: "Liebe beginnt nicht mit Besitz, sondern mit Verbindung.",
+        impulse: "Liebe wird tiefer, wenn du nicht nur nach Bestätigung suchst, sondern wirklich wahrnimmst, was zwischen dir und einem anderen Menschen lebendig ist.",
+        question: "Wo darf ich heute mehr aus Verbindung statt aus Angst reagieren?",
+        action: "Zeige heute einem Menschen auf eine einfache, ehrliche Weise Wertschätzung – ohne eine bestimmte Reaktion zu erwarten.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 33,
+        title: "MITGEFÜHL",
+        kicker: "Mitgefühl sieht den Menschen hinter dem Verhalten.",
+        impulse: "Mitgefühl bedeutet nicht, jede Handlung gutzuheißen. Es bedeutet, die Geschichte, Verletzlichkeit und Menschlichkeit hinter einer Situation mitzudenken.",
+        question: "Wo urteile ich gerade schnell, obwohl ich die ganze Geschichte nicht kenne?",
+        action: "Ersetze heute in einer Situation ein spontanes Urteil durch die Frage: Was könnte dieser Mensch gerade brauchen oder erleben?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 34,
+        title: "LOSLASSEN",
+        kicker: "Was gehen darf, muss nicht weiter deine Energie tragen.",
+        impulse: "Loslassen heißt nicht vergessen. Es heißt, deine Gegenwart nicht dauerhaft von etwas bestimmen zu lassen, das bereits vorbei ist oder nicht mehr zu dir gehört.",
+        question: "Was möchte ich nicht länger jeden Tag innerlich mit mir tragen?",
+        action: "Mach heute einen kleinen sichtbaren Schritt des Loslassens – lösche, räume weg, sage ab oder beende etwas, das abgeschlossen sein darf.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 35,
+        title: "VERTRAUEN",
+        kicker: "Du musst nicht den ganzen Weg kennen, um den nächsten Schritt zu gehen.",
+        impulse: "Vertrauen wächst, wenn du trotz offener Fragen handelst. Nicht blind, sondern mit dem Wissen, dass Klarheit oft erst während des Weges entsteht.",
+        question: "Wo könnte ich heute einen Schritt gehen, ohne vorher jede Sicherheit zu verlangen?",
+        action: "Triff heute eine kleine Entscheidung auf Basis dessen, was jetzt stimmig und ausreichend klar ist.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 36,
+        title: "HOFFNUNG",
+        kicker: "Hoffnung hält eine Möglichkeit offen.",
+        impulse: "Hoffnung bedeutet nicht, Schwierigkeiten zu ignorieren. Sie erinnert dich daran, dass der aktuelle Zustand nicht automatisch das Ende der Geschichte ist.",
+        question: "Welche Möglichkeit möchte ich noch nicht aufgeben?",
+        action: "Formuliere heute einen realistischen nächsten Schritt, der diese Möglichkeit ein kleines Stück wahrscheinlicher macht.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 37,
+        title: "ERNEUERUNG",
+        kicker: "Du darfst dich neu entscheiden.",
+        impulse: "Erneuerung beginnt, wenn du nicht davon ausgehst, dass die Vergangenheit deine nächsten Schritte vollständig festlegt. Jeder bewusste Moment kann ein neuer Anfang sein.",
+        question: "Was würde ich heute anders beginnen, wenn ich mich nicht an gestern binden müsste?",
+        action: "Verändere heute bewusst eine kleine Routine, Entscheidung oder Reaktion und beobachte, wie sich das anfühlt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 38,
+        title: "BALANCE",
+        kicker: "Balance ist Bewegung, nicht Stillstand.",
+        impulse: "Balance bedeutet nicht, dass immer alles gleich verteilt ist. Sie entsteht, wenn du wahrnimmst, welcher Bereich gerade zu viel oder zu wenig Raum bekommt.",
+        question: "Was braucht heute weniger – und was braucht mehr Raum?",
+        action: "Nimm heute eine kleine Korrektur vor: weniger von dem, was dich überzieht, und etwas mehr von dem, was dich stabilisiert.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 39,
+        title: "LEBENDIGKEIT",
+        kicker: "Lebendigkeit zeigt dir, wo Energie fließt.",
+        impulse: "Es gibt Momente, Tätigkeiten und Menschen, bei denen du dich wacher und mehr bei dir fühlst. Diese Signale sind wertvolle Hinweise auf das, was dich wirklich nährt.",
+        question: "Wann fühle ich mich wirklich lebendig?",
+        action: "Plane heute bewusst zehn Minuten für etwas ein, bei dem du dich wach, verbunden oder voller Energie fühlst.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 40,
+        title: "LEICHTIGKEIT",
+        kicker: "Nicht alles Wertvolle muss schwer sein.",
+        impulse: "Wenn du gelernt hast, Anstrengung mit Bedeutung zu verwechseln, kann Leichtigkeit ungewohnt wirken. Doch manchmal zeigt sie dir schlicht einen stimmigeren Weg.",
+        question: "Wo mache ich etwas komplizierter, als es sein müsste?",
+        action: "Vereinfache heute eine Aufgabe, Entscheidung oder Verpflichtung um genau einen Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 41,
+        title: "SCHUTZ",
+        kicker: "Schutz bedeutet, bewusst mit deiner Energie umzugehen.",
+        impulse: "Du musst nicht für alles offen und verfügbar sein. Schutz heißt, wahrzunehmen, was dir guttut, und deine Aufmerksamkeit, Zeit und Nähe entsprechend zu gestalten.",
+        question: "Was braucht heute meinen Schutz – meine Zeit, meine Energie oder meine Ruhe?",
+        action: "Setze heute eine konkrete Schutzgrenze: schalte etwas aus, sage Nein oder reserviere bewusst Zeit nur für dich.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 42,
+        title: "GEBORGENHEIT",
+        kicker: "Sicherheit darf auch in dir entstehen.",
+        impulse: "Geborgenheit ist mehr als ein äußerer Ort. Sie wächst durch Menschen, Rituale und innere Räume, in denen du nicht kämpfen oder leisten musst.",
+        question: "Was gibt mir das Gefühl, für einen Moment einfach sein zu dürfen?",
+        action: "Schaffe heute zehn Minuten einen Ort oder ein Ritual, das deinem System Ruhe und Sicherheit vermittelt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 43,
+        title: "MUT",
+        kicker: "Mut bewegt dich trotz Unsicherheit.",
+        impulse: "Mut ist selten die Abwesenheit von Angst. Er ist die Entscheidung, etwas Wichtigem mehr Gewicht zu geben als deiner momentanen Unsicherheit.",
+        question: "Welcher kleine mutige Schritt wartet gerade auf mich?",
+        action: "Tu heute eine Sache, die du aus Unsicherheit aufgeschoben hast – klein genug, dass du sie tatsächlich umsetzt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 44,
+        title: "STÄRKE",
+        kicker: "Stärke zeigt sich nicht nur im Durchhalten.",
+        impulse: "Wahre Stärke kann bedeuten, weiterzugehen, aber ebenso innezuhalten, Hilfe anzunehmen oder eine Grenze zu setzen. Stärke ist die Fähigkeit, bewusst zu reagieren.",
+        question: "Wo verwechsle ich Stärke noch mit bloßem Aushalten?",
+        action: "Wähle heute eine Handlung, die dir wirklich Kraft gibt – auch wenn sie nicht nach klassischem Durchhalten aussieht.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 45,
+        title: "KLARHEIT",
+        kicker: "Klarheit trennt Wesentliches vom Lärm.",
+        impulse: "Je mehr Stimmen, Möglichkeiten und Gedanken gleichzeitig wirken, desto schwerer wird eine Entscheidung. Klarheit beginnt oft mit Reduktion.",
+        question: "Was weiß ich bereits, wenn ich alles Nebensächliche ausblende?",
+        action: "Schreibe heute zu einem offenen Thema drei Sätze: Was weiß ich? Was weiß ich nicht? Was ist mein nächster Schritt?",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 46,
+        title: "WAHRHEIT",
+        kicker: "Wahrheit wird spürbar, wenn du aufhörst, sie passend zu machen.",
+        impulse: "Deine Wahrheit muss nicht für jeden Menschen dieselbe Bedeutung haben. Entscheidend ist, ob dein Denken, Fühlen und Handeln für dich zunehmend übereinstimmen.",
+        question: "Wo verdrehe ich meine Wahrheit noch, damit sie für andere angenehmer wird?",
+        action: "Sprich heute in einer kleinen Situation einen ehrlichen, respektvollen Satz aus, den du sonst zurückhalten würdest.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 47,
+        title: "BEFREIUNG",
+        kicker: "Freiheit beginnt oft mit dem Ende eines alten inneren Zwanges.",
+        impulse: "Befreiung bedeutet nicht, ohne Verantwortung zu leben. Sie entsteht, wenn alte Regeln, Ängste oder Erwartungen nicht länger automatisch deine Entscheidungen bestimmen.",
+        question: "Von welcher inneren Regel möchte ich mich lösen?",
+        action: "Erkenne heute einen Satz mit „Ich muss“. Prüfe, ob er wirklich wahr ist, und formuliere bewusst eine freie Entscheidung daraus.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 48,
+        title: "INNERER FRIEDEN",
+        kicker: "Frieden entsteht, wenn nicht jeder innere Konflikt weitergefüttert wird.",
+        impulse: "Innerer Frieden bedeutet nicht, dass alles gelöst ist. Er kann bereits entstehen, wenn du für einen Moment aufhörst, gegen dich selbst oder die Realität zu kämpfen.",
+        question: "Welchen inneren Kampf könnte ich heute für einen Moment ruhen lassen?",
+        action: "Nimm dir drei Minuten, atme ruhig und verzichte bewusst darauf, ein aktuelles Thema zu lösen. Lass es einfach kurz da sein.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 49,
+        title: "SELBSTHEILUNG",
+        kicker: "Regeneration braucht Bedingungen, in denen dein System wieder zur Ruhe kommen darf.",
+        impulse: "Selbstheilung ist kein Versprechen und kein Zwang zur Selbstoptimierung. Sie erinnert dich daran, Körper und Nervensystem Räume für Ruhe, Regulation und Erholung zu geben.",
+        question: "Was unterstützt heute meine Regeneration wirklich?",
+        action: "Wähle heute eine einfache regenerative Handlung: Ruhe, Schlaf, Bewegung, Natur, Wasser oder bewusstes Atmen – ohne Leistungsziel.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 50,
+        title: "TRANSFORMATION",
+        kicker: "Transformation verändert nicht nur, was du weißt, sondern wie du lebst.",
+        impulse: "Transformation entsteht, wenn Erkenntnis, Entscheidung und neue Erfahrung zusammenkommen. Dann bleibt Veränderung nicht nur ein Gedanke.",
+        question: "Welche Erkenntnis möchte jetzt in meinem Verhalten sichtbar werden?",
+        action: "Setze heute eine konkrete Handlung, die deine neue Entscheidung verkörpert – klein, aber real.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 51,
+        title: "VISION",
+        kicker: "Eine Vision gibt deinem Weg Richtung.",
+        impulse: "Vision bedeutet, über den aktuellen Zustand hinauszublicken und dir bewusst zu machen, welche Zukunft du mitgestalten möchtest.",
+        question: "Wie soll sich mein Leben anfühlen, wenn ich meiner eigenen Richtung wirklich folge?",
+        action: "Schreibe heute drei Sätze darüber, wie ein stimmiger nächster Lebensabschnitt für dich aussehen könnte.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 52,
+        title: "ZIELE",
+        kicker: "Ein Ziel macht aus Richtung einen konkreten nächsten Punkt.",
+        impulse: "Ziele helfen dir, Vision in Handlung zu übersetzen. Ein gutes Ziel ist nicht nur groß genug, um dich zu bewegen, sondern klar genug, um heute beginnen zu können.",
+        question: "Welches Ziel verdient jetzt tatsächlich meine Energie?",
+        action: "Formuliere ein Ziel so konkret, dass du daraus einen ersten Schritt für die nächsten 24 Stunden ableiten kannst.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 53,
+        title: "FOKUS",
+        kicker: "Fokus entscheidet, was deine Energie bekommt.",
+        impulse: "Du kannst vieles wollen, aber nicht alles gleichzeitig mit derselben Kraft verfolgen. Fokus bedeutet, bewusst auszuwählen, was jetzt Vorrang hat.",
+        question: "Welche eine Sache würde heute den größten Unterschied machen?",
+        action: "Gib dieser einen Sache heute einen festen ungestörten Zeitblock und lasse anderes bewusst warten.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 54,
+        title: "SCHÖPFERKRAFT",
+        kicker: "Gestaltung beginnt dort, wo du deinen Einfluss wieder nutzt.",
+        impulse: "Schöpferkraft bedeutet nicht, alles kontrollieren zu können. Sie beginnt damit, den eigenen Spielraum zu erkennen und ihn bewusst zu nutzen.",
+        question: "Was kann ich heute tatsächlich gestalten, statt nur darüber nachzudenken?",
+        action: "Verändere heute eine konkrete Sache in deinem Einflussbereich – eine Entscheidung, einen Raum, einen Ablauf oder ein Gespräch.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 55,
+        title: "KREATIVITÄT",
+        kicker: "Kreativität entsteht, wenn Neues Raum bekommt.",
+        impulse: "Kreativität ist nicht nur Kunst. Sie zeigt sich überall dort, wo du Möglichkeiten kombinierst, Probleme anders betrachtest oder etwas Eigenes entstehen lässt.",
+        question: "Wo könnte ich heute eine neue Möglichkeit ausprobieren?",
+        action: "Mach heute etwas bewusst anders als gewohnt – ohne Anspruch, dass es sofort perfekt oder nützlich sein muss.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 56,
+        title: "INSPIRATION",
+        kicker: "Inspiration ist ein Impuls – lebendig wird sie durch Umsetzung.",
+        impulse: "Inspiration öffnet Möglichkeiten. Doch erst wenn du einen Gedanken aufgreifst und ihm Form gibst, wird daraus etwas, das dein Leben tatsächlich berühren kann.",
+        question: "Welcher Impuls lässt mich gerade nicht los?",
+        action: "Notiere diesen Impuls und gib ihm heute innerhalb von zehn Minuten eine erste Form: Satz, Skizze, Nachricht oder Handlung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 57,
+        title: "NEUANFANG",
+        kicker: "Ein Anfang braucht keine perfekte Vergangenheit.",
+        impulse: "Du musst nicht erst alles vollständig abgeschlossen oder verstanden haben, um neu zu beginnen. Ein bewusster erster Schritt reicht.",
+        question: "Was würde ich heute beginnen, wenn ich nicht auf den perfekten Zeitpunkt warten würde?",
+        action: "Setze heute den kleinstmöglichen ersten Schritt in etwas, das schon länger auf einen Anfang wartet.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 58,
+        title: "HANDELN",
+        kicker: "Handlung macht aus Möglichkeit Erfahrung.",
+        impulse: "Du kannst lange verstehen, planen und abwägen. Erst dein Handeln zeigt dir, was tatsächlich funktioniert und was du unterwegs verändern möchtest.",
+        question: "Was kann ich heute tun, statt noch länger darüber nachzudenken?",
+        action: "Wähle eine Sache, die weniger als 15 Minuten dauert, und erledige sie direkt nach dieser Reflexion.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 59,
+        title: "KONSEQUENZ",
+        kicker: "Konsequenz gibt deinen Entscheidungen Dauer.",
+        impulse: "Ein einzelner Schritt kann etwas beginnen. Konsequenz sorgt dafür, dass aus einer Entscheidung eine neue Erfahrung und schließlich ein neuer Weg entsteht.",
+        question: "Welche Handlung möchte ich nicht nur beginnen, sondern wirklich wiederholen?",
+        action: "Lege heute fest, wann du eine wichtige Handlung das nächste Mal wiederholst – mit einem konkreten Zeitpunkt oder Auslöser.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 60,
+        title: "VERANTWORTUNG",
+        kicker: "Dein Einfluss beginnt dort, wo du deinen Anteil erkennst.",
+        impulse: "Verantwortung heißt nicht, alles auf dich zu nehmen. Sie bedeutet, klar zu unterscheiden, was dein Teil ist und wo du tatsächlich gestalten kannst.",
+        question: "Welcher Teil dieser Situation gehört wirklich zu mir?",
+        action: "Übernimm heute Verantwortung für genau eine Sache, die du beeinflussen kannst, und lasse den Rest bewusst dort, wo er hingehört.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 61,
+        title: "FREIHEIT",
+        kicker: "Freiheit wächst, wenn du bewusst wählst.",
+        impulse: "Freiheit bedeutet nicht, ohne Grenzen oder Konsequenzen zu leben. Sie beginnt dort, wo du dich nicht mehr ausschließlich von Angst, Erwartungen oder Gewohnheit steuern lässt.",
+        question: "Wo wünsche ich mir mehr Freiheit – und welche Entscheidung gehört dazu?",
+        action: "Triff heute eine kleine Entscheidung, die mehr deinem eigenen Weg als einer äußeren Erwartung entspricht.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 62,
+        title: "VERTRAUEN",
+        kicker: "Vertrauen lässt Raum zwischen Kontrolle und Hingabe.",
+        impulse: "Du kannst nicht jeden Ausgang kontrollieren. Vertrauen heißt, deinen Teil bewusst zu tun und danach nicht jeden nächsten Schritt erzwingen zu müssen.",
+        question: "Was könnte leichter werden, wenn ich nicht alles kontrollieren müsste?",
+        action: "Tu heute deinen klaren Anteil an einer Sache und übe anschließend bewusst, den Ausgang für einen Moment offen zu lassen.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 63,
+        title: "MUT",
+        kicker: "Mut gibt deiner Wahrheit Bewegung.",
+        impulse: "Mut ist die Bereitschaft, einem wichtigen inneren Impuls zu folgen, obwohl Unsicherheit noch vorhanden ist.",
+        question: "Wo weiß ich, was richtig wäre, aber zögere noch?",
+        action: "Setze heute einen kleinen mutigen Schritt genau in dieser Richtung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 64,
+        title: "DURCHHALTEVERMÖGEN",
+        kicker: "Dranbleiben gibt deiner Entscheidung Tiefe.",
+        impulse: "Nicht jeder Weg fühlt sich jeden Tag leicht an. Durchhaltevermögen bedeutet, zwischen echtem Widerstand gegen einen falschen Weg und normaler Anstrengung auf einem wichtigen Weg unterscheiden zu lernen.",
+        question: "Woran möchte ich festhalten, weil es mir wirklich wichtig ist?",
+        action: "Setze heute eine kleine Wiederholung fort, die deinem langfristigen Weg dient.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 65,
+        title: "HINGABE",
+        kicker: "Hingabe beginnt, wenn du nicht mehr gegen jeden Moment kämpfst.",
+        impulse: "Hingabe bedeutet nicht Passivität. Sie bedeutet, dich vollständig auf das einzulassen, was du bewusst gewählt hast, statt innerlich ständig halb zurückzuweichen.",
+        question: "Wofür möchte ich mich heute ganz entscheiden?",
+        action: "Gib einer wichtigen Handlung heute für einen begrenzten Zeitraum deine volle Aufmerksamkeit – ohne gleichzeitig nach einem Ausweg zu suchen.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 66,
+        title: "SELBSTWAHRNEHMUNG",
+        kicker: "Du kannst nur verändern, was du wirklich bemerkst.",
+        impulse: "Selbstwahrnehmung bedeutet, Gedanken, Gefühle, Körper und Verhalten zu beobachten, ohne dich sofort dafür zu verurteilen.",
+        question: "Was nehme ich gerade in mir wahr, wenn ich nichts davon verändern muss?",
+        action: "Halte heute dreimal kurz inne und benenne jeweils einen Gedanken, ein Gefühl und eine Körperempfindung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 67,
+        title: "SELBSTAUSDRUCK",
+        kicker: "Was in dir lebt, darf eine Form finden.",
+        impulse: "Selbstausdruck bedeutet, deine Gedanken, Gefühle, Ideen und Werte auf eine Weise sichtbar zu machen, die wirklich zu dir gehört.",
+        question: "Was möchte durch mich gerade ausgedrückt werden?",
+        action: "Gib heute einem inneren Impuls eine konkrete Form – durch Worte, Gestaltung, Bewegung, Musik oder eine Handlung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 68,
+        title: "KLARHEIT",
+        kicker: "Klarheit entsteht oft nach ehrlicher Reduktion.",
+        impulse: "Wenn zu viele Möglichkeiten gleichzeitig offenbleiben, verliert deine Energie Richtung. Klarheit fragt nicht nach allem, sondern nach dem Wesentlichen.",
+        question: "Was ist jetzt wirklich wichtig – nicht irgendwann, sondern jetzt?",
+        action: "Reduziere heute ein Thema auf eine Entscheidung und einen nächsten Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 69,
+        title: "WAHRHEIT",
+        kicker: "Deine Wahrheit braucht deine Bereitschaft, sie zu leben.",
+        impulse: "Wahrheit bleibt abstrakt, solange sie nur gedacht wird. Sie bekommt Kraft, wenn deine Entscheidungen beginnen, mit ihr übereinzustimmen.",
+        question: "Welche Wahrheit über mich möchte ich nicht länger nur wissen, sondern leben?",
+        action: "Setze heute eine kleine Handlung, die genau zu dieser Wahrheit passt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 70,
+        title: "BEWUSSTSEIN",
+        kicker: "Bewusstsein schafft den Raum zwischen Reiz und Reaktion.",
+        impulse: "Je bewusster du wahrnimmst, was gerade in dir und um dich geschieht, desto mehr Wahl entsteht in deinem Verhalten.",
+        question: "Wo reagiere ich gerade automatisch?",
+        action: "Unterbrich heute einmal bewusst eine automatische Reaktion mit einem Atemzug und einer neuen Entscheidung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 71,
+        title: "INTUITION",
+        kicker: "Intuition spricht oft, bevor der Verstand diskutiert.",
+        impulse: "Intuitive Wahrnehmung zeigt sich häufig als erster innerer Impuls, bevor Argumente, Ängste und Erwartungen darübergelegt werden.",
+        question: "Was war mein allererster Impuls zu diesem Thema?",
+        action: "Notiere heute bei einer Entscheidung zuerst deinen spontanen inneren Eindruck und prüfe später, wie stimmig er sich anfühlt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 72,
+        title: "WEISHEIT",
+        kicker: "Weisheit verbindet Erfahrung mit Bewusstsein.",
+        impulse: "Weisheit bedeutet nicht, auf alles eine Antwort zu haben. Sie wächst, wenn du Erfahrungen reflektierst und daraus eine tiefere, ruhigere Orientierung entsteht.",
+        question: "Was hat mich eine wiederkehrende Erfahrung wirklich gelehrt?",
+        action: "Schreibe heute einen Satz auf, den du heute anders verstehst als noch vor einigen Jahren.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 73,
+        title: "WACHSTUM",
+        kicker: "Wachstum beginnt außerhalb des ganz Gewohnten.",
+        impulse: "Wachstum bedeutet nicht, ständig mehr leisten zu müssen. Es kann heißen, neue Perspektiven, Verhaltensweisen und Erfahrungen zuzulassen.",
+        question: "Wo wäre ein kleiner Schritt außerhalb meines Gewohnten hilfreich?",
+        action: "Tu heute etwas leicht anders als sonst – bewusst, nicht perfekt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 74,
+        title: "VERÄNDERUNG",
+        kicker: "Veränderung wird real durch Wiederholung.",
+        impulse: "Ein neuer Gedanke kann einen Anfang setzen. Ein neuer Weg entsteht erst, wenn du neue Entscheidungen oft genug verkörperst.",
+        question: "Welche Veränderung möchte ich nicht nur beginnen, sondern stabilisieren?",
+        action: "Wiederhole heute bewusst eine Handlung, die zu deiner gewünschten Veränderung gehört.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 75,
+        title: "ERFÜLLUNG",
+        kicker: "Erfüllung entsteht, wenn dein Leben sich zunehmend nach dir anfühlt.",
+        impulse: "Erfüllung ist nicht nur das Erreichen eines Ziels. Sie zeigt sich, wenn Werte, Beziehungen, Arbeit und Alltag immer stärker mit deinem inneren Empfinden übereinstimmen.",
+        question: "Was gibt meinem Leben heute echtes Gefühl von Sinn und Stimmigkeit?",
+        action: "Gib heute einer Sache bewusst Raum, die dich nicht nur beschäftigt, sondern erfüllt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 76,
+        title: "AUSRICHTUNG",
+        kicker: "Ausrichtung gibt deiner Energie eine klare Richtung.",
+        impulse: "Wenn du weißt, worauf du dich innerlich ausrichten möchtest, werden Entscheidungen einfacher. Nicht jede Möglichkeit verdient dieselbe Energie.",
+        question: "Welche Richtung fühlt sich für mich gerade wirklich stimmig an?",
+        action: "Wähle heute einen kleinen Schritt, der genau in diese Richtung führt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 77,
+        title: "HINGABE",
+        kicker: "Hingabe bedeutet, wirklich da zu sein.",
+        impulse: "Du kannst handeln und innerlich trotzdem auf Distanz bleiben. Hingabe beginnt, wenn du dich für einen Moment vollständig auf das einlässt, was du tust.",
+        question: "Wobei bin ich körperlich anwesend, aber innerlich nur halb dabei?",
+        action: "Wähle heute eine Tätigkeit und tue sie zehn Minuten mit voller Präsenz.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 78,
+        title: "BALANCE",
+        kicker: "Balance entsteht durch bewusstes Nachjustieren.",
+        impulse: "Das Leben bleibt nicht statisch. Deshalb ist Balance kein fester Zustand, sondern die Fähigkeit, immer wieder zu spüren, wo etwas aus dem Gleichgewicht geraten ist.",
+        question: "Was braucht gerade mehr Raum – und was weniger?",
+        action: "Nimm heute eine kleine konkrete Korrektur in deinem Tagesablauf vor.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 79,
+        title: "DANKBARKEIT",
+        kicker: "Dankbarkeit macht das Vorhandene sichtbar.",
+        impulse: "Was selbstverständlich wirkt, verschwindet leicht aus deiner Wahrnehmung. Dankbarkeit bringt Wert zurück in das, was längst da ist.",
+        question: "Was in meinem Leben würde mir fehlen, wenn es morgen nicht mehr da wäre?",
+        action: "Schenke heute genau diesem Menschen, Ort oder Teil deines Lebens bewusste Aufmerksamkeit.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 80,
+        title: "VERBINDUNG",
+        kicker: "Verbindung beginnt mit echter Präsenz.",
+        impulse: "Verbindung entsteht nicht nur durch Nähe, sondern dadurch, dass du wirklich wahrnimmst und dich wahrnehmen lässt.",
+        question: "Mit wem oder womit möchte ich mich heute bewusster verbinden?",
+        action: "Führe heute ein Gespräch oder einen Moment ohne parallele Ablenkung und höre wirklich zu.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 81,
+        title: "LIEBE",
+        kicker: "Liebe wird sichtbar durch gelebte Aufmerksamkeit.",
+        impulse: "Liebe ist mehr als ein Gefühl. Sie zeigt sich in Haltung, Präsenz, Fürsorge, Grenzen und ehrlicher Verbindung.",
+        question: "Wie kann Liebe heute durch mein Verhalten sichtbar werden?",
+        action: "Setze heute eine konkrete liebevolle Handlung – für dich selbst oder einen anderen Menschen.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 82,
+        title: "HEILUNG",
+        kicker: "Heilung braucht Raum, Zeit und Wahrnehmung.",
+        impulse: "Heilung ist selten ein gerader Weg. Sie kann bedeuten, etwas anzunehmen, zu regulieren, zu verarbeiten oder anders mit einer Erfahrung zu leben.",
+        question: "Was in mir braucht heute eher Fürsorge als Druck?",
+        action: "Gib diesem Bereich heute eine kleine Form von Ruhe, Unterstützung oder ehrlicher Aufmerksamkeit.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 83,
+        title: "PRÄSENZ",
+        kicker: "Dieser Moment ist der einzige, in dem du handeln kannst.",
+        impulse: "Präsenz bedeutet, mit deiner Aufmerksamkeit dort zu sein, wo dein Leben gerade tatsächlich stattfindet.",
+        question: "Wo bin ich gerade körperlich hier, aber gedanklich ganz woanders?",
+        action: "Richte deine Aufmerksamkeit für zwei Minuten nur auf Atem, Körper und Umgebung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 84,
+        title: "SELBSTLIEBE",
+        kicker: "Selbstliebe zeigt sich darin, wie du mit dir umgehst.",
+        impulse: "Selbstliebe ist nicht permanente Selbstbegeisterung. Sie bedeutet, dir mit Würde, Fürsorge und Respekt zu begegnen – gerade wenn etwas schwierig ist.",
+        question: "Wie würde ich heute mit mir umgehen, wenn ich auf meiner eigenen Seite wäre?",
+        action: "Triff heute eine Entscheidung, die deinem Wohl dient, ohne dich dafür rechtfertigen zu müssen.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 85,
+        title: "BEDINGUNGSLOSIGKEIT",
+        kicker: "Nicht alles Wertvolle muss verdient werden.",
+        impulse: "Wenn Liebe, Ruhe oder Selbstannahme ständig an Bedingungen geknüpft sind, bleibt dein inneres Erleben abhängig von Leistung.",
+        question: "Was erlaube ich mir erst, wenn ich etwas geleistet habe?",
+        action: "Schenke dir heute eine kleine Form von Ruhe, Freude oder Anerkennung, bevor du sie dir verdient hast.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 86,
+        title: "VERTRAUEN",
+        kicker: "Vertrauen wächst durch wiederholte Erfahrung.",
+        impulse: "Vertrauen in dich und das Leben entsteht selten durch einen einzigen Gedanken. Es wächst durch viele kleine Momente, in denen du handelst und erlebst, dass du weiterkommst.",
+        question: "Wo habe ich bereits erlebt, dass ein Schritt genügt hat?",
+        action: "Erinnere dich bewusst an eine solche Erfahrung und nutze sie für deinen nächsten kleinen Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 87,
+        title: "KLARHEIT",
+        kicker: "Klarheit braucht Ehrlichkeit.",
+        impulse: "Manche Unklarheit bleibt bestehen, weil die eigentliche Antwort unbequem ist. Ehrlichkeit mit dir selbst kann den Nebel schneller lösen als weiteres Grübeln.",
+        question: "Welche Antwort kenne ich eigentlich schon?",
+        action: "Schreibe sie heute ohne Erklärung und ohne Relativierung in einen einzigen Satz.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 88,
+        title: "FRIEDEN",
+        kicker: "Frieden beginnt dort, wo du nicht jeden Kampf weiterführen musst.",
+        impulse: "Nicht jeder Konflikt braucht eine weitere Runde. Innerer Frieden kann bedeuten, etwas loszulassen, eine Grenze zu setzen oder eine offene Situation nicht weiter zu nähren.",
+        question: "Welchen Kampf möchte ich nicht länger mit meiner Energie versorgen?",
+        action: "Entziehe heute einem unnötigen Konflikt bewusst Aufmerksamkeit oder Reaktion.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 89,
+        title: "FÜLLE",
+        kicker: "Fülle beginnt mit der Fähigkeit, vorhandenen Wert wahrzunehmen.",
+        impulse: "Fülle ist mehr als Besitz. Sie zeigt sich in Zeit, Beziehungen, Möglichkeiten, Fähigkeiten, Gesundheit, Erfahrung und Momenten von Lebendigkeit.",
+        question: "Wo ist in meinem Leben bereits mehr vorhanden, als ich normalerweise wahrnehme?",
+        action: "Erstelle heute eine kurze Liste mit fünf Formen von Fülle, die bereits Teil deines Lebens sind.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 90,
+        title: "INTEGRATION",
+        kicker: "Integration macht Erkenntnis zu einem Teil deines Lebens.",
+        impulse: "Eine Einsicht verändert wenig, wenn sie isoliert bleibt. Integration bedeutet, neue Erkenntnisse in Entscheidungen, Gewohnheiten und Verhalten einfließen zu lassen.",
+        question: "Welche Erkenntnis möchte ich wirklich in meinen Alltag übernehmen?",
+        action: "Bestimme eine konkrete tägliche oder wöchentliche Handlung, durch die diese Erkenntnis sichtbar wird.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 91,
+        title: "WAHRHEIT",
+        kicker: "Wahrheit bleibt kraftvoll, wenn du sie nicht wieder verlässt.",
+        impulse: "Es ist oft leichter, eine Wahrheit einmal zu erkennen, als ihr dauerhaft treu zu bleiben. Verkörperte Wahrheit braucht Konsequenz.",
+        question: "Wo kenne ich meine Wahrheit, handle aber noch nicht regelmäßig danach?",
+        action: "Setze heute genau dort eine kleine stimmige Handlung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 92,
+        title: "TRANSFORMATION",
+        kicker: "Transformation verändert deine Beziehung zu dir selbst.",
+        impulse: "Tiefe Veränderung zeigt sich nicht nur in neuen Ergebnissen, sondern darin, wie du wahrnimmst, entscheidest und auf das Leben reagierst.",
+        question: "Was ist in mir bereits anders als früher?",
+        action: "Erkenne heute bewusst eine Veränderung an, die du bereits verkörperst, und verstärke sie durch eine passende Handlung.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 93,
+        title: "SCHÖPFERKRAFT",
+        kicker: "Dein Leben enthält mehr Gestaltungsspielraum, als du oft nutzt.",
+        impulse: "Schöpferkraft beginnt mit der Frage, was du aus dem Vorhandenen machen kannst – statt ausschließlich darauf zu schauen, was fehlt.",
+        question: "Was könnte ich mit dem gestalten, was heute bereits verfügbar ist?",
+        action: "Nutze heute eine vorhandene Ressource, Fähigkeit oder Möglichkeit für einen konkreten neuen Schritt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 94,
+        title: "MEISTERSCHAFT",
+        kicker: "Meisterschaft entsteht durch Tiefe, nicht durch Perfektion.",
+        impulse: "Meisterschaft bedeutet, etwas so bewusst und wiederholt zu leben, dass es Teil deiner Haltung wird. Fehler verschwinden nicht – dein Umgang mit ihnen verändert sich.",
+        question: "Was möchte ich nicht nur können, sondern wirklich verkörpern?",
+        action: "Übe heute eine wichtige Fähigkeit bewusst und mit voller Aufmerksamkeit, statt nur schnell ein Ergebnis zu produzieren.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 95,
+        title: "ERBE",
+        kicker: "Was von dir bleibt, entsteht aus dem, was du heute lebst.",
+        impulse: "Dein Erbe besteht nicht nur aus Besitz oder großen Werken. Es zeigt sich auch in der Wirkung, die deine Haltung, Worte und Entscheidungen auf andere Menschen haben.",
+        question: "Wofür möchte ich erinnert oder gespürt werden?",
+        action: "Handle heute einmal bewusst so, wie es zu dieser gewünschten Wirkung passt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 96,
+        title: "ZEITLOSIGKEIT",
+        kicker: "Nicht alles Wesentliche lässt sich in Tempo messen.",
+        impulse: "Manche Erfahrungen verlieren ihren Wert, wenn du sie nur als nächsten Punkt auf einer Liste behandelst. Zeitlosigkeit entsteht, wenn du ganz in einem Moment aufgehst.",
+        question: "Wobei vergesse ich auf gute Weise die Zeit?",
+        action: "Gib heute einer solchen Tätigkeit oder Begegnung einen ungestörten Raum.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 97,
+        title: "EINHEIT",
+        kicker: "Trennung ist nicht die einzige Perspektive.",
+        impulse: "Einheit erinnert daran, dass dein Leben in Beziehungen, Körper, Natur, Gemeinschaft und Welt eingebettet ist. Was du tust, wirkt über dich hinaus.",
+        question: "Wo fühle ich mich heute wirklich verbunden statt getrennt?",
+        action: "Tu heute etwas, das Verbindung stärkt – mit einem Menschen, der Natur oder einer Gemeinschaft.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 98,
+        title: "WEISHEIT",
+        kicker: "Weisheit wird stiller, je tiefer sie wird.",
+        impulse: "Mit Erfahrung wächst oft die Erkenntnis, dass nicht jede Frage eine schnelle Antwort braucht. Weisheit kann auch darin liegen, offen, wach und lernbereit zu bleiben.",
+        question: "Welche Frage darf ich heute noch offen lassen?",
+        action: "Lass heute eine wichtige Frage bewusst unbeantwortet und beobachte, was sich ohne Druck entwickelt.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      },
+      {
+        number: 99,
+        title: "SEIN",
+        kicker: "Du musst nicht jeden Moment verbessern.",
+        impulse: "Am Ende aller Entwicklung bleibt etwas Einfaches: da sein. Nicht leisten, optimieren oder erreichen – sondern dein Leben für einen Moment vollständig wahrnehmen.",
+        question: "Wer bin ich, wenn ich gerade nichts leisten oder beweisen muss?",
+        action: "Nimm dir heute fünf Minuten ohne Aufgabe. Atme, spüre und erlaube dir einfach zu sein.",
+        status: "Arbeitsentwurf – finaler Buchabgleich folgt"
+      }
+    ]
+
+    const card = document.getElementById("codeCard");
+    const drawBtn = document.getElementById("drawBtn");
+    const newBtn = document.getElementById("newBtn");
+    const backBtn = document.getElementById("backBtn");
+    const dailyMode = document.getElementById("dailyMode");
+    const randomMode = document.getElementById("randomMode");
+    const frontCopy = document.getElementById("frontCopy");
+    const hintText = document.getElementById("hintText");
+    const takeaway = document.getElementById("takeaway");
+
+    const codeNumber = document.getElementById("codeNumber");
+    const codeTitle = document.getElementById("codeTitle");
+    const codeKicker = document.getElementById("codeKicker");
+    const impulseText = document.getElementById("impulseText");
+    const questionText = document.getElementById("questionText");
+    const actionText = document.getElementById("actionText");
+    const modeChip = document.getElementById("modeChip");
+
+    let mode = "daily";
+    let currentIndex = 0;
+
+    function dateKey() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function hashString(str) {
+      let hash = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        hash ^= str.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return Math.abs(hash >>> 0);
+    }
+
+    function getDailyIndex() {
+      // Stabil pro Kalendertag. Später kann hier optional Nutzer-ID / App-Login ergänzt werden.
+      return hashString(`ics-${dateKey()}`) % codes.length;
+    }
+
+    function getRandomIndex(exclude = null) {
+      if (codes.length <= 1) return 0;
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * codes.length);
+      } while (idx === exclude);
+      return idx;
+    }
+
+    function renderCode(index) {
+      const code = codes[index];
+      currentIndex = index;
+      codeNumber.textContent = `Code ${String(code.number).padStart(2, "0")}`;
+      codeTitle.textContent = code.title;
+      codeKicker.textContent = code.kicker;
+      impulseText.textContent = code.impulse;
+      questionText.textContent = code.question;
+      actionText.textContent = code.action;
+      modeChip.textContent = mode === "daily" ? "Dein Tagescode" : "Freier Code";
+      takeaway.value = "";
+      document.querySelectorAll("details").forEach(d => d.open = false);
+    }
+
+    function drawCode(forceNew = false) {
+      const index = mode === "daily"
+        ? getDailyIndex()
+        : getRandomIndex(forceNew ? currentIndex : null);
+
+      renderCode(index);
+      card.classList.add("flipped");
+    }
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      const isDaily = mode === "daily";
+
+      dailyMode.classList.toggle("active", isDaily);
+      randomMode.classList.toggle("active", !isDaily);
+      frontCopy.textContent = isDaily
+        ? "Heute wartet ein fester Tagescode auf dich."
+        : "Ziehe frei einen Code aus der aktuellen Auswahl.";
+      hintText.textContent = isDaily
+        ? "Im Modus „Code des Tages“ bleibt dein Code für diesen Kalendertag gleich."
+        : "Im Modus „Freier Code“ kannst du bewusst einen neuen Impuls ziehen.";
+      newBtn.textContent = isDaily ? "Tagescode anzeigen" : "Neuen Code ziehen";
+      card.classList.remove("flipped");
+    }
+
+    drawBtn.addEventListener("click", () => drawCode(false));
+    newBtn.addEventListener("click", () => drawCode(true));
+    backBtn.addEventListener("click", () => card.classList.remove("flipped"));
+    dailyMode.addEventListener("click", () => setMode("daily"));
+    randomMode.addEventListener("click", () => setMode("random"));
+
+    // Standardwerte
+    setMode("daily");
+  
+    // Mobile-safe opening of the card: pointerup handles touch immediately,
+    // click remains as keyboard/desktop fallback.
+    let drawPointerHandled = false;
+    drawBtn.addEventListener("pointerup", (event) => {
+      if (event.pointerType === "touch" || event.pointerType === "pen") {
+        event.preventDefault();
+        drawPointerHandled = true;
+        const idx = mode === "daily" ? getDailyIndex() : getRandomIndex(currentIndex);
+        renderCode(idx);
+        card.classList.add("flipped");
+        window.setTimeout(() => { drawPointerHandled = false; }, 400);
+      }
+    });
+
+  
+    // V7: Direkte Navigation zwischen den bereits veröffentlichten Codes.
+    const prevCodeBtn = document.getElementById("prevCode");
+    const nextCodeBtn = document.getElementById("nextCode");
+    const codeCounter = document.getElementById("codeCounter");
+    const prevLabel = document.getElementById("prevLabel");
+    const nextLabel = document.getElementById("nextLabel");
+
+    function updateCodeNav() {
+      const total = codes.length;
+      const prev = (currentIndex - 1 + total) % total;
+      const next = (currentIndex + 1) % total;
+      codeCounter.textContent = String(currentIndex + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
+      prevLabel.textContent = "Code " + String(prev + 1).padStart(2, "0");
+      nextLabel.textContent = "Code " + String(next + 1).padStart(2, "0");
+    }
+
+    function showSpecificCode(index) {
+      currentIndex = (index + codes.length) % codes.length;
+      renderCode(currentIndex);
+      card.classList.add("flipped");
+      updateCodeNav();
+      // Geöffnete Detailbereiche schließen, damit jeder Code frisch beginnt.
+      document.querySelectorAll("details").forEach(d => d.open = false);
+      const back = card.querySelector(".back");
+      if (back) back.scrollTop = 0;
+    }
+
+    prevCodeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      showSpecificCode(currentIndex - 1);
+    });
+    nextCodeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      showSpecificCode(currentIndex + 1);
+    });
+
+    // Nach jedem Render die Anzeige aktualisieren.
+    const originalRenderCodeV7 = renderCode;
+    renderCode = function(index) {
+      originalRenderCodeV7(index);
+      currentIndex = index;
+      updateCodeNav();
+    };
+    updateCodeNav();
+
+  
+    // V15: Favoriten lokal auf diesem Gerät speichern.
+    const favoriteBtn = document.getElementById("favoriteBtn");
+    const favoritesToggle = document.getElementById("favoritesToggle");
+    const favoritesPanel = document.getElementById("favoritesPanel");
+    const favoriteList = document.getElementById("favoriteList");
+    const FAVORITES_KEY = "ics99InnerCodesFavorites";
+
+    function getFavorites() {
+      try {
+        return JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]")
+          .filter(n => Number.isInteger(n) && n >= 0 && n < codes.length);
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveFavorites(items) {
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify([...new Set(items)]));
+    }
+
+    function isFavorite(index) {
+      return getFavorites().includes(index);
+    }
+
+    function syncFavoriteButton() {
+      const active = isFavorite(currentIndex);
+      favoriteBtn.textContent = active ? "♥ Gemerkt" : "♡ Code merken";
+      favoriteBtn.classList.toggle("is-favorite", active);
+      favoriteBtn.setAttribute("aria-pressed", active ? "true" : "false");
+    }
+
+    function renderFavorites() {
+      const favorites = getFavorites();
+      favoriteList.innerHTML = "";
+      if (!favorites.length) {
+        const p = document.createElement("p");
+        p.className = "favorite-empty";
+        p.textContent = "Noch kein Code gespeichert.";
+        favoriteList.appendChild(p);
+        return;
+      }
+      favorites.forEach(index => {
+        const code = codes[index];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "favorite-item";
+        btn.textContent = `Code ${String(code.number).padStart(2, "0")} – ${code.title}`;
+        btn.addEventListener("click", () => {
+          renderCode(index);
+          card.classList.add("flipped");
+          favoritesPanel.classList.remove("open");
+          syncFavoriteButton();
+        });
+        favoriteList.appendChild(btn);
+      });
+    }
+
+    favoriteBtn.addEventListener("click", () => {
+      const favorites = getFavorites();
+      const pos = favorites.indexOf(currentIndex);
+      if (pos >= 0) favorites.splice(pos, 1);
+      else favorites.push(currentIndex);
+      saveFavorites(favorites);
+      syncFavoriteButton();
+      renderFavorites();
+    });
+
+    favoritesToggle.addEventListener("click", () => {
+      favoritesPanel.classList.toggle("open");
+      renderFavorites();
+    });
+
+    // Bestehendes Rendern nur ergänzen, nicht ersetzen.
+    const originalRenderCodeV15 = renderCode;
+    renderCode = function(index) {
+      originalRenderCodeV15(index);
+      currentIndex = index;
+      syncFavoriteButton();
+    };
+
+    syncFavoriteButton();
+    renderFavorites();
+
+  
+    // WEBSITE MASTER V1 – Tagescode bleibt fokussiert; freie Navigation nur im freien Modus.
+    const modeNote = document.getElementById("modeNote");
+    const bodyEl = document.body;
+
+    function syncWebsiteModeUI() {
+      const daily = mode === "daily";
+      bodyEl.classList.toggle("daily-active", daily);
+      bodyEl.classList.toggle("random-active", !daily);
+      if (modeNote) {
+        modeNote.textContent = daily
+          ? "Dein Tagescode bleibt heute derselbe. Nimm dir Zeit für diesen einen Impuls."
+          : "Im freien Modus kannst du weitere Codes entdecken und durch die Sammlung blättern.";
+      }
+    }
+
+    dailyMode.addEventListener("click", () => setTimeout(syncWebsiteModeUI, 0));
+    randomMode.addEventListener("click", () => setTimeout(syncWebsiteModeUI, 0));
+    syncWebsiteModeUI();
+
+    const bookBtn = document.getElementById("bookBtn");
+    if (bookBtn) {
+      bookBtn.addEventListener("click", () => {
+        alert("Hier wird später deine Buch-, Amazon- oder Produktseite verlinkt.");
+      });
+    }
+
+  
+const TAKEAWAY_KEY="ics99InnerCodesTakeawaysV1";
+const takeawayInput=document.getElementById("takeawayInput");
+const saveTakeawayBtn=document.getElementById("saveTakeawayBtn");
+const takeawayState=document.getElementById("takeawayState");
+function localDateKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function getTakeaways(){try{return JSON.parse(localStorage.getItem(TAKEAWAY_KEY)||"{}")}catch(e){return {}}}
+function takeawayId(index){return localDateKey()+"::"+codes[index].number}
+function loadTakeaway(){if(!takeawayInput)return;const s=getTakeaways()[takeawayId(currentIndex)];takeawayInput.value=s?.text||"";takeawayState.textContent=s?.text?"Heute gespeichert ✓":""}
+function saveTakeaway(){const text=takeawayInput.value.trim(),all=getTakeaways(),id=takeawayId(currentIndex);if(!text){delete all[id];localStorage.setItem(TAKEAWAY_KEY,JSON.stringify(all));takeawayState.textContent="Eintrag entfernt";return}all[id]={codeNumber:codes[currentIndex].number,codeTitle:codes[currentIndex].title,date:localDateKey(),text:text};localStorage.setItem(TAKEAWAY_KEY,JSON.stringify(all));takeawayState.textContent="Heute gespeichert ✓"}
+saveTakeawayBtn?.addEventListener("click",saveTakeaway);
+const originalRenderCodeErlebnisV2=renderCode;
+renderCode=function(index){originalRenderCodeErlebnisV2(index);currentIndex=index;setTimeout(loadTakeaway,0)};
+loadTakeaway();
+
+
+// ERLEBNIS V3 – persönlicher Erkenntnisverlauf.
+const insightsToggle=document.getElementById("insightsToggle");
+const insightsPanel=document.getElementById("insightsPanel");
+const insightsList=document.getElementById("insightsList");
+const insightsCount=document.getElementById("insightsCount");
+
+function formatInsightDate(value){
+  const parts=value.split("-");
+  return parts.length===3 ? `${parts[2]}.${parts[1]}.${parts[0]}` : value;
+}
+function renderInsights(){
+  if(!insightsList)return;
+  const all=getTakeaways();
+  const entries=Object.entries(all)
+    .map(([id,item])=>({id,...item}))
+    .filter(item=>item && item.text)
+    .sort((a,b)=>b.date.localeCompare(a.date) || b.codeNumber-a.codeNumber);
+
+  insightsList.innerHTML="";
+  insightsCount.textContent=entries.length ? `${entries.length} gespeichert` : "";
+
+  if(!entries.length){
+    const p=document.createElement("p");
+    p.className="insights-empty";
+    p.textContent="Noch keine Erkenntnis gespeichert. Dein erster persönlicher Satz erscheint später hier.";
+    insightsList.appendChild(p);
+    return;
+  }
+
+  entries.forEach(item=>{
+    const box=document.createElement("article");
+    box.className="insight-item";
+
+    const meta=document.createElement("div");
+    meta.className="insight-meta";
+    meta.textContent=`${formatInsightDate(item.date)} · CODE ${String(item.codeNumber).padStart(2,"0")} – ${item.codeTitle}`;
+
+    const text=document.createElement("p");
+    text.className="insight-text";
+    text.textContent=item.text;
+
+    const actions=document.createElement("div");
+    actions.className="insight-actions";
+
+    const open=document.createElement("button");
+    open.type="button";
+    open.className="insight-open";
+    open.textContent="Code öffnen";
+    open.addEventListener("click",()=>{
+      const index=codes.findIndex(c=>c.number===item.codeNumber);
+      if(index>=0){
+        renderCode(index);
+        card.classList.add("flipped");
+        insightsPanel.classList.remove("open");
+        setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"center"}),50);
+      }
+    });
+
+    const del=document.createElement("button");
+    del.type="button";
+    del.className="insight-delete";
+    del.textContent="Löschen";
+    del.addEventListener("click",()=>{
+      const store=getTakeaways();
+      delete store[item.id];
+      localStorage.setItem(TAKEAWAY_KEY,JSON.stringify(store));
+      loadTakeaway();
+      renderInsights();
+    });
+
+    actions.append(open,del);
+    box.append(meta,text,actions);
+    insightsList.appendChild(box);
+  });
+}
+insightsToggle?.addEventListener("click",()=>{
+  insightsPanel.classList.toggle("open");
+  renderInsights();
+});
+
+// Ergänzt das bestehende Speichern: Verlauf sofort aktualisieren.
+saveTakeawayBtn?.addEventListener("click",()=>setTimeout(renderInsights,0));
+renderInsights();
+
+
+// ERLEBNIS V4 – Bereichszuordnung + Sticky-Kontext.
+const stickyCodeContext=document.getElementById("stickyCodeContext");
+const stickyCodeText=document.getElementById("stickyCodeText");
+const stickyAreaText=document.getElementById("stickyAreaText");
+const takeawayCodeContext=document.getElementById("takeawayCodeContext");
+const takeawayAreaContext=document.getElementById("takeawayAreaContext");
+
+function getCodeArea(number){
+  if(number<=25) return "ERKENNEN";
+  if(number<=50) return "HEILEN";
+  if(number<=75) return "GESTALTEN";
+  return "VERKÖRPERN";
+}
+function syncCodeContext(){
+  const code=codes[currentIndex];
+  if(!code) return;
+  const codeLabel=`CODE ${String(code.number).padStart(2,"0")} · ${code.title}`;
+  const area=getCodeArea(code.number);
+  if(stickyCodeText) stickyCodeText.textContent=codeLabel;
+  if(stickyAreaText) stickyAreaText.textContent=area;
+  if(takeawayCodeContext) takeawayCodeContext.textContent=codeLabel;
+  if(takeawayAreaContext) takeawayAreaContext.textContent=area;
+}
+function updateStickyVisibility(){
+  if(!stickyCodeContext) return;
+  const rect=card.getBoundingClientRect();
+  const show=card.classList.contains("flipped") && rect.top < -40;
+  stickyCodeContext.classList.toggle("visible",show);
+  document.body.classList.toggle("sticky-visible",show);
+}
+window.addEventListener("scroll",updateStickyVisibility,{passive:true});
+window.addEventListener("resize",updateStickyVisibility);
+
+const originalRenderCodeV4=renderCode;
+renderCode=function(index){
+  originalRenderCodeV4(index);
+  currentIndex=index;
+  syncCodeContext();
+  setTimeout(updateStickyVisibility,0);
+};
+
+syncCodeContext();
+updateStickyVisibility();
+
+
+// ERLEBNIS V5 – kurzer, hochwertiger Zieh-Moment.
+const drawRitual=document.getElementById("drawRitual");
+const drawTitle=document.getElementById("drawTitle");
+const drawSub=document.getElementById("drawSub");
+let ritualRunning=false;
+
+function playDrawRitual(kind,done){
+  if(ritualRunning){ done(); return; }
+  ritualRunning=true;
+  drawTitle.textContent=kind==="daily" ? "Dein Code für heute …" : "Dein Code zeigt sich …";
+  drawSub.textContent=kind==="daily"
+    ? "Nimm dir einen Moment, bevor du ihn öffnest."
+    : "Ein kurzer Moment nur für dich.";
+  drawRitual.classList.add("show");
+  drawRitual.setAttribute("aria-hidden","false");
+  setTimeout(()=>{
+    drawRitual.classList.remove("show");
+    drawRitual.setAttribute("aria-hidden","true");
+    ritualRunning=false;
+    done();
+  },1050);
+}
+
+// Wir fangen nur die eigentlichen Zieh-Aktionen ab; Navigation und bestehende Logik bleiben unverändert.
+function ritualizeButton(button,kind){
+  if(!button) return;
+  button.addEventListener("click",function(ev){
+    if(button.dataset.ritualPass==="1"){
+      button.dataset.ritualPass="0";
+      return;
+    }
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+    playDrawRitual(kind,()=>{
+      button.dataset.ritualPass="1";
+      button.click();
+    });
+  },true);
+}
+
+ritualizeButton(document.getElementById("drawBtn"),"random");
+ritualizeButton(document.getElementById("newBtn"),"random");
+
+
+// V5.1 – Text unterscheidet Tagescode und freien Zieh-Modus.
+const drawOrigin=document.getElementById("drawOrigin");
+function syncDrawOrigin(){
+  if(!drawOrigin) return;
+  drawOrigin.textContent = mode==="daily"
+    ? "Dein Code des Tages · aus 99 Inner Codes"
+    : "Aus 99 Codes für dich gezogen";
+}
+dailyMode?.addEventListener("click",()=>setTimeout(syncDrawOrigin,0));
+randomMode?.addEventListener("click",()=>setTimeout(syncDrawOrigin,0));
+const originalRenderCodeV51=renderCode;
+renderCode=function(index){
+  originalRenderCodeV51(index);
+  currentIndex=index;
+  syncDrawOrigin();
+};
+syncDrawOrigin();
+
+</script>
+</body>
+</html>

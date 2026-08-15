@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1815">
+
+  <title>ICS – Inner Code Systems</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<main class="app-shell">
+
+  <!-- =========================
+       HEUTE
+  ========================== -->
+  <section class="app-view active" id="view-heute">
+
+    <header class="hero">
+
+      <div class="logo-stage">
+        <span class="logo-ring ring-one"></span>
+        <span class="logo-ring ring-two"></span>
+        <img src="icons/icon-512.png"
+             class="app-logo"
+             alt="ICS – Inner Code Systems">
+      </div>
+
+      <p class="brand-name">ICS</p>
+      <p class="brand-subtitle">INNER CODE SYSTEMS</p>
+
+      <h1>Alles beginnt mit deiner Aufmerksamkeit.</h1>
+
+      <p class="hero-line">
+        VERSTEHEN. SPÜREN. HANDELN.
+      </p>
+
+    </header>
+
+
+    <section class="premium-card daily-card">
+
+      <div class="card-topline">
+        <span>DEIN TAGESIMPULS</span>
+        <span class="code-badge">CODE 01</span>
+      </div>
+
+      <h2>Wahrnehmen, was gerade wirklich da ist.</h2>
+
+      <p>
+        Nimm dir einen Moment. Atme ruhig und frage dich:
+        Was braucht heute meine bewusste Aufmerksamkeit?
+      </p>
+
+      <button class="gold-button" id="openDailyCode">
+        Tagescode öffnen
+      </button>
+
+    </section>
+
+
+    <section class="code-grid">
+
+      <button class="code-card">
+        <span>01</span>
+        <strong>Inner Code</strong>
+        <small>Verstehen</small>
+      </button>
+
+      <button class="code-card">
+        <span>02</span>
+        <strong>Body Code</strong>
+        <small>Spüren</small>
+      </button>
+
+      <button class="code-card">
+        <span>03</span>
+        <strong>Action Code</strong>
+        <small>Handeln</small>
+      </button>
+
+      <button class="code-card">
+        <span>04</span>
+        <strong>RESET</strong>
+        <small>Neu ausrichten</small>
+      </button>
+
+    </section>
+
+
+    <section class="premium-card welcome-card">
+
+      <p class="section-kicker">MEIN ICS</p>
+
+      <h2>Willkommen zurück, Peter.</h2>
+
+      <p id="todayDate"></p>
+
+      <div class="today-grid">
+
+        <article class="mini-card">
+          <span>🧠</span>
+          <small>DEIN FOKUS</small>
+          <strong>Erwartungen loslassen</strong>
+          <p>Was darf heute leichter werden?</p>
+        </article>
+
+        <article class="mini-card">
+          <span>♥</span>
+          <small>DEINE ENERGIE</small>
+          <strong><span id="energyValue">7</span>/10</strong>
+          <input id="energyRange"
+                 type="range"
+                 min="1"
+                 max="10"
+                 value="7">
+        </article>
+
+        <article class="mini-card">
+          <span>▲</span>
+          <small>DEINE UMSETZUNG</small>
+          <strong id="actionStatus">Heute noch offen</strong>
+          <button data-action="action">
+            Als erledigt markieren
+          </button>
+        </article>
+
+        <article class="mini-card">
+          <span>↻</span>
+          <small>RESET</small>
+          <strong id="resetStatus">Noch nicht durchgeführt</strong>
+          <button data-action="reset">
+            RESET beginnen
+          </button>
+        </article>
+
+      </div>
+
+    </section>
+
+  </section>
+
+
+  <!-- =========================
+       MEIN ICS
+  ========================== -->
+  <section class="app-view" id="view-meinics">
+
+    <div class="view-header">
+      <p class="section-kicker">DEIN PERSÖNLICHER BEREICH</p>
+      <h1>Mein ICS</h1>
+      <p>Deine Entwicklung. Deine Werkzeuge. Dein Weg.</p>
+    </div>
+
+    <section class="premium-card progress-card">
+
+      <p class="section-kicker">DEIN HEUTIGER STATUS</p>
+
+      <div class="progress-circle">
+        <strong id="progressValue">36%</strong>
+        <small>Bewusstseinsradius</small>
+      </div>
+
+    </section>
+
+
+    <section class="tool-list">
+
+      <button class="tool-card">
+        <span>🧠</span>
+        <div>
+          <strong>RESET Check</strong>
+          <small>Erkenne, wo du gerade stehst.</small>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="tool-card">
+        <span>◎</span>
+        <div>
+          <strong>Auswertung</strong>
+          <small>Verstehe deine aktuellen Muster.</small>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="tool-card">
+        <span>▲</span>
+        <div>
+          <strong>Gegenpol Generator</strong>
+          <small>Vom Muster in eine konkrete Handlung.</small>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="tool-card">
+        <span>✦</span>
+        <div>
+          <strong>Meine Erkenntnisse</strong>
+          <small>Was du über dich erkannt hast.</small>
+        </div>
+        <b>›</b>
+      </button>
+
+    </section>
+
+  </section>
+
+
+  <!-- =========================
+       JOURNAL
+  ========================== -->
+  <section class="app-view" id="view-journal">
+
+    <div class="view-header">
+      <p class="section-kicker">DEIN RAUM FÜR REFLEXION</p>
+      <h1>Journal</h1>
+      <p>Mach sichtbar, was sich in dir verändert.</p>
+    </div>
+
+
+    <section class="premium-card journal-card">
+
+      <p class="section-kicker">ABEND-CHECK-IN</p>
+
+      <h2>Was war heute wichtig?</h2>
+
+      <div class="journal-options">
+
+        <button class="journal-choice" data-type="verstanden">
+          🧠
+          <strong>Verstanden</strong>
+          <small>Was wurde dir klar?</small>
+        </button>
+
+        <button class="journal-choice" data-type="gespuert">
+          ♥
+          <strong>Gespürt</strong>
+          <small>Was hat dein Körper gezeigt?</small>
+        </button>
+
+        <button class="journal-choice" data-type="umgesetzt">
+          ▲
+          <strong>Umgesetzt</strong>
+          <small>Welchen Schritt bist du gegangen?</small>
+        </button>
+
+      </div>
+
+      <textarea
+        id="journalText"
+        maxlength="600"
+        placeholder="Deine Notiz für heute ..."></textarea>
+
+      <div class="journal-bottom">
+        <span id="journalCount">0/600</span>
+
+        <button class="gold-button" id="saveJournal">
+          Eintrag speichern
+        </button>
+      </div>
+
+      <p id="journalFeedback"></p>
+
+    </section>
+
+
+    <section class="premium-card">
+
+      <p class="section-kicker">DEINE EINTRÄGE</p>
+      <h2>Dein Weg wird sichtbar.</h2>
+
+      <div id="journalEntries">
+        <p class="empty-state">
+          Dein erster gespeicherter Eintrag erscheint hier.
+        </p>
+      </div>
+
+    </section>
+
+  </section>
+
+
+  <!-- =========================
+       WELTEN
+  ========================== -->
+  <section class="app-view" id="view-welten">
+
+    <div class="view-header">
+      <p class="section-kicker">DEINE ICS-WELTEN</p>
+      <h1>Was brauchst du gerade?</h1>
+      <p>Wähle den Bereich, der dich heute ruft.</p>
+    </div>
+
+
+    <section class="world-stage">
+
+      <div class="world-core">
+        <img src="icons/icon-192.png" alt="ICS">
+      </div>
+
+      <button class="world-bubble world-inner">
+        <span>🧠</span>
+        <strong>Inner</strong>
+        <small>VERSTEHEN</small>
+      </button>
+
+      <button class="world-bubble world-body">
+        <span>♥</span>
+        <strong>Body</strong>
+        <small>SPÜREN</small>
+      </button>
+
+      <button class="world-bubble world-action">
+        <span>▲</span>
+        <strong>Action</strong>
+        <small>HANDELN</small>
+      </button>
+
+      <button class="world-bubble world-reset">
+        <span>↻</span>
+        <strong>RESET</strong>
+        <small>TRANSFORMIEREN</small>
+      </button>
+
+    </section>
+
+
+    <section class="premium-card world-message-card">
+      <p id="worldMessage">
+        Tippe auf eine Welt und entdecke deinen Bereich.
+      </p>
+    </section>
+
+  </section>
+
+
+  <!-- =========================
+       MEHR
+  ========================== -->
+  <section class="app-view" id="view-mehr">
+
+    <div class="view-header">
+      <p class="section-kicker">INNER CODE SYSTEMS</p>
+      <h1>Mehr entdecken</h1>
+      <p>Vertiefe deinen persönlichen ICS-Weg.</p>
+    </div>
+
+
+    <section class="menu-list">
+
+      <button class="menu-card" id="open99Codes">
+        <div>
+          <small>INTERAKTIV</small>
+          <strong>99 Inner Codes</strong>
+          <p>Entdecke den Code, der dich heute begleitet.</p>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="menu-card">
+        <div>
+          <small>BEWUSSTSEIN</small>
+          <strong>Meditationen</strong>
+          <p>Räume für Ruhe, Fokus und innere Ausrichtung.</p>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="menu-card">
+        <div>
+          <small>ENTWICKLUNG</small>
+          <strong>ICS Akademie</strong>
+          <p>Vertiefe die ICS-Methode.</p>
+        </div>
+        <b>›</b>
+      </button>
+
+      <button class="menu-card">
+        <div>
+          <small>DEIN ACCOUNT</small>
+          <strong>Mein Bereich</strong>
+          <p>Produkte, Zugänge und persönliche Inhalte.</p>
+        </div>
+        <b>›</b>
+      </button>
+
+    </section>
+
+  </section>
+
+</main>
+
+
+<!-- FESTE APP NAVIGATION -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-item active" data-view="heute">
+    <span>◉</span>
+    <small>Heute</small>
+  </button>
+
+  <button class="nav-item" data-view="meinics">
+    <span>◎</span>
+    <small>Mein ICS</small>
+  </button>
+
+  <button class="nav-item" data-view="journal">
+    <span>✎</span>
+    <small>Journal</small>
+  </button>
+
+  <button class="nav-item" data-view="welten">
+    <span>○</span>
+    <small>Welten</small>
+  </button>
+
+  <button class="nav-item" data-view="mehr">
+    <span>•••</span>
+    <small>Mehr</small>
+  </button>
+
+</nav>
+
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
