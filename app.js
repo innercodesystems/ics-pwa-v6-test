@@ -373,47 +373,49 @@ const worldMessages = {
     'RESET – unterbrich alte Reaktionen und richte dich bewusst neu aus.'
 };
 
+function selectWorld(bubble) {
+
+  document
+    .querySelectorAll('.world-bubble')
+    .forEach((item) => {
+      item.classList.remove('selected');
+    });
+
+  bubble.classList.add('selected');
+
+  let world = '';
+
+  if (bubble.classList.contains('world-inner')) {
+    world = 'inner';
+  }
+
+  if (bubble.classList.contains('world-body')) {
+    world = 'body';
+  }
+
+  if (bubble.classList.contains('world-action')) {
+    world = 'action';
+  }
+
+  if (bubble.classList.contains('world-reset')) {
+    world = 'reset';
+  }
+
+  if (worldMessage && worldMessages[world]) {
+    worldMessage.textContent = worldMessages[world];
+  }
+}
+
 document
   .querySelectorAll('.world-bubble')
   .forEach((bubble) => {
 
-    bubble.addEventListener('click', () => {
-
-      document
-        .querySelectorAll('.world-bubble')
-        .forEach((item) => {
-          item.classList.remove('selected');
-        });
-
-      bubble.classList.add('selected');
-
-      let world = '';
-
-      if (bubble.classList.contains('world-inner')) {
-        world = 'inner';
-      }
-
-      if (bubble.classList.contains('world-body')) {
-        world = 'body';
-      }
-
-      if (bubble.classList.contains('world-action')) {
-        world = 'action';
-      }
-
-      if (bubble.classList.contains('world-reset')) {
-        world = 'reset';
-      }
-
-      if (worldMessage && worldMessages[world]) {
-        worldMessage.textContent =
-          worldMessages[world];
-      }
-
+    bubble.addEventListener('pointerup', (event) => {
+      event.preventDefault();
+      selectWorld(bubble);
     });
 
   });
-
 
 // ---------------------------------------------------------
 // PLATZHALTER-BUTTONS
