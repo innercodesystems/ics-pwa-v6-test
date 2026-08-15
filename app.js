@@ -73,6 +73,7 @@ const backFromResetMeditation = document.getElementById('backFromResetMeditation
 const openZurRuheKommen = document.getElementById('openZurRuheKommen');
 const backFromZurRuheKommen = document.getElementById('backFromZurRuheKommen');
 const openAnkommenMeditation = document.getElementById('openAnkommenMeditation');
+const backFromAnkommenMeditation = document.getElementById('backFromAnkommenMeditation');
 
 openMeditations?.addEventListener('click', () => {
   openView('meditationen');
@@ -135,6 +136,14 @@ openZurRuheKommen?.addEventListener('click', () => {
 
 backFromZurRuheKommen?.addEventListener('click', () => {
   openView('meditationen');
+});
+
+openAnkommenMeditation?.addEventListener('click', () => {
+  openView('ankommenmeditation');
+});
+
+backFromAnkommenMeditation?.addEventListener('click', () => {
+  openView('zurruhekommen');
 });
 
 // ---------------------------------------------------------
