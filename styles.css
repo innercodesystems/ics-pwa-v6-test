@@ -884,3 +884,42 @@ textarea:focus {
     align-items: flex-end;
   }
 }
+
+/* MOBILE – deutlichere Auswahl der Welten */
+
+@media (max-width: 600px){
+
+  .world-inner.selected{
+    transform:
+      translateX(-50%)
+      translateY(-10px)
+      scale(1.14);
+  }
+
+  .world-body.selected{
+    transform:
+      translateY(-50%)
+      translateX(-10px)
+      scale(1.14);
+  }
+
+  .world-action.selected{
+    transform:
+      translateX(-50%)
+      translateY(10px)
+      scale(1.14);
+  }
+
+  .world-reset.selected{
+    transform:
+      translateY(-50%)
+      translateX(10px)
+      scale(1.14);
+  }
+
+  .world-bubble.selected{
+    box-shadow:
+      0 0 0 4px rgba(212,160,58,.10),
+      0 0 38px rgba(212,160,58,.42);
+  }
+}
