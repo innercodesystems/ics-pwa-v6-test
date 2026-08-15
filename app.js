@@ -58,6 +58,8 @@ const open99Codes = document.getElementById('open99Codes');
 const openResetCheck = document.getElementById('openResetCheck');
 const openAuswertung = document.getElementById('openAuswertung');
 const openGegenpolGenerator = document.getElementById('openGegenpolGenerator');
+const openErkenntnisse = document.getElementById('openErkenntnisse');
+const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -113,6 +115,14 @@ openAuswertung?.addEventListener('click', () => {
 openGegenpolGenerator?.addEventListener('click', () => {
   window.location.href =
     'https://innercodesystems.github.io/ics-auswertungstool/ics-gegenpol-generator.html';
+});
+
+openErkenntnisse?.addEventListener('click', () => {
+  openView('erkenntnisse');
+});
+
+backFromErkenntnisse?.addEventListener('click', () => {
+  openView('meinics');
 });
 
 // ---------------------------------------------------------
@@ -499,7 +509,8 @@ if (
   button.id === 'openResetMeditation' ||
   button.id === 'openResetCheck' ||
   button.id === 'openAuswertung' ||
-  button.id === 'openGegenpolGenerator'
+  button.id === 'openGegenpolGenerator'|| 
+  button.id === 'openErkenntnisse'
 ) return;
 
     button.addEventListener('click', () => {
