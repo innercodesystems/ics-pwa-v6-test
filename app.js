@@ -441,7 +441,7 @@ document
   .querySelectorAll('.tool-card, .menu-card')
   .forEach((button) => {
 
-    if (button.id === 'open99Codes') return;
+if (button.id === 'open99Codes' || button.id === 'openAcademy') return;
 
     button.addEventListener('click', () => {
 
