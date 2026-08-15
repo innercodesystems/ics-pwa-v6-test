@@ -70,6 +70,10 @@ const backFromResetBibliothek = document.getElementById('backFromResetBibliothek
 const openResetMeditation = document.getElementById('openResetMeditation');
 const backFromResetMeditation = document.getElementById('backFromResetMeditation');
 
+const openZurRuheKommen = document.getElementById('openZurRuheKommen');
+const backFromZurRuheKommen = document.getElementById('backFromZurRuheKommen');
+const openAnkommenMeditation = document.getElementById('openAnkommenMeditation');
+
 openMeditations?.addEventListener('click', () => {
   openView('meditationen');
 });
@@ -123,6 +127,14 @@ openErkenntnisse?.addEventListener('click', () => {
 
 backFromErkenntnisse?.addEventListener('click', () => {
   openView('meinics');
+});
+
+openZurRuheKommen?.addEventListener('click', () => {
+  openView('zurruhekommen');
+});
+
+backFromZurRuheKommen?.addEventListener('click', () => {
+  openView('meditationen');
 });
 
 // ---------------------------------------------------------
@@ -509,8 +521,10 @@ if (
   button.id === 'openResetMeditation' ||
   button.id === 'openResetCheck' ||
   button.id === 'openAuswertung' ||
-  button.id === 'openGegenpolGenerator'|| 
-  button.id === 'openErkenntnisse'
+  button.id === 'openGegenpolGenerator' ||
+  button.id === 'openErkenntnisse' ||
+  button.id === 'openZurRuheKommen' ||
+  button.id === 'openAnkommenMeditation'
 ) return;
 
     button.addEventListener('click', () => {
