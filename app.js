@@ -55,6 +55,15 @@ if (todayDate) {
 
 const openDailyCode = document.getElementById('openDailyCode');
 const open99Codes = document.getElementById('open99Codes');
+const openMeditations = document.getElementById('openMeditations');
+const backFromMeditations = document.getElementById('backFromMeditations');
+openMeditations?.addEventListener('click', () => {
+  openView('meditationen');
+});
+
+backFromMeditations?.addEventListener('click', () => {
+  openView('mehr');
+});
 
 openDailyCode?.addEventListener('click', () => {
   window.location.href = './99-inner-codes.html';
@@ -441,7 +450,11 @@ document
   .querySelectorAll('.tool-card, .menu-card')
   .forEach((button) => {
 
-if (button.id === 'open99Codes' || button.id === 'openAcademy') return;
+if (
+  button.id === 'open99Codes' ||
+  button.id === 'openAcademy' ||
+  button.id === 'openMeditations'
+) return;
 
     button.addEventListener('click', () => {
 
