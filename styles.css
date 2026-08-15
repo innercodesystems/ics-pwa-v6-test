@@ -884,3 +884,81 @@ textarea:focus {
     align-items: flex-end;
   }
 }
+
+/* =========================================================
+   TEST V1 – MOBILE-SAFE 3D WELTEN
+   ========================================================= */
+
+.world-stage{
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.world-bubble{
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  transition:
+    transform .45s cubic-bezier(.2,.8,.2,1),
+    box-shadow .45s ease,
+    border-color .45s ease;
+
+  will-change: transform;
+}
+
+/* Beim Antippen kurz räumlich nach vorne */
+.world-bubble:active{
+  transform:
+    translateZ(18px)
+    rotateX(7deg)
+    rotateY(-7deg)
+    scale(1.04);
+}
+
+/* Gewählte Welt bleibt sichtbar räumlich hervorgehoben */
+.world-bubble.selected{
+  border-color: rgba(240,197,93,.85);
+
+  transform:
+    translateZ(32px)
+    rotateX(-5deg)
+    rotateY(7deg)
+    scale(1.09);
+
+  box-shadow:
+    0 20px 38px rgba(0,0,0,.55),
+    0 0 0 4px rgba(212,160,58,.08),
+    0 0 38px rgba(212,160,58,.35),
+    inset 0 0 24px rgba(212,160,58,.08);
+}
+
+/* leichte unterschiedliche Neigung je Welt */
+.world-inner.selected{
+  transform: translateZ(32px) rotateX(-6deg) rotateY(7deg) scale(1.09);
+}
+
+.world-body.selected{
+  transform: translateZ(32px) rotateX(-5deg) rotateY(-7deg) scale(1.09);
+}
+
+.world-action.selected{
+  transform: translateZ(32px) rotateX(6deg) rotateY(7deg) scale(1.09);
+}
+
+.world-reset.selected{
+  transform: translateZ(32px) rotateX(6deg) rotateY(-7deg) scale(1.09);
+}
+
+/* Nutzer mit reduzierter Bewegung bekommen weiterhin eine ruhige Variante */
+@media (prefers-reduced-motion: reduce){
+  .world-bubble{
+    transition: none;
+  }
+
+  .world-bubble:active,
+  .world-bubble.selected{
+    transform: scale(1.05);
+  }
+}
