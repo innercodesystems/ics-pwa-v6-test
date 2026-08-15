@@ -57,12 +57,22 @@ const openDailyCode = document.getElementById('openDailyCode');
 const open99Codes = document.getElementById('open99Codes');
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
+const openResetMeditation = document.getElementById('openResetMeditation');
+const backFromResetMeditation = document.getElementById('backFromResetMeditation');
 openMeditations?.addEventListener('click', () => {
   openView('meditationen');
 });
 
 backFromMeditations?.addEventListener('click', () => {
   openView('mehr');
+});
+
+openResetMeditation?.addEventListener('click', () => {
+  openView('resetmeditation');
+});
+
+backFromResetMeditation?.addEventListener('click', () => {
+  openView('meditationen');
 });
 
 openDailyCode?.addEventListener('click', () => {
@@ -453,7 +463,8 @@ document
 if (
   button.id === 'open99Codes' ||
   button.id === 'openAcademy' ||
-  button.id === 'openMeditations'
+  button.id === 'openMeditations' ||
+  button.id === 'openResetMeditation'
 ) return;
 
     button.addEventListener('click', () => {
