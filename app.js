@@ -410,8 +410,12 @@ document
   .querySelectorAll('.world-bubble')
   .forEach((bubble) => {
 
-    bubble.addEventListener('pointerup', (event) => {
+    bubble.addEventListener('touchend', (event) => {
       event.preventDefault();
+      selectWorld(bubble);
+    }, { passive: false });
+
+    bubble.addEventListener('click', () => {
       selectWorld(bubble);
     });
 
