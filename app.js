@@ -55,6 +55,7 @@ if (todayDate) {
 
 const openDailyCode = document.getElementById('openDailyCode');
 const open99Codes = document.getElementById('open99Codes');
+const openResetCheck = document.getElementById('openResetCheck');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -97,6 +98,10 @@ open99Codes?.addEventListener('click', () => {
   window.location.href = './99-inner-codes.html';
 });
 
+openResetCheck?.addEventListener('click', () => {
+  window.location.href =
+    'https://innercodesystems.github.io/ics-auswertungstool/ics-reset-check.html';
+});
 
 // ---------------------------------------------------------
 // DASHBOARD
@@ -479,7 +484,8 @@ if (
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
   button.id === 'openResetBibliothek' ||
-  button.id === 'openResetMeditation'
+  button.id === 'openResetMeditation' ||
+  button.id === 'openResetCheck'
 ) return;
 
     button.addEventListener('click', () => {
