@@ -88,7 +88,6 @@ openResetMeditation?.addEventListener('click', () => {
 backFromResetMeditation?.addEventListener('click', () => {
   openView('resetbibliothek');
 });
-});
 
 openDailyCode?.addEventListener('click', () => {
   window.location.href = './99-inner-codes.html';
