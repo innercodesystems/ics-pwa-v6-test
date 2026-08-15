@@ -55,10 +55,16 @@ if (todayDate) {
 
 const openDailyCode = document.getElementById('openDailyCode');
 const open99Codes = document.getElementById('open99Codes');
+
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
+
+const openResetBibliothek = document.getElementById('openResetBibliothek');
+const backFromResetBibliothek = document.getElementById('backFromResetBibliothek');
+
 const openResetMeditation = document.getElementById('openResetMeditation');
 const backFromResetMeditation = document.getElementById('backFromResetMeditation');
+
 openMeditations?.addEventListener('click', () => {
   openView('meditationen');
 });
@@ -67,12 +73,21 @@ backFromMeditations?.addEventListener('click', () => {
   openView('mehr');
 });
 
+openResetBibliothek?.addEventListener('click', () => {
+  openView('resetbibliothek');
+});
+
+backFromResetBibliothek?.addEventListener('click', () => {
+  openView('meditationen');
+});
+
 openResetMeditation?.addEventListener('click', () => {
   openView('resetmeditation');
 });
 
 backFromResetMeditation?.addEventListener('click', () => {
-  openView('meditationen');
+  openView('resetbibliothek');
+});
 });
 
 openDailyCode?.addEventListener('click', () => {
@@ -464,6 +479,7 @@ if (
   button.id === 'open99Codes' ||
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
+  button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation'
 ) return;
 
