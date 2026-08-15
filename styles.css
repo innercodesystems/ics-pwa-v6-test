@@ -884,3 +884,54 @@ textarea:focus {
     align-items: flex-end;
   }
 }
+
+/* =========================================================
+   MOBILE FIX – WELTEN TAP + TEXT
+   ========================================================= */
+
+.world-stage::before,
+.world-stage::after{
+  pointer-events:none;
+}
+
+.world-core{
+  pointer-events:none;
+}
+
+.world-bubble{
+  pointer-events:auto;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(212,160,58,.16);
+}
+
+@media (max-width:600px){
+
+  .world-bubble{
+    width:96px;
+    height:96px;
+    padding:8px 5px;
+    overflow:hidden;
+  }
+
+  .world-bubble span{
+    margin-bottom:3px;
+  }
+
+  .world-bubble strong{
+    font-size:.80rem;
+    line-height:1.05;
+  }
+
+  .world-bubble small{
+    font-size:.47rem;
+    line-height:1;
+    white-space:nowrap;
+    margin-top:4px;
+  }
+
+  .world-bubble.selected{
+    box-shadow:
+      0 0 0 4px rgba(212,160,58,.10),
+      0 0 35px rgba(212,160,58,.34);
+  }
+}
