@@ -2074,12 +2074,12 @@ body.sticky-visible{padding-top:42px}
     randomMode.addEventListener("click", () => setTimeout(syncWebsiteModeUI, 0));
     syncWebsiteModeUI();
 
-    const bookBtn = document.getElementById("bookBtn");
-    if (bookBtn) {
-      bookBtn.addEventListener("click", () => {
-        alert("Hier wird später deine Buch-, Amazon- oder Produktseite verlinkt.");
-      });
-    }
+const bookBtn = document.getElementById("bookBtn");
+if (bookBtn) {
+  bookBtn.addEventListener("click", () => {
+    window.open("https://amzn.eu/d/039mD19E", "_blank");
+  });
+}
 
   
 const TAKEAWAY_KEY="ics99InnerCodesTakeawaysV1";
