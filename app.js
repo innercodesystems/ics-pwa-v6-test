@@ -60,6 +60,10 @@ const openAuswertung = document.getElementById('openAuswertung');
 const openGegenpolGenerator = document.getElementById('openGegenpolGenerator');
 const openErkenntnisse = document.getElementById('openErkenntnisse');
 const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
+const openGedankenLoslassen = document.getElementById('openGedankenLoslassen');
+const backFromGedankenLoslassen = document.getElementById('backFromGedankenLoslassen');
+const openGedankenLoslassenMeditation = document.getElementById('openGedankenLoslassenMeditation');
+const backFromGedankenLoslassenMeditation = document.getElementById('backFromGedankenLoslassenMeditation');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -144,6 +148,22 @@ openAnkommenMeditation?.addEventListener('click', () => {
 
 backFromAnkommenMeditation?.addEventListener('click', () => {
   openView('zurruhekommen');
+});
+
+openGedankenLoslassen?.addEventListener('click', () => {
+  openView('gedankenloslassen');
+});
+
+backFromGedankenLoslassen?.addEventListener('click', () => {
+  openView('meditationen');
+});
+
+openGedankenLoslassenMeditation?.addEventListener('click', () => {
+  openView('gedankenloslassenmeditation');
+});
+
+backFromGedankenLoslassenMeditation?.addEventListener('click', () => {
+  openView('gedankenloslassen');
 });
 
 // ---------------------------------------------------------
@@ -533,7 +553,9 @@ if (
   button.id === 'openGegenpolGenerator' ||
   button.id === 'openErkenntnisse' ||
   button.id === 'openZurRuheKommen' ||
-  button.id === 'openAnkommenMeditation'
+  button.id === 'openAnkommenMeditation' ||
+  button.id === 'openGedankenLoslassen' ||
+button.id === 'openGedankenLoslassenMeditation' 
 ) return;
 
     button.addEventListener('click', () => {
