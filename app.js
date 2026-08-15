@@ -56,6 +56,7 @@ if (todayDate) {
 const openDailyCode = document.getElementById('openDailyCode');
 const open99Codes = document.getElementById('open99Codes');
 const openResetCheck = document.getElementById('openResetCheck');
+const openAuswertung = document.getElementById('openAuswertung');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -101,6 +102,11 @@ open99Codes?.addEventListener('click', () => {
 openResetCheck?.addEventListener('click', () => {
   window.location.href =
     'https://innercodesystems.github.io/ics-auswertungstool/ics-reset-check.html';
+});
+
+openAuswertung?.addEventListener('click', () => {
+  window.location.href =
+    'https://innercodesystems.github.io/ics-auswertungstool/ics-auswertung-tool.html';
 });
 
 // ---------------------------------------------------------
@@ -485,7 +491,8 @@ if (
   button.id === 'openMeditations' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
-  button.id === 'openResetCheck'
+  button.id === 'openResetCheck' ||
+  button.id === 'openAuswertung'
 ) return;
 
     button.addEventListener('click', () => {
