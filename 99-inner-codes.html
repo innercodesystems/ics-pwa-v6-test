@@ -152,6 +152,34 @@ Impuls / Reflexion / Handlung bleiben vorerst vorhandene Prototyptexte.
 
     .code-card.flipped { transform: rotateY(180deg); }
 
+    /* Mobile Fix – verhindert spiegelverkehrte Kartenrückseite */
+.face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.front {
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+
+.back {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.code-card {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.code-card.flipped {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
     .face {
       position: absolute;
       inset: 0;
