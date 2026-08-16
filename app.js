@@ -610,8 +610,9 @@ if (
   button.id === 'openAnkommenMeditation' ||
   button.id === 'openGedankenLoslassen' ||
 button.id === 'openGedankenLoslassenMeditation' ||
-  button.id === 'openKoerperWahrnehmen' ||
-button.id === 'openKoerperWahrnehmenMeditation'
+button.id === 'openKoerperWahrnehmen' ||
+button.id === 'openKoerperWahrnehmenMeditation' ||
+button.id === 'installApp'
 ) return;
 
     button.addEventListener('click', () => {
@@ -629,6 +630,55 @@ button.id === 'openKoerperWahrnehmenMeditation'
 
   });
 
+// ---------------------------------------------------------
+// APP INSTALLIEREN
+// ---------------------------------------------------------
+
+const installApp = document.getElementById('installApp');
+
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
+installApp?.addEventListener('click', async () => {
+
+  // Android / Chrome / Edge
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+
+    await deferredInstallPrompt.userChoice;
+
+    deferredInstallPrompt = null;
+    return;
+  }
+
+  // iPhone / iPad
+  const isIOS =
+    /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  if (isIOS) {
+    alert(
+      'So installierst du ICS auf dem iPhone:\n\n' +
+      '1. Öffne ICS in Safari.\n' +
+      '2. Tippe unten auf Teilen.\n' +
+      '3. Wähle „Zum Home-Bildschirm“.\n' +
+      '4. Tippe auf „Hinzufügen“.'
+    );
+    return;
+  }
+
+  // Falls bereits installiert oder Browser keinen Prompt anbietet
+  alert(
+    'ICS kann über das Browser-Menü auf deinem Gerät installiert bzw. zum Startbildschirm hinzugefügt werden.'
+  );
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+});
 
 // ---------------------------------------------------------
 // SERVICE WORKER
