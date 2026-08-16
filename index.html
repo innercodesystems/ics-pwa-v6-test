@@ -15,10 +15,68 @@
 
 <main class="app-shell">
 
-  <!-- =========================
-       HEUTE
-  ========================== -->
-  <section class="app-view active" id="view-heute">
+<!-- =========================
+     PERSÖNLICHER START
+========================== -->
+<section class="app-view" id="view-welcome">
+
+  <div class="view-header" style="text-align:center;">
+    <p class="section-kicker">INNER CODE SYSTEMS</p>
+
+    <h1>Willkommen bei ICS.</h1>
+
+    <p>
+      Dein persönlicher Raum für Klarheit,
+      Bewusstsein und Veränderung.
+    </p>
+  </div>
+
+  <section class="premium-card" style="text-align:center;">
+
+    <h2>Wie darf ich dich nennen?</h2>
+
+    <p>
+      Dein Vorname macht deine ICS-Welt persönlicher.
+      Er wird nur auf diesem Gerät gespeichert.
+    </p>
+
+    <input
+      type="text"
+      id="icsUserName"
+      placeholder="Dein Vorname"
+      autocomplete="given-name"
+      maxlength="30"
+      style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:20px;
+        padding:16px;
+        border-radius:12px;
+        border:1px solid rgba(212,160,58,.45);
+        background:#1a1815;
+        color:#f6f1e7;
+        font-size:16px;
+        text-align:center;
+      "
+    >
+
+    <button
+      class="gold-button"
+      id="saveIcsUserName"
+      style="width:100%; margin-top:18px;"
+    >
+      Meine ICS-Welt öffnen
+    </button>
+
+  </section>
+
+</section>
+
+
+<!-- =========================
+     HEUTE
+========================== -->
+<section class="app-view active" id="view-heute">
 
     <header class="hero">
 
