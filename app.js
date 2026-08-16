@@ -64,6 +64,10 @@ const openGedankenLoslassen = document.getElementById('openGedankenLoslassen');
 const backFromGedankenLoslassen = document.getElementById('backFromGedankenLoslassen');
 const openGedankenLoslassenMeditation = document.getElementById('openGedankenLoslassenMeditation');
 const backFromGedankenLoslassenMeditation = document.getElementById('backFromGedankenLoslassenMeditation');
+const openKoerperWahrnehmen = document.getElementById('openKoerperWahrnehmen');
+const backFromKoerperWahrnehmen = document.getElementById('backFromKoerperWahrnehmen');
+const openKoerperWahrnehmenMeditation = document.getElementById('openKoerperWahrnehmenMeditation');
+const backFromKoerperWahrnehmenMeditation = document.getElementById('backFromKoerperWahrnehmenMeditation');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -164,6 +168,22 @@ openGedankenLoslassenMeditation?.addEventListener('click', () => {
 
 backFromGedankenLoslassenMeditation?.addEventListener('click', () => {
   openView('gedankenloslassen');
+});
+
+openKoerperWahrnehmen?.addEventListener('click', () => {
+  openView('koerperwahrnehmen');
+});
+
+backFromKoerperWahrnehmen?.addEventListener('click', () => {
+  openView('meditationen');
+});
+
+openKoerperWahrnehmenMeditation?.addEventListener('click', () => {
+  openView('koerperwahrnehmenmeditation');
+});
+
+backFromKoerperWahrnehmenMeditation?.addEventListener('click', () => {
+  openView('koerperwahrnehmen');
 });
 
 // ---------------------------------------------------------
@@ -555,7 +575,9 @@ if (
   button.id === 'openZurRuheKommen' ||
   button.id === 'openAnkommenMeditation' ||
   button.id === 'openGedankenLoslassen' ||
-button.id === 'openGedankenLoslassenMeditation' 
+button.id === 'openGedankenLoslassenMeditation' ||
+  button.id === 'openKoerperWahrnehmen' ||
+button.id === 'openKoerperWahrnehmenMeditation'
 ) return;
 
     button.addEventListener('click', () => {
