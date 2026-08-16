@@ -37,10 +37,7 @@ function openView(name) {
     item.classList.toggle('active', item.dataset.view === name);
   });
 
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+  window.scrollTo(0, 0);
 }
 
 navItems.forEach((item) => {
