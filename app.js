@@ -10,6 +10,24 @@
 const navItems = [...document.querySelectorAll('.nav-item')];
 const appViews = [...document.querySelectorAll('.app-view')];
 
+const userNameKey = 'ICS_USER_NAME';
+
+const icsUserName = document.getElementById('icsUserName');
+const saveIcsUserName = document.getElementById('saveIcsUserName');
+const welcomeHeadline = document.querySelector('.welcome-card h2');
+
+function getIcsUserName() {
+  return localStorage.getItem(userNameKey) || '';
+}
+
+function applyIcsUserName() {
+  const name = getIcsUserName();
+
+  if (welcomeHeadline && name) {
+    welcomeHeadline.textContent = `Willkommen zurück, ${name}.`;
+  }
+}
+
 function openView(name) {
   appViews.forEach((view) => {
     view.classList.toggle('active', view.id === `view-${name}`);
@@ -31,8 +49,24 @@ navItems.forEach((item) => {
   });
 });
 
-openView('heute');
+const savedUserName = getIcsUserName();
 
+if (savedUserName) {
+  applyIcsUserName();
+  openView('heute');
+} else {
+  openView('welcome');
+}
+
+saveIcsUserName?.addEventListener('click', () => {
+  const name = icsUserName?.value.trim();
+
+  if (!name) return;
+
+  localStorage.setItem(userNameKey, name);
+  applyIcsUserName();
+  openView('heute');
+});
 
 // ---------------------------------------------------------
 // DATUM
