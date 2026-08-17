@@ -108,6 +108,9 @@ const backFromMeditations = document.getElementById('backFromMeditations');
 const openImpulse = document.getElementById('openImpulse');
 const backFromImpulse = document.getElementById('backFromImpulse');
 
+const openInnerImpulse = document.getElementById('openInnerImpulse');
+const backFromInnerImpulse = document.getElementById('backFromInnerImpulse');
+
 const openResetBibliothek = document.getElementById('openResetBibliothek');
 const backFromResetBibliothek = document.getElementById('backFromResetBibliothek');
 
@@ -133,6 +136,14 @@ openImpulse?.addEventListener('click', () => {
 
 backFromImpulse?.addEventListener('click', () => {
   openView('welten');
+});
+
+openInnerImpulse?.addEventListener('click', () => {
+  openView('innerimpulse');
+});
+
+backFromInnerImpulse?.addEventListener('click', () => {
+  openView('impulse');
 });
 
 openResetBibliothek?.addEventListener('click', () => {
@@ -619,6 +630,7 @@ if (
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
   button.id === 'openImpulse' ||
+  button.id === 'openInnerImpulse' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
   button.id === 'openResetCheck' ||
