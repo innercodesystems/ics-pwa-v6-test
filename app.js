@@ -127,6 +127,14 @@ backFromMeditations?.addEventListener('click', () => {
   openView('mehr');
 });
 
+openImpulse?.addEventListener('click', () => {
+  openView('impulse');
+});
+
+backFromImpulse?.addEventListener('click', () => {
+  openView('welten');
+});
+
 openResetBibliothek?.addEventListener('click', () => {
   openView('resetbibliothek');
 });
