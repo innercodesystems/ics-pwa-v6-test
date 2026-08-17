@@ -105,6 +105,9 @@ const backFromKoerperWahrnehmenMeditation = document.getElementById('backFromKoe
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
 
+const openImpulse = document.getElementById('openImpulse');
+const backFromImpulse = document.getElementById('backFromImpulse');
+
 const openResetBibliothek = document.getElementById('openResetBibliothek');
 const backFromResetBibliothek = document.getElementById('backFromResetBibliothek');
 
@@ -607,6 +610,7 @@ if (
   button.id === 'open99Codes' ||
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
+  button.id === 'openImpulse' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
   button.id === 'openResetCheck' ||
