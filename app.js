@@ -352,7 +352,95 @@ const newTruths = [
     reflection: 'Welchen Moment kannst du heute bewusst nur für dich reservieren?',
     integration: 'Trage jetzt eine zehnminütige Pause für dich in deinen Tag ein.'
   }
-];
+].map((truth, index) => ({
+  ...truth,
+  id: `NW_${String(index + 1).padStart(3, '0')}`,
+  number: String(index + 1).padStart(3, '0')
+}));
+
+// Zentrale interne Verknüpfungsstruktur. Sie ist bewusst unabhängig von
+// sichtbaren Titeln/Dateinamen, damit Mentor, Gegenpol, Tagesimpuls und
+// Glaubenssatz-Logik später stabil darauf zugreifen können.
+const icsContentLinks = {
+  impulses: {
+    IMP_001: { id: 'IMP_001', title: 'Du musst nicht alles heute lösen', view: 'actionimpulse' },
+    IMP_002: { id: 'IMP_002', title: 'Wie viel ist gerade wirklich möglich?', view: 'bodyimpulse' },
+    IMP_003: { id: 'IMP_003', title: 'Vertraue dem richtigen Timing', view: 'resetimpulse' },
+    IMP_004: { id: 'IMP_004', title: 'Klarheit kommt durch Loslassen', view: 'innerimpulse' },
+    IMP_005: { id: 'IMP_005', title: 'Du musst nicht jedem alles recht machen', view: 'bodyimpulse' },
+    IMP_006: { id: 'IMP_006', title: 'Dein Fokus ist dein Kompass', view: 'actionimpulse' },
+    IMP_007: { id: 'IMP_007', title: 'Veränderung beginnt in dir', view: 'resetimpulse' },
+    IMP_008: { id: 'IMP_008', title: 'Vergleich dich nicht – dein Weg ist einzigartig', view: 'innerimpulse' },
+    IMP_009: { id: 'IMP_009', title: 'Nicht alles muss perfekt sein', view: 'resetimpulse' },
+    IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
+  },
+  relationships: [
+    { truthId: 'NW_001', impulseId: 'IMP_009', contexts: ['mentor', 'gegenpol', 'tagesimpuls', 'glaubenssatz'] },
+    { truthId: 'NW_002', impulseId: 'IMP_005', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
+    { truthId: 'NW_003', impulseId: 'IMP_010', contexts: ['mentor', 'tagesimpuls'] },
+    { truthId: 'NW_004', impulseId: 'IMP_007', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
+    { truthId: 'NW_005', impulseId: 'IMP_008', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
+    { truthId: 'NW_006', impulseId: 'IMP_001', contexts: ['mentor', 'tagesimpuls'] },
+    { truthId: 'NW_007', impulseId: 'IMP_006', contexts: ['mentor', 'tagesimpuls'] },
+    { truthId: 'NW_009', impulseId: 'IMP_005', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
+    { truthId: 'NW_010', impulseId: 'IMP_002', contexts: ['mentor', 'tagesimpuls'] }
+  ],
+  getRelatedContent(contentId, context) {
+    return this.relationships
+      .filter(({ truthId, impulseId, contexts }) =>
+        (truthId === contentId || impulseId === contentId) &&
+        (!context || contexts.includes(context)))
+      .map((relationship) => ({
+        relationship,
+        truth: newTruths.find(({ id }) => id === relationship.truthId),
+        impulse: this.impulses[relationship.impulseId]
+      }));
+  }
+};
+
+let relatedImpulseView = null;
+let relatedBox = null;
+let relatedTitle = null;
+let relatedButton = null;
+
+function ensureRelatedImpulseUI() {
+  if (relatedBox) return;
+
+  const detailArticle = newTruthIntegration?.closest('article');
+  if (!detailArticle) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .new-truth-related{margin-top:28px;padding-top:20px;border-top:1px solid rgba(212,160,58,.2)}
+    .new-truth-related small{color:var(--gold);letter-spacing:.16em}
+    .new-truth-related button{width:100%;margin-top:10px;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;border:0;background:transparent;color:var(--cream);text-align:left}
+    .new-truth-related button span{font-family:Georgia,"Times New Roman",serif;font-size:1.08rem}
+    .new-truth-related button b{color:var(--gold);font-size:1.35rem}
+  `;
+  document.head.append(style);
+
+  relatedBox = document.createElement('aside');
+  relatedBox.className = 'new-truth-related';
+  relatedBox.hidden = true;
+
+  const label = document.createElement('small');
+  label.textContent = 'PASSENDER IMPULS';
+
+  relatedButton = document.createElement('button');
+  relatedButton.type = 'button';
+
+  relatedTitle = document.createElement('span');
+  const arrow = document.createElement('b');
+  arrow.textContent = '›';
+
+  relatedButton.append(relatedTitle, arrow);
+  relatedBox.append(label, relatedButton);
+  detailArticle.append(relatedBox);
+
+  relatedButton.addEventListener('click', () => {
+    if (relatedImpulseView) openView(relatedImpulseView);
+  });
+}
 
 function openNewTruthDetail(truth) {
   if (!newTruthDetailTitle || !newTruthDetailImage ||
@@ -363,6 +451,13 @@ function openNewTruthDetail(truth) {
   newTruthDetailImage.alt = `Neue Wahrheit: ${truth.title}`;
   newTruthReflection.textContent = truth.reflection;
   newTruthIntegration.textContent = truth.integration;
+
+  ensureRelatedImpulseUI();
+  const relatedContent = icsContentLinks.getRelatedContent(truth.id)[0];
+  relatedImpulseView = relatedContent?.impulse?.view || null;
+  if (relatedTitle) relatedTitle.textContent = relatedContent?.impulse?.title || '';
+  if (relatedBox) relatedBox.hidden = !relatedContent;
+
   openView('neuewahrheitdetail');
 }
 
@@ -551,13 +646,11 @@ journalText?.addEventListener('input', () => {
     `${journalText.value.length}/600`;
 });
 
-
 function getJournalEntries() {
   return JSON.parse(
     localStorage.getItem(journalKey) || '[]'
   );
 }
-
 
 function renderJournalEntries() {
 
@@ -611,7 +704,6 @@ function renderJournalEntries() {
     })
     .join('');
 }
-
 
 document
   .getElementById('saveJournal')
@@ -677,7 +769,6 @@ document
 
   });
 
-
 function escapeHtml(value = '') {
 
   return value
@@ -690,7 +781,6 @@ function escapeHtml(value = '') {
 }
 
 renderJournalEntries();
-
 
 // ---------------------------------------------------------
 // ICS WELTEN
@@ -831,7 +921,6 @@ window.addEventListener('beforeinstallprompt', (event) => {
 
 installApp?.addEventListener('click', async () => {
 
-  // Android / Chrome / Edge
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
 
@@ -841,7 +930,6 @@ installApp?.addEventListener('click', async () => {
     return;
   }
 
-  // iPhone / iPad
   const isIOS =
     /iphone|ipad|ipod/i.test(navigator.userAgent);
 
@@ -856,7 +944,6 @@ installApp?.addEventListener('click', async () => {
     return;
   }
 
-  // Falls bereits installiert oder Browser keinen Prompt anbietet
   alert(
     'ICS kann über das Browser-Menü auf deinem Gerät installiert bzw. zum Startbildschirm hinzugefügt werden.'
   );
