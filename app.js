@@ -101,6 +101,14 @@ const openKoerperWahrnehmen = document.getElementById('openKoerperWahrnehmen');
 const backFromKoerperWahrnehmen = document.getElementById('backFromKoerperWahrnehmen');
 const openKoerperWahrnehmenMeditation = document.getElementById('openKoerperWahrnehmenMeditation');
 const backFromKoerperWahrnehmenMeditation = document.getElementById('backFromKoerperWahrnehmenMeditation');
+const openNeueWahrheit = document.getElementById('openNeueWahrheit');
+const backFromNeueWahrheit = document.getElementById('backFromNeueWahrheit');
+const backFromNeueWahrheitDetail = document.getElementById('backFromNeueWahrheitDetail');
+const newTruthGrid = document.getElementById('newTruthGrid');
+const newTruthDetailTitle = document.getElementById('newTruthDetailTitle');
+const newTruthDetailImage = document.getElementById('newTruthDetailImage');
+const newTruthReflection = document.getElementById('newTruthReflection');
+const newTruthIntegration = document.getElementById('newTruthIntegration');
 
 const openMeditations = document.getElementById('openMeditations');
 const backFromMeditations = document.getElementById('backFromMeditations');
@@ -277,6 +285,121 @@ openKoerperWahrnehmenMeditation?.addEventListener('click', () => {
 
 backFromKoerperWahrnehmenMeditation?.addEventListener('click', () => {
   openView('koerperwahrnehmen');
+});
+
+// ---------------------------------------------------------
+// NEUE WAHRHEIT
+// ---------------------------------------------------------
+
+const newTruths = [
+  {
+    image: 'NW_001_Ich_darf_Mensch_sein.png',
+    title: 'Ich darf Mensch sein',
+    reflection: 'Wo darfst du dir heute erlauben, einfach Mensch zu sein?',
+    integration: 'Lege eine Hand auf dein Herz und atme dreimal bewusst ein und aus.'
+  },
+  {
+    image: 'NW_002_Ich_bin_richtig_wertvoll_und_liebevoll.png',
+    title: 'Ich bin richtig, wertvoll und liebevoll',
+    reflection: 'Welche Eigenschaft an dir verdient heute deine Wertschätzung?',
+    integration: 'Nenne dir laut eine Eigenschaft, die du an dir wertschätzt.'
+  },
+  {
+    image: 'NW_003_Ich_darf_wachsen_und_lernen.png',
+    title: 'Ich darf wachsen und lernen',
+    reflection: 'Was darfst du heute noch nicht können und in Ruhe lernen?',
+    integration: 'Notiere einen kleinen Lernschritt, den du heute ausprobieren kannst.'
+  },
+  {
+    image: 'NW_004_Ich_wähle_mich_und_lebe_im_meiner_Wahrheit.png',
+    title: 'Ich wähle mich und lebe in meiner Wahrheit',
+    reflection: 'Bei welcher Entscheidung möchtest du heute ehrlicher zu dir sein?',
+    integration: 'Sage einmal bewusst Nein zu etwas, das heute nicht zu dir passt.'
+  },
+  {
+    image: 'NW_005_Ich_bin_genau_richtig_so_wie_ich_bin.png',
+    title: 'Ich bin genau richtig, so wie ich bin',
+    reflection: 'Welchen Teil von dir versuchst du noch zu verändern, statt ihn anzunehmen?',
+    integration: 'Schau kurz in einen Spiegel und sage: Ich bin genau richtig.'
+  },
+  {
+    image: 'NW_006_Erfolg_darf_leicht_erfüllt_und_im_Einklang_sein.png',
+    title: 'Erfolg darf leicht, erfüllt und im Einklang sein',
+    reflection: 'Wo könnte dein nächster Schritt leichter sein, als du denkst?',
+    integration: 'Vereinfache eine heutige Aufgabe auf den kleinstmöglichen Schritt.'
+  },
+  {
+    image: 'NW_007_Ich-entwickle_meine_Fähigkeiten_jeden_Tag_weiter.png',
+    title: 'Ich entwickle meine Fähigkeiten jeden Tag weiter',
+    reflection: 'Welche Fähigkeit hast du in letzter Zeit bereits weiterentwickelt?',
+    integration: 'Übe diese Fähigkeit jetzt für zwei konzentrierte Minuten.'
+  },
+  {
+    image: 'NW_008__Ich_darf_mir_Hilfe_holen_und_gemeinsam_größer_wachsen.png',
+    title: 'Ich darf mir Hilfe holen und gemeinsam größer wachsen',
+    reflection: 'Wobei würde Unterstützung dir gerade wirklich guttun?',
+    integration: 'Schreibe einer vertrauten Person eine konkrete Bitte um Hilfe.'
+  },
+  {
+    image: 'NW_009_Ich_bin_wertvoll_genau_so_wie_ich_bin.png',
+    title: 'Ich bin wertvoll, genau so wie ich bin',
+    reflection: 'Woran machst du deinen Wert fest, obwohl er längst in dir liegt?',
+    integration: 'Schreibe den Satz „Mein Wert ist nicht verhandelbar“ einmal auf.'
+  },
+  {
+    image: 'NW_010_Ich_nehme_mir_Zeit_für_mich_weil_ich_wichtig_bin.png',
+    title: 'Ich nehme mir Zeit für mich, weil ich wichtig bin',
+    reflection: 'Welchen Moment kannst du heute bewusst nur für dich reservieren?',
+    integration: 'Trage jetzt eine zehnminütige Pause für dich in deinen Tag ein.'
+  }
+];
+
+function openNewTruthDetail(truth) {
+  if (!newTruthDetailTitle || !newTruthDetailImage ||
+      !newTruthReflection || !newTruthIntegration) return;
+
+  newTruthDetailTitle.textContent = truth.title;
+  newTruthDetailImage.src = truth.image;
+  newTruthDetailImage.alt = `Neue Wahrheit: ${truth.title}`;
+  newTruthReflection.textContent = truth.reflection;
+  newTruthIntegration.textContent = truth.integration;
+  openView('neuewahrheitdetail');
+}
+
+newTruths.forEach((truth, index) => {
+  if (!newTruthGrid) return;
+
+  const card = document.createElement('article');
+  card.className = 'premium-card new-truth-card';
+
+  const image = document.createElement('img');
+  image.className = 'new-truth-image';
+  image.src = truth.image;
+  image.alt = `Neue Wahrheit ${index + 1}: ${truth.title}`;
+
+  const title = document.createElement('h2');
+  title.textContent = truth.title;
+
+  const button = document.createElement('button');
+  button.className = 'gold-button';
+  button.type = 'button';
+  button.textContent = 'Wahrheit öffnen';
+  button.addEventListener('click', () => openNewTruthDetail(truth));
+
+  card.append(image, title, button);
+  newTruthGrid.append(card);
+});
+
+openNeueWahrheit?.addEventListener('click', () => {
+  openView('neuewahrheit');
+});
+
+backFromNeueWahrheit?.addEventListener('click', () => {
+  openView('welten');
+});
+
+backFromNeueWahrheitDetail?.addEventListener('click', () => {
+  openView('neuewahrheit');
 });
 
 // ---------------------------------------------------------
@@ -660,6 +783,7 @@ if (
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
   button.id === 'openImpulse' ||
+  button.id === 'openNeueWahrheit' ||
   button.id === 'openInnerImpulse' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
