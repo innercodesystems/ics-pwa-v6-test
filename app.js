@@ -113,6 +113,9 @@ const backFromInnerImpulse = document.getElementById('backFromInnerImpulse');
 const openBodyImpulse = document.getElementById('openBodyImpulse');
 const openActionImpulse = document.getElementById('openActionImpulse');
 const openResetImpulse = document.getElementById('openResetImpulse');
+const backFromBodyImpulse = document.getElementById('backFromBodyImpulse');
+const backFromActionImpulse = document.getElementById('backFromActionImpulse');
+const backFromResetImpulse = document.getElementById('backFromResetImpulse');
 
 const openResetBibliothek = document.getElementById('openResetBibliothek');
 const backFromResetBibliothek = document.getElementById('backFromResetBibliothek');
@@ -155,6 +158,18 @@ openActionImpulse?.addEventListener('click', () => {
 
 openResetImpulse?.addEventListener('click', () => {
   openView('resetimpulse');
+});
+
+backFromBodyImpulse?.addEventListener('click', () => {
+  openView('impulse');
+});
+
+backFromActionImpulse?.addEventListener('click', () => {
+  openView('impulse');
+});
+
+backFromResetImpulse?.addEventListener('click', () => {
+  openView('impulse');
 });
 
 backFromInnerImpulse?.addEventListener('click', () => {
