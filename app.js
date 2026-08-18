@@ -972,3 +972,28 @@ if ('serviceWorker' in navigator) {
   });
 
 }
+
+// ---------------------------------------------------------
+// KONTEXT-AUSWERTUNG
+// ---------------------------------------------------------
+
+icsContentLinks.supportedContexts = ['mentor', 'gegenpol', 'tagesimpuls', 'glaubenssatz'];
+
+function getContextRecommendation(contentId, context) {
+  if (!icsContentLinks.supportedContexts.includes(context)) return null;
+
+  const relatedContent = icsContentLinks.getRelatedContent(contentId, context)[0];
+  if (!relatedContent) return null;
+
+  const sourceIsTruth = relatedContent.relationship.truthId === contentId;
+  const target = sourceIsTruth ? relatedContent.impulse : relatedContent.truth;
+
+  return {
+    sourceId: contentId,
+    targetId: target.id,
+    context,
+    targetType: sourceIsTruth ? 'impulse' : 'truth',
+    title: target.title,
+    targetView: sourceIsTruth ? target.view : 'neuewahrheitdetail'
+  };
+}
