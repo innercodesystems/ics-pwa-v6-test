@@ -361,7 +361,18 @@ const newTruths = [
 // Zentrale interne Verknüpfungsstruktur. Sie ist bewusst unabhängig von
 // sichtbaren Titeln/Dateinamen, damit Mentor, Gegenpol, Tagesimpuls und
 // Glaubenssatz-Logik später stabil darauf zugreifen können.
+const icsEnergyFoundations = [
+  { id: 'FOUND_01', title: 'Tageslicht', order: 1 },
+  { id: 'FOUND_02', title: 'Trinken', order: 2 },
+  { id: 'FOUND_03', title: 'Ernährung & Protein', order: 3 },
+  { id: 'FOUND_04', title: 'Mikro-Bewegung', order: 4 },
+  { id: 'FOUND_05', title: 'Bewegung nach dem Essen', order: 5 },
+  { id: 'FOUND_06', title: 'Kraft & Muskulatur', order: 6 },
+  { id: 'FOUND_07', title: 'Regeneration & Schlaf', order: 7 }
+];
+
 const icsContentLinks = {
+  energyFoundations: icsEnergyFoundations,
   impulses: {
     IMP_001: { id: 'IMP_001', title: 'Du musst nicht alles heute lösen', view: 'actionimpulse' },
     IMP_002: { id: 'IMP_002', title: 'Wie viel ist gerade wirklich möglich?', view: 'bodyimpulse' },
@@ -382,6 +393,9 @@ const icsContentLinks = {
       duration: 1,
       title: 'Kreislauf freundlich aktivieren',
       instruction: 'Richte dich auf. Atme tief ein, strecke dich nach oben und bewege Arme und Schultern für eine Minute locker durch.',
+
+      foundations: ['FOUND_04'],
+
       sourceContentId: 'IMP_002'
     },
     ENG_102: {
@@ -390,6 +404,8 @@ const icsContentLinks = {
       duration: 3,
       title: 'Wasser und Bewegung',
       instruction: 'Trinke bewusst ein Glas Wasser. Stehe danach auf und bewege dich für ein paar Minuten locker im Raum.',
+
+      foundations: ['FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
     ENG_103: {
@@ -398,6 +414,8 @@ const icsContentLinks = {
       duration: 10,
       title: 'Licht, Wasser und Bewegung',
       instruction: 'Trinke ein Glas Wasser. Gehe danach ans Tageslicht und bewege dich einige Minuten in deinem eigenen Tempo. Du musst nichts leisten – nur deinen Kreislauf freundlich einladen.',
+
+      foundations: ['FOUND_01', 'FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
     ENG_201: {
@@ -406,6 +424,8 @@ const icsContentLinks = {
       duration: 1,
       title: 'Spannung lösen',
       instruction: 'Kreise langsam deine Schultern. Löse deinen Kiefer und bewege deinen Nacken sanft von einer Seite zur anderen.',
+
+      foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
     ENG_202: {
@@ -414,6 +434,8 @@ const icsContentLinks = {
       duration: 3,
       title: 'Mikro-Bewegung für deinen Körper',
       instruction: 'Stehe auf, gehe locker auf der Stelle und bewege Schultern, Arme und Hüfte so, dass sich dein Körper etwas freier anfühlt.',
+
+      foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
     ENG_203: {
@@ -422,6 +444,8 @@ const icsContentLinks = {
       duration: 10,
       title: 'Deinen Körper in Bewegung bringen',
       instruction: 'Gehe zehn Minuten in einem angenehmen Tempo. Spüre dabei bewusst deine Füße, deine Atmung und deine Körperhaltung.',
+
+      foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
     ENG_301: {
@@ -430,6 +454,8 @@ const icsContentLinks = {
       duration: 1,
       title: 'Ein bewusster Atemzug nach dem anderen',
       instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+
+      foundations: ['FOUND_07'],
       sourceContentId: 'IMP_001'
     },
     ENG_302: {
@@ -438,6 +464,8 @@ const icsContentLinks = {
       duration: 3,
       title: 'Kopf entlasten',
       instruction: 'Lege dein Handy kurz weg. Schaue aus dem Fenster oder in die Ferne und lasse deinen Blick drei Minuten ruhig werden.',
+
+      foundations: ['FOUND_01', 'FOUND_07'],
       sourceContentId: 'IMP_001'
     },
     ENG_303: {
@@ -446,6 +474,8 @@ const icsContentLinks = {
       duration: 10,
       title: 'Gedanken aus dem Kopf',
       instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+
+      foundations: ['FOUND_07'],
       sourceContentId: 'IMP_001'
     }
   },
@@ -1138,10 +1168,23 @@ function showEnergyStep(stepName) {
   });
   energySteps[stepName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
 function getEnergyFocus(beforeRatings) {
   return ['energy', 'body', 'mind'].reduce((lowestFocus, focus) =>
     beforeRatings[focus] < beforeRatings[lowestFocus] ? focus : lowestFocus
   );
+}
+
+
+function getEnergyFoundationsForImpulse(impulseId) {
+  const foundationIds = icsContentLinks.energyImpulses[impulseId]?.foundations;
+  if (!foundationIds) return [];
+
+  return foundationIds
+    .map((foundationId) => icsContentLinks.energyFoundations
+      .find(({ id }) => id === foundationId))
+    .filter(Boolean)
+    .sort((first, second) => first.order - second.order);
 }
 
 function getEnergyImpulse(beforeRatings, duration) {
@@ -1189,6 +1232,12 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   document.getElementById('energyImpulseTitle').textContent = impulse.title;
   document.getElementById('energyImpulseText').textContent = impulse.instruction;
   document.getElementById('energyImpulseDuration').textContent = `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
+
+  document.getElementById('energyImpulseFoundations').textContent =
+    getEnergyFoundationsForImpulse(impulse.id)
+      .map(({ title }) => title)
+      .join(' · ');
+
   showEnergyStep('impulse');
 });
 

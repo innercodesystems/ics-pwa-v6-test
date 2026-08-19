@@ -886,6 +886,25 @@ textarea:focus {
   font-weight: 700;
 }
 
+.energy-supported {
+  margin: 20px 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212,160,58,.2);
+}
+
+.energy-supported small {
+  color: var(--muted);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.energy-supported p {
+  margin: 7px 0 0;
+  color: var(--gold-light);
+  font-size: .85rem;
+}
+
 .energy-deltas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
