@@ -794,194 +794,25 @@ textarea:focus {
 #toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
-}
-
-/* =========================================================
-   ICS ENERGIE
-   ========================================================= */
-
-.energy-foundations ol {
-  margin: 20px 0 0;
-  padding-left: 22px;
-  columns: 2;
-  color: var(--muted);
-  line-height: 1.9;
-}
-
-.energy-journey[hidden] {
-  display: none;
-}
-
-.energy-ratings {
-  display: grid;
-  gap: 18px;
-  margin: 26px 0;
-}
-
-.energy-ratings label {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px 16px;
-  color: var(--cream);
-  font-weight: 700;
-}
-
-.energy-ratings output {
-  color: var(--gold-light);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.25rem;
-}
-
-.energy-ratings input {
-  grid-column: 1 / -1;
-  width: 100%;
-  accent-color: var(--gold);
-}
-
-.energy-duration,
-.energy-notice {
-  margin: 26px 0;
-  padding: 0;
-  border: 0;
-}
-
-.energy-duration legend,
-.energy-notice legend {
-  margin-bottom: 14px;
-  color: var(--cream);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.15rem;
-}
-
-.energy-duration > div,
-.energy-notice > div {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.energy-choice,
-.energy-notice button {
-  padding: 13px 10px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: var(--black-soft);
-  color: var(--muted);
-}
-
-.energy-choice.active,
-.energy-notice button.active {
-  border-color: var(--gold);
-  color: var(--cream);
-  background: rgba(212,160,58,.12);
-  box-shadow: inset 0 0 0 1px rgba(212,160,58,.22);
-}
-
-.energy-primary {
-  width: 100%;
-}
-
-.energy-time {
-  color: var(--gold);
-  font-weight: 700;
-}
-
-.energy-supported {
-  margin: 20px 0;
-  padding-top: 16px;
-  border-top: 1px solid rgba(212,160,58,.2);
-}
-
-.energy-supported small {
-  color: var(--muted);
-  font-size: .68rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.energy-supported p {
-  margin: 7px 0 0;
-  color: var(--gold-light);
-  font-size: .85rem;
-}
-
-.energy-deltas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 22px 0;
-}
-
-.energy-deltas div {
-  padding: 15px 10px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  text-align: center;
-}
-
-.energy-deltas small,
-.energy-deltas strong {
-  display: block;
-}
-
-.energy-deltas small {
-  margin-bottom: 7px;
-  color: var(--gold);
-}
-
-.energy-back {
-  margin-top: 24px;
-  text-align: center;
-}
-
-/* =========================================================
-   NEUE WAHRHEIT
-   ========================================================= */
-
-.new-truth-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.new-truth-card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.new-truth-card h2 {
-  margin: 0;
-  flex: 1;
-}
-
-.new-truth-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 18px;
-}
-
-.new-truth-detail {
-  display: grid;
-  gap: 28px;
-}
-
-.new-truth-detail section + section {
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-
-.new-truth-back {
-  margin-top: 24px;
-  text-align: center;
-}
 
 /* =========================================================
    MOBILE
    ========================================================= */
 
 @media (max-width: 600px) {
+
+  .energy-foundations ol {
+    columns: 1;
+  }
+
+  .energy-duration > div,
+  .energy-deltas {
+    grid-template-columns: 1fr;
+  }
+
+  .energy-notice > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .energy-foundations ol {
     columns: 1;

@@ -1138,6 +1138,9 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
+
+const energyHistoryKey = 'ICS_ENERGY_HISTORY';
+const energyHistoryLimit = 100;
 const energySteps = {
   check: document.getElementById('energyCheckStep'),
   impulse: document.getElementById('energyImpulseStep'),
@@ -1150,8 +1153,91 @@ const energyJourneyState = {
   before: {},
   after: {},
   noticedAt: null,
-  linkedRecommendation: null
+
+  linkedRecommendation: null,
+  completedRecordId: null
 };
+
+function isValidEnergyHistoryRecord(record) {
+  const ratingKeys = ['energy', 'body', 'mind'];
+  return Boolean(
+    record &&
+    typeof record.id === 'string' &&
+    typeof record.createdAt === 'string' &&
+    ratingKeys.every((key) => Number.isFinite(record.before?.[key])) &&
+    ratingKeys.every((key) => Number.isFinite(record.after?.[key])) &&
+    ratingKeys.every((key) => Number.isFinite(record.delta?.[key])) &&
+    ['energy', 'body', 'mind'].includes(record.focus) &&
+    [1, 3, 10].includes(record.duration) &&
+    typeof record.impulseId === 'string' &&
+    typeof record.impulseTitle === 'string' &&
+    Boolean(icsContentLinks.energyImpulses[record.impulseId]) &&
+    Array.isArray(record.foundations) &&
+    record.foundations.length > 0 &&
+    record.foundations.every((foundationId) =>
+      icsContentLinks.energyFoundations.some(({ id }) => id === foundationId)) &&
+    typeof record.noticedAt === 'string'
+  );
+}
+
+function getEnergyHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem(energyHistoryKey) || '[]');
+    return Array.isArray(history) && history.every(isValidEnergyHistoryRecord)
+      ? history
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveEnergyCheck(record) {
+  if (!isValidEnergyHistoryRecord(record)) return false;
+
+  const history = getEnergyHistory();
+  if (history.some(({ id }) => id === record.id)) return false;
+
+  try {
+    localStorage.setItem(
+      energyHistoryKey,
+      JSON.stringify([record, ...history].slice(0, energyHistoryLimit))
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function createEnergyCheckRecord() {
+  const impulse = icsContentLinks.energyImpulses[energyJourneyState.impulseId];
+  const ratingKeys = ['energy', 'body', 'mind'];
+  const hasCompleteRatings = ['before', 'after'].every((phase) =>
+    ratingKeys.every((key) => Number.isFinite(energyJourneyState[phase][key]))
+  );
+
+  if (!impulse || !energyJourneyState.noticedAt || !hasCompleteRatings) return null;
+
+  const delta = Object.fromEntries(ratingKeys.map((key) => [
+    key,
+    energyJourneyState.after[key] - energyJourneyState.before[key]
+  ]));
+  const uniquePart = globalThis.crypto?.randomUUID?.()
+    || Math.random().toString(36).slice(2);
+
+  return {
+    id: `ENERGY_${Date.now()}_${uniquePart}`,
+    createdAt: new Date().toISOString(),
+    before: { ...energyJourneyState.before },
+    after: { ...energyJourneyState.after },
+    delta,
+    focus: getEnergyFocus(energyJourneyState.before),
+    duration: energyJourneyState.duration,
+    impulseId: impulse.id,
+    impulseTitle: impulse.title,
+    foundations: [...impulse.foundations],
+    noticedAt: energyJourneyState.noticedAt
+  };
+}
 
 function readEnergyRatings(phase) {
   const suffix = phase === 'before' ? 'Before' : 'After';
@@ -1174,7 +1260,6 @@ function getEnergyFocus(beforeRatings) {
     beforeRatings[focus] < beforeRatings[lowestFocus] ? focus : lowestFocus
   );
 }
-
 
 function getEnergyFoundationsForImpulse(impulseId) {
   const foundationIds = icsContentLinks.energyImpulses[impulseId]?.foundations;
@@ -1263,6 +1348,10 @@ document.querySelectorAll('[data-energy-notice]').forEach((button) => {
 });
 
 document.getElementById('completeEnergyCheck')?.addEventListener('click', () => {
+
+  if (energyJourneyState.completedRecordId) return;
+
+
   energyJourneyState.after = readEnergyRatings('after');
   const labels = { energy: 'Energie', body: 'Körper', mind: 'Kopf' };
   const deltas = document.getElementById('energyDeltas');
@@ -1281,6 +1370,13 @@ document.getElementById('completeEnergyCheck')?.addEventListener('click', () => 
 
   document.getElementById('energyNoticeResult').textContent =
     `Zuerst bemerkt: ${energyJourneyState.noticedAt}`;
+
+
+  const record = createEnergyCheckRecord();
+  if (record && saveEnergyCheck(record)) {
+    energyJourneyState.completedRecordId = record.id;
+  }
+
   showEnergyStep('result');
 });
 
@@ -1290,6 +1386,8 @@ function resetEnergyJourney() {
   energyJourneyState.after = {};
   energyJourneyState.noticedAt = null;
   energyJourneyState.linkedRecommendation = null;
+  energyJourneyState.completedRecordId = null;
+
   document.querySelectorAll('[data-energy-notice]').forEach((choice) => choice.classList.remove('active'));
   document.getElementById('completeEnergyCheck').disabled = true;
   showEnergyStep('check');
