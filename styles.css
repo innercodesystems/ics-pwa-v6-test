@@ -798,7 +798,45 @@ textarea:focus {
 /* =========================================================
    MOBILE
    ========================================================= */
+.energy-duration,
+.energy-notice {
+  margin: 26px 0;
+  padding: 0;
+  border: 0;
+}
 
+.energy-duration legend,
+.energy-notice legend {
+  margin-bottom: 14px;
+  color: var(--cream);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.energy-duration > div,
+.energy-notice > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.energy-choice,
+.energy-notice button {
+  padding: 13px 10px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--black-soft);
+  color: var(--muted);
+}
+
+.energy-choice.active,
+.energy-notice button.active {
+  border-color: var(--gold);
+  color: var(--cream);
+  background: rgba(212,160,58,.12);
+  box-shadow: inset 0 0 0 1px rgba(212,160,58,.22);
+}
+   
 @media (max-width: 600px) {
 
   .energy-foundations ol {
