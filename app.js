@@ -375,26 +375,78 @@ const icsContentLinks = {
     IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
   },
   energyImpulses: {
-    ENG_001: {
-      id: 'ENG_001',
+
+    ENG_101: {
+      id: 'ENG_101',
+      focus: 'energy',
       duration: 1,
-      title: 'Ein bewusster Atemzug nach dem anderen',
-      instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+      title: 'Kreislauf freundlich aktivieren',
+      instruction: 'Richte dich auf. Atme tief ein, strecke dich nach oben und bewege Arme und Schultern für eine Minute locker durch.',
       sourceContentId: 'IMP_002'
     },
-    ENG_002: {
-      id: 'ENG_002',
+    ENG_102: {
+      id: 'ENG_102',
+      focus: 'energy',
       duration: 3,
-      title: 'Mikro-Bewegung für neue Energie',
-      instruction: 'Stehe auf, kreise deine Schultern und gehe locker auf der Stelle. Bewege dich so, dass dein Atem frei bleibt und dein Körper wach werden darf.',
+      title: 'Wasser und Bewegung',
+      instruction: 'Trinke bewusst ein Glas Wasser. Stehe danach auf und bewege dich für ein paar Minuten locker im Raum.',
       sourceContentId: 'IMP_002'
     },
-    ENG_003: {
-      id: 'ENG_003',
+    ENG_103: {
+      id: 'ENG_103',
+      focus: 'energy',
       duration: 10,
       title: 'Licht, Wasser und Bewegung',
       instruction: 'Trinke ein Glas Wasser. Gehe danach ans Tageslicht und bewege dich einige Minuten in deinem eigenen Tempo. Du musst nichts leisten – nur deinen Kreislauf freundlich einladen.',
       sourceContentId: 'IMP_002'
+    },
+    ENG_201: {
+      id: 'ENG_201',
+      focus: 'body',
+      duration: 1,
+      title: 'Spannung lösen',
+      instruction: 'Kreise langsam deine Schultern. Löse deinen Kiefer und bewege deinen Nacken sanft von einer Seite zur anderen.',
+      sourceContentId: 'IMP_002'
+    },
+    ENG_202: {
+      id: 'ENG_202',
+      focus: 'body',
+      duration: 3,
+      title: 'Mikro-Bewegung für deinen Körper',
+      instruction: 'Stehe auf, gehe locker auf der Stelle und bewege Schultern, Arme und Hüfte so, dass sich dein Körper etwas freier anfühlt.',
+      sourceContentId: 'IMP_002'
+    },
+    ENG_203: {
+      id: 'ENG_203',
+      focus: 'body',
+      duration: 10,
+      title: 'Deinen Körper in Bewegung bringen',
+      instruction: 'Gehe zehn Minuten in einem angenehmen Tempo. Spüre dabei bewusst deine Füße, deine Atmung und deine Körperhaltung.',
+      sourceContentId: 'IMP_002'
+    },
+    ENG_301: {
+      id: 'ENG_301',
+      focus: 'mind',
+      duration: 1,
+      title: 'Ein bewusster Atemzug nach dem anderen',
+      instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+      sourceContentId: 'IMP_001'
+    },
+    ENG_302: {
+      id: 'ENG_302',
+      focus: 'mind',
+      duration: 3,
+      title: 'Kopf entlasten',
+      instruction: 'Lege dein Handy kurz weg. Schaue aus dem Fenster oder in die Ferne und lasse deinen Blick drei Minuten ruhig werden.',
+      sourceContentId: 'IMP_001'
+    },
+    ENG_303: {
+      id: 'ENG_303',
+      focus: 'mind',
+      duration: 10,
+      title: 'Gedanken aus dem Kopf',
+      instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+      sourceContentId: 'IMP_001'
     }
   },
   relationships: [
@@ -1050,7 +1102,6 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
   return null;
 }
 
-
 // ---------------------------------------------------------
 // ICS ENERGIE
 // ---------------------------------------------------------
@@ -1087,10 +1138,16 @@ function showEnergyStep(stepName) {
   });
   energySteps[stepName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+function getEnergyFocus(beforeRatings) {
+  return ['energy', 'body', 'mind'].reduce((lowestFocus, focus) =>
+    beforeRatings[focus] < beforeRatings[lowestFocus] ? focus : lowestFocus
+  );
+}
 
-function getEnergyImpulse(duration) {
+function getEnergyImpulse(beforeRatings, duration) {
+  const focus = getEnergyFocus(beforeRatings);
   const impulse = Object.values(icsContentLinks.energyImpulses)
-    .find((item) => item.duration === duration);
+    .find((item) => item.focus === focus && item.duration === duration);
   if (!impulse) return null;
 
   return {
@@ -1121,10 +1178,11 @@ document.querySelectorAll('[data-energy-duration]').forEach((button) => {
 });
 
 document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
-  const impulse = getEnergyImpulse(energyJourneyState.duration);
+  const beforeRatings = readEnergyRatings('before');
+  const impulse = getEnergyImpulse(beforeRatings, energyJourneyState.duration);
   if (!impulse) return;
 
-  energyJourneyState.before = readEnergyRatings('before');
+  energyJourneyState.before = beforeRatings;
   energyJourneyState.impulseId = impulse.id;
   energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
   document.getElementById('energyImpulseId').textContent = `ENERGIE-IMPULS · ${impulse.id}`;
