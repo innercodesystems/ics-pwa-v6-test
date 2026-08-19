@@ -386,13 +386,16 @@ const icsContentLinks = {
     IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
   },
   energyImpulses: {
+
     ENG_101: {
       id: 'ENG_101',
       focus: 'energy',
       duration: 1,
       title: 'Kreislauf freundlich aktivieren',
       instruction: 'Richte dich auf. Atme tief ein, strecke dich nach oben und bewege Arme und Schultern für eine Minute locker durch.',
+
       foundations: ['FOUND_04'],
+
       sourceContentId: 'IMP_002'
     },
     ENG_102: {
@@ -401,6 +404,7 @@ const icsContentLinks = {
       duration: 3,
       title: 'Wasser und Bewegung',
       instruction: 'Trinke bewusst ein Glas Wasser. Stehe danach auf und bewege dich für ein paar Minuten locker im Raum.',
+
       foundations: ['FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
@@ -410,6 +414,7 @@ const icsContentLinks = {
       duration: 10,
       title: 'Licht, Wasser und Bewegung',
       instruction: 'Trinke ein Glas Wasser. Gehe danach ans Tageslicht und bewege dich einige Minuten in deinem eigenen Tempo. Du musst nichts leisten – nur deinen Kreislauf freundlich einladen.',
+
       foundations: ['FOUND_01', 'FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
@@ -419,6 +424,7 @@ const icsContentLinks = {
       duration: 1,
       title: 'Spannung lösen',
       instruction: 'Kreise langsam deine Schultern. Löse deinen Kiefer und bewege deinen Nacken sanft von einer Seite zur anderen.',
+
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
@@ -428,6 +434,7 @@ const icsContentLinks = {
       duration: 3,
       title: 'Mikro-Bewegung für deinen Körper',
       instruction: 'Stehe auf, gehe locker auf der Stelle und bewege Schultern, Arme und Hüfte so, dass sich dein Körper etwas freier anfühlt.',
+
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
@@ -437,6 +444,7 @@ const icsContentLinks = {
       duration: 10,
       title: 'Deinen Körper in Bewegung bringen',
       instruction: 'Gehe zehn Minuten in einem angenehmen Tempo. Spüre dabei bewusst deine Füße, deine Atmung und deine Körperhaltung.',
+
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
@@ -446,6 +454,7 @@ const icsContentLinks = {
       duration: 1,
       title: 'Ein bewusster Atemzug nach dem anderen',
       instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+
       foundations: ['FOUND_07'],
       sourceContentId: 'IMP_001'
     },
@@ -455,6 +464,7 @@ const icsContentLinks = {
       duration: 3,
       title: 'Kopf entlasten',
       instruction: 'Lege dein Handy kurz weg. Schaue aus dem Fenster oder in die Ferne und lasse deinen Blick drei Minuten ruhig werden.',
+
       foundations: ['FOUND_01', 'FOUND_07'],
       sourceContentId: 'IMP_001'
     },
@@ -464,6 +474,7 @@ const icsContentLinks = {
       duration: 10,
       title: 'Gedanken aus dem Kopf',
       instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+
       foundations: ['FOUND_07'],
       sourceContentId: 'IMP_001'
     }
@@ -1164,6 +1175,7 @@ function getEnergyFocus(beforeRatings) {
   );
 }
 
+
 function getEnergyFoundationsForImpulse(impulseId) {
   const foundationIds = icsContentLinks.energyImpulses[impulseId]?.foundations;
   if (!foundationIds) return [];
@@ -1220,10 +1232,12 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   document.getElementById('energyImpulseTitle').textContent = impulse.title;
   document.getElementById('energyImpulseText').textContent = impulse.instruction;
   document.getElementById('energyImpulseDuration').textContent = `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
+
   document.getElementById('energyImpulseFoundations').textContent =
     getEnergyFoundationsForImpulse(impulse.id)
       .map(({ title }) => title)
       .join(' · ');
+
   showEnergyStep('impulse');
 });
 
