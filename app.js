@@ -375,6 +375,7 @@ const icsContentLinks = {
     IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
   },
   energyImpulses: {
+
     ENG_101: {
       id: 'ENG_101',
       focus: 'energy',
@@ -1137,7 +1138,6 @@ function showEnergyStep(stepName) {
   });
   energySteps[stepName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-
 function getEnergyFocus(beforeRatings) {
   return ['energy', 'body', 'mind'].reduce((lowestFocus, focus) =>
     beforeRatings[focus] < beforeRatings[lowestFocus] ? focus : lowestFocus
