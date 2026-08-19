@@ -644,6 +644,15 @@
     <b>›</b>
   </button>
 
+  <button class="menu-card" id="openIcsEnergy">
+    <div>
+      <small>WAHRNEHMEN · AKTIVIEREN · VERGLEICHEN</small>
+      <strong>ICS Energie</strong>
+      <p>Prüfe deinen Zustand und wähle einen Schritt, der jetzt wirklich möglich ist.</p>
+    </div>
+    <b>›</b>
+  </button>
+
 </section>
 
 </section> <!-- ENDE view-welten -->
@@ -693,6 +702,102 @@
 
   <div class="new-truth-back">
     <button class="gold-button" id="backFromNeueWahrheitDetail">← Zurück zu Neue Wahrheit</button>
+  </div>
+</section>
+
+<!-- =========================
+     ICS ENERGIE
+========================== -->
+<section class="app-view" id="view-icsenergy">
+  <div class="view-header">
+    <p class="section-kicker">ICS ENERGIE</p>
+    <h1>Wie viel ist gerade wirklich möglich?</h1>
+    <p>Erst wahrnehmen. Dann einen passenden kleinen Schritt wählen.</p>
+  </div>
+
+  <section class="premium-card energy-foundations">
+    <p class="section-kicker">ICS ENERGIE-BASIS</p>
+    <h2>7 Grundlagen</h2>
+    <ol>
+      <li>Tageslicht</li>
+      <li>Trinken</li>
+      <li>Ernährung &amp; Protein</li>
+      <li>Mikro-Bewegung</li>
+      <li>Bewegung nach dem Essen</li>
+      <li>Kraft &amp; Muskulatur</li>
+      <li>Regeneration &amp; Schlaf</li>
+    </ol>
+  </section>
+
+  <section class="premium-card energy-journey" id="energyCheckStep">
+    <p class="section-kicker">ENERGIE-CHECK · VORHER</p>
+    <h2>Wie geht es dir gerade?</h2>
+    <div class="energy-ratings" data-rating-phase="before">
+      <label>Energie <output for="energyBefore">5</output><input id="energyBefore" type="range" min="0" max="10" value="5"></label>
+      <label>Körper <output for="bodyBefore">5</output><input id="bodyBefore" type="range" min="0" max="10" value="5"></label>
+      <label>Kopf <output for="mindBefore">5</output><input id="mindBefore" type="range" min="0" max="10" value="5"></label>
+    </div>
+
+    <fieldset class="energy-duration">
+      <legend>Wie viel ist gerade wirklich möglich?</legend>
+      <div>
+        <button type="button" class="energy-choice active" data-energy-duration="1" aria-pressed="true">1 Minute</button>
+        <button type="button" class="energy-choice" data-energy-duration="3" aria-pressed="false">3 Minuten</button>
+        <button type="button" class="energy-choice" data-energy-duration="10" aria-pressed="false">10 Minuten</button>
+      </div>
+    </fieldset>
+
+    <button class="gold-button energy-primary" id="startEnergyImpulse">Passenden Impuls starten</button>
+  </section>
+
+  <section class="premium-card energy-journey" id="energyImpulseStep" hidden>
+    <p class="section-kicker" id="energyImpulseId">ENERGIE-IMPULS</p>
+    <h2 id="energyImpulseTitle"></h2>
+    <p id="energyImpulseText"></p>
+    <p class="energy-time" id="energyImpulseDuration"></p>
+    <div class="energy-supported">
+      <small>Unterstützt heute:</small>
+      <p id="energyImpulseFoundations"></p>
+    </div>
+    <button class="gold-button energy-primary" id="finishEnergyImpulse">Impuls abgeschlossen</button>
+  </section>
+
+  <section class="premium-card energy-journey" id="energyAfterStep" hidden>
+    <p class="section-kicker">ENERGIE-CHECK · NACHHER</p>
+    <h2>Was nimmst du jetzt wahr?</h2>
+    <div class="energy-ratings" data-rating-phase="after">
+      <label>Energie <output for="energyAfter">5</output><input id="energyAfter" type="range" min="0" max="10" value="5"></label>
+      <label>Körper <output for="bodyAfter">5</output><input id="bodyAfter" type="range" min="0" max="10" value="5"></label>
+      <label>Kopf <output for="mindAfter">5</output><input id="mindAfter" type="range" min="0" max="10" value="5"></label>
+    </div>
+
+    <fieldset class="energy-notice">
+      <legend>Wo hast du die Veränderung zuerst bemerkt?</legend>
+      <div>
+        <button type="button" data-energy-notice="Kopf">Kopf</button>
+        <button type="button" data-energy-notice="Brust">Brust</button>
+        <button type="button" data-energy-notice="Bauch">Bauch</button>
+        <button type="button" data-energy-notice="Atmung">Atmung</button>
+        <button type="button" data-energy-notice="Muskeln">Muskeln</button>
+        <button type="button" data-energy-notice="Wärme/Kälte">Wärme/Kälte</button>
+        <button type="button" data-energy-notice="Stimmung">Stimmung</button>
+        <button type="button" data-energy-notice="Noch nichts">Noch nichts</button>
+      </div>
+    </fieldset>
+
+    <button class="gold-button energy-primary" id="completeEnergyCheck" disabled>Veränderung festhalten</button>
+  </section>
+
+  <section class="premium-card energy-journey energy-result" id="energyResultStep" hidden>
+    <p class="section-kicker">DEINE WAHRNEHMUNG</p>
+    <h2>Dein Vorher/Nachher</h2>
+    <div class="energy-deltas" id="energyDeltas"></div>
+    <p id="energyNoticeResult"></p>
+    <button class="gold-button energy-primary" id="restartEnergyCheck">Energie-Check wiederholen</button>
+  </section>
+
+  <div class="energy-back">
+    <button class="gold-button" id="backFromIcsEnergy">← Zurück zu Welten</button>
   </div>
 </section>
 
