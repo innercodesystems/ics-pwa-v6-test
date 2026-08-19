@@ -374,6 +374,29 @@ const icsContentLinks = {
     IMP_009: { id: 'IMP_009', title: 'Nicht alles muss perfekt sein', view: 'resetimpulse' },
     IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
   },
+  energyImpulses: {
+    ENG_001: {
+      id: 'ENG_001',
+      duration: 1,
+      title: 'Ein bewusster Atemzug nach dem anderen',
+      instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+      sourceContentId: 'IMP_002'
+    },
+    ENG_002: {
+      id: 'ENG_002',
+      duration: 3,
+      title: 'Mikro-Bewegung für neue Energie',
+      instruction: 'Stehe auf, kreise deine Schultern und gehe locker auf der Stelle. Bewege dich so, dass dein Atem frei bleibt und dein Körper wach werden darf.',
+      sourceContentId: 'IMP_002'
+    },
+    ENG_003: {
+      id: 'ENG_003',
+      duration: 10,
+      title: 'Licht, Wasser und Bewegung',
+      instruction: 'Trinke ein Glas Wasser. Gehe danach ans Tageslicht und bewege dich einige Minuten in deinem eigenen Tempo. Du musst nichts leisten – nur deinen Kreislauf freundlich einladen.',
+      sourceContentId: 'IMP_002'
+    }
+  },
   relationships: [
     { truthId: 'NW_001', impulseId: 'IMP_009', contexts: ['mentor', 'gegenpol', 'tagesimpuls', 'glaubenssatz'] },
     { truthId: 'NW_002', impulseId: 'IMP_005', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
@@ -874,6 +897,7 @@ if (
   button.id === 'openMeditations' ||
   button.id === 'openImpulse' ||
   button.id === 'openNeueWahrheit' ||
+  button.id === 'openIcsEnergy' ||
   button.id === 'openInnerImpulse' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
@@ -997,3 +1021,175 @@ function getContextRecommendation(contentId, context) {
     targetView: sourceIsTruth ? target.view : 'neuewahrheitdetail'
   };
 }
+
+function getIcsRecommendation({ contentId, context } = {}) {
+  const recommendation = getContextRecommendation(contentId, context);
+  if (!recommendation) return null;
+
+  return {
+    sourceId: recommendation.sourceId,
+    context: recommendation.context,
+    targetId: recommendation.targetId,
+    targetType: recommendation.targetType,
+    title: recommendation.title,
+    targetView: recommendation.targetView,
+    reason: recommendation.context
+  };
+}
+
+function getBestIcsRecommendation(contentId, preferredContexts = []) {
+  const contexts = Array.isArray(preferredContexts) && preferredContexts.length
+    ? preferredContexts
+    : icsContentLinks.supportedContexts;
+
+  for (const context of contexts) {
+    const recommendation = getIcsRecommendation({ contentId, context });
+    if (recommendation) return recommendation;
+  }
+
+  return null;
+}
+
+// ---------------------------------------------------------
+// ICS ENERGIE
+// ---------------------------------------------------------
+
+const openIcsEnergy = document.getElementById('openIcsEnergy');
+const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
+const energySteps = {
+  check: document.getElementById('energyCheckStep'),
+  impulse: document.getElementById('energyImpulseStep'),
+  after: document.getElementById('energyAfterStep'),
+  result: document.getElementById('energyResultStep')
+};
+const energyJourneyState = {
+  duration: 1,
+  impulseId: null,
+  before: {},
+  after: {},
+  noticedAt: null,
+  linkedRecommendation: null
+};
+
+function readEnergyRatings(phase) {
+  const suffix = phase === 'before' ? 'Before' : 'After';
+  return {
+    energy: Number(document.getElementById(`energy${suffix}`).value),
+    body: Number(document.getElementById(`body${suffix}`).value),
+    mind: Number(document.getElementById(`mind${suffix}`).value)
+  };
+}
+
+function showEnergyStep(stepName) {
+  Object.entries(energySteps).forEach(([name, step]) => {
+    step.hidden = name !== stepName;
+  });
+  energySteps[stepName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function getEnergyImpulse(duration) {
+  const impulse = Object.values(icsContentLinks.energyImpulses)
+    .find((item) => item.duration === duration);
+  if (!impulse) return null;
+
+  return {
+    ...impulse,
+    linkedRecommendation: getBestIcsRecommendation(
+      impulse.sourceContentId,
+      ['tagesimpuls', 'mentor']
+    )
+  };
+}
+
+document.querySelectorAll('.energy-ratings input').forEach((range) => {
+  range.addEventListener('input', () => {
+    const output = range.closest('label')?.querySelector('output');
+    if (output) output.value = range.value;
+  });
+});
+
+document.querySelectorAll('[data-energy-duration]').forEach((button) => {
+  button.addEventListener('click', () => {
+    energyJourneyState.duration = Number(button.dataset.energyDuration);
+    document.querySelectorAll('[data-energy-duration]').forEach((choice) => {
+      const selected = choice === button;
+      choice.classList.toggle('active', selected);
+      choice.setAttribute('aria-pressed', String(selected));
+    });
+  });
+});
+
+document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
+  const impulse = getEnergyImpulse(energyJourneyState.duration);
+  if (!impulse) return;
+
+  energyJourneyState.before = readEnergyRatings('before');
+  energyJourneyState.impulseId = impulse.id;
+  energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
+  document.getElementById('energyImpulseId').textContent = `ENERGIE-IMPULS · ${impulse.id}`;
+  document.getElementById('energyImpulseTitle').textContent = impulse.title;
+  document.getElementById('energyImpulseText').textContent = impulse.instruction;
+  document.getElementById('energyImpulseDuration').textContent = `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
+  showEnergyStep('impulse');
+});
+
+document.getElementById('finishEnergyImpulse')?.addEventListener('click', () => {
+  const values = energyJourneyState.before;
+  [['energyAfter', values.energy], ['bodyAfter', values.body], ['mindAfter', values.mind]]
+    .forEach(([id, value]) => {
+      const range = document.getElementById(id);
+      range.value = value;
+      range.closest('label').querySelector('output').value = value;
+    });
+  showEnergyStep('after');
+});
+
+document.querySelectorAll('[data-energy-notice]').forEach((button) => {
+  button.addEventListener('click', () => {
+    energyJourneyState.noticedAt = button.dataset.energyNotice;
+    document.querySelectorAll('[data-energy-notice]').forEach((choice) => {
+      choice.classList.toggle('active', choice === button);
+    });
+    document.getElementById('completeEnergyCheck').disabled = false;
+  });
+});
+
+document.getElementById('completeEnergyCheck')?.addEventListener('click', () => {
+  energyJourneyState.after = readEnergyRatings('after');
+  const labels = { energy: 'Energie', body: 'Körper', mind: 'Kopf' };
+  const deltas = document.getElementById('energyDeltas');
+  deltas.replaceChildren();
+
+  Object.keys(labels).forEach((key) => {
+    const change = energyJourneyState.after[key] - energyJourneyState.before[key];
+    const item = document.createElement('div');
+    const label = document.createElement('small');
+    const value = document.createElement('strong');
+    label.textContent = labels[key];
+    value.textContent = `${energyJourneyState.before[key]} → ${energyJourneyState.after[key]} (${change > 0 ? '+' : ''}${change})`;
+    item.append(label, value);
+    deltas.append(item);
+  });
+
+  document.getElementById('energyNoticeResult').textContent =
+    `Zuerst bemerkt: ${energyJourneyState.noticedAt}`;
+  showEnergyStep('result');
+});
+
+function resetEnergyJourney() {
+  energyJourneyState.impulseId = null;
+  energyJourneyState.before = {};
+  energyJourneyState.after = {};
+  energyJourneyState.noticedAt = null;
+  energyJourneyState.linkedRecommendation = null;
+  document.querySelectorAll('[data-energy-notice]').forEach((choice) => choice.classList.remove('active'));
+  document.getElementById('completeEnergyCheck').disabled = true;
+  showEnergyStep('check');
+}
+
+document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
+openIcsEnergy?.addEventListener('click', () => {
+  openView('icsenergy');
+  resetEnergyJourney();
+});
+backFromIcsEnergy?.addEventListener('click', () => openView('welten'));
