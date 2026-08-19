@@ -1050,6 +1050,7 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
   return null;
 }
 
+
 // ---------------------------------------------------------
 // ICS ENERGIE
 // ---------------------------------------------------------
