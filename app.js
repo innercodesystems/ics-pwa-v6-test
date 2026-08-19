@@ -361,7 +361,18 @@ const newTruths = [
 // Zentrale interne Verknüpfungsstruktur. Sie ist bewusst unabhängig von
 // sichtbaren Titeln/Dateinamen, damit Mentor, Gegenpol, Tagesimpuls und
 // Glaubenssatz-Logik später stabil darauf zugreifen können.
+const icsEnergyFoundations = [
+  { id: 'FOUND_01', title: 'Tageslicht', order: 1 },
+  { id: 'FOUND_02', title: 'Trinken', order: 2 },
+  { id: 'FOUND_03', title: 'Ernährung & Protein', order: 3 },
+  { id: 'FOUND_04', title: 'Mikro-Bewegung', order: 4 },
+  { id: 'FOUND_05', title: 'Bewegung nach dem Essen', order: 5 },
+  { id: 'FOUND_06', title: 'Kraft & Muskulatur', order: 6 },
+  { id: 'FOUND_07', title: 'Regeneration & Schlaf', order: 7 }
+];
+
 const icsContentLinks = {
+  energyFoundations: icsEnergyFoundations,
   impulses: {
     IMP_001: { id: 'IMP_001', title: 'Du musst nicht alles heute lösen', view: 'actionimpulse' },
     IMP_002: { id: 'IMP_002', title: 'Wie viel ist gerade wirklich möglich?', view: 'bodyimpulse' },
@@ -373,6 +384,89 @@ const icsContentLinks = {
     IMP_008: { id: 'IMP_008', title: 'Vergleich dich nicht – dein Weg ist einzigartig', view: 'innerimpulse' },
     IMP_009: { id: 'IMP_009', title: 'Nicht alles muss perfekt sein', view: 'resetimpulse' },
     IMP_010: { id: 'IMP_010', title: 'Du bist nicht zu spät', view: 'innerimpulse' }
+  },
+  energyImpulses: {
+    ENG_101: {
+      id: 'ENG_101',
+      focus: 'energy',
+      duration: 1,
+      title: 'Kreislauf freundlich aktivieren',
+      instruction: 'Richte dich auf. Atme tief ein, strecke dich nach oben und bewege Arme und Schultern für eine Minute locker durch.',
+      foundations: ['FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_102: {
+      id: 'ENG_102',
+      focus: 'energy',
+      duration: 3,
+      title: 'Wasser und Bewegung',
+      instruction: 'Trinke bewusst ein Glas Wasser. Stehe danach auf und bewege dich für ein paar Minuten locker im Raum.',
+      foundations: ['FOUND_02', 'FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_103: {
+      id: 'ENG_103',
+      focus: 'energy',
+      duration: 10,
+      title: 'Licht, Wasser und Bewegung',
+      instruction: 'Trinke ein Glas Wasser. Gehe danach ans Tageslicht und bewege dich einige Minuten in deinem eigenen Tempo. Du musst nichts leisten – nur deinen Kreislauf freundlich einladen.',
+      foundations: ['FOUND_01', 'FOUND_02', 'FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_201: {
+      id: 'ENG_201',
+      focus: 'body',
+      duration: 1,
+      title: 'Spannung lösen',
+      instruction: 'Kreise langsam deine Schultern. Löse deinen Kiefer und bewege deinen Nacken sanft von einer Seite zur anderen.',
+      foundations: ['FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_202: {
+      id: 'ENG_202',
+      focus: 'body',
+      duration: 3,
+      title: 'Mikro-Bewegung für deinen Körper',
+      instruction: 'Stehe auf, gehe locker auf der Stelle und bewege Schultern, Arme und Hüfte so, dass sich dein Körper etwas freier anfühlt.',
+      foundations: ['FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_203: {
+      id: 'ENG_203',
+      focus: 'body',
+      duration: 10,
+      title: 'Deinen Körper in Bewegung bringen',
+      instruction: 'Gehe zehn Minuten in einem angenehmen Tempo. Spüre dabei bewusst deine Füße, deine Atmung und deine Körperhaltung.',
+      foundations: ['FOUND_04'],
+      sourceContentId: 'IMP_002'
+    },
+    ENG_301: {
+      id: 'ENG_301',
+      focus: 'mind',
+      duration: 1,
+      title: 'Ein bewusster Atemzug nach dem anderen',
+      instruction: 'Richte dich auf. Atme sechsmal ruhig durch die Nase ein und langsam durch den Mund aus. Lass mit jedem Ausatmen die Schultern etwas sinken.',
+      foundations: ['FOUND_07'],
+      sourceContentId: 'IMP_001'
+    },
+    ENG_302: {
+      id: 'ENG_302',
+      focus: 'mind',
+      duration: 3,
+      title: 'Kopf entlasten',
+      instruction: 'Lege dein Handy kurz weg. Schaue aus dem Fenster oder in die Ferne und lasse deinen Blick drei Minuten ruhig werden.',
+      foundations: ['FOUND_01', 'FOUND_07'],
+      sourceContentId: 'IMP_001'
+    },
+    ENG_303: {
+      id: 'ENG_303',
+      focus: 'mind',
+      duration: 10,
+      title: 'Gedanken aus dem Kopf',
+      instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+      foundations: ['FOUND_07'],
+      sourceContentId: 'IMP_001'
+    }
   },
   relationships: [
     { truthId: 'NW_001', impulseId: 'IMP_009', contexts: ['mentor', 'gegenpol', 'tagesimpuls', 'glaubenssatz'] },
@@ -874,6 +968,7 @@ if (
   button.id === 'openMeditations' ||
   button.id === 'openImpulse' ||
   button.id === 'openNeueWahrheit' ||
+  button.id === 'openIcsEnergy' ||
   button.id === 'openInnerImpulse' ||
   button.id === 'openResetBibliothek' ||
   button.id === 'openResetMeditation' ||
@@ -997,3 +1092,291 @@ function getContextRecommendation(contentId, context) {
     targetView: sourceIsTruth ? target.view : 'neuewahrheitdetail'
   };
 }
+
+function getIcsRecommendation({ contentId, context } = {}) {
+  const recommendation = getContextRecommendation(contentId, context);
+  if (!recommendation) return null;
+
+  return {
+    sourceId: recommendation.sourceId,
+    context: recommendation.context,
+    targetId: recommendation.targetId,
+    targetType: recommendation.targetType,
+    title: recommendation.title,
+    targetView: recommendation.targetView,
+    reason: recommendation.context
+  };
+}
+
+function getBestIcsRecommendation(contentId, preferredContexts = []) {
+  const contexts = Array.isArray(preferredContexts) && preferredContexts.length
+    ? preferredContexts
+    : icsContentLinks.supportedContexts;
+
+  for (const context of contexts) {
+    const recommendation = getIcsRecommendation({ contentId, context });
+    if (recommendation) return recommendation;
+  }
+
+  return null;
+}
+
+// ---------------------------------------------------------
+// ICS ENERGIE
+// ---------------------------------------------------------
+
+const openIcsEnergy = document.getElementById('openIcsEnergy');
+const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
+const energyHistoryKey = 'ICS_ENERGY_HISTORY';
+const energyHistoryLimit = 100;
+const energySteps = {
+  check: document.getElementById('energyCheckStep'),
+  impulse: document.getElementById('energyImpulseStep'),
+  after: document.getElementById('energyAfterStep'),
+  result: document.getElementById('energyResultStep')
+};
+const energyJourneyState = {
+  duration: 1,
+  impulseId: null,
+  before: {},
+  after: {},
+  noticedAt: null,
+  linkedRecommendation: null,
+  completedRecordId: null
+};
+
+function isValidEnergyHistoryRecord(record) {
+  const ratingKeys = ['energy', 'body', 'mind'];
+  return Boolean(
+    record &&
+    typeof record.id === 'string' &&
+    typeof record.createdAt === 'string' &&
+    ratingKeys.every((key) => Number.isFinite(record.before?.[key])) &&
+    ratingKeys.every((key) => Number.isFinite(record.after?.[key])) &&
+    ratingKeys.every((key) => Number.isFinite(record.delta?.[key])) &&
+    ['energy', 'body', 'mind'].includes(record.focus) &&
+    [1, 3, 10].includes(record.duration) &&
+    typeof record.impulseId === 'string' &&
+    typeof record.impulseTitle === 'string' &&
+    Boolean(icsContentLinks.energyImpulses[record.impulseId]) &&
+    Array.isArray(record.foundations) &&
+    record.foundations.length > 0 &&
+    record.foundations.every((foundationId) =>
+      icsContentLinks.energyFoundations.some(({ id }) => id === foundationId)) &&
+    typeof record.noticedAt === 'string'
+  );
+}
+
+function getEnergyHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem(energyHistoryKey) || '[]');
+    return Array.isArray(history) && history.every(isValidEnergyHistoryRecord)
+      ? history
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveEnergyCheck(record) {
+  if (!isValidEnergyHistoryRecord(record)) return false;
+
+  const history = getEnergyHistory();
+  if (history.some(({ id }) => id === record.id)) return false;
+
+  try {
+    localStorage.setItem(
+      energyHistoryKey,
+      JSON.stringify([record, ...history].slice(0, energyHistoryLimit))
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function createEnergyCheckRecord() {
+  const impulse = icsContentLinks.energyImpulses[energyJourneyState.impulseId];
+  const ratingKeys = ['energy', 'body', 'mind'];
+  const hasCompleteRatings = ['before', 'after'].every((phase) =>
+    ratingKeys.every((key) => Number.isFinite(energyJourneyState[phase][key]))
+  );
+
+  if (!impulse || !energyJourneyState.noticedAt || !hasCompleteRatings) return null;
+
+  const delta = Object.fromEntries(ratingKeys.map((key) => [
+    key,
+    energyJourneyState.after[key] - energyJourneyState.before[key]
+  ]));
+  const uniquePart = globalThis.crypto?.randomUUID?.()
+    || Math.random().toString(36).slice(2);
+
+  return {
+    id: `ENERGY_${Date.now()}_${uniquePart}`,
+    createdAt: new Date().toISOString(),
+    before: { ...energyJourneyState.before },
+    after: { ...energyJourneyState.after },
+    delta,
+    focus: getEnergyFocus(energyJourneyState.before),
+    duration: energyJourneyState.duration,
+    impulseId: impulse.id,
+    impulseTitle: impulse.title,
+    foundations: [...impulse.foundations],
+    noticedAt: energyJourneyState.noticedAt
+  };
+}
+
+function readEnergyRatings(phase) {
+  const suffix = phase === 'before' ? 'Before' : 'After';
+  return {
+    energy: Number(document.getElementById(`energy${suffix}`).value),
+    body: Number(document.getElementById(`body${suffix}`).value),
+    mind: Number(document.getElementById(`mind${suffix}`).value)
+  };
+}
+
+function showEnergyStep(stepName) {
+  Object.entries(energySteps).forEach(([name, step]) => {
+    step.hidden = name !== stepName;
+  });
+  energySteps[stepName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function getEnergyFocus(beforeRatings) {
+  return ['energy', 'body', 'mind'].reduce((lowestFocus, focus) =>
+    beforeRatings[focus] < beforeRatings[lowestFocus] ? focus : lowestFocus
+  );
+}
+
+function getEnergyFoundationsForImpulse(impulseId) {
+  const foundationIds = icsContentLinks.energyImpulses[impulseId]?.foundations;
+  if (!foundationIds) return [];
+
+  return foundationIds
+    .map((foundationId) => icsContentLinks.energyFoundations
+      .find(({ id }) => id === foundationId))
+    .filter(Boolean)
+    .sort((first, second) => first.order - second.order);
+}
+
+function getEnergyImpulse(beforeRatings, duration) {
+  const focus = getEnergyFocus(beforeRatings);
+  const impulse = Object.values(icsContentLinks.energyImpulses)
+    .find((item) => item.focus === focus && item.duration === duration);
+  if (!impulse) return null;
+
+  return {
+    ...impulse,
+    linkedRecommendation: getBestIcsRecommendation(
+      impulse.sourceContentId,
+      ['tagesimpuls', 'mentor']
+    )
+  };
+}
+
+document.querySelectorAll('.energy-ratings input').forEach((range) => {
+  range.addEventListener('input', () => {
+    const output = range.closest('label')?.querySelector('output');
+    if (output) output.value = range.value;
+  });
+});
+
+document.querySelectorAll('[data-energy-duration]').forEach((button) => {
+  button.addEventListener('click', () => {
+    energyJourneyState.duration = Number(button.dataset.energyDuration);
+    document.querySelectorAll('[data-energy-duration]').forEach((choice) => {
+      const selected = choice === button;
+      choice.classList.toggle('active', selected);
+      choice.setAttribute('aria-pressed', String(selected));
+    });
+  });
+});
+
+document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
+  const beforeRatings = readEnergyRatings('before');
+  const impulse = getEnergyImpulse(beforeRatings, energyJourneyState.duration);
+  if (!impulse) return;
+
+  energyJourneyState.before = beforeRatings;
+  energyJourneyState.impulseId = impulse.id;
+  energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
+  document.getElementById('energyImpulseId').textContent = `ENERGIE-IMPULS · ${impulse.id}`;
+  document.getElementById('energyImpulseTitle').textContent = impulse.title;
+  document.getElementById('energyImpulseText').textContent = impulse.instruction;
+  document.getElementById('energyImpulseDuration').textContent = `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
+  document.getElementById('energyImpulseFoundations').textContent =
+    getEnergyFoundationsForImpulse(impulse.id)
+      .map(({ title }) => title)
+      .join(' · ');
+  showEnergyStep('impulse');
+});
+
+document.getElementById('finishEnergyImpulse')?.addEventListener('click', () => {
+  const values = energyJourneyState.before;
+  [['energyAfter', values.energy], ['bodyAfter', values.body], ['mindAfter', values.mind]]
+    .forEach(([id, value]) => {
+      const range = document.getElementById(id);
+      range.value = value;
+      range.closest('label').querySelector('output').value = value;
+    });
+  showEnergyStep('after');
+});
+
+document.querySelectorAll('[data-energy-notice]').forEach((button) => {
+  button.addEventListener('click', () => {
+    energyJourneyState.noticedAt = button.dataset.energyNotice;
+    document.querySelectorAll('[data-energy-notice]').forEach((choice) => {
+      choice.classList.toggle('active', choice === button);
+    });
+    document.getElementById('completeEnergyCheck').disabled = false;
+  });
+});
+
+document.getElementById('completeEnergyCheck')?.addEventListener('click', () => {
+  if (energyJourneyState.completedRecordId) return;
+
+  energyJourneyState.after = readEnergyRatings('after');
+  const labels = { energy: 'Energie', body: 'Körper', mind: 'Kopf' };
+  const deltas = document.getElementById('energyDeltas');
+  deltas.replaceChildren();
+
+  Object.keys(labels).forEach((key) => {
+    const change = energyJourneyState.after[key] - energyJourneyState.before[key];
+    const item = document.createElement('div');
+    const label = document.createElement('small');
+    const value = document.createElement('strong');
+    label.textContent = labels[key];
+    value.textContent = `${energyJourneyState.before[key]} → ${energyJourneyState.after[key]} (${change > 0 ? '+' : ''}${change})`;
+    item.append(label, value);
+    deltas.append(item);
+  });
+
+  document.getElementById('energyNoticeResult').textContent =
+    `Zuerst bemerkt: ${energyJourneyState.noticedAt}`;
+
+  const record = createEnergyCheckRecord();
+  if (record && saveEnergyCheck(record)) {
+    energyJourneyState.completedRecordId = record.id;
+  }
+
+  showEnergyStep('result');
+});
+
+function resetEnergyJourney() {
+  energyJourneyState.impulseId = null;
+  energyJourneyState.before = {};
+  energyJourneyState.after = {};
+  energyJourneyState.noticedAt = null;
+  energyJourneyState.linkedRecommendation = null;
+  energyJourneyState.completedRecordId = null;
+  document.querySelectorAll('[data-energy-notice]').forEach((choice) => choice.classList.remove('active'));
+  document.getElementById('completeEnergyCheck').disabled = true;
+  showEnergyStep('check');
+}
+
+document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
+openIcsEnergy?.addEventListener('click', () => {
+  openView('icsenergy');
+  resetEnergyJourney();
+});
+backFromIcsEnergy?.addEventListener('click', () => openView('welten'));
