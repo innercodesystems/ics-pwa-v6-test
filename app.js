@@ -997,3 +997,31 @@ function getContextRecommendation(contentId, context) {
     targetView: sourceIsTruth ? target.view : 'neuewahrheitdetail'
   };
 }
+
+function getIcsRecommendation({ contentId, context } = {}) {
+  const recommendation = getContextRecommendation(contentId, context);
+  if (!recommendation) return null;
+
+  return {
+    sourceId: recommendation.sourceId,
+    context: recommendation.context,
+    targetId: recommendation.targetId,
+    targetType: recommendation.targetType,
+    title: recommendation.title,
+    targetView: recommendation.targetView,
+    reason: recommendation.context
+  };
+}
+
+function getBestIcsRecommendation(contentId, preferredContexts = []) {
+  const contexts = Array.isArray(preferredContexts) && preferredContexts.length
+    ? preferredContexts
+    : icsContentLinks.supportedContexts;
+
+  for (const context of contexts) {
+    const recommendation = getIcsRecommendation({ contentId, context });
+    if (recommendation) return recommendation;
+  }
+
+  return null;
+}
