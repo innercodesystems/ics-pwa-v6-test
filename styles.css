@@ -797,6 +797,39 @@ textarea:focus {
 
    }
 
+.energy-action-code-btn {
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  border: 1px solid rgba(212,160,58,.35);
+  border-radius: 16px;
+  background: rgba(212,160,58,.07);
+  color: var(--cream);
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.energy-action-code-btn span:first-child {
+  font-size: 1.15rem;
+}
+
+.energy-action-code-btn span:nth-child(2) {
+  flex: 1;
+  text-align: left;
+  font-weight: 700;
+}
+
+.energy-action-code-btn span:last-child {
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
 /* =========================================================
    MOBILE
    ========================================================= */
