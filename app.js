@@ -599,6 +599,12 @@ backFromNeueWahrheit?.addEventListener('click', () => {
 });
 
 backFromNeueWahrheitDetail?.addEventListener('click', () => {
+  if (returnToEnergyAfterRecommendation) {
+    returnToEnergyAfterRecommendation = false;
+    openView('icsenergy');
+    return;
+  }
+
   openView('neuewahrheit');
 });
 
@@ -1141,6 +1147,7 @@ const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
 const energyRecommendation = document.getElementById('energyRecommendation');
 const energyRecommendationButton = document.getElementById('energyRecommendationButton');
 const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
+let returnToEnergyAfterRecommendation = false;
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
 const energyHistoryLimit = 100;
@@ -1340,6 +1347,8 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
 energyRecommendationButton?.addEventListener('click', () => {
   const recommendation = energyJourneyState.linkedRecommendation;
   if (!recommendation) return;
+  
+  returnToEnergyAfterRecommendation = true;
 
   if (recommendation.targetType === 'truth') {
     const truth = newTruths.find(({ id }) => id === recommendation.targetId);
