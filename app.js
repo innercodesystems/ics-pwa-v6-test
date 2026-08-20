@@ -1347,8 +1347,6 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
 energyRecommendationButton?.addEventListener('click', () => {
   const recommendation = energyJourneyState.linkedRecommendation;
   if (!recommendation) return;
-  
-  returnToEnergyAfterRecommendation = true;
 
   if (recommendation.targetType === 'truth') {
     const truth = newTruths.find(({ id }) => id === recommendation.targetId);
