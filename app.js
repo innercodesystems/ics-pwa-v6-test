@@ -1412,6 +1412,14 @@ function resetEnergyJourney() {
   energyJourneyState.after = {};
   energyJourneyState.noticedAt = null;
   energyJourneyState.linkedRecommendation = null;
+  
+  if (energyRecommendation) {
+  energyRecommendation.hidden = true;
+}
+
+if (energyRecommendationTitle) {
+  energyRecommendationTitle.textContent = '';
+}
   energyJourneyState.completedRecordId = null;
 
   document.querySelectorAll('[data-energy-notice]').forEach((choice) => choice.classList.remove('active'));
