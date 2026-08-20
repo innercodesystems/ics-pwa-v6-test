@@ -1138,6 +1138,9 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
+const energyRecommendation = document.getElementById('energyRecommendation');
+const energyRecommendationButton = document.getElementById('energyRecommendationButton');
+const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
 const energyHistoryLimit = 100;
@@ -1313,6 +1316,14 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   energyJourneyState.before = beforeRatings;
   energyJourneyState.impulseId = impulse.id;
   energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
+  if (energyJourneyState.linkedRecommendation) {
+  energyRecommendationTitle.textContent =
+    energyJourneyState.linkedRecommendation.title;
+
+  energyRecommendation.hidden = false;
+} else {
+  energyRecommendation.hidden = true;
+}
   document.getElementById('energyImpulseId').textContent = `ENERGIE-IMPULS · ${impulse.id}`;
   document.getElementById('energyImpulseTitle').textContent = impulse.title;
   document.getElementById('energyImpulseText').textContent = impulse.instruction;
@@ -1324,6 +1335,21 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
       .join(' · ');
 
   showEnergyStep('impulse');
+});
+
+energyRecommendationButton?.addEventListener('click', () => {
+  const recommendation = energyJourneyState.linkedRecommendation;
+  if (!recommendation) return;
+
+  if (recommendation.targetType === 'truth') {
+    const truth = newTruths.find(({ id }) => id === recommendation.targetId);
+    if (truth) openNewTruthDetail(truth);
+    return;
+  }
+
+  if (recommendation.targetView) {
+    openView(recommendation.targetView);
+  }
 });
 
 document.getElementById('finishEnergyImpulse')?.addEventListener('click', () => {
