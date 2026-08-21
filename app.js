@@ -1344,13 +1344,22 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   showEnergyStep('impulse');
 });
 
-energyRecommendationButton?.addEventListener('click', () => {
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('#energyRecommendationButton');
+  if (!button) return;
+
   const recommendation = energyJourneyState.linkedRecommendation;
   if (!recommendation) return;
 
+  returnToEnergyAfterRecommendation = true;
+
   if (recommendation.targetType === 'truth') {
     const truth = newTruths.find(({ id }) => id === recommendation.targetId);
-    if (truth) openNewTruthDetail(truth);
+
+    if (truth) {
+      openNewTruthDetail(truth);
+    }
+
     return;
   }
 
