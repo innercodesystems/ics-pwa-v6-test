@@ -1344,7 +1344,7 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   showEnergyStep('impulse');
 });
 
-function openEnergyRecommendation() {
+window.openEnergyRecommendation = function () {
   const recommendation = energyJourneyState.linkedRecommendation;
   if (!recommendation) return;
 
@@ -1363,7 +1363,7 @@ function openEnergyRecommendation() {
   if (recommendation.targetView) {
     openView(recommendation.targetView);
   }
-}
+};
 
 document.getElementById('finishEnergyImpulse')?.addEventListener('click', () => {
   const values = energyJourneyState.before;
