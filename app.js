@@ -1256,6 +1256,75 @@ function getEnergyInsight(history) {
   return `In deinen letzten Checks zeigt sich die stärkste Veränderung bei ${strongest.label}. Beobachte weiter, ob sich dieses Muster bestätigt.`;
 }
 
+function getEnergyPersonalRecommendation(history) {
+  if (!history.length) {
+    return {
+      title: 'Starte mit deinem ersten Check',
+      text: 'Je mehr du wahrnimmst und festhältst, desto besser kann ICS erkennen, welche kleinen Schritte dich tatsächlich unterstützen.'
+    };
+  }
+
+  if (history.length < 3) {
+    return {
+      title: 'Dein Muster entsteht gerade',
+      text: 'Mach noch einige Energie-Checks. Danach kann ICS vergleichen, welche Impulse bei dir besonders gut wirken.'
+    };
+  }
+
+  const recent = history.slice(0, 10);
+
+  const impulseStats = {};
+
+  recent.forEach((record) => {
+    if (!record.impulseId) return;
+
+    if (!impulseStats[record.impulseId]) {
+      impulseStats[record.impulseId] = {
+        impulseId: record.impulseId,
+        title: record.impulseTitle,
+        count: 0,
+        totalChange: 0
+      };
+    }
+
+    const totalChange =
+      record.delta.energy +
+      record.delta.body +
+      record.delta.mind;
+
+    impulseStats[record.impulseId].count += 1;
+    impulseStats[record.impulseId].totalChange += totalChange;
+  });
+
+  const rankedImpulses = Object.values(impulseStats)
+    .map((item) => ({
+      ...item,
+      averageChange: item.totalChange / item.count
+    }))
+    .sort((a, b) => b.averageChange - a.averageChange);
+
+  const bestImpulse = rankedImpulses[0];
+
+  if (!bestImpulse || bestImpulse.averageChange <= 0) {
+    return {
+      title: 'Weiter beobachten statt mehr machen',
+      text: 'Dein Verlauf zeigt noch keinen Impuls, der sich deutlich abhebt. Bleib bei kleinen Schritten und beobachte, was sich wirklich verändert.'
+    };
+  }
+
+  if (bestImpulse.count >= 2) {
+    return {
+      title: 'Das scheint dir besonders gutzutun',
+      text: `„${bestImpulse.title}“ zeigt in deinen bisherigen Checks wiederholt eine positive Veränderung. Dieser Impuls kann für dich ein guter erster Schritt sein, wenn deine Energie wieder sinkt.`
+    };
+  }
+
+  return {
+    title: 'Ein erster Hinweis wird sichtbar',
+    text: `„${bestImpulse.title}“ hat in deinem bisherigen Verlauf eine positive Veränderung gezeigt. Beobachte bei weiteren Checks, ob sich dieses Muster bestätigt.`
+  };
+}
+
 function renderEnergyHistory() {
   const container = document.getElementById('energyHistoryList');
   if (!container) return;
@@ -1266,6 +1335,25 @@ function renderEnergyHistory() {
 
 if (insightText) {
   insightText.textContent = getEnergyInsight(history);
+}
+
+  const personalRecommendation =
+  getEnergyPersonalRecommendation(history);
+
+const recommendationTitle =
+  document.getElementById('energyPersonalRecommendationTitle');
+
+const recommendationText =
+  document.getElementById('energyPersonalRecommendationText');
+
+if (recommendationTitle) {
+  recommendationTitle.textContent =
+    personalRecommendation.title;
+}
+
+if (recommendationText) {
+  recommendationText.textContent =
+    personalRecommendation.text;
 }
 
   if (!history.length) {
