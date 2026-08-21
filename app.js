@@ -1218,7 +1218,7 @@ function getEnergyInsight(history) {
     return 'Dein Verlauf beginnt sich aufzubauen. Nach einigen weiteren Checks kann ICS erste Muster vergleichen.';
   }
 
-  const recent = history.slice(0, 5);
+  const recent = history.slice(0, 3);
 
   const averageDelta = (key) =>
     recent.reduce((sum, record) => sum + record.delta[key], 0) / recent.length;
@@ -1648,6 +1648,66 @@ document.getElementById('completeEnergyCheck')?.addEventListener('click', () => 
 if (record && saveEnergyCheck(record)) {
   energyJourneyState.completedRecordId = record.id;
   renderEnergyHistory();
+  function renderFullEnergyHistory() {
+  const container = document.getElementById('energyHistoryFullList');
+  if (!container) return;
+
+  const history = getEnergyHistory();
+
+  if (!history.length) {
+    container.innerHTML =
+      '<p class="empty-state">Noch keine gespeicherten Energie-Checks.</p>';
+    return;
+  }
+
+  const labels = {
+    energy: 'Energie',
+    body: 'Körper',
+    mind: 'Kopf'
+  };
+
+  container.innerHTML = history
+    .map((record) => {
+      const date = new Intl.DateTimeFormat('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(new Date(record.createdAt));
+
+      const values = Object.keys(labels)
+        .map((key) => {
+          const change = record.delta[key];
+          const sign = change > 0 ? '+' : '';
+
+          return `
+            <div class="energy-history-value">
+              <small>${labels[key]}</small>
+              <strong>
+                ${record.before[key]} → ${record.after[key]}
+                (${sign}${change})
+              </strong>
+            </div>
+          `;
+        })
+        .join('');
+
+      return `
+        <article class="energy-history-item">
+          <small class="energy-history-date">${date}</small>
+
+          <div class="energy-history-values">
+            ${values}
+          </div>
+
+          <p><strong>Impuls:</strong> ${record.impulseTitle}</p>
+          <p><strong>Zuerst bemerkt:</strong> ${record.noticedAt}</p>
+        </article>
+      `;
+    })
+    .join('');
+}
 }
 
   showEnergyStep('result');
@@ -1678,6 +1738,16 @@ document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEn
 openIcsEnergy?.addEventListener('click', () => {
   openView('icsenergy');
   resetEnergyJourney();
+  renderEnergyHistory();
+});
+
+openEnergyHistory?.addEventListener('click', () => {
+  renderFullEnergyHistory();
+  openView('energyhistory');
+});
+
+backFromEnergyHistory?.addEventListener('click', () => {
+  openView('icsenergy');
   renderEnergyHistory();
 });
 
