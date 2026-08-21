@@ -153,36 +153,39 @@ backFromImpulse?.addEventListener('click', () => {
 });
 
 openInnerImpulse?.addEventListener('click', () => {
+  returnToTruthAfterRelatedImpulse = false;
   openView('innerimpulse');
 });
 
 openBodyImpulse?.addEventListener('click', () => {
+  returnToTruthAfterRelatedImpulse = false;
   openView('bodyimpulse');
 });
 
 openActionImpulse?.addEventListener('click', () => {
+  returnToTruthAfterRelatedImpulse = false;
   openView('actionimpulse');
 });
 
 openResetImpulse?.addEventListener('click', () => {
+  returnToTruthAfterRelatedImpulse = false;
   openView('resetimpulse');
 });
 
-backFromBodyImpulse?.addEventListener('click', () => {
-  openView('impulse');
-});
+function backFromCodeImpulse() {
+  if (returnToTruthAfterRelatedImpulse) {
+    returnToTruthAfterRelatedImpulse = false;
+    openView('neuewahrheitdetail');
+    return;
+  }
 
-backFromActionImpulse?.addEventListener('click', () => {
   openView('impulse');
-});
+}
 
-backFromResetImpulse?.addEventListener('click', () => {
-  openView('impulse');
-});
-
-backFromInnerImpulse?.addEventListener('click', () => {
-  openView('impulse');
-});
+backFromBodyImpulse?.addEventListener('click', backFromCodeImpulse);
+backFromActionImpulse?.addEventListener('click', backFromCodeImpulse);
+backFromResetImpulse?.addEventListener('click', backFromCodeImpulse);
+backFromInnerImpulse?.addEventListener('click', backFromCodeImpulse);
 
 openResetBibliothek?.addEventListener('click', () => {
   openView('resetbibliothek');
@@ -507,6 +510,7 @@ let relatedImpulseView = null;
 let relatedBox = null;
 let relatedTitle = null;
 let relatedButton = null;
+let returnToTruthAfterRelatedImpulse = false;
 
 function ensureRelatedImpulseUI() {
   if (relatedBox) return;
@@ -542,9 +546,13 @@ function ensureRelatedImpulseUI() {
   relatedBox.append(label, relatedButton);
   detailArticle.append(relatedBox);
 
-  relatedButton.addEventListener('click', () => {
-    if (relatedImpulseView) openView(relatedImpulseView);
-  });
+relatedButton.addEventListener('click', () => {
+  if (!relatedImpulseView) return;
+
+  returnToTruthAfterRelatedImpulse = true;
+  openView(relatedImpulseView);
+});
+  
 }
 
 function openNewTruthDetail(truth) {
