@@ -1714,9 +1714,6 @@ if (record && saveEnergyCheck(record)) {
 showEnergyStep('result');
 });
 
-showEnergyStep('result');
-});
-
 function renderFullEnergyHistory() {
   const container = document.getElementById('energyHistoryFullList');
   if (!container) return;
