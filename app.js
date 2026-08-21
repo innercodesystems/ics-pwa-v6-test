@@ -1368,6 +1368,10 @@ function openEnergyRecommendation() {
 
   returnToEnergyAfterRecommendation = true;
 
+  if (backFromNeueWahrheitDetail) {
+  backFromNeueWahrheitDetail.textContent = '← Zurück zu ICS Energie';
+}
+
   if (recommendation.targetType === 'truth') {
     const truth = newTruths.find(({ id }) => id === recommendation.targetId);
 
