@@ -1717,8 +1717,6 @@ function renderFullEnergyHistory() {
     })
     .join('');
 }
-
-function resetEnergyJourney() {
                                                                  
 function resetEnergyJourney() {
   energyJourneyState.impulseId = null;
