@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v4';
+const CACHE = 'ics-v6-test-v5';
 
 const ASSETS = [
   './',
