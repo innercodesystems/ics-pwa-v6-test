@@ -1537,5 +1537,7 @@ document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEn
 openIcsEnergy?.addEventListener('click', () => {
   openView('icsenergy');
   resetEnergyJourney();
+  renderEnergyHistory();
 });
+
 backFromIcsEnergy?.addEventListener('click', () => openView('welten'));
