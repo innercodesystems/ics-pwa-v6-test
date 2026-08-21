@@ -917,6 +917,33 @@ textarea:focus {
 }
 
 /* =========================================================
+   ENERGIE ERGEBNIS
+   ========================================================= */
+
+.energy-deltas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.energy-deltas > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.energy-deltas > div small {
+  display: block;
+  color: var(--muted);
+}
+
+.energy-deltas > div strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+/* =========================================================
    MOBILE
    ========================================================= */
 .energy-duration,
