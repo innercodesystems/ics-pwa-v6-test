@@ -944,6 +944,58 @@ textarea:focus {
 }
 
 /* =========================================================
+   ENERGIE VERLAUF
+   ========================================================= */
+
+.energy-history-card {
+  margin-top: 24px;
+}
+
+.energy-history-list {
+  display: grid;
+  gap: 14px;
+}
+
+.energy-history-item {
+  padding: 18px;
+  border: 1px solid rgba(212,160,58,.22);
+  border-radius: 18px;
+  background: rgba(212,160,58,.04);
+}
+
+.energy-history-date {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--gold);
+}
+
+.energy-history-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.energy-history-value {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.energy-history-value small {
+  color: var(--muted);
+}
+
+.energy-history-value strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.energy-history-item p {
+  margin: 8px 0 0;
+}
+
+/* =========================================================
    MOBILE
    ========================================================= */
 .energy-duration,
@@ -995,6 +1047,10 @@ textarea:focus {
   .energy-deltas {
     grid-template-columns: 1fr;
   }
+
+   .energy-history-values {
+  grid-template-columns: 1fr;
+}
 
   .energy-notice > div {
     grid-template-columns: repeat(2, 1fr);
