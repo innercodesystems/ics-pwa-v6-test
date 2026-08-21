@@ -1152,6 +1152,10 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
+
+const openEnergyHistory = document.getElementById('openEnergyHistory');
+const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
+
 const energyRecommendation = document.getElementById('energyRecommendation');
 const energyRecommendationButton = document.getElementById('energyRecommendationButton');
 const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
@@ -1758,6 +1762,8 @@ function renderFullEnergyHistory() {
           `;
         })
         .join('');
+
+      function resetEnergyJourney() {
 
       return `
         <article class="energy-history-item">
