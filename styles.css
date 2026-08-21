@@ -1019,6 +1019,44 @@ textarea:focus {
 }
 
 /* =========================================================
+   ICS ENERGIE · PERSÖNLICHE EMPFEHLUNG
+   ========================================================= */
+
+.energy-recommendation-insight {
+  margin: 0 0 24px;
+  padding: 20px;
+  border: 1px solid rgba(212,160,58,.38);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(212,160,58,.10),
+      transparent 12rem
+    ),
+    rgba(212,160,58,.045);
+}
+
+.energy-recommendation-insight small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.energy-recommendation-insight h3 {
+  margin: 0 0 10px;
+  color: var(--cream);
+  font-size: 1.25rem;
+}
+
+.energy-recommendation-insight p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* =========================================================
    MOBILE
    ========================================================= */
 .energy-duration,
