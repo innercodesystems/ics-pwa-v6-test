@@ -738,16 +738,22 @@
 
 <div class="energy-recommendation" id="energyRecommendation" hidden>
   <small>PASSENDER NÄCHSTER IMPULS</small>
-<button
-  type="button"
-  id="energyRecommendationButton"
-  onclick="openEnergyRecommendation()"
->
-    
-    <button class="gold-button energy-primary" id="finishEnergyImpulse">
-      Impuls abgeschlossen
-    </button>
-  </section>
+
+  <button
+    type="button"
+    id="energyRecommendationButton"
+    onclick="openEnergyRecommendation()"
+  >
+    <span id="energyRecommendationTitle"></span>
+    <b>›</b>
+  </button>
+</div>
+
+<button class="gold-button energy-primary" id="finishEnergyImpulse">
+  Impuls abgeschlossen
+</button>
+
+</section>
 
   <section class="premium-card energy-journey" id="energyAfterStep" hidden>
     <p class="section-kicker">ENERGIE-CHECK · NACHHER</p>
