@@ -1209,11 +1209,64 @@ function getEnergyHistory() {
   }
 }
 
+function getEnergyInsight(history) {
+  if (!history.length) {
+    return 'Starte deinen ersten Energie-Check. Mit jedem Eintrag wird dein persönliches Muster sichtbarer.';
+  }
+
+  if (history.length < 3) {
+    return 'Dein Verlauf beginnt sich aufzubauen. Nach einigen weiteren Checks kann ICS erste Muster vergleichen.';
+  }
+
+  const recent = history.slice(0, 5);
+
+  const averageDelta = (key) =>
+    recent.reduce((sum, record) => sum + record.delta[key], 0) / recent.length;
+
+  const energyDelta = averageDelta('energy');
+  const bodyDelta = averageDelta('body');
+  const mindDelta = averageDelta('mind');
+
+  const strongest = [
+    { key: 'energy', label: 'deine Energie', value: energyDelta },
+    { key: 'body', label: 'dein Körpergefühl', value: bodyDelta },
+    { key: 'mind', label: 'deine mentale Klarheit', value: mindDelta }
+  ].sort((a, b) => b.value - a.value)[0];
+
+  const notices = recent
+    .map((record) => record.noticedAt)
+    .filter(Boolean);
+
+  const noticeCounts = notices.reduce((counts, notice) => {
+    counts[notice] = (counts[notice] || 0) + 1;
+    return counts;
+  }, {});
+
+  const commonNotice = Object.entries(noticeCounts)
+    .sort((a, b) => b[1] - a[1])[0];
+
+  if (strongest.value <= 0) {
+    return 'Deine letzten Checks zeigen noch keine eindeutige Veränderung. Das ist ebenfalls wertvoll: Beobachte weiter, welche Impulse dir wirklich guttun.';
+  }
+
+  if (commonNotice && commonNotice[1] >= 2) {
+    return `In deinen letzten Checks verändert sich besonders ${strongest.label}. Du bemerkst Veränderungen häufig zuerst bei „${commonNotice[0]}“.`;
+  }
+
+  return `In deinen letzten Checks zeigt sich die stärkste Veränderung bei ${strongest.label}. Beobachte weiter, ob sich dieses Muster bestätigt.`;
+}
+
 function renderEnergyHistory() {
   const container = document.getElementById('energyHistoryList');
   if (!container) return;
 
   const history = getEnergyHistory();
+
+  const insightText = document.getElementById('energyInsightText');
+
+if (insightText) {
+  insightText.textContent = getEnergyInsight(history);
+}
 
   if (!history.length) {
     container.innerHTML =
