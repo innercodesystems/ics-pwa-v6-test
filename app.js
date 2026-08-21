@@ -1352,10 +1352,17 @@ if (energyJourneyState.linkedRecommendation) {
       .map(({ title }) => title)
       .join(' · ');
 
+const recommendationButton =
+  document.getElementById('energyRecommendationButton');
+
+if (recommendationButton) {
+  recommendationButton.onclick = openEnergyRecommendation;
+}
+  
   showEnergyStep('impulse');
 });
 
-energyRecommendationButton?.addEventListener('click', () => {
+function openEnergyRecommendation() {
   const recommendation = energyJourneyState.linkedRecommendation;
   if (!recommendation) return;
 
@@ -1374,7 +1381,7 @@ energyRecommendationButton?.addEventListener('click', () => {
   if (recommendation.targetView) {
     openView(recommendation.targetView);
   }
-});
+}
 
 document.getElementById('finishEnergyImpulse')?.addEventListener('click', () => {
   const values = energyJourneyState.before;
