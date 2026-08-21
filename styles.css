@@ -995,6 +995,29 @@ textarea:focus {
   margin: 8px 0 0;
 }
 
+.energy-insight {
+  margin: 18px 0 22px;
+  padding: 18px;
+  border: 1px solid rgba(212,160,58,.28);
+  border-radius: 18px;
+  background: rgba(212,160,58,.06);
+}
+
+.energy-insight small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  font-weight: 700;
+}
+
+.energy-insight p {
+  margin: 0;
+  color: var(--cream);
+  line-height: 1.6;
+}
+
 /* =========================================================
    MOBILE
    ========================================================= */
