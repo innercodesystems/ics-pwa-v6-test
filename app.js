@@ -1209,6 +1209,68 @@ function getEnergyHistory() {
   }
 }
 
+function renderEnergyHistory() {
+  const container = document.getElementById('energyHistoryList');
+  if (!container) return;
+
+  const history = getEnergyHistory();
+
+  if (!history.length) {
+    container.innerHTML =
+      '<p class="empty-state">Noch keine gespeicherten Energie-Checks.</p>';
+    return;
+  }
+
+  const labels = {
+    energy: 'Energie',
+    body: 'Körper',
+    mind: 'Kopf'
+  };
+
+  container.innerHTML = history
+    .slice(0, 5)
+    .map((record) => {
+      const date = new Intl.DateTimeFormat('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(new Date(record.createdAt));
+
+      const values = Object.keys(labels)
+        .map((key) => {
+          const change = record.delta[key];
+          const sign = change > 0 ? '+' : '';
+
+          return `
+            <div class="energy-history-value">
+              <small>${labels[key]}</small>
+              <strong>
+                ${record.before[key]} → ${record.after[key]}
+                (${sign}${change})
+              </strong>
+            </div>
+          `;
+        })
+        .join('');
+
+      return `
+        <article class="energy-history-item">
+          <small class="energy-history-date">${date}</small>
+
+          <div class="energy-history-values">
+            ${values}
+          </div>
+
+          <p><strong>Impuls:</strong> ${record.impulseTitle}</p>
+          <p><strong>Zuerst bemerkt:</strong> ${record.noticedAt}</p>
+        </article>
+      `;
+    })
+    .join('');
+}
+
 function saveEnergyCheck(record) {
   if (!isValidEnergyHistoryRecord(record)) return false;
 
@@ -1442,9 +1504,10 @@ document.getElementById('completeEnergyCheck')?.addEventListener('click', () => 
 
 
   const record = createEnergyCheckRecord();
-  if (record && saveEnergyCheck(record)) {
-    energyJourneyState.completedRecordId = record.id;
-  }
+if (record && saveEnergyCheck(record)) {
+  energyJourneyState.completedRecordId = record.id;
+  renderEnergyHistory();
+}
 
   showEnergyStep('result');
 });
