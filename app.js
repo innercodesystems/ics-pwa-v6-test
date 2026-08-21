@@ -1323,14 +1323,25 @@ document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
   energyJourneyState.before = beforeRatings;
   energyJourneyState.impulseId = impulse.id;
   energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
-  if (energyJourneyState.linkedRecommendation) {
-  energyRecommendationTitle.textContent =
-    energyJourneyState.linkedRecommendation.title;
+if (energyJourneyState.linkedRecommendation) {
 
-  energyRecommendation.hidden = false;
+  if (energyRecommendationTitle) {
+    energyRecommendationTitle.textContent =
+      energyJourneyState.linkedRecommendation.title;
+  }
+
+  if (energyRecommendation) {
+    energyRecommendation.hidden = false;
+  }
+
 } else {
-  energyRecommendation.hidden = true;
+
+  if (energyRecommendation) {
+    energyRecommendation.hidden = true;
+  }
+
 }
+  
   document.getElementById('energyImpulseId').textContent = `ENERGIE-IMPULS · ${impulse.id}`;
   document.getElementById('energyImpulseTitle').textContent = impulse.title;
   document.getElementById('energyImpulseText').textContent = impulse.instruction;
