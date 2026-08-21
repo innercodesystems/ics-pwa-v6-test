@@ -874,6 +874,49 @@ textarea:focus {
 }
 
 /* =========================================================
+   NEUE WAHRHEIT
+   ========================================================= */
+
+.new-truth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.new-truth-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.new-truth-card h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.new-truth-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+.new-truth-detail {
+  display: grid;
+  gap: 28px;
+}
+
+.new-truth-detail section + section {
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.new-truth-back {
+  margin-top: 24px;
+  text-align: center;
+}
+
+/* =========================================================
    MOBILE
    ========================================================= */
 .energy-duration,
