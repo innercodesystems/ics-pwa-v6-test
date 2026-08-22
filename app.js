@@ -1804,6 +1804,23 @@ backFromWaehleMeinenWeg?.addEventListener('click', () => {
   openView('welten');
 });
 
+document.querySelectorAll('.choose-path').forEach((button) => {
+  button.addEventListener('click', () => {
+    const target = button.dataset.pathTarget;
+
+    if (!target) return;
+
+    if (target === 'icsenergy') {
+      openView('icsenergy');
+      resetEnergyJourney();
+      renderEnergyHistory();
+      return;
+    }
+
+    openView(target);
+  });
+});
+
 const guideRecommendation =
   document.getElementById('guideRecommendation');
 
