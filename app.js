@@ -1206,6 +1206,9 @@ const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
 const actionToImpulse = document.getElementById('actionToImpulse');
 const actionToFocus = document.getElementById('actionToFocus');
+const actionToSteps = document.getElementById('actionToSteps');
+const actionStepsList = document.getElementById('actionStepsList');
+const backFromActionSteps = document.getElementById('backFromActionSteps');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
 const actionNextTopic = document.getElementById('actionNextTopic');
@@ -1254,6 +1257,54 @@ function renderCurrentActionStep() {
     currentStep.id;
 
   actionCurrentStepCard.hidden = false;
+}
+
+function renderActionSteps() {
+  if (!actionStepsList) return;
+
+  const steps = getActionNextSteps();
+
+  if (!steps.length) {
+    actionStepsList.innerHTML = `
+      <p class="empty-state">
+        Noch keine gespeicherten Schritte.
+      </p>
+    `;
+    return;
+  }
+
+  const sizeLabels = {
+    small: 'Ein kleiner Schritt',
+    medium: 'Etwas mehr',
+    big: 'Ich bin bereit'
+  };
+
+  const latestSteps = steps.slice(0, 5);
+
+  actionStepsList.innerHTML = latestSteps.map((item) => {
+    const date = new Date(item.createdAt).toLocaleDateString('de-DE');
+
+    return `
+      <div class="action-history-item">
+        <div style="display:flex; justify-content:space-between; gap:12px;">
+          <small>${date}</small>
+          <small>${item.done ? '✓ ERLEDIGT' : '○ OFFEN'}</small>
+        </div>
+
+        <p style="margin-top:10px;">
+          ${item.topic}
+        </p>
+
+        <p style="margin-top:8px;">
+          <strong>${item.step}</strong>
+        </p>
+
+        <small>
+          ${sizeLabels[item.size] || item.size}
+        </small>
+      </div>
+    `;
+  }).join('');
 }
 
 const actionNextStep = document.getElementById('actionNextStep');
@@ -2095,6 +2146,15 @@ actionToImpulse?.addEventListener('click', () => {
 
 actionToFocus?.addEventListener('click', () => {
   openView('actionnext');
+});
+
+actionToSteps?.addEventListener('click', () => {
+  renderActionSteps();
+  openView('actionsteps');
+});
+
+backFromActionSteps?.addEventListener('click', () => {
+  goBackView('actioncode');
 });
 
 backFromActionNext?.addEventListener('click', () => {
