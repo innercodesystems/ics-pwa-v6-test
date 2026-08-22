@@ -2305,6 +2305,7 @@ const patterns = [
 }
 
 let currentBeliefResult = null;
+
 analyzeBelief?.addEventListener('click', () => {
   const belief = beliefInput?.value.trim();
 
@@ -2314,28 +2315,14 @@ analyzeBelief?.addEventListener('click', () => {
   }
 
   const result = detectBeliefPattern(belief);
+
   currentBeliefResult = {
-  belief,
-  patternId: result.id,
-  patternLabel: result.label,
-  reflection: result.reflection,
-  perspective: result.perspective
-};
-  
-  const beliefHistory = getBeliefHistory();
-
-const beliefRecord = {
-  id: globalThis.crypto?.randomUUID?.() || `BELIEF_${Date.now()}`,
-  createdAt: new Date().toISOString(),
-  belief,
-  patternId: result.id,
-  patternLabel: result.label,
-  reflection: result.reflection,
-  perspective: result.perspective
-};
-
-beliefHistory.unshift(beliefRecord);
-saveBeliefHistory(beliefHistory);
+    belief,
+    patternId: result.id,
+    patternLabel: result.label,
+    reflection: result.reflection,
+    perspective: result.perspective
+  };
 
   if (beliefResultTitle) {
     beliefResultTitle.textContent = result.title;
@@ -2359,7 +2346,32 @@ saveBeliefHistory(beliefHistory);
       block: 'start'
     });
   }
+
+  if (beliefSaveFeedback) {
+    beliefSaveFeedback.textContent = '';
+  }
 });
+
+saveBeliefResult?.addEventListener('click', () => {
+  if (!currentBeliefResult) return;
+
+  const beliefHistory = getBeliefHistory();
+
+  const beliefRecord = {
+    id: globalThis.crypto?.randomUUID?.() || `BELIEF_${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    ...currentBeliefResult
+  };
+
+  beliefHistory.unshift(beliefRecord);
+  saveBeliefHistory(beliefHistory);
+
+  if (beliefSaveFeedback) {
+    beliefSaveFeedback.textContent =
+      'Deine Erkenntnis wurde gespeichert. ✓';
+  }
+});
+
 backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
