@@ -622,7 +622,7 @@ openNeueWahrheit?.addEventListener('click', () => {
 });
 
 backFromNeueWahrheit?.addEventListener('click', () => {
-  openView('welten');
+  goBackView('welten');
 });
 
 backFromNeueWahrheitDetail?.addEventListener('click', () => {
