@@ -1245,3 +1245,10 @@ textarea:focus {
   }
 
 }
+
+/* INNER CODE · GLAUBENSSATZ */
+
+#beliefNewPerspective {
+  display: block;
+  margin-top: 8px;
+}
