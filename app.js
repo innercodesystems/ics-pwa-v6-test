@@ -234,7 +234,7 @@ openResetBibliothek?.addEventListener('click', () => {
 });
 
 backFromResetBibliothek?.addEventListener('click', () => {
-  openView('meditationen');
+  goBackView('resetcode');
 });
 
 openResetMeditation?.addEventListener('click', () => {
@@ -242,7 +242,7 @@ openResetMeditation?.addEventListener('click', () => {
 });
 
 backFromResetMeditation?.addEventListener('click', () => {
-  openView('resetbibliothek');
+  goBackView('resetcode');
 });
 
 openDailyCode?.addEventListener('click', () => {
