@@ -1056,6 +1056,10 @@ textarea:focus {
   line-height: 1.6;
 }
 
+.energy-recommendation-insight #repeatEnergyRecommendation {
+  margin-top: 24px;
+}
+
 /* =========================================================
    MOBILE
    ========================================================= */
