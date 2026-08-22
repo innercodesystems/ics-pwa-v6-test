@@ -1192,6 +1192,10 @@ const innerToTruth = document.getElementById('innerToTruth');
 const innerTo99Codes = document.getElementById('innerTo99Codes');
 const innerToBeliefs = document.getElementById('innerToBeliefs');
 const backFromInnerCode = document.getElementById('backFromInnerCode');
+const bodyToImpulse = document.getElementById('bodyToImpulse');
+const bodyToPerception = document.getElementById('bodyToPerception');
+const bodyToEnergy = document.getElementById('bodyToEnergy');
+const backFromBodyCode = document.getElementById('backFromBodyCode');
 
 const openWaehleMeinenWeg =
   document.getElementById('openWaehleMeinenWeg');
