@@ -957,6 +957,18 @@ body.sticky-visible{padding-top:42px}
     // Nur echte, bereits vorhandene Codes eintragen.
     // Fehlende Texte bleiben bewusst als Platzhalter markiert.
     // Website Master V1: Inhalte zusätzlich separat in 99-inner-codes-data-v1.json.
+    const backToIcsApp = document.getElementById('backToIcsApp');
+
+backToIcsApp?.addEventListener('click', (event) => {
+  const returnView = sessionStorage.getItem('ICS_RETURN_VIEW');
+
+  if (returnView === 'innercode') {
+    event.preventDefault();
+    sessionStorage.removeItem('ICS_RETURN_VIEW');
+    window.location.href = 'index.html?return=innercode';
+  }
+});
+    
     const codes = [
       {
         number: 1,
