@@ -1826,6 +1826,30 @@ document.querySelectorAll('.choose-path').forEach((button) => {
   });
 });
 
+// ---------------------------------------------------------
+// INNER CODE HUB
+// ---------------------------------------------------------
+
+innerToImpulse?.addEventListener('click', () => {
+  openView('innerimpulse');
+});
+
+innerToTruth?.addEventListener('click', () => {
+  openView('neuewahrheit');
+});
+
+innerTo99Codes?.addEventListener('click', () => {
+  openView('codes');
+});
+
+innerToBeliefs?.addEventListener('click', () => {
+  showToast('Die Glaubenssatz-Bibliothek wird gerade für dich vorbereitet.');
+});
+
+backFromInnerCode?.addEventListener('click', () => {
+  openView('waehlemeinenweg');
+});
+
 const guideRecommendation =
   document.getElementById('guideRecommendation');
 
