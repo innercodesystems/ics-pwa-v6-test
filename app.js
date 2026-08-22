@@ -1789,36 +1789,98 @@ backFromFuehreMich?.addEventListener('click', () => {
   openView('welten');
 });
 
+const guideRecommendation =
+  document.getElementById('guideRecommendation');
+
+const guideRecommendationTitle =
+  document.getElementById('guideRecommendationTitle');
+
+const guideRecommendationText =
+  document.getElementById('guideRecommendationText');
+
+const guideRecommendationArea =
+  document.getElementById('guideRecommendationArea');
+
+const startGuideRecommendation =
+  document.getElementById('startGuideRecommendation');
+
+let selectedGuideTarget = null;
+
+const guideRecommendations = {
+  energy: {
+    title: 'Deine Energie braucht gerade Aufmerksamkeit.',
+    text: 'Du musst gerade nicht mehr leisten. Nimm zuerst wahr, wie es dir wirklich geht und welcher kleine Schritt jetzt möglich ist.',
+    area: 'ICS Energie',
+    target: 'icsenergy'
+  },
+
+  mind: {
+    title: 'Dein Kopf braucht gerade etwas Abstand.',
+    text: 'Du brauchst nicht noch mehr Gedanken. Richte deine Aufmerksamkeit zuerst auf Klarheit und eine neue Perspektive.',
+    area: 'Inner Code · Klarheit',
+    target: 'innerimpulse'
+  },
+
+  pressure: {
+    title: 'Du darfst den inneren Druck unterbrechen.',
+    text: 'Bevor du weiter versuchst, etwas zu lösen, darfst du dich neu ausrichten und aus der automatischen Reaktion aussteigen.',
+    area: 'RESET · Neuausrichtung',
+    target: 'resetimpulse'
+  },
+
+  orientation: {
+    title: 'Du brauchst gerade nicht den ganzen Weg.',
+    text: 'Richte deine Aufmerksamkeit auf einen einzigen nächsten Schritt. Klarheit entsteht oft erst durch Bewegung.',
+    area: 'Action Code · nächster Schritt',
+    target: 'actionimpulse'
+  },
+
+  impulse: {
+    title: 'Lass dich für einen Moment inspirieren.',
+    text: 'Du musst gerade nichts analysieren. Ein passender Gedanke kann genügen, um deine Aufmerksamkeit neu auszurichten.',
+    area: 'ICS Impulse',
+    target: 'impulse'
+  }
+};
+
 document.querySelectorAll('.guide-choice').forEach((button) => {
   button.addEventListener('click', () => {
     const state = button.dataset.guideState;
+    const recommendation = guideRecommendations[state];
 
-    if (state === 'energy') {
-      openView('icsenergy');
-      resetEnergyJourney();
-      renderEnergyHistory();
-      return;
-    }
+    if (!recommendation) return;
 
-    if (state === 'mind') {
-      openView('innerimpulse');
-      return;
-    }
+    selectedGuideTarget = recommendation.target;
 
-    if (state === 'pressure') {
-      openView('resetimpulse');
-      return;
-    }
+    guideRecommendationTitle.textContent =
+      recommendation.title;
 
-    if (state === 'orientation') {
-      openView('actionimpulse');
-      return;
-    }
+    guideRecommendationText.textContent =
+      recommendation.text;
 
-    if (state === 'impulse') {
-      openView('impulse');
-    }
+    guideRecommendationArea.textContent =
+      recommendation.area;
+
+    guideRecommendation.hidden = false;
+
+    guideRecommendation.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
   });
+});
+
+startGuideRecommendation?.addEventListener('click', () => {
+  if (!selectedGuideTarget) return;
+
+  if (selectedGuideTarget === 'icsenergy') {
+    openView('icsenergy');
+    resetEnergyJourney();
+    renderEnergyHistory();
+    return;
+  }
+
+  openView(selectedGuideTarget);
 });
 
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
