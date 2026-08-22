@@ -1850,6 +1850,10 @@ document.querySelectorAll('.guide-choice').forEach((button) => {
 
     if (!recommendation) return;
 
+    document.querySelectorAll('.guide-choice').forEach((choice) => {
+  choice.classList.toggle('active', choice === button);
+});
+
     selectedGuideTarget = recommendation.target;
 
     guideRecommendationTitle.textContent =
