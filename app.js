@@ -1889,6 +1889,28 @@ backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
 
+// ---------------------------------------------------------
+// BODY CODE HUB
+// ---------------------------------------------------------
+
+bodyToImpulse?.addEventListener('click', () => {
+  openView('bodyimpulse');
+});
+
+bodyToPerception?.addEventListener('click', () => {
+  openView('koerperwahrnehmen');
+});
+
+bodyToEnergy?.addEventListener('click', () => {
+  openView('icsenergy');
+  resetEnergyJourney();
+  renderEnergyHistory();
+});
+
+backFromBodyCode?.addEventListener('click', () => {
+  goBackView('waehlemeinenweg');
+});
+
 const guideRecommendation =
   document.getElementById('guideRecommendation');
 
