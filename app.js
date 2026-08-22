@@ -2029,4 +2029,6 @@ backFromEnergyHistory?.addEventListener('click', () => {
   renderEnergyHistory();
 });
 
-backFromIcsEnergy?.addEventListener('click', () => openView('welten'));
+backFromIcsEnergy?.addEventListener('click', () => {
+  goBackView('welten');
+});
