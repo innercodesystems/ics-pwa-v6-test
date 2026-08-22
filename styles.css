@@ -1329,3 +1329,17 @@ textarea:focus {
     font-size: .68rem;
   }
 }
+
+/* ICS ENERGIE · BUTTON-ABSTAND */
+
+#openEnergyHistory {
+  display: block;
+  width: fit-content;
+  margin: 28px auto 0;
+}
+
+#backFromIcsEnergy {
+  display: block;
+  width: fit-content;
+  margin: 22px auto 0;
+}
