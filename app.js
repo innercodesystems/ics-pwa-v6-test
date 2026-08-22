@@ -204,7 +204,10 @@ function backFromCodeImpulse() {
 backFromBodyImpulse?.addEventListener('click', backFromCodeImpulse);
 backFromActionImpulse?.addEventListener('click', backFromCodeImpulse);
 backFromResetImpulse?.addEventListener('click', backFromCodeImpulse);
-backFromInnerImpulse?.addEventListener('click', backFromCodeImpulse);
+
+backFromInnerImpulse?.addEventListener('click', () => {
+  goBackView('innercode');
+});
 
 openResetBibliothek?.addEventListener('click', () => {
   openView('resetbibliothek');
