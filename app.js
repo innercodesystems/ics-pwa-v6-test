@@ -206,7 +206,7 @@ openResetImpulse?.addEventListener('click', () => {
 function backFromCodeImpulse() {
   if (returnToTruthAfterRelatedImpulse) {
     returnToTruthAfterRelatedImpulse = false;
-    openView('neuewahrheitdetail');
+    openView('innercode');
     return;
   }
 
