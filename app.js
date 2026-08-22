@@ -64,12 +64,24 @@ navItems.forEach((item) => {
     openView(item.dataset.view);
   });
 });
+const returnView =
+  new URLSearchParams(window.location.search).get('return');
+
+if (returnView) {
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 
 const savedUserName = getIcsUserName();
 
 if (savedUserName) {
   applyIcsUserName();
-  openView('heute');
+
+  if (returnView === 'innercode') {
+    openView('innercode', false);
+  } else {
+    openView('heute');
+  }
+
 } else {
   openView('welcome');
 }
