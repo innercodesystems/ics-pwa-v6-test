@@ -2139,6 +2139,83 @@ backFromBeliefs?.addEventListener('click', () => {
   goBackView('innercode');
 });
 
+analyzeBelief?.addEventListener('click', () => {
+  const belief = beliefInput?.value.trim();
+
+  if (!belief) {
+    showToast('Schreib zuerst einen Gedanken oder Glaubenssatz auf.');
+    return;
+  }
+
+  const normalizedBelief = belief.toLowerCase();
+
+  let pattern = 'general';
+  let title = 'Schau einen Moment genauer hin';
+  let reflection =
+    'Ist dieser Gedanke wirklich immer wahr – oder ist er eine Sichtweise, die du irgendwann entwickelt oder übernommen hast?';
+  let perspective =
+    'Ich darf diesen Gedanken hinterfragen und eine neue Perspektive wählen.';
+
+  if (normalizedBelief.startsWith('ich muss')) {
+    pattern = 'pressure';
+    title = 'Woher kommt dieses Müssen?';
+    reflection =
+      'Was glaubst du, würde passieren, wenn du das nicht müsstest? Und wessen Erwartung versuchst du möglicherweise zu erfüllen?';
+    perspective =
+      'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.';
+  }
+
+  else if (normalizedBelief.startsWith('ich darf nicht')) {
+    pattern = 'permission';
+    title = 'Wer hat diese Grenze gesetzt?';
+    reflection =
+      'Ist dieses Verbot heute wirklich noch notwendig? Was würdest du dir erlauben, wenn du niemandem etwas beweisen müsstest?';
+    perspective =
+      'Ich darf neu entscheiden, was für mich heute möglich und stimmig ist.';
+  }
+
+  else if (normalizedBelief.startsWith('ich bin nicht')) {
+    pattern = 'identity';
+    title = 'Ist das wirklich deine Identität?';
+    reflection =
+      'Beschreibst du hier wirklich dich – oder eine Bewertung über dich? Welche Erfahrungen sprechen vielleicht bereits gegen diesen Satz?';
+    perspective =
+      'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.';
+  }
+
+  else if (normalizedBelief.startsWith('ich kann nicht')) {
+    pattern = 'possibility';
+    title = 'Kannst du es nicht – oder noch nicht?';
+    reflection =
+      'Was genau erscheint dir unmöglich? Welcher kleinste Teil davon wäre vielleicht heute schon möglich?';
+    perspective =
+      'Ich muss noch nicht den ganzen Weg können. Ich darf mit dem beginnen, was heute möglich ist.';
+  }
+
+  if (beliefResultTitle) {
+    beliefResultTitle.textContent = title;
+  }
+
+  if (beliefResultText) {
+    beliefResultText.textContent =
+      `Du hast geschrieben: „${belief}“ ${reflection}`;
+  }
+
+  if (beliefNewPerspective) {
+    beliefNewPerspective.textContent = perspective;
+  }
+
+  if (beliefResultCard) {
+    beliefResultCard.dataset.pattern = pattern;
+    beliefResultCard.hidden = false;
+
+    beliefResultCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+});
+
 backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
