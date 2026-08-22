@@ -221,7 +221,9 @@ backFromActionImpulse?.addEventListener('click', () => {
   goBackView('actioncode');
 });
 
-backFromResetImpulse?.addEventListener('click', backFromCodeImpulse);
+backFromResetImpulse?.addEventListener('click', () => {
+  goBackView('resetcode');
+});
 
 backFromInnerImpulse?.addEventListener('click', () => {
   goBackView('innercode');
