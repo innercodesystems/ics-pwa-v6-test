@@ -1171,13 +1171,10 @@ const energySteps = {
   after: document.getElementById('energyAfterStep'),
   result: document.getElementById('energyResultStep')
 };
+
 const energyJourneyState = {
   duration: 1,
- return {
   impulseId: null,
-  title: 'Starte mit deinem ersten Check',
-  text: 'Je mehr du wahrnimmst und festhältst, desto besser kann ICS erkennen, welche kleinen Schritte dich tatsächlich unterstützen.'
-};
   before: {},
   after: {},
   noticedAt: null,
