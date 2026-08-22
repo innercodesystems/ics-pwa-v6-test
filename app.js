@@ -2139,6 +2139,148 @@ backFromBeliefs?.addEventListener('click', () => {
   goBackView('innercode');
 });
 
+function detectBeliefPattern(belief) {
+  const text = belief
+    .toLowerCase()
+    .trim()
+    .replace(/[.!?]+$/g, '');
+
+  const patterns = [
+    {
+      id: 'pressure',
+      label: 'Innerer Druck',
+      matches: [
+        /^ich muss\b/,
+        /^ich sollte\b/,
+        /immer funktionieren/,
+        /alles schaffen/,
+        /stark sein/
+      ],
+      title: 'Woher kommt dieses Müssen?',
+      reflection:
+        'Was glaubst du, würde passieren, wenn du diesem inneren Druck nicht folgen würdest? Welche Erwartung steckt möglicherweise dahinter?',
+      perspective:
+        'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.'
+    },
+
+    {
+      id: 'permission',
+      label: 'Erlaubnis & Begrenzung',
+      matches: [
+        /^ich darf nicht\b/,
+        /^ich darf kein(e|en)?\b/,
+        /das darf ich nicht/,
+        /ich darf mir nicht/,
+        /ich darf keine fehler/
+      ],
+      title: 'Wer hat diese Grenze gesetzt?',
+      reflection:
+        'Ist diese Grenze heute wirklich noch notwendig? Was würdest du dir erlauben, wenn du niemandem etwas beweisen müsstest?',
+      perspective:
+        'Ich darf neu entscheiden, was für mich heute möglich und stimmig ist.'
+    },
+
+    {
+      id: 'identity',
+      label: 'Selbstbild',
+      matches: [
+        /^ich bin nicht\b/,
+        /nicht gut genug/,
+        /nicht wertvoll/,
+        /nicht liebenswert/,
+        /nicht richtig/
+      ],
+      title: 'Ist das wirklich deine Identität?',
+      reflection:
+        'Beschreibst du hier wirklich dich – oder eine Bewertung über dich? Welche Erfahrungen sprechen vielleicht bereits gegen diesen Satz?',
+      perspective:
+        'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.'
+    },
+
+    {
+      id: 'possibility',
+      label: 'Möglichkeit',
+      matches: [
+        /^ich kann nicht\b/,
+        /^ich kann das nicht\b/,
+        /^ich kann es nicht\b/,
+        /das schaffe ich nicht/,
+        /das geht nicht/
+      ],
+      title: 'Kannst du es nicht – oder noch nicht?',
+      reflection:
+        'Was genau erscheint dir unmöglich? Welcher kleinste Teil davon wäre vielleicht heute schon möglich?',
+      perspective:
+        'Ich muss noch nicht den ganzen Weg können. Ich darf mit dem beginnen, was heute möglich ist.'
+    },
+
+    {
+      id: 'perfectionism',
+      label: 'Perfektionismus',
+      matches: [
+        /perfekt/,
+        /keine fehler/,
+        /alles richtig machen/,
+        /darf nichts falsch/,
+        /fehler machen/
+      ],
+      title: 'Was wäre, wenn gut genug wirklich genug wäre?',
+      reflection:
+        'Was versuchst du durch Perfektion zu vermeiden? Was wäre ein menschlicher, realistischer Maßstab für diese Situation?',
+      perspective:
+        'Ich darf lernen, ausprobieren und Fehler machen, ohne dadurch weniger wert zu sein.'
+    },
+
+    {
+      id: 'worth',
+      label: 'Selbstwert',
+      matches: [
+        /nicht wert/,
+        /wertlos/,
+        /muss mich beweisen/,
+        /anerkennung/,
+        /niemand braucht mich/
+      ],
+      title: 'Wovon machst du deinen Wert abhängig?',
+      reflection:
+        'Was müsste geschehen, damit du dich wertvoll fühlst? Und was, wenn dein Wert nicht erst verdient werden müsste?',
+      perspective:
+        'Mein Wert beginnt nicht bei Leistung oder Bestätigung von außen.'
+    },
+
+    {
+      id: 'control',
+      label: 'Kontrolle',
+      matches: [
+        /kontrollieren/,
+        /alles im griff/,
+        /darf nichts passieren/,
+        /muss wissen/,
+        /sicherheit haben/
+      ],
+      title: 'Was möchtest du gerade unbedingt kontrollieren?',
+      reflection:
+        'Was liegt tatsächlich in deinem Einfluss – und was versuchst du festzuhalten, obwohl du es nicht vollständig kontrollieren kannst?',
+      perspective:
+        'Ich darf Verantwortung übernehmen, ohne alles kontrollieren zu müssen.'
+    }
+  ];
+
+  const match = patterns.find((pattern) =>
+    pattern.matches.some((rule) => rule.test(text))
+  );
+
+  return match || {
+    id: 'general',
+    label: 'Allgemeiner Glaubenssatz',
+    title: 'Schau einen Moment genauer hin',
+    reflection:
+      'Ist dieser Gedanke wirklich immer wahr – oder ist er eine Sichtweise, die du irgendwann entwickelt oder übernommen hast?',
+    perspective:
+      'Ich darf diesen Gedanken hinterfragen und eine neue Perspektive wählen.'
+  };
+}
+
 analyzeBelief?.addEventListener('click', () => {
   const belief = beliefInput?.value.trim();
 
@@ -2147,77 +2289,23 @@ analyzeBelief?.addEventListener('click', () => {
     return;
   }
 
-  const normalizedBelief = belief.toLowerCase();
-
-  let pattern = 'general';
-  let title = 'Schau einen Moment genauer hin';
-  let reflection =
-    'Ist dieser Gedanke wirklich immer wahr – oder ist er eine Sichtweise, die du irgendwann entwickelt oder übernommen hast?';
-  let perspective =
-    'Ich darf diesen Gedanken hinterfragen und eine neue Perspektive wählen.';
-
-  if (normalizedBelief.startsWith('ich muss')) {
-    pattern = 'pressure';
-    title = 'Woher kommt dieses Müssen?';
-    reflection =
-      'Was glaubst du, würde passieren, wenn du das nicht müsstest? Und wessen Erwartung versuchst du möglicherweise zu erfüllen?';
-    perspective =
-      'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.';
-  }
-
-  else if (
-  normalizedBelief.startsWith('ich darf nicht') ||
-  normalizedBelief.startsWith('ich darf kein') ||
-  normalizedBelief.startsWith('ich darf keine') ||
-  normalizedBelief.startsWith('ich darf keinen')
-) {
-    
-    pattern = 'permission';
-    title = 'Wer hat diese Grenze gesetzt?';
-    reflection =
-      'Ist dieses Verbot heute wirklich noch notwendig? Was würdest du dir erlauben, wenn du niemandem etwas beweisen müsstest?';
-    perspective =
-      'Ich darf neu entscheiden, was für mich heute möglich und stimmig ist.';
-  }
-
-  else if (normalizedBelief.startsWith('ich bin nicht')) {
-    pattern = 'identity';
-    title = 'Ist das wirklich deine Identität?';
-    reflection =
-      'Beschreibst du hier wirklich dich – oder eine Bewertung über dich? Welche Erfahrungen sprechen vielleicht bereits gegen diesen Satz?';
-    perspective =
-      'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.';
-  }
-
-  else if (
-  normalizedBelief.startsWith('ich kann nicht') ||
-  normalizedBelief.startsWith('ich kann das nicht') ||
-  normalizedBelief.startsWith('ich kann es nicht')
-) {
-    
-    pattern = 'possibility';
-    title = 'Kannst du es nicht – oder noch nicht?';
-    reflection =
-      'Was genau erscheint dir unmöglich? Welcher kleinste Teil davon wäre vielleicht heute schon möglich?';
-    perspective =
-      'Ich muss noch nicht den ganzen Weg können. Ich darf mit dem beginnen, was heute möglich ist.';
-  }
+  const result = detectBeliefPattern(belief);
 
   if (beliefResultTitle) {
-    beliefResultTitle.textContent = title;
+    beliefResultTitle.textContent = result.title;
   }
 
   if (beliefResultText) {
     beliefResultText.textContent =
-      `Du hast geschrieben: „${belief}“ ${reflection}`;
+      `Du hast geschrieben: „${belief}“ ${result.reflection}`;
   }
 
   if (beliefNewPerspective) {
-    beliefNewPerspective.textContent = perspective;
+    beliefNewPerspective.textContent = result.perspective;
   }
 
   if (beliefResultCard) {
-    beliefResultCard.dataset.pattern = pattern;
+    beliefResultCard.dataset.pattern = result.id;
     beliefResultCard.hidden = false;
 
     beliefResultCard.scrollIntoView({
@@ -2226,7 +2314,6 @@ analyzeBelief?.addEventListener('click', () => {
     });
   }
 });
-
 backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
