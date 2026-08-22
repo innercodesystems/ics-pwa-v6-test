@@ -1252,3 +1252,80 @@ textarea:focus {
   display: block;
   margin-top: 8px;
 }
+
+/* ACTION CODE · MEINE SCHRITTE */
+
+.action-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 26px;
+}
+
+.action-stat-card {
+  padding: 18px 12px;
+  border: 1px solid rgba(212, 160, 58, .35);
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, .015);
+}
+
+.action-stat-card strong {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--cream);
+}
+
+.action-stat-card span {
+  display: block;
+  margin-top: 4px;
+  font-size: .78rem;
+  color: var(--gold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#actionStepsList {
+  display: grid;
+  gap: 16px;
+}
+
+.action-history-item {
+  padding: 20px;
+  border: 1px solid rgba(212, 160, 58, .35);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .015);
+}
+
+.action-history-item small {
+  color: var(--gold);
+}
+
+.action-history-item p {
+  line-height: 1.5;
+}
+
+.action-history-item p strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  color: var(--cream);
+}
+
+@media (max-width: 600px) {
+  .action-stats {
+    gap: 8px;
+  }
+
+  .action-stat-card {
+    padding: 14px 6px;
+  }
+
+  .action-stat-card strong {
+    font-size: 1.35rem;
+  }
+
+  .action-stat-card span {
+    font-size: .68rem;
+  }
+}
