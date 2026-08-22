@@ -990,6 +990,108 @@
 </section>
 
 <!-- =========================
+     ACTION · MEIN NÄCHSTER SCHRITT
+========================== -->
+<section class="app-view" id="view-actionnext">
+
+  <div class="view-header">
+    <p class="section-kicker">ACTION CODE · FOKUS</p>
+    <h1>Was ist jetzt dein nächster Schritt?</h1>
+    <p>
+      Nicht der ganze Weg. Nur das, was jetzt wirklich möglich und wichtig ist.
+    </p>
+  </div>
+
+  <section class="premium-card">
+
+    <p class="section-kicker">1 · KLARHEIT</p>
+    <h2>Was beschäftigt dich gerade am meisten?</h2>
+
+    <textarea
+      id="actionNextTopic"
+      maxlength="300"
+      placeholder="Ein Satz genügt …"
+      style="width:100%; min-height:100px; margin-top:14px;"
+    ></textarea>
+
+  </section>
+
+  <section class="premium-card">
+
+    <p class="section-kicker">2 · MÖGLICHKEIT</p>
+    <h2>Wie viel ist gerade wirklich möglich?</h2>
+
+    <div class="energy-duration" id="actionNextSize">
+
+      <button
+        type="button"
+        class="energy-choice action-next-size active"
+        data-action-size="small"
+      >
+        Ein kleiner Schritt
+      </button>
+
+      <button
+        type="button"
+        class="energy-choice action-next-size"
+        data-action-size="medium"
+      >
+        Etwas mehr
+      </button>
+
+      <button
+        type="button"
+        class="energy-choice action-next-size"
+        data-action-size="big"
+      >
+        Ich bin bereit
+      </button>
+
+    </div>
+
+  </section>
+
+  <section class="premium-card">
+
+    <p class="section-kicker">3 · ENTSCHEIDUNG</p>
+    <h2>Was kannst du jetzt konkret tun?</h2>
+
+    <textarea
+      id="actionNextStep"
+      maxlength="300"
+      placeholder="Zum Beispiel: Eine Nachricht schreiben, 10 Minuten beginnen, einen Termin vereinbaren …"
+      style="width:100%; min-height:100px; margin-top:14px;"
+    ></textarea>
+
+    <button
+      type="button"
+      class="gold-button"
+      id="saveActionNextStep"
+      style="margin-top:20px;"
+    >
+      Diesen Schritt festhalten
+    </button>
+
+    <p
+      id="actionNextFeedback"
+      style="margin-top:14px;"
+    ></p>
+
+  </section>
+
+  <div style="margin-top:24px; text-align:center;">
+    <button
+      type="button"
+      class="gold-button"
+      id="backFromActionNext"
+    >
+      ← Zurück zu Action Code
+    </button>
+  </div>
+
+</section>
+
+<!-- =========================
      RESET HUB
 ========================== -->
 <section class="app-view" id="view-resetcode">
