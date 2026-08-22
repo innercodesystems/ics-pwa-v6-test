@@ -1764,46 +1764,19 @@ repeatEnergyRecommendation?.addEventListener('click', () => {
   const impulse = icsContentLinks.energyImpulses[impulseId];
   if (!impulse) return;
 
+  resetEnergyJourney();
+
   energyJourneyState.duration = impulse.duration;
-  energyJourneyState.impulseId = impulse.id;
 
-  energyJourneyState.linkedRecommendation =
-    getBestIcsRecommendation(
-      impulse.sourceContentId,
-      ['tagesimpuls', 'mentor']
-    );
+  document.querySelectorAll('[data-energy-duration]').forEach((button) => {
+    const selected =
+      Number(button.dataset.energyDuration) === impulse.duration;
 
-  document.getElementById('energyImpulseId').textContent =
-    `ENERGIE-IMPULS · ${impulse.id}`;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
 
-  document.getElementById('energyImpulseTitle').textContent =
-    impulse.title;
-
-  document.getElementById('energyImpulseText').textContent =
-    impulse.instruction;
-
-  document.getElementById('energyImpulseDuration').textContent =
-    `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
-
-  document.getElementById('energyImpulseFoundations').textContent =
-    getEnergyFoundationsForImpulse(impulse.id)
-      .map(({ title }) => title)
-      .join(' · ');
-
-  if (energyJourneyState.linkedRecommendation) {
-    if (energyRecommendationTitle) {
-      energyRecommendationTitle.textContent =
-        energyJourneyState.linkedRecommendation.title;
-    }
-
-    if (energyRecommendation) {
-      energyRecommendation.hidden = false;
-    }
-  } else if (energyRecommendation) {
-    energyRecommendation.hidden = true;
-  }
-
-  showEnergyStep('impulse');
+  showEnergyStep('check');
 });
 
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
