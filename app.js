@@ -210,7 +210,7 @@ function backFromCodeImpulse() {
     return;
   }
 
-  openView('impulse');
+  goBackView('impulse');
 }
 
 backFromBodyImpulse?.addEventListener('click', backFromCodeImpulse);
