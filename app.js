@@ -1159,6 +1159,8 @@ const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 const energyRecommendation = document.getElementById('energyRecommendation');
 const energyRecommendationButton = document.getElementById('energyRecommendationButton');
 const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
+const repeatEnergyRecommendation =
+  document.getElementById('repeatEnergyRecommendation');
 let returnToEnergyAfterRecommendation = false;
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
@@ -1171,7 +1173,11 @@ const energySteps = {
 };
 const energyJourneyState = {
   duration: 1,
+ return {
   impulseId: null,
+  title: 'Starte mit deinem ersten Check',
+  text: 'Je mehr du wahrnimmst und festhältst, desto besser kann ICS erkennen, welche kleinen Schritte dich tatsächlich unterstützen.'
+};
   before: {},
   after: {},
   noticedAt: null,
@@ -1270,6 +1276,7 @@ function getEnergyPersonalRecommendation(history) {
 
   if (history.length < 3) {
     return {
+      impulseId: null,
       title: 'Dein Muster entsteht gerade',
       text: 'Mach noch einige Energie-Checks. Danach kann ICS vergleichen, welche Impulse bei dir besonders gut wirken.'
     };
@@ -1311,6 +1318,7 @@ function getEnergyPersonalRecommendation(history) {
 
   if (!bestImpulse || bestImpulse.averageChange <= 0) {
     return {
+      impulseId: null,
       title: 'Weiter beobachten statt mehr machen',
       text: 'Dein Verlauf zeigt noch keinen Impuls, der sich deutlich abhebt. Bleib bei kleinen Schritten und beobachte, was sich wirklich verändert.'
     };
@@ -1318,12 +1326,14 @@ function getEnergyPersonalRecommendation(history) {
 
   if (bestImpulse.count >= 2) {
     return {
+      impulseId: bestImpulse.impulseId,
       title: 'Das scheint dir besonders gutzutun',
       text: `„${bestImpulse.title}“ zeigt in deinen bisherigen Checks wiederholt eine positive Veränderung. Dieser Impuls kann für dich ein guter erster Schritt sein, wenn deine Energie wieder sinkt.`
     };
   }
 
   return {
+    impulseId: bestImpulse.impulseId,
     title: 'Ein erster Hinweis wird sichtbar',
     text: `„${bestImpulse.title}“ hat in deinem bisherigen Verlauf eine positive Veränderung gezeigt. Beobachte bei weiteren Checks, ob sich dieses Muster bestätigt.`
   };
@@ -1358,6 +1368,17 @@ if (recommendationTitle) {
 if (recommendationText) {
   recommendationText.textContent =
     personalRecommendation.text;
+}
+
+  if (repeatEnergyRecommendation) {
+  if (personalRecommendation.impulseId) {
+    repeatEnergyRecommendation.hidden = false;
+    repeatEnergyRecommendation.dataset.impulseId =
+      personalRecommendation.impulseId;
+  } else {
+    repeatEnergyRecommendation.hidden = true;
+    delete repeatEnergyRecommendation.dataset.impulseId;
+  }
 }
 
   if (!history.length) {
@@ -1738,6 +1759,55 @@ if (energyRecommendationTitle) {
   document.getElementById('completeEnergyCheck').disabled = true;
   showEnergyStep('check');
 }
+
+repeatEnergyRecommendation?.addEventListener('click', () => {
+  const impulseId = repeatEnergyRecommendation.dataset.impulseId;
+  if (!impulseId) return;
+
+  const impulse = icsContentLinks.energyImpulses[impulseId];
+  if (!impulse) return;
+
+  energyJourneyState.duration = impulse.duration;
+  energyJourneyState.impulseId = impulse.id;
+
+  energyJourneyState.linkedRecommendation =
+    getBestIcsRecommendation(
+      impulse.sourceContentId,
+      ['tagesimpuls', 'mentor']
+    );
+
+  document.getElementById('energyImpulseId').textContent =
+    `ENERGIE-IMPULS · ${impulse.id}`;
+
+  document.getElementById('energyImpulseTitle').textContent =
+    impulse.title;
+
+  document.getElementById('energyImpulseText').textContent =
+    impulse.instruction;
+
+  document.getElementById('energyImpulseDuration').textContent =
+    `${impulse.duration} ${impulse.duration === 1 ? 'Minute' : 'Minuten'}`;
+
+  document.getElementById('energyImpulseFoundations').textContent =
+    getEnergyFoundationsForImpulse(impulse.id)
+      .map(({ title }) => title)
+      .join(' · ');
+
+  if (energyJourneyState.linkedRecommendation) {
+    if (energyRecommendationTitle) {
+      energyRecommendationTitle.textContent =
+        energyJourneyState.linkedRecommendation.title;
+    }
+
+    if (energyRecommendation) {
+      energyRecommendation.hidden = false;
+    }
+  } else if (energyRecommendation) {
+    energyRecommendation.hidden = true;
+  }
+
+  showEnergyStep('impulse');
+});
 
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
 openIcsEnergy?.addEventListener('click', () => {
