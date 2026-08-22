@@ -1789,6 +1789,38 @@ backFromFuehreMich?.addEventListener('click', () => {
   openView('welten');
 });
 
+document.querySelectorAll('.guide-choice').forEach((button) => {
+  button.addEventListener('click', () => {
+    const state = button.dataset.guideState;
+
+    if (state === 'energy') {
+      openView('icsenergy');
+      resetEnergyJourney();
+      renderEnergyHistory();
+      return;
+    }
+
+    if (state === 'mind') {
+      openView('innerimpulse');
+      return;
+    }
+
+    if (state === 'pressure') {
+      openView('resetimpulse');
+      return;
+    }
+
+    if (state === 'orientation') {
+      openView('actionimpulse');
+      return;
+    }
+
+    if (state === 'impulse') {
+      openView('impulse');
+    }
+  });
+});
+
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
 openIcsEnergy?.addEventListener('click', () => {
   openView('icsenergy');
