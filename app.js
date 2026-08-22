@@ -2145,126 +2145,135 @@ function detectBeliefPattern(belief) {
     .trim()
     .replace(/[.!?]+$/g, '');
 
-  const patterns = [
-    {
-      id: 'pressure',
-      label: 'Innerer Druck',
-      matches: [
-        /^ich muss\b/,
-        /^ich sollte\b/,
-        /immer funktionieren/,
-        /alles schaffen/,
-        /stark sein/
-      ],
-      title: 'Woher kommt dieses Müssen?',
-      reflection:
-        'Was glaubst du, würde passieren, wenn du diesem inneren Druck nicht folgen würdest? Welche Erwartung steckt möglicherweise dahinter?',
-      perspective:
-        'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.'
-    },
+const patterns = [
+  {
+    id: 'permission',
+    label: 'Erlaubnis & Begrenzung',
+    matches: [
+      /^ich darf nicht\b/,
+      /^ich darf kein(?:e|en|em|er)?\b/,
+      /^ich darf mir nicht\b/,
+      /^ich darf mir kein(?:e|en|em|er)?\b/,
+      /darf ich nicht/,
+      /darf mir keine/,
+      /darf mir keinen/
+    ],
+    title: 'Wer hat diese Grenze gesetzt?',
+    reflection:
+      'Ist diese Grenze heute wirklich noch notwendig? Was würdest du dir erlauben, wenn du niemandem etwas beweisen müsstest?',
+    perspective:
+      'Ich darf neu entscheiden, was für mich heute möglich und stimmig ist.'
+  },
 
-    {
-      id: 'permission',
-      label: 'Erlaubnis & Begrenzung',
-      matches: [
-        /^ich darf nicht\b/,
-        /^ich darf kein(e|en)?\b/,
-        /das darf ich nicht/,
-        /ich darf mir nicht/,
-        /ich darf keine fehler/
-      ],
-      title: 'Wer hat diese Grenze gesetzt?',
-      reflection:
-        'Ist diese Grenze heute wirklich noch notwendig? Was würdest du dir erlauben, wenn du niemandem etwas beweisen müsstest?',
-      perspective:
-        'Ich darf neu entscheiden, was für mich heute möglich und stimmig ist.'
-    },
+  {
+    id: 'perfectionism',
+    label: 'Perfektionismus',
+    matches: [
+      /perfekt/,
+      /keine fehler/,
+      /keinen fehler/,
+      /alles richtig machen/,
+      /nichts falsch machen/,
+      /darf nichts falsch/
+    ],
+    title: 'Was wäre, wenn gut genug wirklich genug wäre?',
+    reflection:
+      'Was versuchst du durch Perfektion zu vermeiden? Was wäre in dieser Situation ein menschlicher und realistischer Maßstab?',
+    perspective:
+      'Ich darf lernen, ausprobieren und Fehler machen, ohne dadurch weniger wert zu sein.'
+  },
 
-    {
-      id: 'identity',
-      label: 'Selbstbild',
-      matches: [
-        /^ich bin nicht\b/,
-        /nicht gut genug/,
-        /nicht wertvoll/,
-        /nicht liebenswert/,
-        /nicht richtig/
-      ],
-      title: 'Ist das wirklich deine Identität?',
-      reflection:
-        'Beschreibst du hier wirklich dich – oder eine Bewertung über dich? Welche Erfahrungen sprechen vielleicht bereits gegen diesen Satz?',
-      perspective:
-        'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.'
-    },
+  {
+    id: 'worth',
+    label: 'Selbstwert',
+    matches: [
+      /nicht gut genug/,
+      /nicht liebenswert/,
+      /nicht wertvoll/,
+      /wertlos/,
+      /mich beweisen/,
+      /beweisen müssen/,
+      /anerkennung/,
+      /niemand braucht mich/
+    ],
+    title: 'Wovon machst du deinen Wert abhängig?',
+    reflection:
+      'Was müsste geschehen, damit du dich wertvoll fühlst? Und was verändert sich, wenn dein Wert nicht erst verdient werden müsste?',
+    perspective:
+      'Mein Wert beginnt nicht bei Leistung, Perfektion oder Bestätigung von außen.'
+  },
 
-    {
-      id: 'possibility',
-      label: 'Möglichkeit',
-      matches: [
-        /^ich kann nicht\b/,
-        /^ich kann das nicht\b/,
-        /^ich kann es nicht\b/,
-        /das schaffe ich nicht/,
-        /das geht nicht/
-      ],
-      title: 'Kannst du es nicht – oder noch nicht?',
-      reflection:
-        'Was genau erscheint dir unmöglich? Welcher kleinste Teil davon wäre vielleicht heute schon möglich?',
-      perspective:
-        'Ich muss noch nicht den ganzen Weg können. Ich darf mit dem beginnen, was heute möglich ist.'
-    },
+  {
+    id: 'control',
+    label: 'Kontrolle',
+    matches: [
+      /unter kontrolle/,
+      /kontrollieren/,
+      /alles im griff/,
+      /nichts darf passieren/,
+      /muss alles wissen/,
+      /sicherheit haben/
+    ],
+    title: 'Was möchtest du gerade unbedingt kontrollieren?',
+    reflection:
+      'Was liegt tatsächlich in deinem Einfluss – und was versuchst du festzuhalten, obwohl du es nicht vollständig kontrollieren kannst?',
+    perspective:
+      'Ich darf Verantwortung übernehmen, ohne alles kontrollieren zu müssen.'
+  },
 
-    {
-      id: 'perfectionism',
-      label: 'Perfektionismus',
-      matches: [
-        /perfekt/,
-        /keine fehler/,
-        /alles richtig machen/,
-        /darf nichts falsch/,
-        /fehler machen/
-      ],
-      title: 'Was wäre, wenn gut genug wirklich genug wäre?',
-      reflection:
-        'Was versuchst du durch Perfektion zu vermeiden? Was wäre ein menschlicher, realistischer Maßstab für diese Situation?',
-      perspective:
-        'Ich darf lernen, ausprobieren und Fehler machen, ohne dadurch weniger wert zu sein.'
-    },
+  {
+    id: 'identity',
+    label: 'Selbstbild',
+    matches: [
+      /^ich bin nicht\b/,
+      /ich bin zu/,
+      /so bin ich eben/,
+      /ich bin falsch/,
+      /ich bin schwach/
+    ],
+    title: 'Ist das wirklich deine Identität?',
+    reflection:
+      'Beschreibst du hier wirklich dich – oder eine Bewertung über dich? Welche Erfahrungen sprechen vielleicht bereits gegen diesen Satz?',
+    perspective:
+      'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.'
+  },
 
-    {
-      id: 'worth',
-      label: 'Selbstwert',
-      matches: [
-        /nicht wert/,
-        /wertlos/,
-        /muss mich beweisen/,
-        /anerkennung/,
-        /niemand braucht mich/
-      ],
-      title: 'Wovon machst du deinen Wert abhängig?',
-      reflection:
-        'Was müsste geschehen, damit du dich wertvoll fühlst? Und was, wenn dein Wert nicht erst verdient werden müsste?',
-      perspective:
-        'Mein Wert beginnt nicht bei Leistung oder Bestätigung von außen.'
-    },
+  {
+    id: 'possibility',
+    label: 'Möglichkeit',
+    matches: [
+      /^ich kann nicht\b/,
+      /^ich kann das nicht\b/,
+      /^ich kann es nicht\b/,
+      /das schaffe ich nicht/,
+      /das geht nicht/,
+      /das werde ich nie schaffen/
+    ],
+    title: 'Kannst du es nicht – oder noch nicht?',
+    reflection:
+      'Was genau erscheint dir unmöglich? Welcher kleinste Teil davon wäre vielleicht heute schon möglich?',
+    perspective:
+      'Ich muss noch nicht den ganzen Weg können. Ich darf mit dem beginnen, was heute möglich ist.'
+  },
 
-    {
-      id: 'control',
-      label: 'Kontrolle',
-      matches: [
-        /kontrollieren/,
-        /alles im griff/,
-        /darf nichts passieren/,
-        /muss wissen/,
-        /sicherheit haben/
-      ],
-      title: 'Was möchtest du gerade unbedingt kontrollieren?',
-      reflection:
-        'Was liegt tatsächlich in deinem Einfluss – und was versuchst du festzuhalten, obwohl du es nicht vollständig kontrollieren kannst?',
-      perspective:
-        'Ich darf Verantwortung übernehmen, ohne alles kontrollieren zu müssen.'
-    }
-  ];
+  {
+    id: 'pressure',
+    label: 'Innerer Druck',
+    matches: [
+      /^ich muss\b/,
+      /^ich sollte\b/,
+      /immer funktionieren/,
+      /alles schaffen/,
+      /für alle da sein/,
+      /stark sein/
+    ],
+    title: 'Woher kommt dieses Müssen?',
+    reflection:
+      'Was glaubst du, würde passieren, wenn du diesem inneren Druck nicht folgen würdest? Welche Erwartung steckt möglicherweise dahinter?',
+    perspective:
+      'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.'
+  }
+];
 
   const match = patterns.find((pattern) =>
     pattern.matches.some((rule) => rule.test(text))
