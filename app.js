@@ -1208,6 +1208,9 @@ const actionToImpulse = document.getElementById('actionToImpulse');
 const actionToFocus = document.getElementById('actionToFocus');
 const actionToSteps = document.getElementById('actionToSteps');
 const actionStepsList = document.getElementById('actionStepsList');
+const actionStepsTotal = document.getElementById('actionStepsTotal');
+const actionStepsDone = document.getElementById('actionStepsDone');
+const actionStepsOpen = document.getElementById('actionStepsOpen');
 const backFromActionSteps = document.getElementById('backFromActionSteps');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
@@ -1263,6 +1266,21 @@ function renderActionSteps() {
   if (!actionStepsList) return;
 
   const steps = getActionNextSteps();
+  const total = steps.length;
+const done = steps.filter((item) => item.done).length;
+const open = steps.filter((item) => !item.done).length;
+
+if (actionStepsTotal) {
+  actionStepsTotal.textContent = total;
+}
+
+if (actionStepsDone) {
+  actionStepsDone.textContent = done;
+}
+
+if (actionStepsOpen) {
+  actionStepsOpen.textContent = open;
+}
 
   if (!steps.length) {
     actionStepsList.innerHTML = `
