@@ -2131,7 +2131,13 @@ innerTo99Codes?.addEventListener('click', () => {
   window.location.href = './99-inner-codes.html';
 });
 
-innerToBeliefs?.addEventListener('click', ()
+innerToBeliefs?.addEventListener('click', () => {
+  openView('beliefs');
+});
+
+backFromBeliefs?.addEventListener('click', () => {
+  goBackView('innercode');
+});
 
 backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
