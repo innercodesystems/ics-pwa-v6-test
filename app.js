@@ -1340,6 +1340,32 @@ saveActionNextStep?.addEventListener('click', () => {
 
 renderCurrentActionStep();
 
+completeActionCurrentStep?.addEventListener('click', () => {
+  const stepId = actionCurrentStepCard?.dataset.stepId;
+
+  if (!stepId) return;
+
+  const steps = getActionNextSteps();
+
+  const updatedSteps = steps.map((item) => {
+    if (item.id !== stepId) return item;
+
+    return {
+      ...item,
+      done: true,
+      completedAt: new Date().toISOString()
+    };
+  });
+
+  saveActionNextSteps(updatedSteps);
+  renderCurrentActionStep();
+
+  if (actionNextFeedback) {
+    actionNextFeedback.textContent =
+      'Schritt erledigt. ✓ Nimm kurz wahr, was sich dadurch verändert hat.';
+  }
+});
+
 const resetToImpulse = document.getElementById('resetToImpulse');
 const resetToBibliothek = document.getElementById('resetToBibliothek');
 const resetToMeditation = document.getElementById('resetToMeditation');
