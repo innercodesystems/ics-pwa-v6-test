@@ -316,7 +316,7 @@ openKoerperWahrnehmen?.addEventListener('click', () => {
 });
 
 backFromKoerperWahrnehmen?.addEventListener('click', () => {
-  openView('meditationen');
+  goBackView('bodycode');
 });
 
 openKoerperWahrnehmenMeditation?.addEventListener('click', () => {
