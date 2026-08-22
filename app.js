@@ -213,21 +213,13 @@ function backFromCodeImpulse() {
   openView('impulse');
 }
 
-backFromBodyImpulse?.addEventListener('click', () => {
-  goBackView('bodycode');
-});
+backFromBodyImpulse?.addEventListener('click', backFromCodeImpulse);
 
-backFromActionImpulse?.addEventListener('click', () => {
-  goBackView('actioncode');
-});
+backFromActionImpulse?.addEventListener('click', backFromCodeImpulse);
 
-backFromResetImpulse?.addEventListener('click', () => {
-  goBackView('resetcode');
-});
+backFromResetImpulse?.addEventListener('click', backFromCodeImpulse);
 
-backFromInnerImpulse?.addEventListener('click', () => {
-  goBackView('innercode');
-});
+backFromInnerImpulse?.addEventListener('click', backFromCodeImpulse);
 
 openResetBibliothek?.addEventListener('click', () => {
   openView('resetbibliothek');
@@ -645,7 +637,7 @@ openNeueWahrheit?.addEventListener('click', () => {
 });
 
 backFromNeueWahrheit?.addEventListener('click', () => {
-  goBackView('innercode');
+  openView('innercode');
 });
 
 backFromNeueWahrheitDetail?.addEventListener('click', () => {
