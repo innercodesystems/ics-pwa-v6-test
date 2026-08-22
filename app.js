@@ -1213,6 +1213,83 @@ const actionNextStep = document.getElementById('actionNextStep');
 const saveActionNextStep = document.getElementById('saveActionNextStep');
 const actionNextFeedback = document.getElementById('actionNextFeedback');
 const backFromActionNext = document.getElementById('backFromActionNext');
+const actionNextStepsKey = 'ICS_ACTION_NEXT_STEPS';
+
+let selectedActionSize = 'small';
+
+function getActionNextSteps() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(actionNextStepsKey) || '[]'
+    );
+
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveActionNextSteps(steps) {
+  localStorage.setItem(
+    actionNextStepsKey,
+    JSON.stringify(steps.slice(0, 100))
+  );
+}
+
+document.querySelectorAll('.action-next-size').forEach((button) => {
+  button.addEventListener('click', () => {
+    selectedActionSize = button.dataset.actionSize;
+
+    document.querySelectorAll('.action-next-size').forEach((choice) => {
+      choice.classList.toggle('active', choice === button);
+    });
+  });
+});
+
+saveActionNextStep?.addEventListener('click', () => {
+  const topic = actionNextTopic?.value.trim() || '';
+  const step = actionNextStep?.value.trim() || '';
+
+  if (!topic || !step) {
+    if (actionNextFeedback) {
+      actionNextFeedback.textContent =
+        'Bitte beschreibe kurz, was dich beschäftigt und welchen Schritt du gehen möchtest.';
+    }
+    return;
+  }
+
+  const steps = getActionNextSteps();
+
+  const record = {
+    id: globalThis.crypto?.randomUUID?.() || `ACTION_${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    topic,
+    size: selectedActionSize,
+    step,
+    done: false
+  };
+
+  steps.unshift(record);
+  saveActionNextSteps(steps);
+
+  if (actionNextFeedback) {
+    actionNextFeedback.textContent =
+      'Dein nächster Schritt wurde gespeichert. ✓';
+  }
+
+  actionNextTopic.value = '';
+  actionNextStep.value = '';
+
+  selectedActionSize = 'small';
+
+  document.querySelectorAll('.action-next-size').forEach((button) => {
+    button.classList.toggle(
+      'active',
+      button.dataset.actionSize === 'small'
+    );
+  });
+});
+
 const resetToImpulse = document.getElementById('resetToImpulse');
 const resetToBibliothek = document.getElementById('resetToBibliothek');
 const resetToMeditation = document.getElementById('resetToMeditation');
