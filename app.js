@@ -1209,6 +1209,53 @@ const actionToFocus = document.getElementById('actionToFocus');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
 const actionNextTopic = document.getElementById('actionNextTopic');
+const actionCurrentStepCard =
+  document.getElementById('actionCurrentStepCard');
+
+const actionCurrentStepTopic =
+  document.getElementById('actionCurrentStepTopic');
+
+const actionCurrentStepText =
+  document.getElementById('actionCurrentStepText');
+
+const actionCurrentStepSize =
+  document.getElementById('actionCurrentStepSize');
+
+const completeActionCurrentStep =
+  document.getElementById('completeActionCurrentStep');
+
+function renderCurrentActionStep() {
+  if (!actionCurrentStepCard) return;
+
+  const steps = getActionNextSteps();
+  const currentStep = steps.find((item) => !item.done);
+
+  if (!currentStep) {
+    actionCurrentStepCard.hidden = true;
+    return;
+  }
+
+  const sizeLabels = {
+    small: 'Ein kleiner Schritt',
+    medium: 'Etwas mehr',
+    big: 'Ich bin bereit'
+  };
+
+  actionCurrentStepTopic.textContent =
+    `Thema: ${currentStep.topic}`;
+
+  actionCurrentStepText.textContent =
+    currentStep.step;
+
+  actionCurrentStepSize.textContent =
+    sizeLabels[currentStep.size] || currentStep.size;
+
+  actionCurrentStepCard.dataset.stepId =
+    currentStep.id;
+
+  actionCurrentStepCard.hidden = false;
+}
+
 const actionNextStep = document.getElementById('actionNextStep');
 const saveActionNextStep = document.getElementById('saveActionNextStep');
 const actionNextFeedback = document.getElementById('actionNextFeedback');
@@ -1271,6 +1318,7 @@ saveActionNextStep?.addEventListener('click', () => {
 
   steps.unshift(record);
   saveActionNextSteps(steps);
+  renderCurrentActionStep();
 
   if (actionNextFeedback) {
     actionNextFeedback.textContent =
@@ -1289,6 +1337,8 @@ saveActionNextStep?.addEventListener('click', () => {
     );
   });
 });
+
+renderCurrentActionStep();
 
 const resetToImpulse = document.getElementById('resetToImpulse');
 const resetToBibliothek = document.getElementById('resetToBibliothek');
