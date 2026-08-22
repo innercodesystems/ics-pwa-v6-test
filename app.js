@@ -1918,6 +1918,26 @@ backFromBodyCode?.addEventListener('click', () => {
   goBackView('waehlemeinenweg');
 });
 
+// ---------------------------------------------------------
+// ACTION CODE HUB
+// ---------------------------------------------------------
+
+actionToImpulse?.addEventListener('click', () => {
+  openView('actionimpulse');
+});
+
+actionToFocus?.addEventListener('click', () => {
+  showToast('„Mein nächster Schritt“ wird gerade für dich vorbereitet.');
+});
+
+actionToGegenpol?.addEventListener('click', () => {
+  openView('gegenpol');
+});
+
+backFromActionCode?.addEventListener('click', () => {
+  goBackView('waehlemeinenweg');
+});
+
 const guideRecommendation =
   document.getElementById('guideRecommendation');
 
