@@ -1153,6 +1153,11 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const openFuehreMich = document.getElementById('openFuehreMich');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
+const innerToImpulse = document.getElementById('innerToImpulse');
+const innerToTruth = document.getElementById('innerToTruth');
+const innerTo99Codes = document.getElementById('innerTo99Codes');
+const innerToBeliefs = document.getElementById('innerToBeliefs');
+const backFromInnerCode = document.getElementById('backFromInnerCode');
 
 const openWaehleMeinenWeg =
   document.getElementById('openWaehleMeinenWeg');
