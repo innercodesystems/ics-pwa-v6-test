@@ -213,7 +213,10 @@ function backFromCodeImpulse() {
   openView('impulse');
 }
 
-backFromBodyImpulse?.addEventListener('click', backFromCodeImpulse);
+backFromBodyImpulse?.addEventListener('click', () => {
+  goBackView('bodycode');
+});
+
 backFromActionImpulse?.addEventListener('click', backFromCodeImpulse);
 backFromResetImpulse?.addEventListener('click', backFromCodeImpulse);
 
