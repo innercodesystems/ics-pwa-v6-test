@@ -1199,6 +1199,10 @@ const bodyToImpulse = document.getElementById('bodyToImpulse');
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
+const actionToImpulse = document.getElementById('actionToImpulse');
+const actionToFocus = document.getElementById('actionToFocus');
+const actionToGegenpol = document.getElementById('actionToGegenpol');
+const backFromActionCode = document.getElementById('backFromActionCode');
 
 const openWaehleMeinenWeg =
   document.getElementById('openWaehleMeinenWeg');
