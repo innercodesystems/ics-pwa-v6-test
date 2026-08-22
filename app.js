@@ -2376,26 +2376,6 @@ backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
 
-saveBeliefResult?.addEventListener('click', () => {
-  if (!currentBeliefResult) return;
-
-  const beliefHistory = getBeliefHistory();
-
-  const beliefRecord = {
-    id: globalThis.crypto?.randomUUID?.() || `BELIEF_${Date.now()}`,
-    createdAt: new Date().toISOString(),
-    ...currentBeliefResult
-  };
-
-  beliefHistory.unshift(beliefRecord);
-  saveBeliefHistory(beliefHistory);
-
-  if (beliefSaveFeedback) {
-    beliefSaveFeedback.textContent =
-      'Deine Erkenntnis wurde gespeichert. ✓';
-  }
-});
-
 // ---------------------------------------------------------
 // BODY CODE HUB
 // ---------------------------------------------------------
