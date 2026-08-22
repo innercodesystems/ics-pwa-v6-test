@@ -616,6 +616,28 @@
       </p>
     </section>
 
+  <section class="premium-card" style="margin-top:28px; text-align:center;">
+
+  <p class="section-kicker">DU MUSST NICHT WISSEN, WO DU ANFANGEN SOLLST</p>
+
+  <h2>Führe mich</h2>
+
+  <p>
+    Sag ICS, was gerade bei dir los ist.
+    Du bekommst einen passenden nächsten Schritt.
+  </p>
+
+  <button
+    type="button"
+    class="gold-button"
+    id="openFuehreMich"
+    style="margin-top:18px;"
+  >
+    ICS, führe mich
+  </button>
+
+</section>
+
   <!-- =========================
      WEITERE ICS WELTEN
 ========================== -->
@@ -937,6 +959,74 @@
   <div class="energy-back">
     <button class="gold-button" id="backFromIcsEnergy">
       ← Zurück zu Welten
+    </button>
+  </div>
+
+</section>
+
+<!-- =========================
+     FÜHRE MICH
+========================== -->
+<section class="app-view" id="view-fuehremich">
+
+  <div class="view-header">
+    <p class="section-kicker">ICS FÜHRT DICH</p>
+    <h1>Was ist gerade bei dir los?</h1>
+    <p>Wähle, was deiner aktuellen Situation am nächsten kommt.</p>
+  </div>
+
+  <section class="menu-list">
+
+    <button class="menu-card guide-choice" data-guide-state="energy">
+      <div>
+        <small>ENERGIE</small>
+        <strong>Ich bin energielos</strong>
+        <p>Du brauchst gerade einen kleinen, machbaren Schritt.</p>
+      </div>
+      <b>›</b>
+    </button>
+
+    <button class="menu-card guide-choice" data-guide-state="mind">
+      <div>
+        <small>KOPF</small>
+        <strong>Meine Gedanken drehen sich</strong>
+        <p>Du brauchst gerade Entlastung und Klarheit.</p>
+      </div>
+      <b>›</b>
+    </button>
+
+    <button class="menu-card guide-choice" data-guide-state="pressure">
+      <div>
+        <small>INNERER DRUCK</small>
+        <strong>Ich setze mich gerade unter Druck</strong>
+        <p>Du brauchst gerade Abstand und Neuausrichtung.</p>
+      </div>
+      <b>›</b>
+    </button>
+
+    <button class="menu-card guide-choice" data-guide-state="orientation">
+      <div>
+        <small>ORIENTIERUNG</small>
+        <strong>Ich weiß gerade nicht weiter</strong>
+        <p>Du brauchst gerade einen klaren nächsten Fokus.</p>
+      </div>
+      <b>›</b>
+    </button>
+
+    <button class="menu-card guide-choice" data-guide-state="impulse">
+      <div>
+        <small>IMPULS</small>
+        <strong>Ich möchte einfach einen Impuls</strong>
+        <p>ICS gibt dir einen passenden Gedanken für jetzt.</p>
+      </div>
+      <b>›</b>
+    </button>
+
+  </section>
+
+  <div style="margin-top:24px; text-align:center;">
+    <button class="gold-button" id="backFromFuehreMich">
+      ← Zurück
     </button>
   </div>
 
