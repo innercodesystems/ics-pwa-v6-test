@@ -180,7 +180,7 @@ openImpulse?.addEventListener('click', () => {
 });
 
 backFromImpulse?.addEventListener('click', () => {
-  openView('welten');
+  goBackView('welten');
 });
 
 openInnerImpulse?.addEventListener('click', () => {
