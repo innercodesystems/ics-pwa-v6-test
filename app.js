@@ -1199,6 +1199,13 @@ const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
 const innerTo99Codes = document.getElementById('innerTo99Codes');
 const innerToBeliefs = document.getElementById('innerToBeliefs');
+const beliefInput = document.getElementById('beliefInput');
+const analyzeBelief = document.getElementById('analyzeBelief');
+const beliefResultCard = document.getElementById('beliefResultCard');
+const beliefResultTitle = document.getElementById('beliefResultTitle');
+const beliefResultText = document.getElementById('beliefResultText');
+const beliefNewPerspective = document.getElementById('beliefNewPerspective');
+const backFromBeliefs = document.getElementById('backFromBeliefs');
 const backFromInnerCode = document.getElementById('backFromInnerCode');
 const bodyToImpulse = document.getElementById('bodyToImpulse');
 const bodyToPerception = document.getElementById('bodyToPerception');
@@ -2124,9 +2131,7 @@ innerTo99Codes?.addEventListener('click', () => {
   window.location.href = './99-inner-codes.html';
 });
 
-innerToBeliefs?.addEventListener('click', () => {
-  showToast('Die Glaubenssatz-Bibliothek wird gerade für dich vorbereitet.');
-});
+innerToBeliefs?.addEventListener('click', ()
 
 backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
