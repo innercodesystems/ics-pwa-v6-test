@@ -2165,7 +2165,13 @@ analyzeBelief?.addEventListener('click', () => {
       'Ich darf prüfen, was ich wirklich will – statt nur dem inneren Müssen zu folgen.';
   }
 
-  else if (normalizedBelief.startsWith('ich darf nicht')) {
+  else if (
+  normalizedBelief.startsWith('ich darf nicht') ||
+  normalizedBelief.startsWith('ich darf kein') ||
+  normalizedBelief.startsWith('ich darf keine') ||
+  normalizedBelief.startsWith('ich darf keinen')
+) {
+    
     pattern = 'permission';
     title = 'Wer hat diese Grenze gesetzt?';
     reflection =
@@ -2183,7 +2189,12 @@ analyzeBelief?.addEventListener('click', () => {
       'Ich bin mehr als die Bewertung, die ich über mich gelernt habe.';
   }
 
-  else if (normalizedBelief.startsWith('ich kann nicht')) {
+  else if (
+  normalizedBelief.startsWith('ich kann nicht') ||
+  normalizedBelief.startsWith('ich kann das nicht') ||
+  normalizedBelief.startsWith('ich kann es nicht')
+) {
+    
     pattern = 'possibility';
     title = 'Kannst du es nicht – oder noch nicht?';
     reflection =
