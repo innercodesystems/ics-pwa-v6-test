@@ -1151,6 +1151,8 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 // ---------------------------------------------------------
 
 const openIcsEnergy = document.getElementById('openIcsEnergy');
+const openFuehreMich = document.getElementById('openFuehreMich');
+const backFromFuehreMich = document.getElementById('backFromFuehreMich');
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
 
 const openEnergyHistory = document.getElementById('openEnergyHistory');
@@ -1777,6 +1779,14 @@ repeatEnergyRecommendation?.addEventListener('click', () => {
   });
 
   showEnergyStep('check');
+});
+
+openFuehreMich?.addEventListener('click', () => {
+  openView('fuehremich');
+});
+
+backFromFuehreMich?.addEventListener('click', () => {
+  openView('welten');
 });
 
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
