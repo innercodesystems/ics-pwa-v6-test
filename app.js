@@ -28,7 +28,18 @@ function applyIcsUserName() {
   }
 }
 
-function openView(name) {
+let currentViewName = null;
+const viewHistory = [];
+
+function openView(name, addToHistory = true) {
+  if (
+    addToHistory &&
+    currentViewName &&
+    currentViewName !== name
+  ) {
+    viewHistory.push(currentViewName);
+  }
+
   appViews.forEach((view) => {
     view.classList.toggle('active', view.id === `view-${name}`);
   });
@@ -37,7 +48,15 @@ function openView(name) {
     item.classList.toggle('active', item.dataset.view === name);
   });
 
+  currentViewName = name;
+
   window.scrollTo(0, 0);
+}
+
+function goBackView(fallback = 'welten') {
+  const previousView = viewHistory.pop();
+
+  openView(previousView || fallback, false);
 }
 
 navItems.forEach((item) => {
