@@ -645,7 +645,7 @@ openNeueWahrheit?.addEventListener('click', () => {
 });
 
 backFromNeueWahrheit?.addEventListener('click', () => {
-  goBackView('welten');
+  goBackView('innercode');
 });
 
 backFromNeueWahrheitDetail?.addEventListener('click', () => {
