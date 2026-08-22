@@ -1060,6 +1060,20 @@ textarea:focus {
   margin-top: 20px;
 }
 
+.guide-choice.active {
+  border-color: var(--gold);
+  background: rgba(212, 160, 58, 0.08);
+  box-shadow: 0 0 0 1px rgba(212, 160, 58, 0.15);
+}
+
+.guide-choice.active strong {
+  color: var(--cream);
+}
+
+.guide-choice.active b {
+  color: var(--gold);
+}
+
 /* =========================================================
    MOBILE
    ========================================================= */
