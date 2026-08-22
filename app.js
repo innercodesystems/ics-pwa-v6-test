@@ -1950,6 +1950,26 @@ backFromActionCode?.addEventListener('click', () => {
   goBackView('waehlemeinenweg');
 });
 
+// ---------------------------------------------------------
+// RESET HUB
+// ---------------------------------------------------------
+
+resetToImpulse?.addEventListener('click', () => {
+  openView('resetimpulse');
+});
+
+resetToBibliothek?.addEventListener('click', () => {
+  openView('resetbibliothek');
+});
+
+resetToMeditation?.addEventListener('click', () => {
+  openView('resetmeditation');
+});
+
+backFromResetCode?.addEventListener('click', () => {
+  goBackView('waehlemeinenweg');
+});
+
 const guideRecommendation =
   document.getElementById('guideRecommendation');
 
