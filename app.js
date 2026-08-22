@@ -1208,6 +1208,11 @@ const actionToImpulse = document.getElementById('actionToImpulse');
 const actionToFocus = document.getElementById('actionToFocus');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
+const actionNextTopic = document.getElementById('actionNextTopic');
+const actionNextStep = document.getElementById('actionNextStep');
+const saveActionNextStep = document.getElementById('saveActionNextStep');
+const actionNextFeedback = document.getElementById('actionNextFeedback');
+const backFromActionNext = document.getElementById('backFromActionNext');
 const resetToImpulse = document.getElementById('resetToImpulse');
 const resetToBibliothek = document.getElementById('resetToBibliothek');
 const resetToMeditation = document.getElementById('resetToMeditation');
@@ -1936,7 +1941,11 @@ actionToImpulse?.addEventListener('click', () => {
 });
 
 actionToFocus?.addEventListener('click', () => {
-  showToast('„Mein nächster Schritt“ wird gerade für dich vorbereitet.');
+  openView('actionnext');
+});
+
+backFromActionNext?.addEventListener('click', () => {
+  goBackView('actioncode');
 });
 
 actionToGegenpol?.addEventListener('click', () => {
