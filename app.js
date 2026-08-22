@@ -1206,6 +1206,26 @@ const beliefResultTitle = document.getElementById('beliefResultTitle');
 const beliefResultText = document.getElementById('beliefResultText');
 const beliefNewPerspective = document.getElementById('beliefNewPerspective');
 const backFromBeliefs = document.getElementById('backFromBeliefs');
+const beliefHistoryKey = 'ICS_BELIEF_HISTORY';
+
+function getBeliefHistory() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(beliefHistoryKey) || '[]'
+    );
+
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveBeliefHistory(history) {
+  localStorage.setItem(
+    beliefHistoryKey,
+    JSON.stringify(history.slice(0, 100))
+  );
+}
 const backFromInnerCode = document.getElementById('backFromInnerCode');
 const bodyToImpulse = document.getElementById('bodyToImpulse');
 const bodyToPerception = document.getElementById('bodyToPerception');
@@ -2299,6 +2319,20 @@ analyzeBelief?.addEventListener('click', () => {
   }
 
   const result = detectBeliefPattern(belief);
+  const beliefHistory = getBeliefHistory();
+
+const beliefRecord = {
+  id: globalThis.crypto?.randomUUID?.() || `BELIEF_${Date.now()}`,
+  createdAt: new Date().toISOString(),
+  belief,
+  patternId: result.id,
+  patternLabel: result.label,
+  reflection: result.reflection,
+  perspective: result.perspective
+};
+
+beliefHistory.unshift(beliefRecord);
+saveBeliefHistory(beliefHistory);
 
   if (beliefResultTitle) {
     beliefResultTitle.textContent = result.title;
