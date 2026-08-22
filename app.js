@@ -1931,6 +1931,11 @@ actionToFocus?.addEventListener('click', () => {
 });
 
 actionToGegenpol?.addEventListener('click', () => {
+  window.location.href =
+    'https://innercodesystems.github.io/ics-auswertungstool/ics-gegenpol-generator.html';
+});
+
+actionToGegenpol?.addEventListener('click', () => {
   openView('gegenpol');
 });
 
