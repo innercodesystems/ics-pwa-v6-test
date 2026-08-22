@@ -1206,6 +1206,10 @@ const actionToImpulse = document.getElementById('actionToImpulse');
 const actionToFocus = document.getElementById('actionToFocus');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
+const resetToImpulse = document.getElementById('resetToImpulse');
+const resetToBibliothek = document.getElementById('resetToBibliothek');
+const resetToMeditation = document.getElementById('resetToMeditation');
+const backFromResetCode = document.getElementById('backFromResetCode');
 
 const openWaehleMeinenWeg =
   document.getElementById('openWaehleMeinenWeg');
