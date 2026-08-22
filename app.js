@@ -1861,7 +1861,8 @@ innerToTruth?.addEventListener('click', () => {
 });
 
 innerTo99Codes?.addEventListener('click', () => {
-  openView('codes');
+  sessionStorage.setItem('ICS_RETURN_VIEW', 'innercode');
+  window.location.href = './99-inner-codes.html';
 });
 
 innerToBeliefs?.addEventListener('click', () => {
