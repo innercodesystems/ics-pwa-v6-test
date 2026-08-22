@@ -1153,6 +1153,13 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const openFuehreMich = document.getElementById('openFuehreMich');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
+
+const openWaehleMeinenWeg =
+  document.getElementById('openWaehleMeinenWeg');
+
+const backFromWaehleMeinenWeg =
+  document.getElementById('backFromWaehleMeinenWeg');
+
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
 
 const openEnergyHistory = document.getElementById('openEnergyHistory');
@@ -1786,6 +1793,14 @@ openFuehreMich?.addEventListener('click', () => {
 });
 
 backFromFuehreMich?.addEventListener('click', () => {
+  openView('welten');
+});
+
+openWaehleMeinenWeg?.addEventListener('click', () => {
+  openView('waehlemeinenweg');
+});
+
+backFromWaehleMeinenWeg?.addEventListener('click', () => {
   openView('welten');
 });
 
