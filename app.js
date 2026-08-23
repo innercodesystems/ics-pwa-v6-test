@@ -889,6 +889,19 @@ function renderJournalEntries() {
   }
 }
 
+showMoreJournal?.addEventListener('click', () => {
+
+  const entries = getJournalEntries();
+
+  if (journalVisibleCount >= entries.length) {
+    journalVisibleCount = 3;
+  } else {
+    journalVisibleCount += 3;
+  }
+
+  renderJournalEntries();
+});
+
 document
   .getElementById('saveJournal')
   ?.addEventListener('click', () => {
