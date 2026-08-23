@@ -3126,6 +3126,12 @@ const guideRecommendationTitle =
 const guideLastExperience =
   document.getElementById('guideLastExperience');
 
+const guideEnergyPattern =
+  document.getElementById('guideEnergyPattern');
+
+const guideEnergyPatternText =
+  document.getElementById('guideEnergyPatternText');
+
 const guideLastExperienceTitle =
   document.getElementById('guideLastExperienceTitle');
 
@@ -3230,6 +3236,24 @@ if (state === 'energy') {
       `Zuerst bemerkt: ${experience.noticedAt}`;
 
     guideLastExperience.hidden = false;
+  }
+}
+
+    if (guideEnergyPattern) {
+  guideEnergyPattern.hidden = true;
+}
+
+if (state === 'energy') {
+  const pattern = getMentorEnergyPattern();
+
+  if (pattern && guideEnergyPattern) {
+    const average =
+      pattern.averageEnergyChange.toFixed(1);
+
+    guideEnergyPatternText.textContent =
+      `In ${pattern.count} bisherigen Erfahrungen hat sich deine Energie durchschnittlich um ${average > 0 ? '+' : ''}${average} Punkte verändert.`;
+
+    guideEnergyPattern.hidden = false;
   }
 }
 
