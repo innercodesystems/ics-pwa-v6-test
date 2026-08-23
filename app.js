@@ -1679,54 +1679,9 @@ function renderBodySignals(list = bodySignals) {
   });
 }
 
-renderBodySignals();
-
-bodySignalSearch?.addEventListener('input', () => {
-  const query =
-    bodySignalSearch.value.trim().toLowerCase();
-
-  const filteredSignals = bodySignals.filter((signal) => {
-    const searchableText = `
-      ${signal.category}
-      ${signal.title}
-      ${signal.body}
-      ${signal.inner}
-      ${signal.action}
-      ${signal.reset}
-    `.toLowerCase();
-
-    return searchableText.includes(query);
-  });
-
-  renderBodySignals(filteredSignals);
-});
-
-renderBodySignals();
-
-bodySignalSearch?.addEventListener('input', () => {
-  const query =
-    bodySignalSearch.value.trim().toLowerCase();
-
-  const filteredSignals = bodySignals.filter((signal) => {
-    const searchableText = `
-      ${signal.category}
-      ${signal.title}
-      ${signal.body}
-      ${signal.inner}
-      ${signal.action}
-      ${signal.reset}
-    `.toLowerCase();
-
-    return searchableText.includes(query);
-  });
-
-  renderBodySignals(filteredSignals);
-});
-
-
 // HIER DIREKT WEITER:
 
-let activeBodySignalCategory = 'Alle';
+let activeBodySignalCategory = 'Kopf';
 
 function renderBodySignalFilters() {
   if (!bodySignalFilters) return;
@@ -1759,6 +1714,41 @@ function renderBodySignalFilters() {
     bodySignalFilters.appendChild(button);
   });
 }
+
+function filterBodySignals() {
+  const query =
+    bodySignalSearch?.value.trim().toLowerCase() || '';
+
+  const filteredSignals = bodySignals.filter((signal) => {
+
+    const matchesCategory =
+      activeBodySignalCategory === 'Alle' ||
+      signal.category === activeBodySignalCategory;
+
+    const searchableText = `
+      ${signal.category}
+      ${signal.title}
+      ${signal.body}
+      ${signal.inner}
+      ${signal.action}
+      ${signal.reset}
+    `.toLowerCase();
+
+    const matchesSearch =
+      !query || searchableText.includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  renderBodySignals(filteredSignals);
+}
+
+bodySignalSearch?.addEventListener('input', () => {
+  filterBodySignals();
+});
+
+renderBodySignalFilters();
+filterBodySignals();
 
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
