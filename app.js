@@ -1225,6 +1225,7 @@ const bodyToImpulse = document.getElementById('bodyToImpulse');
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
+const bodyBackToToday = document.getElementById('bodyBackToToday');
 const actionToImpulse = document.getElementById('actionToImpulse');
 const actionToFocus = document.getElementById('actionToFocus');
 const actionToSteps = document.getElementById('actionToSteps');
@@ -2403,8 +2404,6 @@ bodyToEnergy?.addEventListener('click', () => {
 backFromBodyCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
-
-const bodyBackToToday = document.getElementById('bodyBackToToday');
 
 bodyBackToToday?.addEventListener('click', () => {
   openView('heute');
