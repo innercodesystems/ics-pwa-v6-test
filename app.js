@@ -987,6 +987,9 @@ renderJournalEntries();
 const worldMessage =
   document.getElementById('worldMessage');
 
+const worldCoachingCta =
+  document.getElementById('worldCoachingCta');
+
 const worldMessages = {
   inner:
     'Inner Code – erkenne Gedanken, Erwartungen und Muster, die gerade wirken.',
