@@ -2525,6 +2525,14 @@ bodyToImpulse?.addEventListener('click', () => {
   openView('bodyimpulse');
 });
 
+bodyToKoerpersignale?.addEventListener('click', () => {
+  openView('koerpersignale');
+});
+
+backFromKoerpersignale?.addEventListener('click', () => {
+  openView('bodycode', false);
+});
+
 bodyToPerception?.addEventListener('click', () => {
   openView('koerperwahrnehmen');
 });
