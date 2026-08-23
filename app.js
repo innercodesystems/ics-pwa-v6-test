@@ -3073,6 +3073,13 @@ const guideRecommendations = {
     target: 'icsenergy'
   },
 
+body: {
+  title: 'Dein Körper möchte gerade wahrgenommen werden.',
+  text: 'Schau zuerst hin, was dein Körper dir gerade zeigt. Im Körpersignale-Nachschlagewerk kannst du dein aktuelles Signal auswählen und bewusst reflektieren.',
+  area: 'ICS Körpersignale',
+  target: 'koerpersignale'
+},
+  
   mind: {
     title: 'Dein Kopf braucht gerade etwas Abstand.',
     text: 'Du brauchst nicht noch mehr Gedanken. Richte deine Aufmerksamkeit zuerst auf Klarheit und eine neue Perspektive.',
