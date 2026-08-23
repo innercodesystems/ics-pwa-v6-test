@@ -2047,6 +2047,25 @@ const energyHistoryLimit = 100;
 const mentorHistoryKey = 'ICS_MENTOR_HISTORY';
 const mentorHistoryLimit = 100;
 
+function saveMentorChoice(record) {
+  try {
+    const history = JSON.parse(
+      localStorage.getItem(mentorHistoryKey) || '[]'
+    );
+
+    history.unshift(record);
+
+    localStorage.setItem(
+      mentorHistoryKey,
+      JSON.stringify(history.slice(0, mentorHistoryLimit))
+    );
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 const energySteps = {
   check: document.getElementById('energyCheckStep'),
   impulse: document.getElementById('energyImpulseStep'),
@@ -3146,6 +3165,27 @@ document.querySelectorAll('.guide-choice').forEach((button) => {
 
 startGuideRecommendation?.addEventListener('click', () => {
   if (!selectedGuideTarget) return;
+
+  const selectedState =
+    document.querySelector('.guide-choice.active')?.dataset.guideState || '';
+
+  const recommendation =
+    guideRecommendations[selectedState];
+
+  if (recommendation) {
+    saveMentorChoice({
+      id:
+        globalThis.crypto?.randomUUID?.() ||
+        `MENTOR_${Date.now()}`,
+
+      createdAt: new Date().toISOString(),
+
+      state: selectedState,
+      title: recommendation.title,
+      area: recommendation.area,
+      target: recommendation.target
+    });
+  }
 
   if (selectedGuideTarget === 'icsenergy') {
     openView('icsenergy');
