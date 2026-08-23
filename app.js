@@ -872,11 +872,10 @@ document
     const text =
       journalText?.value.trim() || '';
 
-    if (
-      !text &&
-      selectedJournalTypes.size === 0
-    ) {
-
+ if (
+  !text &&
+  !selectedJournalType
+) {
       journalFeedback.textContent =
         'Wähle mindestens einen Bereich oder schreibe eine kurze Notiz.';
 
@@ -888,7 +887,9 @@ document
     entries.unshift({
       id: Date.now(),
       date: new Date().toISOString(),
-      types: [...selectedJournalTypes],
+      types: selectedJournalType
+  ? [selectedJournalType]
+  : [],
       text
     });
 
@@ -914,7 +915,7 @@ document
       journalCount.textContent = '0/600';
     }
 
-    selectedJournalTypes.clear();
+    selectedJournalType = '';
 
     document
       .querySelectorAll('.journal-choice')
