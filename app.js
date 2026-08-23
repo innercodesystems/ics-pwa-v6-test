@@ -990,6 +990,14 @@ const worldMessage =
 const worldCoachingCta =
   document.getElementById('worldCoachingCta');
 
+const worldOpenCta =
+  document.getElementById('worldOpenCta');
+
+const worldOpenButton =
+  document.getElementById('worldOpenButton');
+
+let selectedWorld = '';
+
 const worldMessages = {
   inner:
     'Inner Code – erkenne Gedanken, Erwartungen und Muster, die gerade wirken.',
@@ -1033,6 +1041,8 @@ document
         world = 'reset';
       }
 
+      selectedWorld = world;
+
       if (worldMessage && worldMessages[world]) {
         worldMessage.textContent =
           worldMessages[world];
@@ -1040,6 +1050,20 @@ document
 
 if (worldCoachingCta && world) {
   worldCoachingCta.hidden = false;
+}
+
+      if (worldOpenCta && worldOpenButton && world) {
+  worldOpenCta.hidden = false;
+
+  const labels = {
+    inner: 'Inner Code öffnen →',
+    body: 'Body Code öffnen →',
+    action: 'Action Code öffnen →',
+    reset: 'RESET öffnen →'
+  };
+
+  worldOpenButton.textContent =
+    labels[world] || 'Bereich öffnen →';
 }
       
     });
