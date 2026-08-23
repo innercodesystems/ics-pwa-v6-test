@@ -2079,6 +2079,7 @@ const energyJourneyState = {
   before: {},
   after: {},
   noticedAt: null,
+  mentorState: null,
 
   linkedRecommendation: null,
   completedRecordId: null
@@ -2567,6 +2568,11 @@ document.getElementById('completeEnergyCheck')?.addEventListener('click', () => 
     `Zuerst bemerkt: ${energyJourneyState.noticedAt}`;
 
 const record = createEnergyCheckRecord();
+
+if (record && energyJourneyState.mentorState) {
+  record.mentorState = energyJourneyState.mentorState;
+  record.source = 'mentor';
+}
 
 if (record && saveEnergyCheck(record)) {
   energyJourneyState.completedRecordId = record.id;
@@ -3187,12 +3193,14 @@ startGuideRecommendation?.addEventListener('click', () => {
     });
   }
 
-  if (selectedGuideTarget === 'icsenergy') {
-    openView('icsenergy');
-    resetEnergyJourney();
-    renderEnergyHistory();
-    return;
-  }
+if (selectedGuideTarget === 'icsenergy') {
+  resetEnergyJourney();
+  energyJourneyState.mentorState = 'energy';
+
+  openView('icsenergy');
+  renderEnergyHistory();
+  return;
+}
 
   openView(selectedGuideTarget);
 });
