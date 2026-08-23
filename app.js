@@ -124,6 +124,16 @@ const openErkenntnisse = document.getElementById('openErkenntnisse');
 const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
 const openReports = document.getElementById('openReports');
 const meinIcsBackToToday = document.getElementById('meinIcsBackToToday');
+
+const todayToNachschlagewerk =
+  document.getElementById('todayToNachschlagewerk');
+
+const nachschlagewerkToKoerpersignale =
+  document.getElementById('nachschlagewerkToKoerpersignale');
+
+const backFromNachschlagewerk =
+  document.getElementById('backFromNachschlagewerk');
+
 const backFromReports = document.getElementById('backFromReports');
 const openGedankenLoslassen = document.getElementById('openGedankenLoslassen');
 const backFromGedankenLoslassen = document.getElementById('backFromGedankenLoslassen');
@@ -278,6 +288,18 @@ openReports?.addEventListener('click', () => {
 });
 
 meinIcsBackToToday?.addEventListener('click', () => {
+  openView('heute');
+});
+
+todayToNachschlagewerk?.addEventListener('click', () => {
+  openView('nachschlagewerk');
+});
+
+nachschlagewerkToKoerpersignale?.addEventListener('click', () => {
+  openView('koerpersignale');
+});
+
+backFromNachschlagewerk?.addEventListener('click', () => {
   openView('heute');
 });
 
