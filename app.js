@@ -2404,6 +2404,12 @@ backFromBodyCode?.addEventListener('click', () => {
   goBackView('waehlemeinenweg');
 });
 
+const bodyBackToToday = document.getElementById('bodyBackToToday');
+
+bodyBackToToday?.addEventListener('click', () => {
+  openView('heute');
+});
+
 // ---------------------------------------------------------
 // ACTION CODE HUB
 // ---------------------------------------------------------
