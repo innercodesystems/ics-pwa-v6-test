@@ -2606,7 +2606,7 @@ bodyToKoerpersignale?.addEventListener('click', () => {
 });
 
 backFromKoerpersignale?.addEventListener('click', () => {
-  openView('bodycode', false);
+  openView('nachschlagewerk', false);
 });
 
 bodyToPerception?.addEventListener('click', () => {
