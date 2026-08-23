@@ -781,6 +781,11 @@ const journalFeedback =
 const journalEntries =
   document.getElementById('journalEntries');
 
+const showMoreJournal =
+  document.getElementById('showMoreJournal');
+
+let journalVisibleCount = 3;
+
 let selectedJournalType = '';
 
 document
