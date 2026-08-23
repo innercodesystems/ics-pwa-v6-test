@@ -1038,6 +1038,10 @@ document
           worldMessages[world];
       }
 
+if (worldCoachingCta && world) {
+  worldCoachingCta.hidden = false;
+}
+      
     });
 
   });
