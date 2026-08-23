@@ -2127,6 +2127,34 @@ function getLatestMentorEnergyExperience() {
   ) || null;
 }
 
+function getMentorEnergyExperiences() {
+  return getEnergyHistory().filter((record) =>
+    record.source === 'mentor' &&
+    record.mentorState === 'energy'
+  );
+}
+
+function getMentorEnergyPattern() {
+  const experiences = getMentorEnergyExperiences();
+
+  if (experiences.length < 3) {
+    return null;
+  }
+
+  const totalEnergyChange = experiences.reduce(
+    (sum, record) => sum + (record.delta?.energy || 0),
+    0
+  );
+
+  const averageEnergyChange =
+    totalEnergyChange / experiences.length;
+
+  return {
+    count: experiences.length,
+    averageEnergyChange
+  };
+}
+
 function getEnergyInsight(history) {
   if (!history.length) {
     return 'Starte deinen ersten Energie-Check. Mit jedem Eintrag wird dein persönliches Muster sichtbarer.';
