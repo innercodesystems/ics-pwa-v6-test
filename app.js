@@ -831,11 +831,17 @@ function renderJournalEntries() {
       </p>
     `;
 
+    if (showMoreJournal) {
+      showMoreJournal.hidden = true;
+    }
+
     return;
   }
 
-  journalEntries.innerHTML = entries
-    .slice(0, 12)
+  const visibleEntries =
+    entries.slice(0, journalVisibleCount);
+
+  journalEntries.innerHTML = visibleEntries
     .map((entry) => {
 
       const date =
@@ -854,7 +860,6 @@ function renderJournalEntries() {
             if (type === 'umgesetzt') return '▲ Umgesetzt';
 
             return type;
-
           })
           .join(' · ');
 
@@ -868,6 +873,20 @@ function renderJournalEntries() {
 
     })
     .join('');
+
+  if (showMoreJournal) {
+
+    if (entries.length <= 3) {
+      showMoreJournal.hidden = true;
+    } else {
+      showMoreJournal.hidden = false;
+
+      showMoreJournal.textContent =
+        journalVisibleCount >= entries.length
+          ? 'Weniger anzeigen'
+          : 'Weitere Einträge anzeigen';
+    }
+  }
 }
 
 document
