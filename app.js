@@ -2468,8 +2468,8 @@ resetToMeditation?.addEventListener('click', () => {
   openView('resetmeditation');
 });
 
-backFromResetCode?.addEventListener('click', () => {
-  goBackView('waehlemeinenweg');
+backFromActionCode?.addEventListener('click', () => {
+  openView('waehlemeinenweg');
 });
 
 const guideRecommendation =
