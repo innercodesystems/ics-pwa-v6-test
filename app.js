@@ -1462,6 +1462,7 @@ const resetToImpulse = document.getElementById('resetToImpulse');
 const resetToBibliothek = document.getElementById('resetToBibliothek');
 const resetToMeditation = document.getElementById('resetToMeditation');
 const backFromResetCode = document.getElementById('backFromResetCode');
+const resetBackToToday = document.getElementById('resetBackToToday');
 
 const openWaehleMeinenWeg =
   document.getElementById('openWaehleMeinenWeg');
@@ -2454,6 +2455,14 @@ actionBackToToday?.addEventListener('click', () => {
 
 resetToImpulse?.addEventListener('click', () => {
   openView('resetimpulse');
+});
+
+backFromResetCode?.addEventListener('click', () => {
+  openView('waehlemeinenweg');
+});
+
+resetBackToToday?.addEventListener('click', () => {
+  openView('heute');
 });
 
 resetToBibliothek?.addEventListener('click', () => {
