@@ -1357,6 +1357,9 @@ const bodyToKoerpersignale =
 const backFromKoerpersignale =
   document.getElementById('backFromKoerpersignale');
 
+const koerpersignaleToBodyCode =
+  document.getElementById('koerpersignaleToBodyCode');
+
 const bodySignalSearch =
   document.getElementById('bodySignalSearch');
 
@@ -2607,6 +2610,10 @@ bodyToKoerpersignale?.addEventListener('click', () => {
 
 backFromKoerpersignale?.addEventListener('click', () => {
   openView('nachschlagewerk', false);
+});
+
+koerpersignaleToBodyCode?.addEventListener('click', () => {
+  openView('bodycode', false);
 });
 
 bodyToPerception?.addEventListener('click', () => {
