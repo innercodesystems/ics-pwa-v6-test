@@ -1363,6 +1363,12 @@ const koerpersignaleToBodyCode =
 const bodySignalSearch =
   document.getElementById('bodySignalSearch');
 
+const bodySignalSearchCard =
+  bodySignalSearch?.closest('.premium-card');
+
+const backToBodySignalList =
+  document.getElementById('backToBodySignalList');
+
 const bodySignalFilters =
   document.getElementById('bodySignalFilters');
 
@@ -1662,18 +1668,45 @@ function renderBodySignals(list = bodySignals) {
       <b>›</b>
     `;
 
-    button.addEventListener('click', () => {
-      bodySignalCategory.textContent = signal.category;
-      bodySignalTitle.textContent = signal.title;
-      bodySignalBody.textContent = signal.body;
-      bodySignalInner.textContent = signal.inner;
-      bodySignalAction.textContent = signal.action;
-      bodySignalReset.textContent = signal.reset;
+button.addEventListener('click', () => {
+  bodySignalCategory.textContent = signal.category;
+  bodySignalTitle.textContent = signal.title;
+  bodySignalBody.textContent = signal.body;
+  bodySignalInner.textContent = signal.inner;
+  bodySignalAction.textContent = signal.action;
+  bodySignalReset.textContent = signal.reset;
 
-      bodySignalList.hidden = true;
-      bodySignalFilters.hidden = true;
-      bodySignalDetail.hidden = false;
-    });
+  if (bodySignalSearchCard) {
+    bodySignalSearchCard.hidden = true;
+  }
+
+  bodySignalList.hidden = true;
+  bodySignalFilters.hidden = true;
+  bodySignalDetail.hidden = false;
+
+  if (backToBodySignalList) {
+    backToBodySignalList.hidden = false;
+  }
+
+  window.scrollTo(0, 0);
+});
+
+    backToBodySignalList?.addEventListener('click', () => {
+
+  if (bodySignalSearchCard) {
+    bodySignalSearchCard.hidden = false;
+  }
+
+  bodySignalDetail.hidden = true;
+  bodySignalFilters.hidden = false;
+  bodySignalList.hidden = false;
+
+  backToBodySignalList.hidden = true;
+
+  filterBodySignals();
+
+  window.scrollTo(0, 0);
+});
 
     bodySignalList.appendChild(button);
   });
