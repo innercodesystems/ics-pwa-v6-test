@@ -1633,6 +1633,52 @@ const bodySignals = [
   }
 ];
 
+function renderBodySignals(list = bodySignals) {
+  if (!bodySignalList) return;
+
+  bodySignalList.innerHTML = '';
+
+  if (list.length === 0) {
+    bodySignalList.innerHTML = `
+      <p class="empty-state">
+        Kein passendes Körpersignal gefunden.
+      </p>
+    `;
+    return;
+  }
+
+  list.forEach((signal, index) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.className = 'menu-card';
+
+    button.innerHTML = `
+      <div>
+        <small>${signal.category}</small>
+        <strong>${signal.title}</strong>
+        <p>${signal.body}</p>
+      </div>
+      <b>›</b>
+    `;
+
+    button.addEventListener('click', () => {
+      bodySignalCategory.textContent = signal.category;
+      bodySignalTitle.textContent = signal.title;
+      bodySignalBody.textContent = signal.body;
+      bodySignalInner.textContent = signal.inner;
+      bodySignalAction.textContent = signal.action;
+      bodySignalReset.textContent = signal.reset;
+
+      bodySignalList.hidden = true;
+      bodySignalFilters.hidden = true;
+      bodySignalDetail.hidden = false;
+    });
+
+    bodySignalList.appendChild(button);
+  });
+}
+
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
