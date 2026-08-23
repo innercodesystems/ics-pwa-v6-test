@@ -1701,6 +1701,65 @@ bodySignalSearch?.addEventListener('input', () => {
   renderBodySignals(filteredSignals);
 });
 
+renderBodySignals();
+
+bodySignalSearch?.addEventListener('input', () => {
+  const query =
+    bodySignalSearch.value.trim().toLowerCase();
+
+  const filteredSignals = bodySignals.filter((signal) => {
+    const searchableText = `
+      ${signal.category}
+      ${signal.title}
+      ${signal.body}
+      ${signal.inner}
+      ${signal.action}
+      ${signal.reset}
+    `.toLowerCase();
+
+    return searchableText.includes(query);
+  });
+
+  renderBodySignals(filteredSignals);
+});
+
+
+// HIER DIREKT WEITER:
+
+let activeBodySignalCategory = 'Alle';
+
+function renderBodySignalFilters() {
+  if (!bodySignalFilters) return;
+
+  const categories = [
+    'Alle',
+    ...new Set(bodySignals.map((signal) => signal.category))
+  ];
+
+  bodySignalFilters.innerHTML = '';
+
+  categories.forEach((category) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.className = 'energy-choice';
+
+    if (category === activeBodySignalCategory) {
+      button.classList.add('active');
+    }
+
+    button.textContent = category;
+
+    button.addEventListener('click', () => {
+      activeBodySignalCategory = category;
+      renderBodySignalFilters();
+      filterBodySignals();
+    });
+
+    bodySignalFilters.appendChild(button);
+  });
+}
+
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
