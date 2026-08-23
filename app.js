@@ -2447,6 +2447,12 @@ backFromActionCode?.addEventListener('click', () => {
   goBackView('waehlemeinenweg');
 });
 
+const actionBackToToday = document.getElementById('actionBackToToday');
+
+actionBackToToday?.addEventListener('click', () => {
+  openView('heute');
+});
+
 // ---------------------------------------------------------
 // RESET HUB
 // ---------------------------------------------------------
