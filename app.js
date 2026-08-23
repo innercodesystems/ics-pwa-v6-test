@@ -1691,8 +1691,11 @@ button.addEventListener('click', () => {
   window.scrollTo(0, 0);
 });
 
-    backToBodySignalList?.addEventListener('click', () => {
+    bodySignalList.appendChild(button);
+  });
+}
 
+backToBodySignalList?.addEventListener('click', () => {
   if (bodySignalSearchCard) {
     bodySignalSearchCard.hidden = false;
   }
@@ -1700,17 +1703,12 @@ button.addEventListener('click', () => {
   bodySignalDetail.hidden = true;
   bodySignalFilters.hidden = false;
   bodySignalList.hidden = false;
-
   backToBodySignalList.hidden = true;
 
   filterBodySignals();
 
   window.scrollTo(0, 0);
 });
-
-    bodySignalList.appendChild(button);
-  });
-}
 
 // HIER DIREKT WEITER:
 
