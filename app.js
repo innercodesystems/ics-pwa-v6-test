@@ -781,7 +781,7 @@ const journalFeedback =
 const journalEntries =
   document.getElementById('journalEntries');
 
-const selectedJournalTypes = new Set();
+let selectedJournalType = '';
 
 document
   .querySelectorAll('.journal-choice')
@@ -789,15 +789,13 @@ document
 
     choice.addEventListener('click', () => {
 
-      const type = choice.dataset.type;
+      selectedJournalType = choice.dataset.type;
 
-      if (selectedJournalTypes.has(type)) {
-        selectedJournalTypes.delete(type);
-        choice.classList.remove('active');
-      } else {
-        selectedJournalTypes.add(type);
-        choice.classList.add('active');
-      }
+      document
+        .querySelectorAll('.journal-choice')
+        .forEach((item) => {
+          item.classList.toggle('active', item === choice);
+        });
 
     });
 
