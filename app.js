@@ -2043,6 +2043,10 @@ let returnToEnergyAfterRecommendation = false;
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
 const energyHistoryLimit = 100;
+
+const mentorHistoryKey = 'ICS_MENTOR_HISTORY';
+const mentorHistoryLimit = 100;
+
 const energySteps = {
   check: document.getElementById('energyCheckStep'),
   impulse: document.getElementById('energyImpulseStep'),
