@@ -1236,6 +1236,7 @@ const actionStepsOpen = document.getElementById('actionStepsOpen');
 const backFromActionSteps = document.getElementById('backFromActionSteps');
 const actionToGegenpol = document.getElementById('actionToGegenpol');
 const backFromActionCode = document.getElementById('backFromActionCode');
+const actionBackToToday = document.getElementById('actionBackToToday');
 const actionNextTopic = document.getElementById('actionNextTopic');
 const actionCurrentStepCard =
   document.getElementById('actionCurrentStepCard');
@@ -2446,8 +2447,6 @@ actionToGegenpol?.addEventListener('click', () => {
 backFromActionCode?.addEventListener('click', () => {
   goBackView('waehlemeinenweg');
 });
-
-const actionBackToToday = document.getElementById('actionBackToToday');
 
 actionBackToToday?.addEventListener('click', () => {
   openView('heute');
