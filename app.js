@@ -1274,6 +1274,86 @@ function saveBeliefHistory(history) {
 }
 const backFromInnerCode = document.getElementById('backFromInnerCode');
 const bodyToImpulse = document.getElementById('bodyToImpulse');
+
+const bodyToKoerpersignale =
+  document.getElementById('bodyToKoerpersignale');
+
+const backFromKoerpersignale =
+  document.getElementById('backFromKoerpersignale');
+
+const bodySignalSearch =
+  document.getElementById('bodySignalSearch');
+
+const bodySignalFilters =
+  document.getElementById('bodySignalFilters');
+
+const bodySignalList =
+  document.getElementById('bodySignalList');
+
+const bodySignalDetail =
+  document.getElementById('bodySignalDetail');
+
+const bodySignalCategory =
+  document.getElementById('bodySignalCategory');
+
+const bodySignalTitle =
+  document.getElementById('bodySignalTitle');
+
+const bodySignalBody =
+  document.getElementById('bodySignalBody');
+
+const bodySignalInner =
+  document.getElementById('bodySignalInner');
+
+const bodySignalAction =
+  document.getElementById('bodySignalAction');
+
+const bodySignalReset =
+  document.getElementById('bodySignalReset');
+
+const bodySignals = [
+  {
+    category: 'Kopf',
+    title: 'Kopfschmerz',
+    body: 'Wo sitzt der Druck oder Schmerz genau? Wie verändert er sich über den Tag?',
+    inner: 'Welche Anforderungen, Reize oder Gedanken beanspruchen gerade besonders viel Raum?',
+    action: '2 Minuten Licht, Wasser und Ruhe: Bildschirm weg, bewusst atmen und den Kiefer lockern.',
+    reset: 'Ist die Intensität danach gleich, stärker oder etwas geringer?'
+  },
+  {
+    category: 'Kopf',
+    title: 'Kieferanspannung',
+    body: 'Spürst du Druck, Pressen oder Müdigkeit im Kiefer?',
+    inner: 'Was hältst du gerade zurück, kontrollierst du stark oder versuchst du durchzuhalten?',
+    action: 'Zunge locker, Zähne voneinander lösen, 6 langsame Ausatmungen.',
+    reset: 'Wo bemerkst du zuerst Entlastung – Kiefer, Gesicht, Nacken oder Atmung?'
+  },
+  {
+    category: 'Kopf',
+    title: 'Augenmüdigkeit',
+    body: 'Sind die Augen trocken, schwer oder überreizt?',
+    inner: 'Wie viel Bildschirm, Konzentration und visuelle Reize hattest du heute?',
+    action: '20 Sekunden in die Ferne schauen, dann 10-mal bewusst blinzeln.',
+    reset: 'Fühlen sich Augen und Kopf danach weiter oder ruhiger an?'
+  },
+  {
+    category: 'Nacken & Schulter',
+    title: 'Nackenanspannung',
+    body: 'Ist der Nacken eher steif, ziehend oder druckempfindlich?',
+    inner: 'Wo bist du innerlich angespannt oder permanent aufmerksam?',
+    action: 'Schultern 5-mal hochziehen und bewusst fallen lassen; anschließend langsam den Blick links/rechts führen.',
+    reset: 'Hat sich Beweglichkeit oder Spannung verändert?'
+  },
+  {
+    category: 'Nacken & Schulter',
+    title: 'Schulterlast',
+    body: 'Welche Schulter fühlt sich schwerer oder höher an?',
+    inner: 'Welche Verantwortung trägst du gerade – und was davon muss heute wirklich bei dir bleiben?',
+    action: 'Eine Aufgabe notieren, die heute bewusst warten darf.',
+    reset: 'Wie reagiert dein Körper auf die Entscheidung, etwas nicht sofort zu tragen?'
+  }
+];
+
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
