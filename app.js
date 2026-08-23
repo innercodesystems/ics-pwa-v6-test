@@ -1679,6 +1679,28 @@ function renderBodySignals(list = bodySignals) {
   });
 }
 
+renderBodySignals();
+
+bodySignalSearch?.addEventListener('input', () => {
+  const query =
+    bodySignalSearch.value.trim().toLowerCase();
+
+  const filteredSignals = bodySignals.filter((signal) => {
+    const searchableText = `
+      ${signal.category}
+      ${signal.title}
+      ${signal.body}
+      ${signal.inner}
+      ${signal.action}
+      ${signal.reset}
+    `.toLowerCase();
+
+    return searchableText.includes(query);
+  });
+
+  renderBodySignals(filteredSignals);
+});
+
 const bodyToPerception = document.getElementById('bodyToPerception');
 const bodyToEnergy = document.getElementById('bodyToEnergy');
 const backFromBodyCode = document.getElementById('backFromBodyCode');
