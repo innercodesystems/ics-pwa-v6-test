@@ -3095,6 +3095,18 @@ const guideRecommendation =
 const guideRecommendationTitle =
   document.getElementById('guideRecommendationTitle');
 
+const guideLastExperience =
+  document.getElementById('guideLastExperience');
+
+const guideLastExperienceTitle =
+  document.getElementById('guideLastExperienceTitle');
+
+const guideLastExperienceResult =
+  document.getElementById('guideLastExperienceResult');
+
+const guideLastExperienceNotice =
+  document.getElementById('guideLastExperienceNotice');
+
 const guideRecommendationText =
   document.getElementById('guideRecommendationText');
 
@@ -3171,6 +3183,27 @@ document.querySelectorAll('.guide-choice').forEach((button) => {
 
     guideRecommendationArea.textContent =
       recommendation.area;
+
+    if (guideLastExperience) {
+  guideLastExperience.hidden = true;
+}
+
+if (state === 'energy') {
+  const experience = getLatestMentorEnergyExperience();
+
+  if (experience && guideLastExperience) {
+    guideLastExperienceTitle.textContent =
+      experience.impulseTitle;
+
+    guideLastExperienceResult.textContent =
+      `Energie: ${experience.before.energy} → ${experience.after.energy}`;
+
+    guideLastExperienceNotice.textContent =
+      `Zuerst bemerkt: ${experience.noticedAt}`;
+
+    guideLastExperience.hidden = false;
+  }
+}
 
     guideRecommendation.hidden = false;
 
