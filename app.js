@@ -2369,19 +2369,22 @@ function createEnergyCheckRecord() {
   const uniquePart = globalThis.crypto?.randomUUID?.()
     || Math.random().toString(36).slice(2);
 
-  return {
-    id: `ENERGY_${Date.now()}_${uniquePart}`,
-    createdAt: new Date().toISOString(),
-    before: { ...energyJourneyState.before },
-    after: { ...energyJourneyState.after },
-    delta,
-    focus: getEnergyFocus(energyJourneyState.before),
-    duration: energyJourneyState.duration,
-    impulseId: impulse.id,
-    impulseTitle: impulse.title,
-    foundations: [...impulse.foundations],
-    noticedAt: energyJourneyState.noticedAt
-  };
+return {
+  id: `ENERGY_${Date.now()}_${uniquePart}`,
+  createdAt: new Date().toISOString(),
+  before: { ...energyJourneyState.before },
+  after: { ...energyJourneyState.after },
+  delta,
+  focus: getEnergyFocus(energyJourneyState.before),
+  duration: energyJourneyState.duration,
+  impulseId: impulse.id,
+  impulseTitle: impulse.title,
+  foundations: [...impulse.foundations],
+  noticedAt: energyJourneyState.noticedAt,
+
+  source: energyJourneyState.mentorState ? 'mentor' : 'direct',
+  mentorState: energyJourneyState.mentorState || null
+};
 }
 
 function readEnergyRatings(phase) {
