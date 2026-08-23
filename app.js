@@ -2444,10 +2444,6 @@ actionToGegenpol?.addEventListener('click', () => {
   openView('gegenpol');
 });
 
-backFromActionCode?.addEventListener('click', () => {
-  goBackView('waehlemeinenweg');
-});
-
 actionBackToToday?.addEventListener('click', () => {
   openView('heute');
 });
