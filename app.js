@@ -123,6 +123,7 @@ const openGegenpolGenerator = document.getElementById('openGegenpolGenerator');
 const openErkenntnisse = document.getElementById('openErkenntnisse');
 const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
 const openReports = document.getElementById('openReports');
+const meinIcsBackToToday = document.getElementById('meinIcsBackToToday');
 const backFromReports = document.getElementById('backFromReports');
 const openGedankenLoslassen = document.getElementById('openGedankenLoslassen');
 const backFromGedankenLoslassen = document.getElementById('backFromGedankenLoslassen');
@@ -270,6 +271,14 @@ backFromErkenntnisse?.addEventListener('click', () => {
 
 openReports?.addEventListener('click', () => {
   openView('reports');
+});
+
+openReports?.addEventListener('click', () => {
+  openView('reports');
+});
+
+meinIcsBackToToday?.addEventListener('click', () => {
+  openView('heute');
 });
 
 backFromReports?.addEventListener('click', () => {
