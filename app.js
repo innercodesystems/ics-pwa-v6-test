@@ -1065,6 +1065,20 @@ if (worldCoachingCta && world) {
   worldOpenButton.textContent =
     labels[world] || 'Bereich öffnen →';
 }
+
+      if (worldOpenCta && worldOpenButton && world) {
+  worldOpenCta.hidden = false;
+
+  const labels = {
+    inner: 'Inner Code öffnen →',
+    body: 'Body Code öffnen →',
+    action: 'Action Code öffnen →',
+    reset: 'RESET öffnen →'
+  };
+
+  worldOpenButton.textContent =
+    labels[world] || 'Bereich öffnen →';
+}
       
     });
 
