@@ -2118,6 +2118,15 @@ function getEnergyHistory() {
   }
 }
 
+function getLatestMentorEnergyExperience() {
+  const history = getEnergyHistory();
+
+  return history.find((record) =>
+    record.source === 'mentor' &&
+    record.mentorState === 'energy'
+  ) || null;
+}
+
 function getEnergyInsight(history) {
   if (!history.length) {
     return 'Starte deinen ersten Energie-Check. Mit jedem Eintrag wird dein persönliches Muster sichtbarer.';
