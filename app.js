@@ -2401,7 +2401,7 @@ bodyToEnergy?.addEventListener('click', () => {
 });
 
 backFromBodyCode?.addEventListener('click', () => {
-  goBackView('waehlemeinenweg');
+  openView('waehlemeinenweg');
 });
 
 const bodyBackToToday = document.getElementById('bodyBackToToday');
