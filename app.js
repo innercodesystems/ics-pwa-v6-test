@@ -2376,6 +2376,12 @@ backFromInnerCode?.addEventListener('click', () => {
   openView('waehlemeinenweg');
 });
 
+const innerBackToToday = document.getElementById('innerBackToToday');
+
+innerBackToToday?.addEventListener('click', () => {
+  openView('heute');
+});
+
 // ---------------------------------------------------------
 // BODY CODE HUB
 // ---------------------------------------------------------
