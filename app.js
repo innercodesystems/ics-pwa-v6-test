@@ -1084,6 +1084,22 @@ if (worldCoachingCta && world) {
 
   });
 
+worldOpenButton?.addEventListener('click', () => {
+
+  const targets = {
+    inner: 'innercode',
+    body: 'bodycode',
+    action: 'actioncode',
+    reset: 'resetcode'
+  };
+
+  const target = targets[selectedWorld];
+
+  if (target) {
+    openView(target);
+  }
+});
+
 // ---------------------------------------------------------
 // PLATZHALTER-BUTTONS
 // ---------------------------------------------------------
