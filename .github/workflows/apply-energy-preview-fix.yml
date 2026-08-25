@@ -1,0 +1,63 @@
+name: Apply energy preview fix
+
+on:
+  push:
+    branches:
+      - fix/energy-preview-three
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/energy-preview-three
+
+      - name: Limit energy preview to three entries
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('app.js')
+          text = path.read_text()
+          old = """  container.innerHTML = history
+            .slice()
+            .sort((first, second) =>
+              new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
+            .slice(0, 5)
+            .map((record) => {"""
+          new = """  container.innerHTML = history
+            .slice()
+            .sort((first, second) =>
+              new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
+            .slice(0, 3)
+            .map((record) => {"""
+
+          if old not in text:
+              raise SystemExit('Expected energy preview block not found')
+          if text.count(old) != 1:
+              raise SystemExit('Energy preview block is not unique')
+
+          path.write_text(text.replace(old, new, 1))
+          PY
+
+      - name: Validate JavaScript and diff
+        shell: bash
+        run: |
+          node --check app.js
+          node --check service-worker.js
+          git diff --check
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js
+          git commit -m "Limit energy preview to three checks"
+          git push origin HEAD:fix/energy-preview-three
