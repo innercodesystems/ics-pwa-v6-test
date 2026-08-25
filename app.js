@@ -2337,7 +2337,7 @@ if (recommendationText) {
     .slice()
     .sort((first, second) =>
       new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
-    .slice(0, 5)
+    .slice(0, 3)
     .map((record) => {
       const date = new Intl.DateTimeFormat('de-DE', {
         day: '2-digit',
