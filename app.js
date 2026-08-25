@@ -2319,7 +2319,7 @@ if (recommendationText) {
 
   if (!history.length) {
     container.innerHTML =
-      '<p class="empty-state">Noch keine gespeicherten Energie-Checks.</p>';
+      '<p class="empty-state">Dein erster abgeschlossener Energie-Check erscheint hier.</p>';
     return;
   }
 
@@ -2329,8 +2329,15 @@ if (recommendationText) {
     mind: 'Kopf'
   };
 
+  const foundationTitles = new Map(
+    icsContentLinks.energyFoundations.map(({ id, title }) => [id, title])
+  );
+
   container.innerHTML = history
-    .slice(0, 3  )
+    .slice()
+    .sort((first, second) =>
+      new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
+    .slice(0, 5)
     .map((record) => {
       const date = new Intl.DateTimeFormat('de-DE', {
         day: '2-digit',
@@ -2357,16 +2364,31 @@ if (recommendationText) {
         })
         .join('');
 
+      const foundations = record.foundations
+        .map((foundationId) => foundationTitles.get(foundationId))
+        .filter(Boolean)
+        .join(' · ');
+
+      const duration = `${record.duration} ${record.duration === 1 ? 'Minute' : 'Minuten'}`;
+
       return `
         <article class="energy-history-item">
           <small class="energy-history-date">${date}</small>
+
+          <p class="energy-history-focus">
+            <strong>Schwerpunkt:</strong> ${labels[record.focus]}
+          </p>
 
           <div class="energy-history-values">
             ${values}
           </div>
 
-          <p><strong>Impuls:</strong> ${record.impulseTitle}</p>
-          <p><strong>Zuerst bemerkt:</strong> ${record.noticedAt}</p>
+          <div class="energy-history-details">
+            <p><strong>Impuls:</strong> ${escapeHtml(record.impulseTitle)}</p>
+            <p><strong>Dauer:</strong> ${duration}</p>
+            <p><strong>Zuerst bemerkt:</strong> ${escapeHtml(record.noticedAt)}</p>
+            <p><strong>Unterstützte Grundlagen:</strong> ${escapeHtml(foundations)}</p>
+          </div>
         </article>
       `;
     })

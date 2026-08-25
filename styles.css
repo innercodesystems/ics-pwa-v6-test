@@ -965,8 +965,12 @@ textarea:focus {
 
 .energy-history-date {
   display: block;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   color: var(--gold);
+}
+
+.energy-history-focus {
+  margin: 0 0 14px;
 }
 
 .energy-history-values {
@@ -993,6 +997,15 @@ textarea:focus {
 
 .energy-history-item p {
   margin: 8px 0 0;
+}
+
+.energy-history-details {
+  padding-top: 2px;
+  border-top: 1px solid rgba(212,160,58,.14);
+}
+
+.energy-history-details p {
+  line-height: 1.45;
 }
 
 .energy-insight {
