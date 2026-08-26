@@ -50,6 +50,10 @@ function openView(name, addToHistory = true) {
 
   currentViewName = name;
 
+  if (name === 'meinics') {
+  renderLatestEnergyForMeinIcs();
+}
+
   window.scrollTo(0, 0);
 }
 
