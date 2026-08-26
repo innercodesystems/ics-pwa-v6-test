@@ -468,6 +468,14 @@ input[type="range"] {
   font-size: 1.6rem;
 }
 
+#view-meinics .ics-personal-overview {
+  margin-bottom: 26px;
+}
+
+#view-meinics .tool-list {
+  margin-top: 0;
+}
+
 /* =========================================================
    JOURNAL
    ========================================================= */
