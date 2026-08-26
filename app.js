@@ -2032,6 +2032,7 @@ const backFromWaehleMeinenWeg =
 const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
 
 const openEnergyHistory = document.getElementById('openEnergyHistory');
+const icsLatestEnergy = document.getElementById('icsLatestEnergy');
 const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 
 const energyRecommendation = document.getElementById('energyRecommendation');
@@ -2116,6 +2117,40 @@ function getEnergyHistory() {
   } catch {
     return [];
   }
+}
+
+function renderLatestEnergyForMeinIcs() {
+  if (!icsLatestEnergy) return;
+
+  const history = getEnergyHistory();
+  const latest = history[0];
+
+  if (!latest) {
+    icsLatestEnergy.innerHTML =
+      '<small>Dein erster abgeschlossener Energie-Check erscheint hier.</small>';
+    return;
+  }
+
+  const focusLabels = {
+    energy: 'Energie',
+    body: 'Körper',
+    mind: 'Kopf'
+  };
+
+  const date = new Date(latest.createdAt);
+
+  icsLatestEnergy.innerHTML = `
+    <small>
+      ${date.toLocaleDateString('de-DE')} ·
+      ${latest.duration} Min ·
+      ${focusLabels[latest.focus]}
+    </small>
+    <p style="margin:10px 0 0;">
+      Energie ${latest.before.energy} → ${latest.after.energy}
+      · Körper ${latest.before.body} → ${latest.after.body}
+      · Kopf ${latest.before.mind} → ${latest.after.mind}
+    </p>
+  `;
 }
 
 function getLatestMentorEnergyExperience() {
