@@ -2045,6 +2045,70 @@ const icsBirthDate =
 
 const saveIcsBirthDate =
   document.getElementById('saveIcsBirthDate');
+function loadIcsBirthDate() {
+  const savedBirthDate = localStorage.getItem(userBirthDateKey);
+
+  if (icsBirthDate && savedBirthDate) {
+    icsBirthDate.value = savedBirthDate;
+  }
+}
+
+saveIcsBirthDate?.addEventListener('click', () => {
+  const birthDate = icsBirthDate?.value;
+
+  if (!birthDate) return;
+
+  localStorage.setItem(userBirthDateKey, birthDate);
+
+  const cycle = calculateSevenYearCycle(birthDate);
+
+  if (!cycle || !icsLifeCycleOverview) return;
+
+  icsLifeCycleOverview.innerHTML = `
+    <small>DEINE AKTUELLE LEBENSPHASE</small>
+    <p style="margin:10px 0 0;">
+      ${cycle.cycleStart}–${cycle.cycleEnd} Jahre
+      · Jahr ${cycle.yearInCycle} deines Zyklus
+    </p>
+  `;
+});
+
+loadIcsBirthDate();
+function calculateSevenYearCycle(birthDateValue) {
+  if (!birthDateValue) return null;
+
+  const [year, month, day] = birthDateValue
+    .split('-')
+    .map(Number);
+
+  const birthDate = new Date(year, month - 1, day);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const birthdayThisYear = new Date(
+    today.getFullYear(),
+    birthDate.getMonth(),
+    birthDate.getDate()
+  );
+
+  if (today < birthdayThisYear) {
+    age -= 1;
+  }
+
+  if (age < 0) return null;
+
+  const cycleStart = Math.floor(age / 7) * 7;
+  const cycleEnd = cycleStart + 7;
+  const yearInCycle = age - cycleStart + 1;
+
+  return {
+    age,
+    cycleStart,
+    cycleEnd,
+    yearInCycle
+  };
+}
 
 const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 
