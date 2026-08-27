@@ -2040,6 +2040,11 @@ const openEnergyHistory = document.getElementById('openEnergyHistory');
 const icsLatestEnergy = document.getElementById('icsLatestEnergy');
 const icsLifeCycleOverview =
   document.getElementById('icsLifeCycleOverview');
+const icsBirthDate =
+  document.getElementById('icsBirthDate');
+
+const saveIcsBirthDate =
+  document.getElementById('saveIcsBirthDate');
 
 const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 
