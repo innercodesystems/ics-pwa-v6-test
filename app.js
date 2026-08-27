@@ -11,6 +11,7 @@ const navItems = [...document.querySelectorAll('.nav-item')];
 const appViews = [...document.querySelectorAll('.app-view')];
 
 const userNameKey = 'ICS_USER_NAME';
+const userBirthDateKey = 'ICS_USER_BIRTHDATE';
 
 const icsUserName = document.getElementById('icsUserName');
 const saveIcsUserName = document.getElementById('saveIcsUserName');
