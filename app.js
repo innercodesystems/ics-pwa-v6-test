@@ -2037,6 +2037,9 @@ const backFromIcsEnergy = document.getElementById('backFromIcsEnergy');
 
 const openEnergyHistory = document.getElementById('openEnergyHistory');
 const icsLatestEnergy = document.getElementById('icsLatestEnergy');
+const icsLifeCycleOverview =
+  document.getElementById('icsLifeCycleOverview');
+
 const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 
 const energyRecommendation = document.getElementById('energyRecommendation');
