@@ -1398,3 +1398,15 @@ textarea:focus {
   color: var(--muted);
   line-height: 1.5;
 }
+
+#icsLifeCycleOverview {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(212,160,58,.18);
+}
+
+#icsLifeCycleOverview small {
+  display: block;
+  color: var(--muted);
+  line-height: 1.5;
+}
