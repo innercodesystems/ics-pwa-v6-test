@@ -3340,6 +3340,9 @@ saveBeliefDesignChoice?.addEventListener('click', () => {
   latestBelief.designChoice = newChoice;
 
   saveBeliefHistory(beliefHistory);
+  
+  saveBeliefDesignChoice.textContent = 'Neue Wahl gespeichert ✓';
+  saveBeliefDesignChoice.disabled = true;
 });
 
 backFromInnerCode?.addEventListener('click', () => {
