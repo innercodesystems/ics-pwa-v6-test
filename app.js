@@ -2117,16 +2117,17 @@ const energyRecommendationButton = document.getElementById('energyRecommendation
 const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
 const energyDeepening =
   document.getElementById('energyDeepening');
-const repeatEnergyRecommendation =
 
-  const startEnergyDeepening =
+const startEnergyDeepening =
   document.getElementById('startEnergyDeepening');
+
+const repeatEnergyRecommendation =
+  document.getElementById('repeatEnergyRecommendation');
 
 startEnergyDeepening?.addEventListener('click', () => {
   openView('innercode');
 });
 
-  document.getElementById('repeatEnergyRecommendation');
 let returnToEnergyAfterRecommendation = false;
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
