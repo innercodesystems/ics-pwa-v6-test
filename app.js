@@ -2153,9 +2153,56 @@ const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
 startEnergyDeepening?.addEventListener('click', () => {
+  if (beliefInput) {
+    beliefInput.value = '';
+  }
+
+  if (beliefResultCard) {
+    beliefResultCard.hidden = true;
+  }
+
+  if (beliefSaveFeedback) {
+    beliefSaveFeedback.textContent = '';
+  }
+
+  const beliefDesignMode =
+    document.getElementById('beliefDesignMode');
+
+  if (beliefDesignMode) {
+    beliefDesignMode.hidden = true;
+  }
+
+  if (beliefDesignChoice) {
+    beliefDesignChoice.hidden = true;
+  }
+
+  if (beliefDesignInput) {
+    beliefDesignInput.value = '';
+  }
+
+  if (beliefActionStep) {
+    beliefActionStep.hidden = true;
+  }
+
+  if (beliefActionInput) {
+    beliefActionInput.value = '';
+  }
+
+  if (saveBeliefDesignChoice) {
+    saveBeliefDesignChoice.disabled = false;
+    saveBeliefDesignChoice.textContent = 'Neue Wahl festhalten';
+  }
+
+  if (saveBeliefActionStep) {
+    saveBeliefActionStep.disabled = false;
+    saveBeliefActionStep.textContent =
+      'Meinen nächsten Schritt festhalten';
+  }
+
+  currentBeliefResult = null;
+
   openView('beliefs');
 });
-
 let returnToEnergyAfterRecommendation = false;
 
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
