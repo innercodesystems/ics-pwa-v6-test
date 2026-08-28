@@ -1098,6 +1098,22 @@ textarea:focus {
 /* =========================================================
    MOBILE
    ========================================================= */
+
+.energy-ratings label {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.energy-ratings input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.energy-primary {
+  margin-top: 16px;
+}
+
 .energy-duration,
 .energy-notice {
   margin: 26px 0;
