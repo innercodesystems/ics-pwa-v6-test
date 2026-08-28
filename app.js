@@ -3353,9 +3353,27 @@ saveBeliefDesignChoice?.addEventListener('click', () => {
   saveBeliefDesignChoice.textContent = 'Neue Wahl gespeichert ✓';
   saveBeliefDesignChoice.disabled = true;
 
-  if (beliefActionStep) {
+if (beliefActionStep) {
   beliefActionStep.hidden = false;
 }
+});
+
+saveBeliefActionStep?.addEventListener('click', () => {
+  const actionStep = beliefActionInput?.value.trim();
+
+  if (!actionStep) return;
+
+  const beliefHistory = getBeliefHistory();
+  const latestBelief = beliefHistory[0];
+
+  if (!latestBelief) return;
+
+  latestBelief.actionStep = actionStep;
+
+  saveBeliefHistory(beliefHistory);
+
+  saveBeliefActionStep.textContent = 'Nächster Schritt gespeichert ✓';
+  saveBeliefActionStep.disabled = true;
 });
 
 backFromInnerCode?.addEventListener('click', () => {
