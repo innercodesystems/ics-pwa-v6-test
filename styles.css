@@ -1511,6 +1511,10 @@ textarea:focus {
   transform: scale(.98);
 }
 
+.ics-state-start {
+  margin-top: 18px;
+}
+
 .ics-duration-button.is-selected {
   border-color: var(--gold);
   background:
