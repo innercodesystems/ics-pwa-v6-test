@@ -2125,7 +2125,7 @@ const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
 startEnergyDeepening?.addEventListener('click', () => {
-  openView('innercode');
+  openView('beliefs');
 });
 
 let returnToEnergyAfterRecommendation = false;
