@@ -2154,6 +2154,30 @@ const icsStateRouter = {
   }
 };
 
+const icsStateButtons =
+  document.querySelectorAll('.ics-state-button');
+
+let selectedIcsState = null;
+
+icsStateButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const stateKey = button.dataset.icsState;
+    const state = icsStateRouter[stateKey];
+
+    if (!state) return;
+
+    selectedIcsState = stateKey;
+
+    icsStateButtons.forEach((item) => {
+      item.classList.remove('is-selected');
+      item.setAttribute('aria-pressed', 'false');
+    });
+
+    button.classList.add('is-selected');
+    button.setAttribute('aria-pressed', 'true');
+  });
+});
+
 const mentorHistoryKey = 'ICS_MENTOR_HISTORY';
 const mentorHistoryLimit = 100;
 
