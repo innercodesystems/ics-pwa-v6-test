@@ -1400,20 +1400,23 @@ function renderLatestBeliefInsight() {
     return;
   }
 
-  latestBeliefInsight.innerHTML = `
+latestBeliefInsight.innerHTML = `
+  <div style="margin-top:18px;">
+
     <div style="margin-top:18px;">
-      <strong style="display:block; font-size:1.05rem; margin-bottom:10px;">
-  ${latest.patternLabel || 'Erkenntnis'}
-</strong>
+      <small>ERKANNTES MUSTER</small>
+      <p>${latest.patternLabel || 'Erkenntnis'}</p>
+    </div>
 
-      <p style="margin-top:8px;">
-        <strong>„${latest.belief}“</strong>
-      </p>
+    <div style="margin-top:18px;">
+      <small>GLAUBENSSATZ</small>
+      <p>„${latest.belief}“</p>
+    </div>
 
-      <div style="margin-top:18px;">
-        <small>NEUE PERSPEKTIVE</small>
-        <p>${latest.perspective || '–'}</p>
-      </div>
+    <div style="margin-top:18px;">
+      <small>NEUE PERSPEKTIVE</small>
+      <p>${latest.perspective || '–'}</p>
+    </div>
 
       <div style="margin-top:18px;">
         <small>MEINE NEUE WAHL</small>
