@@ -2231,6 +2231,13 @@ function startIcsStateJourney() {
     button.setAttribute('aria-pressed', String(selected));
   });
 
+  const energyDurationChoice =
+    document.getElementById('energyDurationChoice');
+
+  if (energyDurationChoice) {
+    energyDurationChoice.hidden = true;
+  }
+  
   openView('icsenergy');
 }
 
