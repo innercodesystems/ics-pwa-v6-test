@@ -1402,7 +1402,9 @@ function renderLatestBeliefInsight() {
 
   latestBeliefInsight.innerHTML = `
     <div style="margin-top:18px;">
-      <small>${latest.patternLabel || 'ERKENNTNIS'}</small>
+      <strong style="display:block; font-size:1.05rem; margin-bottom:10px;">
+  ${latest.patternLabel || 'Erkenntnis'}
+</strong>
 
       <p style="margin-top:8px;">
         <strong>„${latest.belief}“</strong>
