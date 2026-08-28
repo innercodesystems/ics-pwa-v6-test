@@ -2210,6 +2210,16 @@ function startIcsStateJourney() {
 
   energyJourneyState.routerFocus = state.focus;
   energyJourneyState.duration = selectedIcsDuration;
+
+  const impulse = Object.values(icsContentLinks.energyImpulses)
+    .find((item) =>
+      item.focus === state.focus &&
+      item.duration === selectedIcsDuration
+    );
+
+  if (!impulse) return;
+
+  energyJourneyState.impulseId = impulse.id;
 }
 
 icsStateButtons.forEach((button) => {
