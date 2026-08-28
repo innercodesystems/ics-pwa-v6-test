@@ -2115,6 +2115,8 @@ const backFromEnergyHistory = document.getElementById('backFromEnergyHistory');
 const energyRecommendation = document.getElementById('energyRecommendation');
 const energyRecommendationButton = document.getElementById('energyRecommendationButton');
 const energyRecommendationTitle = document.getElementById('energyRecommendationTitle');
+const energyDeepening =
+  document.getElementById('energyDeepening');
 const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 let returnToEnergyAfterRecommendation = false;
@@ -2900,6 +2902,10 @@ if (record && energyJourneyState.mentorState) {
 if (record && saveEnergyCheck(record)) {
   energyJourneyState.completedRecordId = record.id;
   renderEnergyHistory();
+
+  if (energyDeepening) {
+    energyDeepening.hidden = false;
+  }
 }
 
 showEnergyStep('result');
