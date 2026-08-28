@@ -1474,3 +1474,39 @@ textarea:focus {
   box-shadow: 0 0 0 1px rgba(212,160,58,.12);
   color: var(--cream);
 }
+
+/* =========================================================
+   ICS ZUSTANDS-EINSTIEG · DAUER
+   ========================================================= */
+
+.ics-duration-entry {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212,160,58,.18);
+}
+
+.ics-duration-entry .section-kicker {
+  margin-bottom: 12px;
+}
+
+.ics-duration-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.ics-duration-button {
+  width: 100%;
+  padding: 13px 6px;
+  border: 1px solid rgba(212,160,58,.28);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #11100d, #090907);
+  color: var(--cream);
+  font: inherit;
+  font-size: .88rem;
+  cursor: pointer;
+}
+
+.ics-duration-button:active {
+  transform: scale(.98);
+}
