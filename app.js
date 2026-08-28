@@ -2234,6 +2234,10 @@ function startIcsStateJourney() {
   openView('icsenergy');
 }
 
+document
+  .getElementById('startIcsStateJourney')
+  ?.addEventListener('click', startIcsStateJourney);
+
 icsStateButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const stateKey = button.dataset.icsState;
