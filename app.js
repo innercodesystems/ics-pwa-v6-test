@@ -2118,6 +2118,14 @@ const energyRecommendationTitle = document.getElementById('energyRecommendationT
 const energyDeepening =
   document.getElementById('energyDeepening');
 const repeatEnergyRecommendation =
+
+  const startEnergyDeepening =
+  document.getElementById('startEnergyDeepening');
+
+startEnergyDeepening?.addEventListener('click', () => {
+  openView('innercode');
+});
+
   document.getElementById('repeatEnergyRecommendation');
 let returnToEnergyAfterRecommendation = false;
 
