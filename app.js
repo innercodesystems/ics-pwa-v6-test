@@ -127,6 +127,10 @@ const openAuswertung = document.getElementById('openAuswertung');
 const openGegenpolGenerator = document.getElementById('openGegenpolGenerator');
 const openErkenntnisse = document.getElementById('openErkenntnisse');
 const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
+
+const latestBeliefInsight =
+  document.getElementById('latestBeliefInsight');
+
 const openReports = document.getElementById('openReports');
 const meinIcsBackToToday = document.getElementById('meinIcsBackToToday');
 
@@ -277,6 +281,7 @@ openGegenpolGenerator?.addEventListener('click', () => {
 });
 
 openErkenntnisse?.addEventListener('click', () => {
+  renderLatestBeliefInsight();
   openView('erkenntnisse');
 });
 
@@ -1381,6 +1386,46 @@ function saveBeliefHistory(history) {
     JSON.stringify(history.slice(0, 100))
   );
 }
+
+function renderLatestBeliefInsight() {
+  if (!latestBeliefInsight) return;
+
+  const beliefHistory = getBeliefHistory();
+  const latest = beliefHistory[0];
+
+  if (!latest) {
+    latestBeliefInsight.innerHTML = `
+      <p>Deine zuletzt gespeicherte Erkenntnis erscheint hier.</p>
+    `;
+    return;
+  }
+
+  latestBeliefInsight.innerHTML = `
+    <div style="margin-top:18px;">
+      <small>${latest.patternLabel || 'ERKENNTNIS'}</small>
+
+      <p style="margin-top:8px;">
+        <strong>„${latest.belief}“</strong>
+      </p>
+
+      <div style="margin-top:18px;">
+        <small>NEUE PERSPEKTIVE</small>
+        <p>${latest.perspective || '–'}</p>
+      </div>
+
+      <div style="margin-top:18px;">
+        <small>MEINE NEUE WAHL</small>
+        <p>${latest.designChoice || 'Noch nicht festgehalten.'}</p>
+      </div>
+
+      <div style="margin-top:18px;">
+        <small>MEIN NÄCHSTER SCHRITT</small>
+        <p>${latest.actionStep || 'Noch nicht festgehalten.'}</p>
+      </div>
+    </div>
+  `;
+}
+
 const backFromInnerCode = document.getElementById('backFromInnerCode');
 const bodyToImpulse = document.getElementById('bodyToImpulse');
 
