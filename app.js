@@ -3098,7 +3098,7 @@ innerToBeliefs?.addEventListener('click', () => {
 });
 
 backFromBeliefs?.addEventListener('click', () => {
-  goBackView('innercode');
+  openView('innercode');
 });
 
 function detectBeliefPattern(belief) {
