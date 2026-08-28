@@ -3585,6 +3585,14 @@ document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEn
 openIcsEnergy?.addEventListener('click', () => {
   openView('icsenergy');
   resetEnergyJourney();
+
+const energyDurationChoice =
+  document.getElementById('energyDurationChoice');
+
+if (energyDurationChoice) {
+  energyDurationChoice.hidden = false;
+}
+  
   renderEnergyHistory();
 });
 
