@@ -1556,3 +1556,7 @@ textarea:focus {
       rgba(8, 8, 6, 0.96)
     );
 }
+
+#beliefDesignChoice[hidden] {
+  display: none !important;
+}
