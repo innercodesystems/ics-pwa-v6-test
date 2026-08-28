@@ -131,6 +131,9 @@ const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
 const latestBeliefInsight =
   document.getElementById('latestBeliefInsight');
 
+const latestJournalInsight =
+  document.getElementById('latestJournalInsight');
+
 const openReports = document.getElementById('openReports');
 const meinIcsBackToToday = document.getElementById('meinIcsBackToToday');
 
@@ -282,6 +285,7 @@ openGegenpolGenerator?.addEventListener('click', () => {
 
 openErkenntnisse?.addEventListener('click', () => {
   renderLatestBeliefInsight();
+  renderLatestJournalInsight();
   openView('erkenntnisse');
 });
 
@@ -1427,6 +1431,39 @@ latestBeliefInsight.innerHTML = `
         <small>MEIN NÄCHSTER SCHRITT</small>
         <p>${latest.actionStep || 'Noch nicht festgehalten.'}</p>
       </div>
+    </div>
+  `;
+}
+
+function renderLatestJournalInsight() {
+  if (!latestJournalInsight) return;
+
+  const entries = getJournalEntries();
+  const latest = entries[0];
+
+  if (!latest) {
+    latestJournalInsight.innerHTML = `
+      <p>Dein zuletzt gespeicherter Journal-Eintrag erscheint hier.</p>
+    `;
+    return;
+  }
+
+  const typeLabels = {
+    verstanden: 'VERSTANDEN',
+    gespuert: 'GESPÜRT',
+    umgesetzt: 'UMGESETZT'
+  };
+
+  const type =
+    latest.types?.[0] || '';
+
+  latestJournalInsight.innerHTML = `
+    <div style="margin-top:18px;">
+      <small>${typeLabels[type] || 'JOURNAL'}</small>
+
+      <p style="margin-top:8px;">
+        ${latest.text || 'Ohne zusätzliche Notiz gespeichert.'}
+      </p>
     </div>
   `;
 }
