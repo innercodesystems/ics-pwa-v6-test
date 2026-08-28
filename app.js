@@ -2256,6 +2256,7 @@ const energyJourneyState = {
   after: {},
   noticedAt: null,
   mentorState: null,
+  routerFocus: null,
 
   linkedRecommendation: null,
   completedRecordId: null
@@ -2690,7 +2691,9 @@ function getEnergyFoundationsForImpulse(impulseId) {
 }
 
 function getEnergyImpulse(beforeRatings, duration) {
-  const focus = getEnergyFocus(beforeRatings);
+const focus =
+  energyJourneyState.routerFocus ||
+  getEnergyFocus(beforeRatings);
   const impulse = Object.values(icsContentLinks.energyImpulses)
     .find((item) => item.focus === focus && item.duration === duration);
   if (!impulse) return null;
