@@ -2689,7 +2689,7 @@ return {
   before: { ...energyJourneyState.before },
   after: { ...energyJourneyState.after },
   delta,
-  focus: getEnergyFocus(energyJourneyState.before),
+  focus: energyJourneyState.routerFocus || getEnergyFocus(energyJourneyState.before),
   duration: energyJourneyState.duration,
   impulseId: impulse.id,
   impulseTitle: impulse.title,
