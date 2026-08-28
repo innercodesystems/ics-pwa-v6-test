@@ -3299,6 +3299,13 @@ saveBeliefResult?.addEventListener('click', () => {
     beliefSaveFeedback.textContent =
       'Deine Erkenntnis wurde gespeichert. ✓';
   }
+
+const beliefDesignMode =
+  document.getElementById('beliefDesignMode');
+
+if (beliefDesignMode) {
+  beliefDesignMode.hidden = false;
+}
 });
 
 backFromInnerCode?.addEventListener('click', () => {
