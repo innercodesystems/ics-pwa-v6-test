@@ -2201,6 +2201,17 @@ icsDurationButtons.forEach((button) => {
   });
 });
 
+function startIcsStateJourney() {
+  if (!selectedIcsState || !selectedIcsDuration) return;
+
+  const state = icsStateRouter[selectedIcsState];
+
+  if (!state) return;
+
+  energyJourneyState.routerFocus = state.focus;
+  energyJourneyState.duration = selectedIcsDuration;
+}
+
 icsStateButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const stateKey = button.dataset.icsState;
