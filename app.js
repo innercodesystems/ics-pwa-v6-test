@@ -2178,6 +2178,48 @@ icsStateButtons.forEach((button) => {
   });
 });
 
+const icsDurationButtons =
+  document.querySelectorAll('.ics-duration-button');
+
+let selectedIcsDuration = null;
+
+icsDurationButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const duration = Number(button.dataset.icsDuration);
+
+    if (![1, 3, 10].includes(duration)) return;
+
+    selectedIcsDuration = duration;
+
+    icsDurationButtons.forEach((item) => {
+      item.classList.remove('is-selected');
+      item.setAttribute('aria-pressed', 'false');
+    });
+
+    button.classList.add('is-selected');
+    button.setAttribute('aria-pressed', 'true');
+  });
+});
+
+icsStateButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const stateKey = button.dataset.icsState;
+    const state = icsStateRouter[stateKey];
+
+    if (!state) return;
+
+    selectedIcsState = stateKey;
+
+    icsStateButtons.forEach((item) => {
+      item.classList.remove('is-selected');
+      item.setAttribute('aria-pressed', 'false');
+    });
+
+    button.classList.add('is-selected');
+    button.setAttribute('aria-pressed', 'true');
+  });
+});
+
 const mentorHistoryKey = 'ICS_MENTOR_HISTORY';
 const mentorHistoryLimit = 100;
 
