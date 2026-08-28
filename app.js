@@ -2473,7 +2473,11 @@ function getEnergyPersonalRecommendation(history) {
     };
   }
 
-  const recent = history.slice(0, 10);
+  const latestFocus = history[0]?.focus;
+
+const recent = history
+  .filter((record) => record.focus === latestFocus)
+  .slice(0, 10);
 
   const impulseStats = {};
 
