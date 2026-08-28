@@ -2122,6 +2122,38 @@ let returnToEnergyAfterRecommendation = false;
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
 const energyHistoryLimit = 100;
 
+const icsStateRouter = {
+  kopfVoll: {
+    label: 'Kopf voll',
+    focus: 'mind'
+  },
+
+  erschoepft: {
+    label: 'Erschöpft',
+    focus: 'energy'
+  },
+
+  angespannt: {
+    label: 'Angespannt',
+    focus: 'body'
+  },
+
+  unruhig: {
+    label: 'Unruhig',
+    focus: 'mind'
+  },
+
+  festgefahren: {
+    label: 'Festgefahren',
+    focus: 'mind'
+  },
+
+  energielos: {
+    label: 'Energielos',
+    focus: 'energy'
+  }
+};
+
 const mentorHistoryKey = 'ICS_MENTOR_HISTORY';
 const mentorHistoryLimit = 100;
 
