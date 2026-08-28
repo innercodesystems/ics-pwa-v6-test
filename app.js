@@ -1333,10 +1333,18 @@ const beliefNewPerspective = document.getElementById('beliefNewPerspective');
 const backFromBeliefs = document.getElementById('backFromBeliefs');
 const saveBeliefResult = document.getElementById('saveBeliefResult');
 const beliefSaveFeedback = document.getElementById('beliefSaveFeedback');
+
 const startBeliefDesignMode =
   document.getElementById('startBeliefDesignMode');
+
 const beliefDesignChoice =
   document.getElementById('beliefDesignChoice');
+
+const beliefDesignInput =
+  document.getElementById('beliefDesignInput');
+
+const saveBeliefDesignChoice =
+  document.getElementById('saveBeliefDesignChoice');
 
 startBeliefDesignMode?.addEventListener('click', () => {
   if (beliefDesignChoice) {
