@@ -1346,6 +1346,15 @@ const beliefDesignInput =
 const saveBeliefDesignChoice =
   document.getElementById('saveBeliefDesignChoice');
 
+const beliefActionStep =
+  document.getElementById('beliefActionStep');
+
+const beliefActionInput =
+  document.getElementById('beliefActionInput');
+
+const saveBeliefActionStep =
+  document.getElementById('saveBeliefActionStep');
+
 startBeliefDesignMode?.addEventListener('click', () => {
   if (beliefDesignChoice) {
     beliefDesignChoice.hidden = false;
@@ -3343,6 +3352,10 @@ saveBeliefDesignChoice?.addEventListener('click', () => {
   
   saveBeliefDesignChoice.textContent = 'Neue Wahl gespeichert ✓';
   saveBeliefDesignChoice.disabled = true;
+
+  if (beliefActionStep) {
+  beliefActionStep.hidden = false;
+}
 });
 
 backFromInnerCode?.addEventListener('click', () => {
