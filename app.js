@@ -3319,12 +3319,27 @@ saveBeliefResult?.addEventListener('click', () => {
       'Deine Erkenntnis wurde gespeichert. ✓';
   }
 
-const beliefDesignMode =
-  document.getElementById('beliefDesignMode');
+  const beliefDesignMode =
+    document.getElementById('beliefDesignMode');
 
-if (beliefDesignMode) {
-  beliefDesignMode.hidden = false;
-}
+  if (beliefDesignMode) {
+    beliefDesignMode.hidden = false;
+  }
+});
+
+saveBeliefDesignChoice?.addEventListener('click', () => {
+  const newChoice = beliefDesignInput?.value.trim();
+
+  if (!newChoice) return;
+
+  const beliefHistory = getBeliefHistory();
+  const latestBelief = beliefHistory[0];
+
+  if (!latestBelief) return;
+
+  latestBelief.designChoice = newChoice;
+
+  saveBeliefHistory(beliefHistory);
 });
 
 backFromInnerCode?.addEventListener('click', () => {
