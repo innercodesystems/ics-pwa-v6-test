@@ -1333,6 +1333,8 @@ const beliefNewPerspective = document.getElementById('beliefNewPerspective');
 const backFromBeliefs = document.getElementById('backFromBeliefs');
 const saveBeliefResult = document.getElementById('saveBeliefResult');
 const beliefSaveFeedback = document.getElementById('beliefSaveFeedback');
+const startBeliefDesignMode =
+  document.getElementById('startBeliefDesignMode');
 const beliefHistoryKey = 'ICS_BELIEF_HISTORY';
 
 function getBeliefHistory() {
