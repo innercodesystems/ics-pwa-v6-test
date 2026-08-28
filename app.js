@@ -2208,6 +2208,8 @@ function startIcsStateJourney() {
 
   if (!state) return;
 
+  resetEnergyJourney();
+
   energyJourneyState.routerFocus = state.focus;
   energyJourneyState.duration = selectedIcsDuration;
 
@@ -2220,6 +2222,16 @@ function startIcsStateJourney() {
   if (!impulse) return;
 
   energyJourneyState.impulseId = impulse.id;
+
+  document.querySelectorAll('[data-energy-duration]').forEach((button) => {
+    const selected =
+      Number(button.dataset.energyDuration) === selectedIcsDuration;
+
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  openView('icsenergy');
 }
 
 icsStateButtons.forEach((button) => {
