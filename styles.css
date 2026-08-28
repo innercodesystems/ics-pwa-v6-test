@@ -1410,3 +1410,58 @@ textarea:focus {
   color: var(--muted);
   line-height: 1.5;
 }
+
+/* =========================================================
+   ICS ZUSTANDS-EINSTIEG
+   ========================================================= */
+
+.ics-state-entry {
+  margin: 26px 0 28px;
+}
+
+.ics-state-entry .section-kicker {
+  margin-bottom: 12px;
+}
+
+.ics-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ics-state-button {
+  width: 100%;
+  padding: 14px 12px;
+  border: 1px solid rgba(212,160,58,.28);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #11100d, #090907);
+  color: var(--cream);
+  font: inherit;
+  font-size: .95rem;
+  cursor: pointer;
+  transition:
+    border-color .2s ease,
+    transform .2s ease,
+    background .2s ease;
+}
+
+.ics-state-button:hover {
+  border-color: rgba(212,160,58,.65);
+  background: linear-gradient(145deg, #17140e, #0b0a08);
+}
+
+.ics-state-button:active {
+  transform: scale(.98);
+}
+
+@media (max-width: 420px) {
+  .ics-state-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ics-state-button {
+    padding: 13px 8px;
+    font-size: .9rem;
+  }
+}
