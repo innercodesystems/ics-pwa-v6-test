@@ -1529,6 +1529,9 @@ const bodySignalAction =
 const bodySignalReset =
   document.getElementById('bodySignalReset');
 
+const bodySignalNextStepAction =
+  document.getElementById('bodySignalNextStepAction');
+
 const bodySignals = [
   {
     category: 'Kopf',
