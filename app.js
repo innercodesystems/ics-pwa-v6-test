@@ -2374,6 +2374,12 @@ if (stateKey === 'festgefahren') {
   
 }
 
+icsNextStepAction?.addEventListener('click', () => {
+  if (selectedIcsState === 'festgefahren') {
+    openView('beliefs');
+  }
+});
+
 const icsStateButtons =
   document.querySelectorAll('.ics-state-button');
 
