@@ -69,6 +69,14 @@ navItems.forEach((item) => {
     openView(item.dataset.view);
   });
 });
+
+const requestedView =
+  new URLSearchParams(window.location.search).get('view');
+
+if (requestedView === 'meinics') {
+  openView('meinics', false);
+}
+
 const returnView =
   new URLSearchParams(window.location.search).get('return');
 
