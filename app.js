@@ -2327,6 +2327,53 @@ const icsStateRouter = {
   }
 };
 
+const icsNextStep =
+  document.getElementById('icsNextStep');
+
+const icsNextStepTitle =
+  document.getElementById('icsNextStepTitle');
+
+const icsNextStepText =
+  document.getElementById('icsNextStepText');
+
+const icsNextStepAction =
+  document.getElementById('icsNextStepAction');
+
+function showIcsNextStepForState(stateKey) {
+  if (!icsNextStep) return;
+
+  if (
+  stateKey === 'energielos' ||
+  stateKey === 'erschoepft'
+) {
+    
+    icsNextStepTitle.textContent =
+      'Deine Energie braucht gerade Unterstützung.';
+
+    icsNextStepText.textContent =
+      'Du musst jetzt nicht mehr schaffen. Beginne mit dem, was gerade wirklich möglich ist.';
+
+    icsNextStepAction.textContent =
+      'Passenden Energie-Impuls starten →';
+
+    icsNextStep.hidden = false;
+  }
+
+if (stateKey === 'festgefahren') {
+  icsNextStepTitle.textContent =
+    'Du musst gerade nicht noch mehr nachdenken.';
+
+  icsNextStepText.textContent =
+    'Wenn du feststeckst, kann es helfen, zuerst das aktive Muster sichtbar zu machen und einen neuen Gegenpol zu wählen.';
+
+  icsNextStepAction.textContent =
+    'RESET-Weg öffnen →';
+
+  icsNextStep.hidden = false;
+}
+  
+}
+
 const icsStateButtons =
   document.querySelectorAll('.ics-state-button');
 
@@ -2427,6 +2474,8 @@ icsStateButtons.forEach((button) => {
 
     selectedIcsState = stateKey;
 
+    showIcsNextStepForState(stateKey);
+    
     icsStateButtons.forEach((item) => {
       item.classList.remove('is-selected');
       item.setAttribute('aria-pressed', 'false');
