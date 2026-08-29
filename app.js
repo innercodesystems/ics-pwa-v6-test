@@ -3344,6 +3344,15 @@ function renderFullEnergyHistory() {
     mind: 'Kopf'
   };
 
+  const stateLabels = {
+  kopfVoll: 'Kopf voll',
+  erschoepft: 'Erschöpft',
+  angespannt: 'Angespannt',
+  unruhig: 'Unruhig',
+  festgefahren: 'Festgefahren',
+  energielos: 'Energielos'
+};
+
   container.innerHTML = history
     .map((record) => {
       const date = new Intl.DateTimeFormat('de-DE', {
@@ -3374,6 +3383,10 @@ function renderFullEnergyHistory() {
       return `
         <article class="energy-history-item">
           <small class="energy-history-date">${date}</small>
+
+          ${record.routerState && stateLabels[record.routerState]
+            ? `<p class="energy-history-focus"><strong>Dein Zustand:</strong> ${stateLabels[record.routerState]}</p>`
+            : ''}
 
           <div class="energy-history-values">
             ${values}
