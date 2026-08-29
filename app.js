@@ -2679,6 +2679,10 @@ function countRecentRouterState(stateKey, limit = 10) {
     .length;
 }
 
+function hasRepeatedRouterState(stateKey) {
+  return countRecentRouterState(stateKey, 10) >= 3;
+}
+
 function renderLatestEnergyForMeinIcs() {
   if (!icsLatestEnergy) return;
 
