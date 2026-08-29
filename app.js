@@ -2509,29 +2509,20 @@ const icsStateButtons =
 
 let selectedIcsState = null;
 
-icsStateButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const stateKey = button.dataset.icsState;
-    const state = icsStateRouter[stateKey];
-
-    if (!state) return;
-
-    selectedIcsState = stateKey;
-
-    icsStateButtons.forEach((item) => {
-      item.classList.remove('is-selected');
-      item.setAttribute('aria-pressed', 'false');
-    });
-
-    button.classList.add('is-selected');
-    button.setAttribute('aria-pressed', 'true');
-  });
-});
-
 const icsDurationButtons =
   document.querySelectorAll('.ics-duration-button');
 
 let selectedIcsDuration = null;
+
+function updateIcsStateStartButton() {
+  const startButton =
+    document.getElementById('startIcsStateJourney');
+
+  if (!startButton) return;
+
+  startButton.disabled =
+    !selectedIcsState || !selectedIcsDuration;
+}
 
 icsDurationButtons.forEach((button) => {
   button.addEventListener('click', () => {
