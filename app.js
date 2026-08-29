@@ -2636,10 +2636,6 @@ const energyJourneyState = {
   completedRecordId: null
 };
 
-  linkedRecommendation: null,
-  completedRecordId: null
-};
-
 function isValidEnergyHistoryRecord(record) {
   const ratingKeys = ['energy', 'body', 'mind'];
   return Boolean(
