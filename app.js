@@ -2384,6 +2384,19 @@ if (stateKey === 'angespannt') {
 
   icsNextStep.hidden = false;
 }
+
+if (stateKey === 'unruhig') {
+  icsNextStepTitle.textContent =
+    'Dein System braucht gerade etwas Ruhe und Orientierung.';
+
+  icsNextStepText.textContent =
+    'Wenn innerlich viel gleichzeitig läuft, hilft oft kein weiteres Denken. Ein kurzer RESET kann dir helfen, wieder bei dir anzukommen.';
+
+  icsNextStepAction.textContent =
+    'Kurzen RESET starten →';
+
+  icsNextStep.hidden = false;
+}
   
 }
 
