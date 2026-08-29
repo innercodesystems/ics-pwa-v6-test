@@ -2368,6 +2368,15 @@ const icsStateRouter = {
 const icsNextStep =
   document.getElementById('icsNextStep');
 
+const icsRepeatedPattern =
+  document.getElementById('icsRepeatedPattern');
+
+const icsRepeatedPatternTitle =
+  document.getElementById('icsRepeatedPatternTitle');
+
+const icsRepeatedPatternText =
+  document.getElementById('icsRepeatedPatternText');
+
 const icsNextStepTitle =
   document.getElementById('icsNextStepTitle');
 
@@ -2379,6 +2388,20 @@ const icsNextStepAction =
 
 function showIcsNextStepForState(stateKey) {
   if (!icsNextStep) return;
+
+  if (icsRepeatedPattern) {
+  const repeated = hasRepeatedRouterState(stateKey);
+
+  icsRepeatedPattern.hidden = !repeated;
+
+  if (repeated) {
+    icsRepeatedPatternTitle.textContent =
+      'Dieses Thema taucht bei dir wiederholt auf.';
+
+    icsRepeatedPatternText.textContent =
+      'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
+  }
+}
 
 if (
   stateKey === 'energielos' ||
