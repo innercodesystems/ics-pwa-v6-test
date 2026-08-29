@@ -3692,6 +3692,10 @@ koerpersignaleToBodyCode?.addEventListener('click', () => {
   openView('bodycode', false);
 });
 
+bodySignalNextStepAction?.addEventListener('click', () => {
+  openView('bodycode');
+});
+
 bodyToPerception?.addEventListener('click', () => {
   openView('koerperwahrnehmen');
 });
