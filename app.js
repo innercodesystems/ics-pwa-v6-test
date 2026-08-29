@@ -2401,8 +2401,29 @@ function showIcsNextStepForState(stateKey) {
 icsRepeatedPatternTitle.textContent =
   `„${repeatedStateLabel}“ taucht bei dir wiederholt auf.`;
 
-    icsRepeatedPatternText.textContent =
-      'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
+    const repeatedStateTexts = {
+  kopfVoll:
+    'Dein Kopf scheint häufiger sehr voll zu sein. Vielleicht geht es nicht nur um einzelne Gedanken, sondern um ein Muster von Überlastung, innerem Druck oder fehlender Entlastung.',
+
+  erschoepft:
+    'Erschöpfung zeigt sich bei dir wiederholt. Es kann sinnvoll sein zu schauen, was dir dauerhaft Energie nimmt und wo echte Regeneration zu kurz kommt.',
+
+  angespannt:
+    'Anspannung taucht bei dir wiederholt auf. Dein Körper könnte dir damit zeigen, dass Belastung, Druck oder fehlende Entspannung häufiger eine Rolle spielen.',
+
+  unruhig:
+    'Innere Unruhe zeigt sich bei dir wiederholt. Vielleicht lohnt es sich zu beobachten, was dein System immer wieder in Bewegung hält und was dir wirklich Sicherheit gibt.',
+
+  festgefahren:
+    'Das Gefühl, festzustecken, kehrt bei dir wieder. Vielleicht geht es weniger um die einzelne Situation und mehr um ein Muster, das Entscheidungen oder Veränderung erschwert.',
+
+  energielos:
+    'Energielosigkeit taucht bei dir wiederholt auf. Es kann hilfreich sein zu erkennen, welche Situationen, Gewohnheiten oder Belastungen deiner Energie regelmäßig entgegenwirken.'
+};
+
+icsRepeatedPatternText.textContent =
+  repeatedStateTexts[stateKey] ||
+  'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
   }
 }
 
