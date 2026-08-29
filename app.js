@@ -2369,22 +2369,12 @@ const icsNextStepAction =
 function showIcsNextStepForState(stateKey) {
   if (!icsNextStep) return;
 
-  if (
+if (
   stateKey === 'energielos' ||
   stateKey === 'erschoepft'
 ) {
-    
-    icsNextStepTitle.textContent =
-      'Deine Energie braucht gerade Unterstützung.';
-
-    icsNextStepText.textContent =
-      'Du musst jetzt nicht mehr schaffen. Beginne mit dem, was gerade wirklich möglich ist.';
-
-    icsNextStepAction.textContent =
-      'Passenden Energie-Impuls starten →';
-
-    icsNextStep.hidden = false;
-  }
+  icsNextStep.hidden = true;
+}
 
 if (stateKey === 'festgefahren') {
   icsNextStepTitle.textContent =
