@@ -2679,6 +2679,11 @@ function countRecentRouterState(stateKey, limit = 10) {
     .length;
 }
 
+console.log(
+  'Erschöpft zuletzt:',
+  countRecentRouterState('erschoepft')
+);
+
 function renderLatestEnergyForMeinIcs() {
   if (!icsLatestEnergy) return;
 
