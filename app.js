@@ -1364,6 +1364,9 @@ const beliefActionInput =
 const saveBeliefActionStep =
   document.getElementById('saveBeliefActionStep');
 
+const beliefNextStepRecommendation =
+  document.getElementById('beliefNextStepRecommendation');
+
 startBeliefDesignMode?.addEventListener('click', () => {
   if (beliefDesignChoice) {
     beliefDesignChoice.hidden = false;
@@ -3636,6 +3639,10 @@ saveBeliefActionStep?.addEventListener('click', () => {
 
   saveBeliefActionStep.textContent = 'Nächster Schritt gespeichert ✓';
   saveBeliefActionStep.disabled = true;
+
+if (beliefNextStepRecommendation) {
+  beliefNextStepRecommendation.hidden = false;
+}
 });
 
 backFromInnerCode?.addEventListener('click', () => {
