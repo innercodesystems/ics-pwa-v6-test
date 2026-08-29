@@ -2541,6 +2541,13 @@ icsDurationButtons.forEach((button) => {
     button.setAttribute('aria-pressed', 'true');
 
     updateIcsStateStartButton();
+
+    const selectionHint =
+  document.querySelector('.ics-selection-hint');
+
+if (selectionHint) {
+  selectionHint.hidden = true;
+}
   });
 });
 
