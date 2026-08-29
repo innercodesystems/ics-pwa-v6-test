@@ -2429,6 +2429,12 @@ icsNextStepAction?.addEventListener('click', () => {
   }
 
 if (selectedIcsState === 'kopfVoll') {
+  if (!selectedIcsDuration) {
+    icsNextStepText.textContent =
+      'Wähle zuerst, wie viel gerade wirklich möglich ist: 1, 3 oder 10 Minuten.';
+    return;
+  }
+
   startIcsStateJourney();
 }
   
