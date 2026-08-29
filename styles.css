@@ -1560,3 +1560,28 @@ textarea:focus {
 #beliefDesignChoice[hidden] {
   display: none !important;
 }
+
+@media (max-width: 600px) {
+  .ics-birthdate-input {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .ics-birthdate-input label {
+    display: block;
+    width: 100%;
+  }
+
+  .ics-birthdate-input input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+
+  .ics-birthdate-input .gold-button {
+    width: 100%;
+  }
+}
