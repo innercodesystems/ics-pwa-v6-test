@@ -3222,7 +3222,8 @@ if (record && saveEnergyCheck(record)) {
 if (energyDeepening) {
   energyDeepening.hidden = false;
 }
-
+}
+  
 showEnergyStep('result');
 });
 
