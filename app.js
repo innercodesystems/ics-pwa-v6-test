@@ -2670,6 +2670,15 @@ function getEnergyHistory() {
   }
 }
 
+function countRecentRouterState(stateKey, limit = 10) {
+  if (!stateKey) return 0;
+
+  return getEnergyHistory()
+    .slice(0, limit)
+    .filter((record) => record.routerState === stateKey)
+    .length;
+}
+
 function renderLatestEnergyForMeinIcs() {
   if (!icsLatestEnergy) return;
 
