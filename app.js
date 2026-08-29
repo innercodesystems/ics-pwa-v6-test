@@ -89,7 +89,9 @@ const savedUserName = getIcsUserName();
 if (savedUserName) {
   applyIcsUserName();
 
-  if (returnView === 'innercode') {
+  if (requestedView === 'meinics') {
+    openView('meinics', false);
+  } else if (returnView === 'innercode') {
     openView('innercode', false);
   } else {
     openView('heute');
