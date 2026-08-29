@@ -2394,7 +2394,7 @@ icsNextStepAction?.addEventListener('click', () => {
   }
 
   if (selectedIcsState === 'angespannt') {
-    openView('bodysignals');
+    openView('koerpersignale');
   }
 });
 
