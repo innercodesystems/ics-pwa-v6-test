@@ -2539,6 +2539,8 @@ icsDurationButtons.forEach((button) => {
 
     button.classList.add('is-selected');
     button.setAttribute('aria-pressed', 'true');
+
+    updateIcsStateStartButton();
   });
 });
 
@@ -2605,6 +2607,8 @@ icsStateButtons.forEach((button) => {
 
     button.classList.add('is-selected');
     button.setAttribute('aria-pressed', 'true');
+    
+    updateIcsStateStartButton();
   });
 });
 
