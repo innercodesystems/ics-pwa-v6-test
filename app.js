@@ -2538,6 +2538,7 @@ function startIcsStateJourney() {
   resetEnergyJourney();
 
   energyJourneyState.routerFocus = state.focus;
+  energyJourneyState.routerState = selectedIcsState;
   energyJourneyState.duration = selectedIcsDuration;
 
   const impulse = Object.values(icsContentLinks.energyImpulses)
@@ -2630,6 +2631,10 @@ const energyJourneyState = {
   noticedAt: null,
   mentorState: null,
   routerFocus: null,
+  routerState: null,
+  linkedRecommendation: null,
+  completedRecordId: null
+};
 
   linkedRecommendation: null,
   completedRecordId: null
@@ -2645,6 +2650,7 @@ function isValidEnergyHistoryRecord(record) {
     ratingKeys.every((key) => Number.isFinite(record.after?.[key])) &&
     ratingKeys.every((key) => Number.isFinite(record.delta?.[key])) &&
     ['energy', 'body', 'mind'].includes(record.focus) &&
+    (record.routerState === null || typeof record.routerState === 'string') &&
     [1, 3, 10].includes(record.duration) &&
     typeof record.impulseId === 'string' &&
     typeof record.impulseTitle === 'string' &&
@@ -3023,6 +3029,7 @@ return {
   after: { ...energyJourneyState.after },
   delta,
   focus: energyJourneyState.routerFocus || getEnergyFocus(energyJourneyState.before),
+  routerState: energyJourneyState.routerState || null,
   duration: energyJourneyState.duration,
   impulseId: impulse.id,
   impulseTitle: impulse.title,
