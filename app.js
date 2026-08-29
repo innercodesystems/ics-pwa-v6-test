@@ -3236,6 +3236,8 @@ if (energyRecoveryNextStep) {
     selectedIcsState !== 'erschoepft' &&
     selectedIcsState !== 'energielos';
 }
+
+}
   
 showEnergyStep('result');
 });
