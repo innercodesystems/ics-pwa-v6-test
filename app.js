@@ -2256,6 +2256,12 @@ const energyRecommendationTitle = document.getElementById('energyRecommendationT
 const energyDeepening =
   document.getElementById('energyDeepening');
 
+const energyRecoveryNextStep =
+  document.getElementById('energyRecoveryNextStep');
+
+const openEnergyRecoveryHistory =
+  document.getElementById('openEnergyRecoveryHistory');
+
 const startEnergyDeepening =
   document.getElementById('startEnergyDeepening');
 
@@ -3224,6 +3230,11 @@ energyDeepening.hidden =
   selectedIcsState === 'erschoepft' ||
   selectedIcsState === 'energielos';
 }
+
+if (energyRecoveryNextStep) {
+  energyRecoveryNextStep.hidden =
+    selectedIcsState !== 'erschoepft' &&
+    selectedIcsState !== 'energielos';
 }
   
 showEnergyStep('result');
