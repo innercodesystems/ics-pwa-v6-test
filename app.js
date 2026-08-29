@@ -3220,7 +3220,9 @@ if (record && saveEnergyCheck(record)) {
   renderEnergyHistory();
 
 if (energyDeepening) {
-  energyDeepening.hidden = false;
+energyDeepening.hidden =
+  selectedIcsState === 'erschoepft' ||
+  selectedIcsState === 'energielos';
 }
 }
   
