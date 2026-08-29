@@ -2268,6 +2268,15 @@ const startEnergyDeepening =
 const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
+openEnergyRecoveryHistory?.addEventListener('click', () => {
+  document
+    .getElementById('energyHistoryFullList')
+    ?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+});
+
 startEnergyDeepening?.addEventListener('click', () => {
   if (beliefInput) {
     beliefInput.value = '';
