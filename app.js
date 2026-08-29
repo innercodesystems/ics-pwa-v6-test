@@ -2390,6 +2390,11 @@ if (stateKey === 'angespannt') {
 icsNextStepAction?.addEventListener('click', () => {
   if (selectedIcsState === 'festgefahren') {
     openView('beliefs');
+    return;
+  }
+
+  if (selectedIcsState === 'angespannt') {
+    openView('bodysignals');
   }
 });
 
