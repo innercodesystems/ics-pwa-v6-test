@@ -2371,6 +2371,19 @@ if (stateKey === 'festgefahren') {
 
   icsNextStep.hidden = false;
 }
+
+if (stateKey === 'angespannt') {
+  icsNextStepTitle.textContent =
+    'Dein Körper macht gerade auf etwas aufmerksam.';
+
+  icsNextStepText.textContent =
+    'Statt die Anspannung nur wegzudrücken, kannst du zuerst schauen, was dein Körper dir gerade zeigt.';
+
+  icsNextStepAction.textContent =
+    'Körpersignal nachschlagen →';
+
+  icsNextStep.hidden = false;
+}
   
 }
 
