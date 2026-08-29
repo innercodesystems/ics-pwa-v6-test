@@ -2412,7 +2412,7 @@ icsNextStepAction?.addEventListener('click', () => {
   }
 
   if (selectedIcsState === 'unruhig') {
-    openView('resetcode');
+    openView('resetmeditation');
   }
 });
 
