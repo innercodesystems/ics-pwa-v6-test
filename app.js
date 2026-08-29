@@ -3215,10 +3215,14 @@ document.querySelectorAll('[data-energy-duration]').forEach((button) => {
 });
 
 document.getElementById('startEnergyImpulse')?.addEventListener('click', () => {
-  const beforeRatings = readEnergyRatings('before');
-  const impulse = getEnergyImpulse(beforeRatings, energyJourneyState.duration);
-  if (!impulse) return;
+const beforeRatings = readEnergyRatings('before');
 
+const impulse =
+  energyJourneyState.impulseId
+    ? icsContentLinks.energyImpulses[energyJourneyState.impulseId]
+    : getEnergyImpulse(beforeRatings, energyJourneyState.duration);
+
+if (!impulse) return;
   energyJourneyState.before = beforeRatings;
   energyJourneyState.impulseId = impulse.id;
   energyJourneyState.linkedRecommendation = impulse.linkedRecommendation;
