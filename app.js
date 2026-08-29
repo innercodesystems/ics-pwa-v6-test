@@ -3219,9 +3219,12 @@ if (record && saveEnergyCheck(record)) {
   energyJourneyState.completedRecordId = record.id;
   renderEnergyHistory();
 
-  if (energyDeepening) {
-    energyDeepening.hidden = false;
-  }
+if (energyDeepening) {
+  const skipDeepening =
+    selectedIcsState === 'erschoepft' ||
+    selectedIcsState === 'energielos';
+
+  energyDeepening.hidden = skipDeepening;
 }
 
 showEnergyStep('result');
