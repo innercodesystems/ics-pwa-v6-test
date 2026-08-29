@@ -2299,6 +2299,10 @@ startEnergyDeepening?.addEventListener('click', () => {
       'Meinen nächsten Schritt festhalten';
   }
 
+if (beliefNextStepRecommendation) {
+  beliefNextStepRecommendation.hidden = true;
+}
+  
   currentBeliefResult = null;
 
   openView('beliefs');
