@@ -2408,6 +2408,11 @@ icsNextStepAction?.addEventListener('click', () => {
 
   if (selectedIcsState === 'angespannt') {
     openView('koerpersignale');
+    return;
+  }
+
+  if (selectedIcsState === 'unruhig') {
+    openView('resetcode');
   }
 });
 
