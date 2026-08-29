@@ -1586,3 +1586,11 @@ textarea:focus {
   margin-bottom: 18px;
 }
 }
+
+.ics-selection-hint {
+  margin: 10px 0 18px;
+  font-size: 0.92rem;
+  color: rgba(246, 241, 231, 0.72);
+  text-align: center;
+  line-height: 1.4;
+}
