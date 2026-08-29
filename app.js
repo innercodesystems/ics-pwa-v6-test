@@ -2367,7 +2367,7 @@ if (stateKey === 'festgefahren') {
     'Wenn du feststeckst, kann es helfen, zuerst das aktive Muster sichtbar zu machen und einen neuen Gegenpol zu wählen.';
 
   icsNextStepAction.textContent =
-    'RESET-Weg öffnen →';
+    'Mein Muster verstehen →';
 
   icsNextStep.hidden = false;
 }
