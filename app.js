@@ -195,6 +195,9 @@ const backFromResetBibliothek = document.getElementById('backFromResetBibliothek
 const openResetMeditation = document.getElementById('openResetMeditation');
 const backFromResetMeditation = document.getElementById('backFromResetMeditation');
 
+const resetMeditationNextStepAction =
+  document.getElementById('resetMeditationNextStepAction');
+
 const openZurRuheKommen = document.getElementById('openZurRuheKommen');
 const backFromZurRuheKommen = document.getElementById('backFromZurRuheKommen');
 const openAnkommenMeditation = document.getElementById('openAnkommenMeditation');
@@ -264,6 +267,10 @@ backFromResetBibliothek?.addEventListener('click', () => {
 
 openResetMeditation?.addEventListener('click', () => {
   openView('resetmeditation');
+});
+
+resetMeditationNextStepAction?.addEventListener('click', () => {
+  openView('journal');
 });
 
 backFromResetMeditation?.addEventListener('click', () => {
