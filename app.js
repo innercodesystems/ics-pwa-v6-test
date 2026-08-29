@@ -517,6 +517,18 @@ const icsContentLinks = {
       foundations: ['FOUND_01', 'FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
+
+    ENG_104: {
+  id: 'ENG_104',
+  focus: 'energy',
+  duration: 3,
+  title: 'Tageslicht und bewusst atmen',
+  instruction: 'Gehe für drei Minuten ans Fenster, auf den Balkon oder kurz nach draußen. Richte deinen Blick ins Tageslicht und atme ruhig und bewusst. Du musst nichts leisten – nur deinem System einen kurzen Wechsel ermöglichen.',
+
+  foundations: ['FOUND_01', 'FOUND_07'],
+  sourceContentId: 'IMP_002'
+},
+    
     ENG_201: {
       id: 'ENG_201',
       focus: 'body',
@@ -2588,13 +2600,34 @@ function startIcsStateJourney() {
   energyJourneyState.routerState = selectedIcsState;
   energyJourneyState.duration = selectedIcsDuration;
 
-  const impulse = Object.values(icsContentLinks.energyImpulses)
-    .find((item) =>
-      item.focus === state.focus &&
-      item.duration === selectedIcsDuration
-    );
+const matchingImpulses = Object.values(icsContentLinks.energyImpulses)
+  .filter((item) =>
+    item.focus === state.focus &&
+    item.duration === selectedIcsDuration
+  );
 
-  if (!impulse) return;
+const recentMatchingCheck = getEnergyHistory()
+  .find((record) =>
+    record.focus === state.focus &&
+    record.duration === selectedIcsDuration
+  );
+
+let impulse = matchingImpulses[0];
+
+if (matchingImpulses.length > 1 && recentMatchingCheck) {
+  const lastIndex = matchingImpulses.findIndex(
+    (item) => item.id === recentMatchingCheck.impulseId
+  );
+
+  const nextIndex =
+    lastIndex >= 0
+      ? (lastIndex + 1) % matchingImpulses.length
+      : 0;
+
+  impulse = matchingImpulses[nextIndex];
+}
+
+if (!impulse) return;
 
   energyJourneyState.impulseId = impulse.id;
 
