@@ -2909,6 +2909,13 @@ function renderEnergyHistory() {
 
   const history = getEnergyHistory();
 
+  const energyInsight =
+  document.getElementById('energyInsight');
+
+if (energyInsight) {
+  energyInsight.hidden = history.length < 3;
+}
+
   const insightText = document.getElementById('energyInsightText');
 
 if (insightText) {
@@ -2917,6 +2924,13 @@ if (insightText) {
 
   const personalRecommendation =
   getEnergyPersonalRecommendation(history);
+
+  const energyPersonalRecommendation =
+  document.getElementById('energyPersonalRecommendation');
+
+if (energyPersonalRecommendation) {
+  energyPersonalRecommendation.hidden = history.length < 3;
+}
 
 const recommendationTitle =
   document.getElementById('energyPersonalRecommendationTitle');
