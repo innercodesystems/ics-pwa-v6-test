@@ -2427,6 +2427,11 @@ icsNextStepAction?.addEventListener('click', () => {
   if (selectedIcsState === 'unruhig') {
     openView('resetmeditation');
   }
+
+if (selectedIcsState === 'kopfVoll') {
+  startIcsStateJourney();
+}
+  
 });
 
 const icsStateButtons =
