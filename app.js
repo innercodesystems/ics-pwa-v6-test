@@ -2395,8 +2395,11 @@ function showIcsNextStepForState(stateKey) {
   icsRepeatedPattern.hidden = !repeated;
 
   if (repeated) {
-    icsRepeatedPatternTitle.textContent =
-      'Dieses Thema taucht bei dir wiederholt auf.';
+    const repeatedStateLabel =
+  icsStateRouter[stateKey]?.label || 'Dieses Thema';
+
+icsRepeatedPatternTitle.textContent =
+  `„${repeatedStateLabel}“ taucht bei dir wiederholt auf.`;
 
     icsRepeatedPatternText.textContent =
       'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
