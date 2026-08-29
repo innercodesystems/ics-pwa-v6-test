@@ -2269,12 +2269,8 @@ const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
 openEnergyRecoveryHistory?.addEventListener('click', () => {
-  document
-    .getElementById('energyHistoryFullList')
-    ?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  renderFullEnergyHistory();
+  openView('energyhistory');
 });
 
 startEnergyDeepening?.addEventListener('click', () => {
