@@ -2397,6 +2397,19 @@ if (stateKey === 'unruhig') {
 
   icsNextStep.hidden = false;
 }
+
+if (stateKey === 'kopfVoll') {
+  icsNextStepTitle.textContent =
+    'Dein Kopf braucht gerade Entlastung.';
+
+  icsNextStepText.textContent =
+    'Du musst nicht alles gleichzeitig sortieren. Nimm dir einen kurzen Moment, um Gedanken aus dem Kopf zu bringen und wieder klarer zu werden.';
+
+  icsNextStepAction.textContent =
+    'Kopf entlasten →';
+
+  icsNextStep.hidden = false;
+}
   
 }
 
