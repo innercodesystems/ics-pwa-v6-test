@@ -3220,11 +3220,7 @@ if (record && saveEnergyCheck(record)) {
   renderEnergyHistory();
 
 if (energyDeepening) {
-  const skipDeepening =
-    selectedIcsState === 'erschoepft' ||
-    selectedIcsState === 'energielos';
-
-  energyDeepening.hidden = skipDeepening;
+  energyDeepening.hidden = false;
 }
 
 showEnergyStep('result');
