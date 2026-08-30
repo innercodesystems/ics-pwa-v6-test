@@ -3165,6 +3165,22 @@ function saveEnergyCheck(record) {
 
   const history = getEnergyHistory();
   if (history.some(({ id }) => id === record.id)) return false;
+  
+  const duplicateCheck = history.some((item) =>
+  item.focus === record.focus &&
+  item.routerState === record.routerState &&
+  item.duration === record.duration &&
+  item.impulseId === record.impulseId &&
+  item.before?.energy === record.before?.energy &&
+  item.before?.body === record.before?.body &&
+  item.before?.mind === record.before?.mind &&
+  item.after?.energy === record.after?.energy &&
+  item.after?.body === record.after?.body &&
+  item.after?.mind === record.after?.mind &&
+  item.noticedAt === record.noticedAt
+);
+
+if (duplicateCheck) return false;
 
   try {
     localStorage.setItem(
