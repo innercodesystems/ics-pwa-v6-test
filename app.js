@@ -2630,6 +2630,11 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
 
   if (selectedIcsState === 'kopfVoll') {
     openView('resetcode');
+    return;
+  }
+
+  if (selectedIcsState === 'angespannt') {
+    openView('koerpersignale');
   }
 });
 
