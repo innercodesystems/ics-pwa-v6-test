@@ -497,6 +497,16 @@ const icsContentLinks = {
 
       sourceContentId: 'IMP_002'
     },
+    ENG_105: {
+  id: 'ENG_105',
+  focus: 'energy',
+  duration: 1,
+  title: '60 Sekunden Energie-Wechsel',
+  instruction: 'Stehe auf und richte dich bewusst auf. Atme tief ein und aus und schüttle Arme und Hände für eine Minute locker aus. Spüre nicht danach, ob du schon mehr Energie hast – nimm nur wahr, ob sich etwas verändert.',
+
+  foundations: ['FOUND_04'],
+  sourceContentId: 'IMP_002'
+},
     ENG_102: {
       id: 'ENG_102',
       focus: 'energy',
@@ -517,7 +527,16 @@ const icsContentLinks = {
       foundations: ['FOUND_01', 'FOUND_02', 'FOUND_04'],
       sourceContentId: 'IMP_002'
     },
+ENG_106: {
+  id: 'ENG_106',
+  focus: 'energy',
+  duration: 10,
+  title: '10 Minuten Energie auftanken',
+  instruction: 'Gehe für zehn Minuten nach draußen oder ans Tageslicht. Bewege dich in einem ruhigen Tempo und lass dein Handy dabei möglichst in der Tasche. Richte deine Aufmerksamkeit zwischendurch auf deine Atmung, deine Umgebung und deinen Körper. Es geht nicht um Leistung – sondern darum, deinem System Raum zum Auftanken zu geben.',
 
+  foundations: ['FOUND_01', 'FOUND_04', 'FOUND_07'],
+  sourceContentId: 'IMP_002'
+},
     ENG_104: {
   id: 'ENG_104',
   focus: 'energy',
@@ -539,6 +558,16 @@ const icsContentLinks = {
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
+    ENG_204: {
+  id: 'ENG_204',
+  focus: 'body',
+  duration: 1,
+  title: 'Körper kurz ausschütteln',
+  instruction: 'Stelle dich bequem hin und schüttle für eine Minute Hände, Arme und Schultern locker aus. Lass dabei auch deinen Kiefer bewusst weich werden. Es geht nicht darum, etwas wegzumachen – nimm nur wahr, ob dein Körper etwas mehr Raum bekommt.',
+
+  foundations: ['FOUND_04'],
+  sourceContentId: 'IMP_002'
+},
     ENG_202: {
       id: 'ENG_202',
       focus: 'body',
@@ -549,6 +578,16 @@ const icsContentLinks = {
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
+    ENG_205: {
+  id: 'ENG_205',
+  focus: 'body',
+  duration: 3,
+  title: 'Spannung bewusst abgeben',
+  instruction: 'Stelle beide Füße bewusst auf den Boden. Ziehe für einige Sekunden Schultern, Hände und Arme leicht an und lasse die Spannung anschließend wieder los. Wiederhole das mehrmals in deinem eigenen Rhythmus. Beobachte dabei nur, ob dein Körper mit jedem Loslassen etwas weicher wird.',
+
+  foundations: ['FOUND_04', 'FOUND_07'],
+  sourceContentId: 'IMP_002'
+},
     ENG_203: {
       id: 'ENG_203',
       focus: 'body',
@@ -559,6 +598,16 @@ const icsContentLinks = {
       foundations: ['FOUND_04'],
       sourceContentId: 'IMP_002'
     },
+    ENG_206: {
+  id: 'ENG_206',
+  focus: 'body',
+  duration: 10,
+  title: 'Körper bewusst entlasten',
+  instruction: 'Nimm dir zehn Minuten für ruhige Bewegung. Gehe langsam, strecke dich zwischendurch und bewege Schultern, Rücken und Hüfte so, wie es sich angenehm anfühlt. Bleib dabei mit deiner Aufmerksamkeit immer wieder bei deinem Körper und beobachte, wo mehr Weite oder Entspannung entsteht.',
+
+  foundations: ['FOUND_04', 'FOUND_07'],
+  sourceContentId: 'IMP_002'
+},
     ENG_301: {
       id: 'ENG_301',
       focus: 'mind',
@@ -569,6 +618,16 @@ const icsContentLinks = {
       foundations: ['FOUND_07'],
       sourceContentId: 'IMP_001'
     },
+    ENG_304: {
+  id: 'ENG_304',
+  focus: 'mind',
+  duration: 1,
+  title: 'Gedanken kurz unterbrechen',
+  instruction: 'Richte deinen Blick für eine Minute bewusst auf einen festen Punkt im Raum. Atme ruhig und sage dir innerlich: Jetzt muss ich nichts lösen. Beobachte nur, ob dein Kopf dadurch etwas ruhiger wird.',
+
+  foundations: ['FOUND_07'],
+  sourceContentId: 'IMP_001'
+},
     ENG_302: {
       id: 'ENG_302',
       focus: 'mind',
@@ -579,18 +638,38 @@ const icsContentLinks = {
       foundations: ['FOUND_01', 'FOUND_07'],
       sourceContentId: 'IMP_001'
     },
-    ENG_303: {
-      id: 'ENG_303',
-      focus: 'mind',
-      duration: 10,
-      title: 'Gedanken aus dem Kopf',
-      instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+    ENG_305: {
+  id: 'ENG_305',
+  focus: 'mind',
+  duration: 3,
+  title: 'Gedanken parken',
+  instruction: 'Nimm Papier oder eine Notiz und schreibe für drei Minuten alles auf, was gerade Aufmerksamkeit von dir verlangt. Du musst nichts sortieren oder lösen. Dein Kopf darf wissen: Es ist festgehalten – ich muss es gerade nicht weitertragen.',
 
-      foundations: ['FOUND_07'],
-      sourceContentId: 'IMP_001'
-    }
-  },
-  relationships: [
+  foundations: ['FOUND_07'],
+  sourceContentId: 'IMP_001'
+},
+ENG_303: {
+  id: 'ENG_303',
+  focus: 'mind',
+  duration: 10,
+  title: 'Gedanken aus dem Kopf',
+  instruction: 'Nimm Papier oder eine Notiz. Schreibe zehn Minuten ungefiltert auf, was gerade in deinem Kopf ist. Nichts lösen – nur sichtbar machen.',
+
+  foundations: ['FOUND_07'],
+  sourceContentId: 'IMP_001'
+},
+ENG_306: {
+  id: 'ENG_306',
+  focus: 'mind',
+  duration: 10,
+  title: 'Mentale Ruhe schaffen',
+  instruction: 'Lege dein Handy für zehn Minuten außer Reichweite. Setze dich an einen ruhigen Ort oder gehe langsam ein paar Schritte. Richte deine Aufmerksamkeit immer wieder auf deine Atmung und auf das, was du gerade siehst und hörst. Gedanken dürfen auftauchen – du musst ihnen jetzt nicht folgen.',
+
+  foundations: ['FOUND_01', 'FOUND_07'],
+  sourceContentId: 'IMP_001'
+}
+},
+relationships: [
     { truthId: 'NW_001', impulseId: 'IMP_009', contexts: ['mentor', 'gegenpol', 'tagesimpuls', 'glaubenssatz'] },
     { truthId: 'NW_002', impulseId: 'IMP_005', contexts: ['mentor', 'gegenpol', 'glaubenssatz'] },
     { truthId: 'NW_003', impulseId: 'IMP_010', contexts: ['mentor', 'tagesimpuls'] },
