@@ -2807,7 +2807,7 @@ function isValidEnergyHistoryRecord(record) {
     ratingKeys.every((key) => Number.isFinite(record.after?.[key])) &&
     ratingKeys.every((key) => Number.isFinite(record.delta?.[key])) &&
     ['energy', 'body', 'mind'].includes(record.focus) &&
-    (record.routerState === null || typeof record.routerState === 'string') &&
+    (record.routerState == null || typeof record.routerState === 'string') &&
     [1, 3, 10].includes(record.duration) &&
     typeof record.impulseId === 'string' &&
     typeof record.impulseTitle === 'string' &&
