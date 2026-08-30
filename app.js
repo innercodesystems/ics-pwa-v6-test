@@ -2473,9 +2473,9 @@ function showIcsNextStepForState(stateKey) {
 
     icsRepeatedPattern.hidden = !repeated;
 
-    if (icsRepeatedPatternAction) {
+if (icsRepeatedPatternAction) {
   icsRepeatedPatternAction.hidden =
-    !(repeated && stateKey === 'erschoepft');
+    !(repeated && ['erschoepft', 'kopfVoll'].includes(stateKey));
 }
 
     if (repeated) {
