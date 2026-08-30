@@ -2643,9 +2643,14 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
     return;
   }
 
-  if (selectedIcsState === 'festgefahren') {
-    openView('beliefs');
-  }
+if (selectedIcsState === 'festgefahren') {
+  openView('beliefs');
+  return;
+}
+
+if (selectedIcsState === 'energielos') {
+  openView('icsenergy');
+}
 });
 
 function updateIcsStateStartButton() {
