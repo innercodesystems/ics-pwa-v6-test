@@ -2644,7 +2644,7 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
   }
 
 if (selectedIcsState === 'festgefahren') {
-  openView('beliefs');
+  openView('innercode');
   return;
 }
 
