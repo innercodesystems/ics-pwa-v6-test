@@ -2450,6 +2450,12 @@ const icsRepeatedPatternTitle =
 const icsRepeatedPatternText =
   document.getElementById('icsRepeatedPatternText');
 
+const icsRepeatedPatternAction =
+  document.getElementById('icsRepeatedPatternAction');
+
+const icsRepeatedPatternButton =
+  document.getElementById('icsRepeatedPatternButton');
+
 const icsNextStepTitle =
   document.getElementById('icsNextStepTitle');
 
@@ -2463,16 +2469,21 @@ function showIcsNextStepForState(stateKey) {
   if (!icsNextStep) return;
 
   if (icsRepeatedPattern) {
-  const repeated = hasRepeatedRouterState(stateKey);
+    const repeated = hasRepeatedRouterState(stateKey);
 
-  icsRepeatedPattern.hidden = !repeated;
+    icsRepeatedPattern.hidden = !repeated;
 
-  if (repeated) {
-    const repeatedStateLabel =
-  icsStateRouter[stateKey]?.label || 'Dieses Thema';
+    if (icsRepeatedPatternAction) {
+  icsRepeatedPatternAction.hidden =
+    !(repeated && stateKey === 'erschoepft');
+}
 
-icsRepeatedPatternTitle.textContent =
-  `„${repeatedStateLabel}“ taucht bei dir wiederholt auf.`;
+    if (repeated) {
+      const repeatedStateLabel =
+        icsStateRouter[stateKey]?.label || 'Dieses Thema';
+
+      icsRepeatedPatternTitle.textContent =
+        `„${repeatedStateLabel}“ taucht bei dir wiederholt auf.`;
 
     const repeatedStateTexts = {
   kopfVoll:
@@ -2610,6 +2621,12 @@ const icsDurationButtons =
   document.querySelectorAll('.ics-duration-button');
 
 let selectedIcsDuration = null;
+
+icsRepeatedPatternButton?.addEventListener('click', () => {
+  if (selectedIcsState === 'erschoepft') {
+    openView('energy');
+  }
+});
 
 function updateIcsStateStartButton() {
   const startButton =
