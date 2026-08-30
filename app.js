@@ -2804,10 +2804,15 @@ function isValidEnergyHistoryRecord(record) {
 
 function getEnergyHistory() {
   try {
-    const history = JSON.parse(localStorage.getItem(energyHistoryKey) || '[]');
-    return Array.isArray(history) && history.every(isValidEnergyHistoryRecord)
-      ? history
-      : [];
+    const history = JSON.parse(
+      localStorage.getItem(energyHistoryKey) || '[]'
+    );
+
+    if (!Array.isArray(history)) {
+      return [];
+    }
+
+    return history.filter(isValidEnergyHistoryRecord);
   } catch {
     return [];
   }
