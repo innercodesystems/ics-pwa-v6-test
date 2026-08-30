@@ -2624,7 +2624,7 @@ let selectedIcsDuration = null;
 
 icsRepeatedPatternButton?.addEventListener('click', () => {
   if (selectedIcsState === 'erschoepft') {
-    openView('icsenergy');
+    openView('bodycode');
     return;
   }
 
