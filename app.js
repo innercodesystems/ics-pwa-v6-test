@@ -2624,14 +2624,15 @@ let selectedIcsDuration = null;
 
 icsRepeatedPatternButton?.addEventListener('click', () => {
   if (selectedIcsState === 'erschoepft') {
-    openView('energy');
+    openView('icsenergy');
     return;
   }
 
   if (selectedIcsState === 'kopfVoll') {
-    openView('energy');
+    openView('icsenergy');
   }
 });
+
 function updateIcsStateStartButton() {
   const startButton =
     document.getElementById('startIcsStateJourney');
