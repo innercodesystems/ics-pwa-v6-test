@@ -314,10 +314,6 @@ openReports?.addEventListener('click', () => {
   openView('reports');
 });
 
-openReports?.addEventListener('click', () => {
-  openView('reports');
-});
-
 meinIcsBackToToday?.addEventListener('click', () => {
   openView('heute');
 });
@@ -1209,21 +1205,7 @@ if (worldCoachingCta && world) {
   worldOpenButton.textContent =
     labels[world] || 'Bereich öffnen →';
 }
-
-      if (worldOpenCta && worldOpenButton && world) {
-  worldOpenCta.hidden = false;
-
-  const labels = {
-    inner: 'Inner Code öffnen →',
-    body: 'Body Code öffnen →',
-    action: 'Action Code öffnen →',
-    reset: 'RESET öffnen →'
-  };
-
-  worldOpenButton.textContent =
-    labels[world] || 'Bereich öffnen →';
-}
-      
+     
     });
 
   });
@@ -3521,6 +3503,9 @@ function resetEnergyJourney() {
   energyJourneyState.before = {};
   energyJourneyState.after = {};
   energyJourneyState.noticedAt = null;
+  energyJourneyState.routerFocus = null;
+  energyJourneyState.routerFocus = null;
+  energyJourneyState.routerState = null;
   energyJourneyState.linkedRecommendation = null;
   
   if (energyRecommendation) {
