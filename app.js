@@ -2342,7 +2342,11 @@ const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
 openEnergyRecoveryHistory?.addEventListener('click', () => {
-  const stateKey = energyJourneyState.routerState;
+  const completedRecord = getEnergyHistory()
+  .find((record) => record.id === energyJourneyState.completedRecordId);
+
+const stateKey =
+  completedRecord?.routerState || energyJourneyState.routerState;
 
   if (
     stateKey === 'erschoepft' &&
