@@ -2475,7 +2475,7 @@ function showIcsNextStepForState(stateKey) {
 
     if (icsRepeatedPatternAction) {
       icsRepeatedPatternAction.hidden =
-        !(repeated && ['erschoepft', 'kopfVoll', 'angespannt', 'unruhig'].includes(stateKey));
+        !(repeated && ['erschoepft', 'kopfVoll', 'angespannt', 'unruhig', 'festgefahren'].includes(stateKey));
     }
 
     if (repeated) {
@@ -2635,11 +2635,17 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
 
   if (selectedIcsState === 'angespannt') {
     openView('koerpersignale');
+    return;
   }
 
-if (selectedIcsState === 'unruhig') {
-  openView('resetcode');
-}
+  if (selectedIcsState === 'unruhig') {
+    openView('resetcode');
+    return;
+  }
+
+  if (selectedIcsState === 'festgefahren') {
+    openView('beliefs');
+  }
 });
 
 function updateIcsStateStartButton() {
