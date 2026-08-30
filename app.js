@@ -2342,6 +2342,16 @@ const repeatEnergyRecommendation =
   document.getElementById('repeatEnergyRecommendation');
 
 openEnergyRecoveryHistory?.addEventListener('click', () => {
+  const stateKey = energyJourneyState.routerState;
+
+  if (
+    stateKey === 'erschoepft' &&
+    hasRepeatedRouterState(stateKey)
+  ) {
+    openView('bodycode');
+    return;
+  }
+
   renderFullEnergyHistory();
   openView('energyhistory');
 });
