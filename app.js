@@ -2471,12 +2471,12 @@ function showIcsNextStepForState(stateKey) {
   if (icsRepeatedPattern) {
     const repeated = hasRepeatedRouterState(stateKey);
 
-icsRepeatedPattern.hidden = !repeated;
+    icsRepeatedPattern.hidden = !repeated;
 
-if (icsRepeatedPatternAction) {
-  icsRepeatedPatternAction.hidden =
-    !(repeated && ['erschoepft', 'kopfVoll', 'angespannt'].includes(stateKey));
-}
+    if (icsRepeatedPatternAction) {
+      icsRepeatedPatternAction.hidden =
+        !(repeated && ['erschoepft', 'kopfVoll', 'angespannt', 'unruhig'].includes(stateKey));
+    }
 
     if (repeated) {
       const repeatedStateLabel =
@@ -2636,6 +2636,10 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
   if (selectedIcsState === 'angespannt') {
     openView('koerpersignale');
   }
+
+if (selectedIcsState === 'unruhig') {
+  openView('resetcode');
+}
 });
 
 function updateIcsStateStartButton() {
