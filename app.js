@@ -2352,6 +2352,14 @@ openEnergyRecoveryHistory?.addEventListener('click', () => {
     return;
   }
 
+  if (
+    stateKey === 'energielos' &&
+    hasRepeatedRouterState(stateKey)
+  ) {
+    openView('icsenergy');
+    return;
+  }
+
   renderFullEnergyHistory();
   openView('energyhistory');
 });
