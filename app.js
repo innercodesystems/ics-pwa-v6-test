@@ -2629,7 +2629,7 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
   }
 
   if (selectedIcsState === 'kopfVoll') {
-    openView('icsenergy');
+    openView('resetcode');
   }
 });
 
