@@ -2471,11 +2471,11 @@ function showIcsNextStepForState(stateKey) {
   if (icsRepeatedPattern) {
     const repeated = hasRepeatedRouterState(stateKey);
 
-    icsRepeatedPattern.hidden = !repeated;
+icsRepeatedPattern.hidden = !repeated;
 
 if (icsRepeatedPatternAction) {
   icsRepeatedPatternAction.hidden =
-    !(repeated && ['erschoepft', 'kopfVoll'].includes(stateKey));
+    !(repeated && ['erschoepft', 'kopfVoll', 'angespannt'].includes(stateKey));
 }
 
     if (repeated) {
