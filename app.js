@@ -2634,7 +2634,7 @@ icsRepeatedPatternButton?.addEventListener('click', () => {
   }
 
   if (selectedIcsState === 'angespannt') {
-    openView('koerpersignale');
+    openView('bodycode');
     return;
   }
 
