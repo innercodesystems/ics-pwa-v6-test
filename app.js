@@ -1418,6 +1418,7 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const openFuehreMich = document.getElementById('openFuehreMich');
+const openIcsGuide = document.getElementById('openIcsGuide');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
 const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
@@ -3639,6 +3640,10 @@ repeatEnergyRecommendation?.addEventListener('click', () => {
 });
 
 openFuehreMich?.addEventListener('click', () => {
+  openView('fuehremich');
+});
+
+openIcsGuide?.addEventListener('click', () => {
   openView('fuehremich');
 });
 
