@@ -4139,12 +4139,12 @@ body: {
   target: 'koerpersignale'
 },
   
-  mind: {
-    title: 'Dein Kopf braucht gerade etwas Abstand.',
-    text: 'Du brauchst nicht noch mehr Gedanken. Richte deine Aufmerksamkeit zuerst auf Klarheit und eine neue Perspektive.',
-    area: 'Inner Code · Klarheit',
-    target: 'innerimpulse'
-  },
+mind: {
+  title: 'Dein Kopf braucht gerade etwas Entlastung.',
+  text: 'Lass uns zuerst schauen, was jetzt wirklich möglich ist. Du musst gerade nichts lösen.',
+  area: 'ICS führt dich · Kopf voll',
+  target: 'icsstate-kopf'
+},
 
   pressure: {
     title: 'Du darfst den inneren Druck unterbrechen.',
@@ -4271,7 +4271,41 @@ if (selectedGuideTarget === 'icsenergy') {
   return;
 }
 
-  openView(selectedGuideTarget);
+if (selectedGuideTarget === 'icsstate-kopf') {
+  selectedIcsState = 'kopfVoll';
+  selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    const selected =
+      button.dataset.icsState === 'kopfVoll';
+
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  icsDurationButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  showIcsNextStepForState('kopfVoll');
+  updateIcsStateStartButton();
+
+  openView('meinics');
+
+  setTimeout(() => {
+    document
+      .querySelector('.ics-state-entry')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  }, 100);
+
+  return;
+}
+
+openView(selectedGuideTarget);
 });
 
 document.getElementById('restartEnergyCheck')?.addEventListener('click', resetEnergyJourney);
