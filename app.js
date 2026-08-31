@@ -4136,7 +4136,7 @@ body: {
   title: 'Dein Körper möchte gerade wahrgenommen werden.',
   text: 'Schau zuerst hin, was dein Körper dir gerade zeigt. Im Körpersignale-Nachschlagewerk kannst du dein aktuelles Signal auswählen und bewusst reflektieren.',
   area: 'ICS Körpersignale',
-  target: 'koerpersignale'
+  target: 'icsstate-body'
 },
   
 mind: {
@@ -4323,6 +4323,40 @@ if (selectedGuideTarget === 'icsstate-energy') {
   });
 
   showIcsNextStepForState('energielos');
+  updateIcsStateStartButton();
+
+  openView('meinics');
+
+  setTimeout(() => {
+    document
+      .querySelector('.ics-state-entry')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  }, 100);
+
+  return;
+}
+
+if (selectedGuideTarget === 'icsstate-body') {
+  selectedIcsState = 'angespannt';
+  selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    const selected =
+      button.dataset.icsState === 'angespannt';
+
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  icsDurationButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  showIcsNextStepForState('angespannt');
   updateIcsStateStartButton();
 
   openView('meinics');
