@@ -4406,6 +4406,40 @@ if (selectedGuideTarget === 'icsstate-pressure') {
 
   return;
 }
+
+if (selectedGuideTarget === 'icsstate-orientation') {
+  selectedIcsState = 'festgefahren';
+  selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    const selected =
+      button.dataset.icsState === 'festgefahren';
+
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  icsDurationButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  showIcsNextStepForState('festgefahren');
+  updateIcsStateStartButton();
+
+  openView('meinics');
+
+  setTimeout(() => {
+    document
+      .querySelector('.ics-state-entry')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  }, 100);
+
+  return;
+}
   
 openView(selectedGuideTarget);
 });
