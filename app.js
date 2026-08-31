@@ -4157,7 +4157,7 @@ mind: {
     title: 'Du brauchst gerade nicht den ganzen Weg.',
     text: 'Richte deine Aufmerksamkeit auf einen einzigen nächsten Schritt. Klarheit entsteht oft erst durch Bewegung.',
     area: 'Action Code · nächster Schritt',
-    target: 'actionimpulse'
+    target: 'icsstate-orientation'
   },
 
   impulse: {
