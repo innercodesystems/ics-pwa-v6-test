@@ -4150,7 +4150,7 @@ mind: {
     title: 'Du darfst den inneren Druck unterbrechen.',
     text: 'Bevor du weiter versuchst, etwas zu lösen, darfst du dich neu ausrichten und aus der automatischen Reaktion aussteigen.',
     area: 'RESET · Neuausrichtung',
-    target: 'resetimpulse'
+    target: 'icsstate-pressure'
   },
 
   orientation: {
@@ -4357,6 +4357,40 @@ if (selectedGuideTarget === 'icsstate-body') {
   });
 
   showIcsNextStepForState('angespannt');
+  updateIcsStateStartButton();
+
+  openView('meinics');
+
+  setTimeout(() => {
+    document
+      .querySelector('.ics-state-entry')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  }, 100);
+
+  return;
+}
+
+if (selectedGuideTarget === 'icsstate-pressure') {
+  selectedIcsState = 'unruhig';
+  selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    const selected =
+      button.dataset.icsState === 'unruhig';
+
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  icsDurationButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  showIcsNextStepForState('unruhig');
   updateIcsStateStartButton();
 
   openView('meinics');
