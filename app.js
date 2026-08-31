@@ -2479,6 +2479,18 @@ const icsRepeatedPatternAction =
 const icsRepeatedPatternButton =
   document.getElementById('icsRepeatedPatternButton');
 
+const icsRepeatedPatternEnough =
+  document.createElement('button');
+
+icsRepeatedPatternEnough.type = 'button';
+icsRepeatedPatternEnough.className = 'secondary-button';
+icsRepeatedPatternEnough.id = 'icsRepeatedPatternEnough';
+icsRepeatedPatternEnough.textContent = 'Für heute reicht es';
+
+icsRepeatedPatternAction?.appendChild(
+  icsRepeatedPatternEnough
+);
+
 const icsNextStepTitle =
   document.getElementById('icsNextStepTitle');
 
@@ -2491,22 +2503,47 @@ const icsNextStepAction =
 function showIcsNextStepForState(stateKey) {
   if (!icsNextStep) return;
 
-  if (icsRepeatedPattern) {
-    const repeated = hasRepeatedRouterState(stateKey);
+if (icsRepeatedPattern) {
+  const mentorPattern =
+    getIcsMentorStatePattern(stateKey);
 
-    icsRepeatedPattern.hidden = !repeated;
+  const repeated =
+    Boolean(mentorPattern);
 
-    if (icsRepeatedPatternAction) {
-      icsRepeatedPatternAction.hidden =
-        !(repeated && ['erschoepft', 'kopfVoll', 'angespannt', 'unruhig', 'festgefahren'].includes(stateKey));
-    }
+  icsRepeatedPattern.hidden = !repeated;
+
+if (icsRepeatedPatternAction) {
+  icsRepeatedPatternAction.hidden =
+    !(
+      repeated &&
+      mentorPattern?.policy?.allowDeepening &&
+      [
+        'erschoepft',
+        'kopfVoll',
+        'angespannt',
+        'unruhig',
+        'festgefahren',
+        'energielos'
+      ].includes(stateKey)
+    );
+}
 
     if (repeated) {
-      const repeatedStateLabel =
-        icsStateRouter[stateKey]?.label || 'Dieses Thema';
+const mentorState =
+  icsMentorStateMatrix[stateKey];
 
-      icsRepeatedPatternTitle.textContent =
-        `„${repeatedStateLabel}“ taucht bei dir wiederholt auf.`;
+const repeatedStateLabel =
+  mentorState?.label ||
+  icsStateRouter[stateKey]?.label ||
+  'Dieses Thema';
+
+icsRepeatedPatternTitle.textContent =
+  `„${repeatedStateLabel}“ ist in deinen letzten 10 Check-ins ${mentorPattern.count}-mal aufgetaucht.`;
+      
+if (icsRepeatedPatternButton && mentorState) {
+  icsRepeatedPatternButton.textContent =
+    `${mentorState.deeperArea} anschauen →`;
+}
 
     const repeatedStateTexts = {
   kopfVoll:
@@ -2528,9 +2565,18 @@ function showIcsNextStepForState(stateKey) {
     'Energielosigkeit taucht bei dir wiederholt auf. Es kann hilfreich sein zu erkennen, welche Situationen, Gewohnheiten oder Belastungen deiner Energie regelmäßig entgegenwirken.'
 };
 
-icsRepeatedPatternText.textContent =
+const repeatedText =
   repeatedStateTexts[stateKey] ||
   'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
+
+let patternStrengthText = '';
+
+const mentorSignalText =
+  getIcsMentorSignalText(stateKey);
+
+icsRepeatedPatternText.textContent =
+  mentorSignalText?.text ||
+  repeatedText;
   }
 }
 
@@ -2646,34 +2692,27 @@ const icsDurationButtons =
 let selectedIcsDuration = null;
 
 icsRepeatedPatternButton?.addEventListener('click', () => {
-  if (selectedIcsState === 'erschoepft') {
-    openView('bodycode');
-    return;
+  const mentorState =
+    icsMentorStateMatrix[selectedIcsState];
+
+  if (!mentorState?.deeperTarget) return;
+
+  openView(mentorState.deeperTarget);
+});
+
+icsRepeatedPatternEnough?.addEventListener('click', () => {
+  if (icsRepeatedPattern) {
+    icsRepeatedPattern.hidden = true;
   }
 
-  if (selectedIcsState === 'kopfVoll') {
-    openView('resetcode');
-    return;
+  if (icsNextStep) {
+    icsNextStep.hidden = true;
   }
 
-  if (selectedIcsState === 'angespannt') {
-    openView('bodycode');
-    return;
-  }
+  selectedIcsState = null;
+  selectedIcsDuration = null;
 
-  if (selectedIcsState === 'unruhig') {
-    openView('resetcode');
-    return;
-  }
-
-if (selectedIcsState === 'festgefahren') {
-  openView('innercode');
-  return;
-}
-
-if (selectedIcsState === 'energielos') {
-  openView('icsenergy');
-}
+  openView('heute');
 });
 
 function updateIcsStateStartButton() {
@@ -2894,6 +2933,221 @@ function countRecentRouterState(stateKey, limit = 10) {
 
 function hasRepeatedRouterState(stateKey) {
   return countRecentRouterState(stateKey, 10) >= 3;
+}
+
+function getIcsMentorStatePattern(stateKey) {
+  const count = countRecentRouterState(stateKey, 10);
+
+  if (count < 3) return null;
+
+  let level = 'emerging';
+
+  if (count >= 7) {
+    level = 'strong';
+  } else if (count >= 5) {
+    level = 'frequent';
+  }
+
+return {
+  state: stateKey,
+  count,
+  level,
+  policy:
+    icsMentorPatternPolicy[level] || null,
+  mentor:
+    icsMentorStateMatrix[stateKey] || null
+};
+}
+
+function getIcsMentorInterventionEffect(stateKey, limit = 10) {
+  
+  if (!stateKey) return null;
+
+  const focus =
+    icsStateRouter[stateKey]?.focus;
+
+  if (!focus) return null;
+
+  const records = getEnergyHistory()
+    .filter((record) => record.routerState === stateKey)
+    .slice(0, limit);
+
+  if (!records.length) return null;
+
+  const changes = records
+    .map((record) => record.delta?.[focus])
+    .filter((value) => Number.isFinite(value));
+
+  if (!changes.length) return null;
+
+  const improved =
+    changes.filter((value) => value > 0).length;
+
+  const unchanged =
+    changes.filter((value) => value === 0).length;
+
+  const worsened =
+    changes.filter((value) => value < 0).length;
+
+  const average =
+    changes.reduce((sum, value) => sum + value, 0) /
+    changes.length;
+
+  return {
+    state: stateKey,
+    focus,
+    count: changes.length,
+    improved,
+    unchanged,
+    worsened,
+    average
+  };
+}
+
+function getIcsMentorEffectLevel(stateKey, limit = 10) {
+  const effect =
+    getIcsMentorInterventionEffect(stateKey, limit);
+
+  if (!effect) return null;
+
+  let level = 'limited';
+
+  if (
+    effect.improved > effect.unchanged &&
+    effect.improved > effect.worsened &&
+    effect.average > 0
+  ) {
+    level = 'helpful';
+  }
+
+  if (
+    effect.worsened > effect.improved ||
+    effect.average < 0
+  ) {
+    level = 'notHelpful';
+  }
+
+  return {
+    ...effect,
+    level
+  };
+}
+
+function getIcsMentorStateSignal(stateKey) {
+  const pattern =
+    getIcsMentorStatePattern(stateKey);
+
+  if (!pattern) return null;
+
+  const effect =
+    getIcsMentorEffectLevel(stateKey, 10);
+
+  let signal = 'observe';
+
+  if (
+    pattern.level === 'frequent' ||
+    pattern.level === 'strong'
+  ) {
+    signal = 'explore';
+  }
+
+  if (
+    pattern.level === 'strong' &&
+    (
+      effect?.level === 'limited' ||
+      effect?.level === 'notHelpful'
+    )
+  ) {
+    signal = 'deepen';
+  }
+
+  return {
+    state: stateKey,
+    pattern,
+    effect,
+    signal
+  };
+}
+
+function getIcsMentorSignalText(stateKey) {
+  const stateSignal =
+    getIcsMentorStateSignal(stateKey);
+
+  if (!stateSignal) return null;
+
+  const mentor =
+    stateSignal.pattern?.mentor;
+
+  const question =
+    mentor?.question || '';
+
+  if (stateSignal.signal === 'deepen') {
+    return {
+      level: 'deepen',
+      text:
+        `Dieses Thema zeigt sich bei dir deutlich wiederholt. ` +
+        `Gleichzeitig scheint die bisherige Soforthilfe nur begrenzt etwas zu verändern. ` +
+        `${question}`
+    };
+  }
+
+  if (stateSignal.signal === 'explore') {
+    return {
+      level: 'explore',
+      text:
+        `Dieses Thema taucht bei dir häufiger auf. ` +
+        `Es könnte sinnvoll sein, den Zusammenhang etwas genauer anzuschauen. ` +
+        `${question}`
+    };
+  }
+
+  return {
+    level: 'observe',
+    text:
+      `Hier könnte sich gerade ein wiederkehrendes Thema zeigen. ` +
+      `${question}`
+  };
+}
+
+const icsMentorPatternPolicy = {
+  emerging: {
+    action: 'reflect',
+    allowDeepening: false,
+    allowOffer: false
+  },
+
+  frequent: {
+    action: 'explore',
+    allowDeepening: true,
+    allowOffer: false
+  },
+
+  strong: {
+    action: 'deepen',
+    allowDeepening: true,
+    allowOffer: true
+  }
+};
+
+function canIcsMentorShowOffer(
+  stateKey,
+  userRequestedSupport = false
+) {
+  if (userRequestedSupport) {
+    return true;
+  }
+
+  const stateSignal =
+    getIcsMentorStateSignal(stateKey);
+
+  if (!stateSignal) {
+    return false;
+  }
+
+  return (
+    stateSignal.signal === 'deepen' &&
+    stateSignal.pattern?.policy?.allowOffer === true
+  );
 }
 
 function renderLatestEnergyForMeinIcs() {
@@ -4123,6 +4377,56 @@ const startGuideRecommendation =
   document.getElementById('startGuideRecommendation');
 
 let selectedGuideTarget = null;
+
+const icsMentorStateMatrix = {
+  kopfVoll: {
+    label: 'Kopf voll',
+    code: 'INNER',
+    question: 'Was beschäftigt dich innerlich immer wieder?',
+    deeperArea: 'Gedanken & Muster'
+    deeperTarget: 'resetcode'
+  },
+
+  unruhig: {
+    label: 'Unruhig',
+    code: 'RESET',
+    question: 'Was hält dich innerlich in Aktivierung?',
+    deeperArea: 'Regulation & innere Muster'
+    deeperTarget: 'resetcode'
+  },
+
+  festgefahren: {
+    label: 'Festgefahren',
+    code: 'ACTION',
+    question: 'Was verhindert gerade deinen nächsten Schritt?',
+    deeperArea: 'Orientierung & Handlung'
+    deeperTarget: 'resetcode'
+  },
+
+  angespannt: {
+    label: 'Angespannt',
+    code: 'BODY',
+    question: 'Was trägt oder hält dein Körper gerade?',
+    deeperArea: 'Körpersignale'
+    deeperTarget: 'resetcode'
+  },
+
+  erschoepft: {
+    label: 'Erschöpft',
+    code: 'BODY',
+    question: 'Wo geht deine Energie immer wieder verloren?',
+    deeperArea: 'Regeneration & Grenzen'
+    deeperTarget: 'resetcode'
+  },
+
+  energielos: {
+    label: 'Energielos',
+    code: 'BODY',
+    question: 'Was braucht dein System gerade, damit Energie entstehen kann?',
+    deeperArea: 'Energie & Grundlagen'
+    deeperTarget: 'resetcode'
+  }
+};
 
 const guideRecommendations = {
   energy: {
