@@ -4129,7 +4129,7 @@ const guideRecommendations = {
     title: 'Deine Energie braucht gerade Aufmerksamkeit.',
     text: 'Du musst gerade nicht mehr leisten. Nimm zuerst wahr, wie es dir wirklich geht und welcher kleine Schritt jetzt möglich ist.',
     area: 'ICS Energie',
-    target: 'icsenergy'
+    target: 'icsstate-energy'
   },
 
 body: {
@@ -4305,6 +4305,40 @@ if (selectedGuideTarget === 'icsstate-kopf') {
   return;
 }
 
+if (selectedGuideTarget === 'icsstate-energy') {
+  selectedIcsState = 'energielos';
+  selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    const selected =
+      button.dataset.icsState === 'energielos';
+
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+
+  icsDurationButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  showIcsNextStepForState('energielos');
+  updateIcsStateStartButton();
+
+  openView('meinics');
+
+  setTimeout(() => {
+    document
+      .querySelector('.ics-state-entry')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  }, 100);
+
+  return;
+}
+  
 openView(selectedGuideTarget);
 });
 
