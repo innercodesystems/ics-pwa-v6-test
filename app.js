@@ -2501,7 +2501,14 @@ const icsNextStepAction =
   document.getElementById('icsNextStepAction');
 
 function showIcsNextStepForState(stateKey) {
+  const mentorCluster =
+  getIcsMentorClusterText(10);
   if (!icsNextStep) return;
+
+  const relevantMentorCluster =
+  mentorCluster?.states?.includes(stateKey)
+    ? mentorCluster
+    : null;
 
 if (icsRepeatedPattern) {
   const mentorPattern =
@@ -2513,21 +2520,16 @@ if (icsRepeatedPattern) {
   icsRepeatedPattern.hidden = !repeated;
 
 if (icsRepeatedPatternAction) {
-  icsRepeatedPatternAction.hidden =
-    !(
-      repeated &&
-      mentorPattern?.policy?.allowDeepening &&
-      [
-        'erschoepft',
-        'kopfVoll',
-        'angespannt',
-        'unruhig',
-        'festgefahren',
-        'energielos'
-      ].includes(stateKey)
-    );
+  icsRepeatedPatternAction.hidden = !repeated;
 }
 
+if (icsRepeatedPatternButton) {
+  icsRepeatedPatternButton.hidden =
+    !(
+      repeated &&
+      mentorPattern?.policy?.allowDeepening
+    );
+}
     if (repeated) {
 const mentorState =
   icsMentorStateMatrix[stateKey];
@@ -2538,7 +2540,12 @@ const repeatedStateLabel =
   'Dieses Thema';
 
 icsRepeatedPatternTitle.textContent =
-  `„${repeatedStateLabel}“ ist in deinen letzten 10 Check-ins ${mentorPattern.count}-mal aufgetaucht.`;
+  (
+    relevantMentorCluster &&
+    relevantMentorCluster.count >= 4
+  )
+    ? `${relevantMentorCluster.title} – ${relevantMentorCluster.count} deiner letzten 10 Check-ins`
+    : `„${repeatedStateLabel}“ ist in deinen letzten 10 Check-ins ${mentorPattern.count}-mal aufgetaucht.`;
       
 if (icsRepeatedPatternButton && mentorState) {
   icsRepeatedPatternButton.textContent =
@@ -2569,14 +2576,33 @@ const repeatedText =
   repeatedStateTexts[stateKey] ||
   'Wenn ein Zustand häufiger zurückkehrt, kann es sinnvoll sein, nicht nur den Moment zu verändern, sondern genauer hinzuschauen.';
 
-let patternStrengthText = '';
-
-const mentorSignalText =
+const stateSignalText =
   getIcsMentorSignalText(stateKey);
 
+const mentorSignalText =
+  (
+    relevantMentorCluster &&
+    relevantMentorCluster.count >= 4
+  )
+    ? relevantMentorCluster
+    : stateSignalText;
+
+const mentorClusterQuestion =
+  (
+    relevantMentorCluster &&
+    relevantMentorCluster.count >= 4
+  )
+    ? relevantMentorCluster.question
+    : null;
+
 icsRepeatedPatternText.textContent =
-  mentorSignalText?.text ||
-  repeatedText;
+  mentorSignalText?.text
+    ? (
+        mentorClusterQuestion
+          ? `${mentorSignalText.text}\n\n${mentorClusterQuestion}`
+          : mentorSignalText.text
+      )
+    : repeatedText;
   }
 }
 
@@ -2711,6 +2737,18 @@ icsRepeatedPatternEnough?.addEventListener('click', () => {
 
   selectedIcsState = null;
   selectedIcsDuration = null;
+
+  icsStateButtons.forEach((button) => {
+    button.classList.remove('is-selected');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  document
+    .querySelectorAll('.ics-duration-button')
+    .forEach((button) => {
+      button.classList.remove('is-selected');
+      button.setAttribute('aria-pressed', 'false');
+    });
 
   openView('heute');
 });
@@ -2932,21 +2970,21 @@ function countRecentRouterState(stateKey, limit = 10) {
 }
 
 function hasRepeatedRouterState(stateKey) {
-  return countRecentRouterState(stateKey, 10) >= 3;
+  return countRecentRouterState(stateKey, 10) >= 2;
 }
 
-function getIcsMentorStatePattern(stateKey) {
-  const count = countRecentRouterState(stateKey, 10);
+function getIcsMentorStatePattern(stateKey) { 
+const count = countRecentRouterState(stateKey, 10);
 
-  if (count < 3) return null;
+if (count < 2) return null;
 
-  let level = 'emerging';
+let level = 'emerging';
 
-  if (count >= 7) {
-    level = 'strong';
-  } else if (count >= 5) {
-    level = 'frequent';
-  }
+if (count >= 5) {
+  level = 'strong';
+} else if (count >= 3) {
+  level = 'frequent';
+}
 
 return {
   state: stateKey,
@@ -2956,6 +2994,132 @@ return {
     icsMentorPatternPolicy[level] || null,
   mentor:
     icsMentorStateMatrix[stateKey] || null
+};
+}
+
+const icsMentorStateClusters = {
+  activation: {
+    label: 'Innere Aktivierung',
+    title: 'Mehrere Signale greifen ineinander',
+    states: ['kopfVoll', 'unruhig', 'angespannt']
+  },
+
+  depletion: {
+    label: 'Energieverlust',
+    title: 'Deine Energie zeigt ein Muster',
+    states: ['erschoepft', 'energielos']
+  },
+
+  orientation: {
+    label: 'Orientierung & nächster Schritt',
+    title: 'Gedanken und Richtung hängen zusammen',
+    states: ['festgefahren', 'kopfVoll']
+  }
+};
+
+function getIcsMentorClusterSignal(limit = 10) {
+  const recentHistory = getEnergyHistory().slice(0, limit);
+  const latestState =
+    recentHistory[0]?.routerState || null;
+
+  const clusterResults = Object.entries(icsMentorStateClusters)
+    .map(([clusterKey, cluster]) => {
+      const matches = recentHistory.filter((record) =>
+        cluster.states.includes(record.routerState)
+      );
+
+return {
+  key: clusterKey,
+  label: cluster.label,
+  title: cluster.title,
+  count: matches.length,
+  currentStateCount: latestState
+    ? matches.filter(
+        (record) => record.routerState === latestState
+      ).length
+    : 0,
+  states: [...new Set(
+    matches
+      .map((record) => record.routerState)
+      .filter(Boolean)
+  )]
+};
+.filter((cluster) =>
+  cluster.count >= 3 &&
+  cluster.states.length >= 2 &&
+  (
+    !latestState ||
+    cluster.states.includes(latestState)
+  )
+)
+.sort((a, b) => {
+  if (b.count !== a.count) {
+    return b.count - a.count;
+  }
+
+  if (b.currentStateCount !== a.currentStateCount) {
+    return b.currentStateCount - a.currentStateCount;
+  }
+
+  if (b.states.length !== a.states.length) {
+    return b.states.length - a.states.length;
+  }
+
+  return a.key.localeCompare(b.key);
+});
+
+return clusterResults[0] || null;
+}
+
+const icsMentorClusterTexts = {
+  activation:
+    'Ich sehe, dass bei dir zuletzt mehrere Zustände zusammengekommen sind: viel im Kopf, innere Unruhe oder körperliche Anspannung. Das kann miteinander verbunden sein.',
+
+  depletion:
+    'Ich sehe, dass Erschöpfung und fehlende Energie bei dir zuletzt häufiger zusammen aufgetaucht sind. Es könnte sinnvoll sein, genauer hinzuschauen, wo dein System gerade Energie verliert.',
+
+  orientation:
+    'Ich sehe eine mögliche Verbindung zwischen vielen Gedanken und dem Gefühl, nicht richtig weiterzukommen. Vielleicht braucht es gerade nicht mehr Denken, sondern mehr Klarheit für den nächsten Schritt.'
+};
+
+const icsMentorClusterQuestions = {
+  activation:
+    'Was hält dich gerade gleichzeitig im Kopf, im Körper oder innerlich in Bewegung?',
+
+  depletion:
+    'Wo merkst du gerade am stärksten, dass dir Energie verloren geht?',
+
+  orientation:
+    'Was würde dir im Moment mehr helfen: mehr Klarheit oder ein konkreter nächster Schritt?'
+};
+
+const text =
+  icsMentorClusterTexts[cluster.key];
+
+const question =
+  icsMentorClusterQuestions[cluster.key] || null;
+
+if (!text) {
+  return null;
+}
+
+const stateLabels = cluster.states
+  .map((stateKey) => icsMentorStateMatrix[stateKey]?.label)
+  .filter(Boolean);
+
+const stateSummary =
+  stateLabels.length > 0
+    ? stateLabels.join(' · ')
+    : '';
+
+return {
+  ...cluster,
+  text:
+    stateSummary
+      ? `${text} (${stateSummary})`
+      : text,
+  question,
+  stateLabels
 };
 }
 
@@ -4383,7 +4547,7 @@ const icsMentorStateMatrix = {
     label: 'Kopf voll',
     code: 'INNER',
     question: 'Was beschäftigt dich innerlich immer wieder?',
-    deeperArea: 'Gedanken & Muster'
+    deeperArea: 'Gedanken & Muster',
     deeperTarget: 'resetcode'
   },
 
@@ -4391,7 +4555,7 @@ const icsMentorStateMatrix = {
     label: 'Unruhig',
     code: 'RESET',
     question: 'Was hält dich innerlich in Aktivierung?',
-    deeperArea: 'Regulation & innere Muster'
+    deeperArea: 'Regulation & innere Muster',
     deeperTarget: 'resetcode'
   },
 
@@ -4399,32 +4563,32 @@ const icsMentorStateMatrix = {
     label: 'Festgefahren',
     code: 'ACTION',
     question: 'Was verhindert gerade deinen nächsten Schritt?',
-    deeperArea: 'Orientierung & Handlung'
-    deeperTarget: 'resetcode'
+    deeperArea: 'Orientierung & Handlung',
+    deeperTarget: 'innercode'
   },
 
   angespannt: {
     label: 'Angespannt',
     code: 'BODY',
     question: 'Was trägt oder hält dein Körper gerade?',
-    deeperArea: 'Körpersignale'
-    deeperTarget: 'resetcode'
+    deeperArea: 'Körpersignale',
+    deeperTarget: 'bodycode'
   },
 
   erschoepft: {
     label: 'Erschöpft',
     code: 'BODY',
     question: 'Wo geht deine Energie immer wieder verloren?',
-    deeperArea: 'Regeneration & Grenzen'
-    deeperTarget: 'resetcode'
+    deeperArea: 'Regeneration & Grenzen',
+    deeperTarget: 'bodycode'
   },
 
   energielos: {
     label: 'Energielos',
     code: 'BODY',
     question: 'Was braucht dein System gerade, damit Energie entstehen kann?',
-    deeperArea: 'Energie & Grundlagen'
-    deeperTarget: 'resetcode'
+    deeperArea: 'Energie & Grundlagen',
+    deeperTarget: 'icsenergy'
   }
 };
 
