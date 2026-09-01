@@ -4911,6 +4911,136 @@ const startGuideRecommendation =
 let selectedGuideTarget = null;
 let icsDemoMode = false;
 
+const icsDemoRecords = {
+  mind: {
+    id: 'ICS_DEMO_MIND',
+    createdAt: new Date().toISOString(),
+
+    before: {
+      energy: 4,
+      body: 5,
+      mind: 2
+    },
+
+    after: {
+      energy: 5,
+      body: 6,
+      mind: 6
+    },
+
+    delta: {
+      energy: 1,
+      body: 1,
+      mind: 4
+    },
+
+    focus: 'mind',
+    routerState: 'kopfVoll',
+    duration: 3,
+
+    impulseId: 'ENG_305',
+    impulseTitle: 'Gedanken parken',
+
+    foundations: [
+      'FOUND_07'
+    ],
+
+    noticedAt: 'Kopf',
+
+    source: 'demo',
+    mentorState: 'mind'
+  }
+};
+
+function renderIcsDemoRecord(record) {
+  const container =
+    document.getElementById('icsDemoOverviewContent');
+
+  if (!container || !record) return;
+
+  const labels = {
+    energy: 'Energie',
+    body: 'Körper',
+    mind: 'Kopf'
+  };
+
+  const values = Object.keys(labels)
+    .map((key) => {
+      const change = record.delta[key];
+      const sign = change > 0 ? '+' : '';
+
+      return `
+        <div class="energy-history-value">
+          <small>${labels[key]}</small>
+          <strong>
+            ${record.before[key]} → ${record.after[key]}
+            (${sign}${change})
+          </strong>
+        </div>
+      `;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <p class="section-kicker">DEINE DEMO-AUSWERTUNG</p>
+
+    <h2>So macht ICS deine Veränderung sichtbar.</h2>
+
+    <p style="margin-top:18px;">
+      <strong>Ausgangslage:</strong> Kopf voll
+    </p>
+
+    <div
+      class="energy-history-values"
+      style="margin-top:20px;"
+    >
+      ${values}
+    </div>
+
+    <div
+      class="energy-history-details"
+      style="margin-top:22px;"
+    >
+      <p>
+        <strong>Schwerpunkt:</strong>
+        ${labels[record.focus]}
+      </p>
+
+      <p>
+        <strong>Impuls:</strong>
+        ${record.impulseTitle}
+      </p>
+
+      <p>
+        <strong>Dauer:</strong>
+        ${record.duration} Minuten
+      </p>
+
+      <p>
+        <strong>Zuerst bemerkt:</strong>
+        ${record.noticedAt}
+      </p>
+    </div>
+
+    <div style="
+      margin-top:24px;
+      padding-top:20px;
+      border-top:1px solid rgba(184,146,79,.35);
+    ">
+      <small>ICS SPIEGELT DIR</small>
+
+      <p style="margin-top:10px;">
+        Dein Kopf hat auf den kurzen Impuls deutlich reagiert:
+        von ${record.before.mind}/10 auf ${record.after.mind}/10.
+        Gleichzeitig haben sich auch Körper und Energie leicht verändert.
+        ICS würde diese Erfahrung in deiner echten Begleitung mit
+        späteren Einträgen vergleichen und daraus nach und nach
+        persönliche Zusammenhänge erkennen.
+      </p>
+    </div>
+  `;
+}
+
 const icsMentorStateMatrix = {
   kopfVoll: {
     label: 'Kopf voll',
@@ -5223,51 +5353,14 @@ if (demoState === 'mind') {
   const demoOverview =
     document.getElementById('icsDemoOverview');
 
-  const demoStateEl =
-    document.getElementById('icsDemoState');
+  const demoRecord =
+    icsDemoRecords.mind;
 
-  const demoDurationEl =
-    document.getElementById('icsDemoDuration');
+  renderIcsDemoRecord(demoRecord);
 
-  const demoBeforeEl =
-    document.getElementById('icsDemoBefore');
-
-  const demoAfterEl =
-    document.getElementById('icsDemoAfter');
-
-  const demoChangeEl =
-    document.getElementById('icsDemoChange');
-
-  const demoReflectionEl =
-    document.getElementById('icsDemoReflection');
-
-  if (demoStateEl) {
-    demoStateEl.textContent = 'Kopf voll';
+  if (guideRecommendation) {
+    guideRecommendation.hidden = true;
   }
-
-  if (demoDurationEl) {
-    demoDurationEl.textContent = '3 Minuten';
-  }
-
-  if (demoBeforeEl) {
-    demoBeforeEl.textContent = '4/10';
-  }
-
-  if (demoAfterEl) {
-    demoAfterEl.textContent = '7/10';
-  }
-
-  if (demoChangeEl) {
-    demoChangeEl.textContent = '+3';
-  }
-
-  if (demoReflectionEl) {
-    demoReflectionEl.textContent =
-      'Der kurze Impuls hat dir gerade geholfen, etwas mehr Klarheit zu schaffen. ' +
-      'In deiner echten ICS Begleitung würde diese Veränderung gespeichert und mit späteren Einträgen verglichen.';
-  }
-
-  guideRecommendation.hidden = true;
 
   if (demoOverview) {
     demoOverview.hidden = false;
