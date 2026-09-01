@@ -4431,6 +4431,11 @@ const demoRecord =
 icsDemoExplorePattern?.addEventListener('click', () => {
   if (!icsDemoMode) return;
 
+  const demoState =
+  selectedGuideTarget === 'demo-energy'
+    ? 'energy'
+    : 'mind';
+
   let deepDive =
     document.getElementById('icsDemoDeepDive');
 
@@ -4444,7 +4449,89 @@ icsDemoExplorePattern?.addEventListener('click', () => {
       border-top:1px solid rgba(184,146,79,.35);
     `;
 
-    deepDive.innerHTML = `
+   deepDive.innerHTML =
+  demoState === 'energy'
+    ? `
+      <p class="section-kicker">
+        ICS GEHT EINEN SCHRITT TIEFER
+      </p>
+
+      <h2>
+        Was passiert bei dir, wenn deine Energie niedrig wird?
+      </h2>
+
+      <p style="margin-top:14px;">
+        ICS würde auch hier nicht sofort nach einer
+        fertigen Erklärung suchen.
+      </p>
+
+      <p>
+        Es würde zuerst prüfen, was in solchen Momenten
+        bei dir tatsächlich eine Rolle spielen könnte.
+      </p>
+
+      <p style="margin-top:20px;">
+        <strong>
+          Was trifft in solchen Situationen am ehesten auf dich zu?
+        </strong>
+      </p>
+
+      <div class="menu-list" style="margin-top:18px;">
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="basicNeeds"
+        >
+          <div>
+            <small>GRUNDVERSORGUNG</small>
+            <strong>
+              Ich merke oft erst spät, dass ich zu wenig
+              getrunken, gegessen oder pausiert habe.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="activation"
+        >
+          <div>
+            <small>AKTIVIERUNG</small>
+            <strong>
+              Wenn meine Energie niedrig ist, werde ich
+              noch passiver und komme schwer in Bewegung.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="recovery"
+        >
+          <div>
+            <small>REGENERATION</small>
+            <strong>
+              Ich funktioniere weiter, obwohl mein System
+              eigentlich Erholung braucht.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+      </div>
+
+      <p style="margin-top:20px; opacity:.78;">
+        Es gibt hier kein richtig oder falsch.
+        ICS nutzt deine Antwort nur, um den nächsten
+        Schritt genauer auf dich auszurichten.
+      </p>
+    `
+    : `
       <p class="section-kicker">
         ICS GEHT EINEN SCHRITT TIEFER
       </p>
@@ -4469,10 +4556,7 @@ icsDemoExplorePattern?.addEventListener('click', () => {
         </strong>
       </p>
 
-      <div
-        class="menu-list"
-        style="margin-top:18px;"
-      >
+      <div class="menu-list" style="margin-top:18px;">
 
         <button
           type="button"
@@ -4520,10 +4604,7 @@ icsDemoExplorePattern?.addEventListener('click', () => {
 
       </div>
 
-      <p style="
-        margin-top:20px;
-        opacity:.78;
-      ">
+      <p style="margin-top:20px; opacity:.78;">
         Es gibt hier kein richtig oder falsch.
         ICS nutzt deine Antwort nur, um den nächsten
         Schritt genauer auf dich auszurichten.
@@ -4559,42 +4640,78 @@ document.addEventListener('click', (event) => {
   const choice = button.dataset.demoDeep;
 
   const reflections = {
-    holding: {
-      title: 'Du hältst möglicherweise zu viel gleichzeitig fest.',
-      text:
-        'Wenn viele offene Gedanken gleichzeitig im Kopf bleiben, ' +
-        'muss dein System ständig Aufmerksamkeit dafür bereithalten.',
-      connection:
-        'ICS würde jetzt beobachten, ob deine mentale Belastung besonders dann steigt, ' +
-        'wenn viele unerledigte oder noch nicht eingeordnete Dinge gleichzeitig präsent sind.',
-      question:
-        'Was davon müsste wirklich jetzt von dir getragen werden – und was dürfte außerhalb deines Kopfes festgehalten werden?'
-    },
+  holding: {
+    title: 'Du hältst möglicherweise zu viel gleichzeitig fest.',
+    text:
+      'Wenn viele offene Gedanken gleichzeitig im Kopf bleiben, ' +
+      'muss dein System ständig Aufmerksamkeit dafür bereithalten.',
+    connection:
+      'ICS würde jetzt beobachten, ob deine mentale Belastung besonders dann steigt, ' +
+      'wenn viele unerledigte oder noch nicht eingeordnete Dinge gleichzeitig präsent sind.',
+    question:
+      'Was davon müsste wirklich jetzt von dir getragen werden – und was dürfte außerhalb deines Kopfes festgehalten werden?'
+  },
 
-    ahead: {
-      title: 'Dein Kopf ist möglicherweise ständig einen Schritt voraus.',
-      text:
-        'Du scheinst gedanklich bereits beim Nächsten zu sein, ' +
-        'während das Aktuelle noch nicht vollständig abgeschlossen ist.',
-      connection:
-        'ICS würde prüfen, ob deine Energie besonders dann sinkt, ' +
-        'wenn deine Aufmerksamkeit dauerhaft zwischen Gegenwart und nächsten Aufgaben wechselt.',
-      question:
-        'Was würde sich verändern, wenn für einen Moment nur der aktuelle Schritt wichtig wäre?'
-    },
+  ahead: {
+    title: 'Dein Kopf ist möglicherweise ständig einen Schritt voraus.',
+    text:
+      'Du scheinst gedanklich bereits beim Nächsten zu sein, ' +
+      'während das Aktuelle noch nicht vollständig abgeschlossen ist.',
+    connection:
+      'ICS würde prüfen, ob deine Energie besonders dann sinkt, ' +
+      'wenn deine Aufmerksamkeit dauerhaft zwischen Gegenwart und nächsten Aufgaben wechselt.',
+    question:
+      'Was würde sich verändern, wenn für einen Moment nur der aktuelle Schritt wichtig wäre?'
+  },
 
-    switchOff: {
-      title: 'Dein System findet möglicherweise schwer in echte Ruhe.',
-      text:
-        'Auch wenn äußerlich nichts mehr erledigt werden muss, ' +
-        'scheint dein Kopf innerlich weiterzuarbeiten.',
-      connection:
-        'ICS würde beobachten, ob fehlende mentale Ruhe mit Erschöpfung, ' +
-        'körperlicher Anspannung oder niedriger Energie zusammenfällt.',
-      question:
-        'Woran würde dein System erkennen, dass für diesen Moment wirklich nichts mehr von dir verlangt wird?'
-    }
-  };
+  switchOff: {
+    title: 'Dein System findet möglicherweise schwer in echte Ruhe.',
+    text:
+      'Auch wenn äußerlich nichts mehr erledigt werden muss, ' +
+      'scheint dein Kopf innerlich weiterzuarbeiten.',
+    connection:
+      'ICS würde beobachten, ob fehlende mentale Ruhe mit Erschöpfung, ' +
+      'körperlicher Anspannung oder niedriger Energie zusammenfällt.',
+    question:
+      'Woran würde dein System erkennen, dass für diesen Moment wirklich nichts mehr von dir verlangt wird?'
+  },
+
+  basicNeeds: {
+    title: 'Deine Energie könnte mit deiner Grundversorgung zusammenhängen.',
+    text:
+      'Manchmal sinkt Energie nicht deshalb, weil mehr Leistung nötig wäre, ' +
+      'sondern weil grundlegende Bedürfnisse zu lange in den Hintergrund geraten.',
+    connection:
+      'ICS würde beobachten, ob niedrige Energie bei dir häufiger mit wenig Trinken, ' +
+      'unregelmäßigem Essen oder fehlenden Pausen zusammenfällt.',
+    question:
+      'Welche grundlegende Versorgung übersiehst du bei dir am häufigsten, wenn viel los ist?'
+  },
+
+  activation: {
+    title: 'Wenig Energie könnte bei dir zu noch weniger Aktivierung führen.',
+    text:
+      'Wenn du dich energielos fühlst, scheint dein System möglicherweise eher ' +
+      'in Passivität zu gehen – obwohl eine kleine Bewegung manchmal bereits etwas verändert.',
+    connection:
+      'ICS würde beobachten, ob kurze körperliche Aktivierung deine Energie ' +
+      'wiederholt verbessert und welche Form davon für dich tatsächlich funktioniert.',
+    question:
+      'Was wäre die kleinste Form von Bewegung, die sich auch mit wenig Energie noch machbar anfühlt?'
+  },
+
+  recovery: {
+    title: 'Dein System könnte Erholung benötigen, bevor neue Energie entstehen kann.',
+    text:
+      'Wenn du trotz niedriger Energie weiterfunktionierst, bekommt dein System ' +
+      'möglicherweise zu wenig Raum, wirklich zu regenerieren.',
+    connection:
+      'ICS würde beobachten, ob deine Energietiefs besonders dann auftreten, ' +
+      'wenn Erholung, Schlaf oder bewusste Pausen über längere Zeit zu kurz kommen.',
+    question:
+      'Woran merkst du normalerweise, dass du eigentlich eine Pause brauchst – bevor deine Energie ganz absinkt?'
+  }
+};
 
   const reflection =
     reflections[choice];
@@ -4868,7 +4985,47 @@ document.addEventListener('click', (event) => {
       insight:
         'Hier könnte sich mit der Zeit zeigen, ob bestimmte Gedanken, Erwartungen ' +
         'oder innere Spannungen dein System immer wieder in Aktivierung halten.'
-    }
+    },
+
+basicNeeds: {
+  code: 'BODY CODE',
+  title: 'Was braucht dein Körper, damit Energie überhaupt entstehen kann?',
+  text:
+    'ICS würde jetzt genauer betrachten, ob dein Energieniveau mit deiner ' +
+    'alltäglichen Grundversorgung zusammenhängt.',
+  question:
+    'Welche körperliche Grundlage bekommt bei dir besonders dann zu wenig Aufmerksamkeit, wenn dein Alltag viel von dir verlangt?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, ob Trinken, Ernährung, Pausen ' +
+    'oder andere grundlegende Bedürfnisse wiederholt mit deinen Energietiefs zusammenfallen.'
+},
+
+activation: {
+  code: 'BODY CODE',
+  title: 'Was bringt dein System wieder sanft in Aktivierung?',
+  text:
+    'ICS würde jetzt nicht nach mehr Leistung suchen, sondern danach, ' +
+    'welche kleine Form von Bewegung deine Energie tatsächlich unterstützt.',
+  question:
+    'Welche Art von Aktivierung gibt dir eher Energie zurück, statt dir zusätzliche Energie zu nehmen?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, welche kleinen körperlichen Impulse ' +
+    'deine Energie zuverlässig verändern und wann Aktivierung für dich hilfreich ist.'
+},
+
+recovery: {
+  code: 'RESET',
+  title: 'Wann braucht dein System Regeneration statt weiteres Funktionieren?',
+  text:
+    'ICS würde jetzt genauer unterscheiden, ob dein Energietief nach Aktivierung verlangt ' +
+    'oder ob dein System eigentlich eine Grenze und echte Erholung braucht.',
+  question:
+    'Was würde sich verändern, wenn du ein Energietief nicht sofort überwinden müsstest, sondern zuerst prüfen würdest, was dein System wirklich braucht?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, ob fehlende Regeneration, Schlaf oder Pausen ' +
+    'deinen Energieverlauf beeinflussen und wann dein System eher Ruhe als Aktivierung benötigt.'
+}
+    
   };
 
   const path =
@@ -4948,14 +5105,27 @@ document.addEventListener('click', (event) => {
       ">
         <small>DER WEG BIS HIERHER</small>
 
-        <p style="margin-top:10px;">
-          <strong>Kopf voll</strong>
-          → Gedanken parken
-          → Veränderung wahrnehmen
-          → möglichen Zusammenhang erkennen
-          → persönliche Antwort
-          → <strong>${path.code}</strong>
-        </p>
+<p style="margin-top:10px;">
+  ${
+    ['basicNeeds', 'activation', 'recovery'].includes(choice)
+      ? `
+        <strong>Energielos</strong>
+        → Wasser und Bewegung
+        → Veränderung wahrnehmen
+        → möglichen Zusammenhang erkennen
+        → persönliche Antwort
+        → <strong>${path.code}</strong>
+      `
+      : `
+        <strong>Kopf voll</strong>
+        → Gedanken parken
+        → Veränderung wahrnehmen
+        → möglichen Zusammenhang erkennen
+        → persönliche Antwort
+        → <strong>${path.code}</strong>
+      `
+  }
+</p>
 
         <p style="margin-top:16px;">
           Genau so entsteht aus einem einfachen Zustand
@@ -5068,15 +5238,35 @@ icsDemoStartReal?.addEventListener('click', () => {
   icsDemoMode = false;
   selectedGuideTarget = null;
 
+  const demoImpulse =
+    document.getElementById('icsDemoImpulse');
+
   const demoOverview =
     document.getElementById('icsDemoOverview');
+
+  const deepDive =
+    document.getElementById('icsDemoDeepDive');
+
+  if (demoImpulse) {
+    demoImpulse.hidden = true;
+  }
 
   if (demoOverview) {
     demoOverview.hidden = true;
   }
 
+  if (deepDive) {
+    deepDive.remove();
+  }
+
   if (guideRecommendation) {
     guideRecommendation.hidden = true;
+  }
+
+  if (startGuideRecommendation) {
+    startGuideRecommendation.dataset.demoStage = '';
+    startGuideRecommendation.textContent =
+      'Diesen Weg starten';
   }
 
   document
@@ -5084,6 +5274,12 @@ icsDemoStartReal?.addEventListener('click', () => {
     .forEach((choice) => {
       choice.classList.remove('active');
     });
+
+  if (icsDemoExplorePattern) {
+    icsDemoExplorePattern.disabled = false;
+    icsDemoExplorePattern.textContent =
+      'Zusammenhang weiter erkunden';
+  }
 
   updateIcsGuideModeUi();
   openView('fuehremich');
@@ -6408,14 +6604,36 @@ if (demoState === 'mind') {
     demoOverview.hidden = true;
   }
 
-  if (demoImpulse) {
-    demoImpulse.hidden = false;
+if (demoImpulse) {
+  const impulseTitle =
+    demoImpulse.querySelector('h2');
 
-    demoImpulse.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  const impulseTexts =
+    demoImpulse.querySelectorAll('p');
+
+  if (impulseTitle) {
+    impulseTitle.textContent =
+      'Gedanken parken';
   }
+
+  if (impulseTexts[1]) {
+    impulseTexts[1].innerHTML =
+      'Nimm Papier oder eine Notiz und schreibe für drei Minuten alles auf, was gerade Aufmerksamkeit von dir verlangt.';
+  }
+
+  if (impulseTexts[2]) {
+    impulseTexts[2].innerHTML =
+      'Du musst nichts sortieren oder lösen. Dein Kopf darf wissen: <strong>Es ist festgehalten – ich muss es gerade nicht weitertragen.</strong>';
+  }
+
+  demoImpulse.dataset.demoState = 'mind';
+  demoImpulse.hidden = false;
+
+  demoImpulse.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
 
   return;
 }
