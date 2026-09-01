@@ -4346,6 +4346,9 @@ function updateIcsGuideModeUi() {
   const normalChoices =
     document.getElementById('icsGuideChoices');
 
+  const backButton =
+  document.getElementById('backFromFuehreMich');
+
   if (demoChoices) {
     demoChoices.hidden = !icsDemoMode;
     demoChoices.style.display =
@@ -4357,6 +4360,14 @@ function updateIcsGuideModeUi() {
     normalChoices.style.display =
       icsDemoMode ? 'none' : '';
   }
+
+  if (backButton) {
+  backButton.textContent =
+    icsDemoMode
+      ? '← Demo beenden'
+      : '← Zurück zu den Welten';
+}
+  
 }
 
 openFuehreMich?.addEventListener('click', () => {
@@ -4378,6 +4389,24 @@ openIcsDemo?.addEventListener('click', () => {
 });
 
 backFromFuehreMich?.addEventListener('click', () => {
+  if (icsDemoMode) {
+    icsDemoMode = false;
+    selectedGuideTarget = null;
+
+    if (startGuideRecommendation) {
+      startGuideRecommendation.dataset.demoStage = '';
+      startGuideRecommendation.textContent =
+        'Diesen Weg starten';
+    }
+
+    if (guideRecommendation) {
+      guideRecommendation.hidden = true;
+    }
+
+    openView('heute');
+    return;
+  }
+
   openView('welten');
 });
 
