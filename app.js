@@ -4782,17 +4782,53 @@ document.addEventListener('click', (event) => {
       'Was wäre die kleinste Form von Bewegung, die sich auch mit wenig Energie noch machbar anfühlt?'
   },
 
-  recovery: {
-    title: 'Dein System könnte Erholung benötigen, bevor neue Energie entstehen kann.',
-    text:
-      'Wenn du trotz niedriger Energie weiterfunktionierst, bekommt dein System ' +
-      'möglicherweise zu wenig Raum, wirklich zu regenerieren.',
-    connection:
-      'ICS würde beobachten, ob deine Energietiefs besonders dann auftreten, ' +
-      'wenn Erholung, Schlaf oder bewusste Pausen über längere Zeit zu kurz kommen.',
-    question:
-      'Woran merkst du normalerweise, dass du eigentlich eine Pause brauchst – bevor deine Energie ganz absinkt?'
-  }
+recovery: {
+  title: 'Dein System könnte Erholung benötigen, bevor neue Energie entstehen kann.',
+  text:
+    'Wenn du trotz niedriger Energie weiterfunktionierst, bekommt dein System ' +
+    'möglicherweise zu wenig Raum, wirklich zu regenerieren.',
+  connection:
+    'ICS würde beobachten, ob deine Energietiefs besonders dann auftreten, ' +
+    'wenn Erholung, Schlaf oder bewusste Pausen über längere Zeit zu kurz kommen.',
+  question:
+    'Woran merkst du normalerweise, dass du eigentlich eine Pause brauchst – bevor deine Energie ganz absinkt?'
+},
+
+tooMuch: {
+  title: 'Zu viel gleichzeitig könnte deinen nächsten Schritt verdecken.',
+  text:
+    'Wenn viele Aufgaben, Möglichkeiten oder Gedanken gleichzeitig Aufmerksamkeit verlangen, ' +
+    'kann es schwer werden zu erkennen, was gerade wirklich wichtig ist.',
+  connection:
+    'ICS würde beobachten, ob du besonders dann feststeckst, wenn mehrere offene Themen ' +
+    'gleichzeitig um deine Aufmerksamkeit konkurrieren.',
+  question:
+    'Wenn du für einen Moment nur eine Sache wählen dürftest – welche wäre jetzt wirklich der nächste Schritt?'
+},
+
+uncertainty: {
+  title: 'Vielleicht wartest du auf mehr Sicherheit, bevor du handelst.',
+  text:
+    'Wenn eine Entscheidung sich erst vollkommen sicher anfühlen soll, ' +
+    'kann dein nächster Schritt länger offenbleiben als eigentlich nötig.',
+  connection:
+    'ICS würde beobachten, ob Feststecken bei dir häufiger dort entsteht, ' +
+    'wo du versuchst, Unsicherheit vor einer Entscheidung vollständig aufzulösen.',
+  question:
+    'Wie viel Sicherheit brauchst du tatsächlich, um einen kleinen nächsten Schritt ausprobieren zu können?'
+},
+
+innerConflict: {
+  title: 'Mehrere innere Richtungen könnten gleichzeitig an dir ziehen.',
+  text:
+    'Manchmal fehlt nicht die Möglichkeit zu handeln, sondern eine klare innere Priorität, ' +
+    'weil unterschiedliche Wünsche oder Erwartungen gleichzeitig wichtig erscheinen.',
+  connection:
+    'ICS würde beobachten, ob du besonders dann nicht weiterkommst, ' +
+    'wenn dein eigener Wunsch, äußere Erwartungen und verschiedene Möglichkeiten miteinander konkurrieren.',
+  question:
+    'Welche Richtung fühlt sich wirklich nach deiner an – auch wenn du damit nicht alle Erwartungen gleichzeitig erfüllen kannst?'
+}
 };
 
   const reflection =
@@ -5106,9 +5142,48 @@ recovery: {
   insight:
     'Hier könnte ICS mit der Zeit erkennen, ob fehlende Regeneration, Schlaf oder Pausen ' +
     'deinen Energieverlauf beeinflussen und wann dein System eher Ruhe als Aktivierung benötigt.'
+},
+
+tooMuch: {
+  code: 'ACTION CODE',
+  title: 'Was ist wirklich dein nächster Schritt?',
+  text:
+    'ICS würde jetzt beginnen, die vielen offenen Themen voneinander zu trennen, ' +
+    'damit aus Überforderung wieder eine konkrete Richtung entstehen kann.',
+  question:
+    'Wenn heute nur ein einziger Schritt zählen würde – welcher würde am meisten Klarheit oder Bewegung erzeugen?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, ob dein Feststecken vor allem dann entsteht, ' +
+    'wenn zu viele Möglichkeiten gleichzeitig wichtig erscheinen und eine klare Priorität fehlt.'
+},
+
+uncertainty: {
+  code: 'ACTION CODE',
+  title: 'Wie viel Sicherheit brauchst du wirklich, um loszugehen?',
+  text:
+    'ICS würde jetzt genauer unterscheiden, ob du noch echte Informationen brauchst ' +
+    'oder ob dein System versucht, jede Unsicherheit vor dem nächsten Schritt auszuschließen.',
+  question:
+    'Welchen kleinen Schritt könntest du gehen, ohne schon wissen zu müssen, wie der gesamte Weg ausgeht?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, ob der Wunsch nach Sicherheit ' +
+    'deine Entscheidungen unterstützt oder ob er dich wiederholt davon abhält, überhaupt Erfahrungen zu sammeln.'
+},
+
+innerConflict: {
+  code: 'INNER CODE',
+  title: 'Welche Richtung ist wirklich deine?',
+  text:
+    'ICS würde jetzt genauer betrachten, welche inneren Stimmen, Wünsche und Erwartungen ' +
+    'gleichzeitig Einfluss auf deine Entscheidung nehmen.',
+  question:
+    'Wenn äußere Erwartungen für einen Moment leiser wären – welche Richtung würdest du selbst wählen?',
+  insight:
+    'Hier könnte ICS mit der Zeit erkennen, ob dein Feststecken besonders dann entsteht, ' +
+    'wenn dein eigener Wunsch und äußere Erwartungen nicht in dieselbe Richtung zeigen.'
 }
-    
-  };
+
+};
 
   const path =
     deeperPaths[choice];
@@ -5198,14 +5273,23 @@ recovery: {
         → persönliche Antwort
         → <strong>${path.code}</strong>
       `
-      : `
-        <strong>Kopf voll</strong>
-        → Gedanken parken
-        → Veränderung wahrnehmen
-        → möglichen Zusammenhang erkennen
-        → persönliche Antwort
-        → <strong>${path.code}</strong>
-      `
+      : ['tooMuch', 'uncertainty', 'innerConflict'].includes(choice)
+        ? `
+          <strong>Festgefahren</strong>
+          → Gedanken parken
+          → Veränderung wahrnehmen
+          → möglichen Zusammenhang erkennen
+          → persönliche Antwort
+          → <strong>${path.code}</strong>
+        `
+        : `
+          <strong>Kopf voll</strong>
+          → Gedanken parken
+          → Veränderung wahrnehmen
+          → möglichen Zusammenhang erkennen
+          → persönliche Antwort
+          → <strong>${path.code}</strong>
+        `
   }
 </p>
 
