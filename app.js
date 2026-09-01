@@ -5075,20 +5075,46 @@ container.innerHTML = `
     padding-top:20px;
     border-top:1px solid rgba(184,146,79,.20);
   ">
-    <small>MÖGLICHER ZUSAMMENHANG</small>
+    <small>WAS ICS DARIN SIEHT</small>
 
     <p style="margin-top:10px;">
-      In diesem Beispiel zeigt sich ein interessanter Hinweis:
-      Nicht nur deine Energie war niedrig – dein Kopf war
-      gleichzeitig stark belastet.
+      Die deutlichste Veränderung zeigt sich in deinem Kopf.
+      Gleichzeitig haben sich Körper und Energie leicht
+      mitverändert.
     </p>
 
     <p>
-      Nachdem du Gedanken bewusst abgegeben hast,
-      hat sich dein mentaler Zustand deutlich verändert.
-      Es könnte deshalb sein, dass
-      <strong>mentale Überlastung einen Teil deiner verfügbaren
-      Energie bindet.</strong>
+      Das ist für ICS wichtig:
+      <strong>
+        Nicht nur ein einzelner Wert verändert sich –
+        mehrere Bereiche deines Systems reagieren miteinander.
+      </strong>
+    </p>
+  </div>
+
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.20);
+  ">
+    <small>MÖGLICHER ZUSAMMENHANG</small>
+
+    <p style="margin-top:10px;">
+      In diesem Beispiel könnte mentale Belastung
+      mit deinem Energieempfinden zusammenhängen.
+    </p>
+
+    <p>
+      Nachdem dein Kopf entlastet wurde, hat sich dort
+      die stärkste Veränderung gezeigt.
+      Gleichzeitig bewegten sich auch Körper und Energie.
+    </p>
+
+    <p>
+      <strong>
+        Ein einzelner Check-in reicht jedoch noch nicht,
+        um daraus ein persönliches Muster abzuleiten.
+      </strong>
     </p>
   </div>
 
@@ -5100,15 +5126,21 @@ container.innerHTML = `
     <small>DAS WÜRDE ICS JETZT BEOBACHTEN</small>
 
     <p style="margin-top:10px;">
-      Ein einzelner Check-in ist noch kein Muster.
-      Deshalb würde ICS jetzt nicht vorschnell interpretieren.
+      Bei deinen nächsten Check-ins würde ICS nicht nur
+      einzelne Werte speichern, sondern Entwicklungen
+      miteinander vergleichen.
     </p>
 
     <p>
-      Bei deinen nächsten Check-ins würde ICS beobachten:
-      Taucht „Kopf voll“ häufiger auf?
-      Sinkt gleichzeitig deine Energie?
-      Und hilft dir mentale Entlastung wiederholt?
+      Taucht „Kopf voll“ häufiger auf?<br>
+      Ist deine Energie dann ebenfalls niedriger?<br>
+      Reagiert dein Körper gleichzeitig?<br>
+      Welche kurzen Impulse helfen dir wiederholt?
+    </p>
+
+    <p>
+      Genau daraus entsteht mit der Zeit
+      <strong>dein persönliches ICS-Profil.</strong>
     </p>
   </div>
 
@@ -5117,28 +5149,81 @@ container.innerHTML = `
     padding-top:20px;
     border-top:1px solid rgba(184,146,79,.20);
   ">
-    <small>SO LERNT DEIN ICS MENTOR</small>
+    <small>SO LERNT DEIN ICS MENTOR MIT DIR</small>
 
     <p style="margin-top:10px;">
-      Mit jedem weiteren Eintrag kann ICS deine Reaktionen
-      vergleichen und persönliche Zusammenhänge erkennen.
+      Stell dir vor, dies wäre nicht dein erster,
+      sondern dein zehnter Check-in.
+    </p>
+
+    <div style="
+      margin-top:16px;
+      padding:18px;
+      border:1px solid rgba(184,146,79,.30);
+      border-radius:14px;
+    ">
+      <small>BEISPIEL NACH 10 CHECK-INS</small>
+
+      <p style="margin-top:12px;">
+        <strong>4×</strong> trat „Kopf voll“ auf.
+      </p>
+
+      <p>
+        Bei <strong>3 von 4 Situationen</strong>
+        war gleichzeitig deine Energie niedriger.
+      </p>
+
+      <p>
+        Mentale Entlastung verbesserte deinen Kopf
+        in diesen Situationen durchschnittlich um
+        <strong>+3 Punkte.</strong>
+      </p>
+    </div>
+
+    <p style="
+      margin-top:18px;
+      padding:16px 18px;
+      border-left:2px solid #b8924f;
+    ">
+      „Ich sehe eine mögliche Verbindung:
+      Wenn dein Kopf stark belastet ist,
+      sinkt bei dir häufiger auch die Energie.
+      Kurze mentale Entlastung scheint dir
+      wiederholt gutzutun.“
+    </p>
+  </div>
+
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.20);
+  ">
+    <small>UND DANN?</small>
+
+    <p style="margin-top:10px;">
+      ICS würde dich nicht automatisch in das nächste
+      Programm schicken.
     </p>
 
     <p>
-      Nach mehreren ähnlichen Situationen könnte dein Mentor
-      dir zum Beispiel spiegeln:
+      Erst wenn sich ein Zusammenhang wirklich wiederholt,
+      könnte dein Mentor dich fragen:
     </p>
 
     <p style="
       margin-top:14px;
-      padding:16px 18px;
-      border-left:2px solid #b8924f;
+      font-size:1.05em;
     ">
-      „Ich sehe, dass ein voller Kopf bei dir häufiger
-      mit niedriger Energie zusammenfällt.
-      Kurze mentale Entlastung hat dir dabei wiederholt geholfen.
-      Möchtest du anschauen, was deinen Kopf immer wieder
-      so stark beschäftigt?“
+      <strong>
+        „Möchtest du herausfinden,
+        was deinen Kopf immer wieder so stark beschäftigt?“
+      </strong>
+    </p>
+
+    <p>
+      Von dort könnte ICS mit dir tiefer gehen –
+      zum Beispiel in Gedankenmuster, innere Auslöser,
+      Körperreaktionen oder deinen nächsten Handlungsschritt.
     </p>
   </div>
 
@@ -5150,12 +5235,19 @@ container.innerHTML = `
     <small>DEIN NÄCHSTER SCHRITT</small>
 
     <p style="margin-top:10px;">
-      Für den Moment musst du daraus nichts weiter machen.
-      Dein System hat auf einen kleinen Impuls reagiert.
+      Für diesen Moment ist kein weiterer Schritt notwendig.
     </p>
 
     <p>
-      <strong>Diese Veränderung wahrzunehmen reicht für heute.</strong>
+      <strong>
+        ICS hat eine Veränderung sichtbar gemacht.
+        Jetzt würde es beobachten, ob daraus mit der Zeit
+        ein persönlicher Zusammenhang entsteht.
+      </strong>
+    </p>
+
+    <p style="margin-top:16px;">
+      Für heute darf das reichen.
     </p>
   </div>
 `;
