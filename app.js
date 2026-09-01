@@ -6114,31 +6114,50 @@ ${
     <small>MÖGLICHER ZUSAMMENHANG</small>
 
 ${
-  record.focus === 'energy'
+  record.mentorState === 'orientation'
     ? `
       <p style="margin-top:10px;">
-        In diesem Beispiel könnte dein Energieempfinden
-        mit körperlicher Aktivierung zusammenhängen.
+        In diesem Beispiel könnte dein Gefühl des Feststeckens
+        damit zusammenhängen, dass zu viele Gedanken,
+        Möglichkeiten oder offene Fragen gleichzeitig
+        Aufmerksamkeit verlangen.
       </p>
 
       <p>
-        Nach Wasser und Bewegung hat sich deine Energie
-        am deutlichsten verändert.
-        Gleichzeitig bewegten sich auch Körper und Kopf.
+        Nachdem du sichtbar gemacht hast, was dich gerade
+        beschäftigt, ist mehr mentale Klarheit entstanden.
+        <strong>
+          Das könnte ein Hinweis darauf sein, dass dein
+          nächster Schritt nicht durch noch mehr Nachdenken,
+          sondern durch Sortieren und Fokussieren entsteht.
+        </strong>
       </p>
     `
-    : `
-      <p style="margin-top:10px;">
-        In diesem Beispiel könnte mentale Belastung
-        mit deinem Energieempfinden zusammenhängen.
-      </p>
+    : record.focus === 'energy'
+      ? `
+        <p style="margin-top:10px;">
+          In diesem Beispiel könnte dein Energieempfinden
+          mit körperlicher Aktivierung zusammenhängen.
+        </p>
 
-      <p>
-        Nachdem dein Kopf entlastet wurde, hat sich dort
-        die stärkste Veränderung gezeigt.
-        Gleichzeitig bewegten sich auch Körper und Energie.
-      </p>
-    `
+        <p>
+          Nach Wasser und Bewegung hat sich deine Energie
+          am deutlichsten verändert.
+          Gleichzeitig bewegten sich auch Körper und Kopf.
+        </p>
+      `
+      : `
+        <p style="margin-top:10px;">
+          In diesem Beispiel könnte mentale Belastung
+          mit deinem Energieempfinden zusammenhängen.
+        </p>
+
+        <p>
+          Nachdem dein Kopf entlastet wurde, hat sich dort
+          die stärkste Veränderung gezeigt.
+          Gleichzeitig bewegten sich auch Körper und Energie.
+        </p>
+      `
 }
 
     <p>
@@ -6164,23 +6183,32 @@ ${
 
     <p>
 ${
-  record.focus === 'energy'
+  record.mentorState === 'orientation'
     ? `
       <p>
-        Taucht „Energielos“ häufiger auf?<br>
-        Wie fühlt sich dein Körper in diesen Situationen an?<br>
-        Was passiert gleichzeitig in deinem Kopf?<br>
-        Welche kleinen Aktivierungen helfen dir wiederholt?
+        Taucht „Festgefahren“ bei dir häufiger auf?<br>
+        Was beschäftigt deinen Kopf in diesen Situationen?<br>
+        Gibt es dann besonders viele offene Möglichkeiten oder Entscheidungen?<br>
+        Was hilft dir wiederholt, wieder einen nächsten Schritt zu erkennen?
       </p>
     `
-    : `
-      <p>
-        Taucht „Kopf voll“ häufiger auf?<br>
-        Ist deine Energie dann ebenfalls niedriger?<br>
-        Reagiert dein Körper gleichzeitig?<br>
-        Welche kurzen Impulse helfen dir wiederholt?
-      </p>
-    `
+    : record.focus === 'energy'
+      ? `
+        <p>
+          Taucht „Energielos“ häufiger auf?<br>
+          Wie fühlt sich dein Körper in diesen Situationen an?<br>
+          Was passiert gleichzeitig in deinem Kopf?<br>
+          Welche kleinen Aktivierungen helfen dir wiederholt?
+        </p>
+      `
+      : `
+        <p>
+          Taucht „Kopf voll“ häufiger auf?<br>
+          Ist deine Energie dann ebenfalls niedriger?<br>
+          Reagiert dein Körper gleichzeitig?<br>
+          Welche kurzen Impulse helfen dir wiederholt?
+        </p>
+      `
 }
 
     <p>
