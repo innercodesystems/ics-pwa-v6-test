@@ -4347,11 +4347,13 @@ function updateIcsGuideModeUi() {
     document.getElementById('icsGuideChoices');
 
   if (demoChoices) {
+    demoChoices.hidden = !icsDemoMode;
     demoChoices.style.display =
-      icsDemoMode ? '' : 'none';
+      icsDemoMode ? 'block' : 'none';
   }
 
   if (normalChoices) {
+    normalChoices.hidden = icsDemoMode;
     normalChoices.style.display =
       icsDemoMode ? 'none' : '';
   }
