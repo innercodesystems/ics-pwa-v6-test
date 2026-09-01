@@ -2429,6 +2429,278 @@ let returnToEnergyAfterRecommendation = false;
 const energyHistoryKey = 'ICS_ENERGY_HISTORY';
 const energyHistoryLimit = 100;
 
+// ---------------------------------------------------------
+// ICS TESTMODUS
+// ---------------------------------------------------------
+
+const icsTestModeKey = 'ICS_TEST_MODE';
+const energyHistoryTestKey = 'ICS_ENERGY_HISTORY_TEST';
+
+function isIcsTestMode() {
+  return localStorage.getItem(icsTestModeKey) === 'true';
+}
+
+function getActiveEnergyHistoryKey() {
+  return isIcsTestMode()
+    ? energyHistoryTestKey
+    : energyHistoryKey;
+}
+
+function createIcsTestModeUI() {
+  const mehrView =
+    document.getElementById('view-mehr');
+
+  if (!mehrView) return;
+
+  if (document.getElementById('icsTestModeCard')) {
+    return;
+  }
+
+  const card = document.createElement('section');
+  card.className = 'premium-card';
+  card.id = 'icsTestModeCard';
+
+  card.style.marginTop = '24px';
+
+  card.innerHTML = `
+    <p class="section-kicker">
+      ENTWICKLUNG
+    </p>
+
+    <h2>ICS Testmodus</h2>
+
+    <p id="icsTestModeStatus">
+      Testmodus ist ausgeschaltet.
+    </p>
+
+    <button
+      type="button"
+      class="gold-button"
+      id="icsTestModeToggle"
+    >
+      Testmodus aktivieren
+    </button>
+
+<div
+  id="icsTestDataActions"
+  style="margin-top:18px;"
+  hidden
+>
+  <button
+    type="button"
+    class="secondary-button"
+    id="icsTestLoadHead2"
+  >
+    2× Kopf voll laden
+  </button>
+
+  <button
+    type="button"
+    class="secondary-button"
+    id="icsTestLoadActivation4"
+  >
+    Aktivierungs-Cluster laden
+  </button>
+
+  <button
+    type="button"
+    class="secondary-button"
+    id="icsTestClearData"
+  >
+    Testdaten löschen
+  </button>
+</div>
+    
+  `;
+
+  mehrView.appendChild(card);
+
+  const status =
+    document.getElementById('icsTestModeStatus');
+
+  const toggle =
+    document.getElementById('icsTestModeToggle');
+
+  const testActions =
+  document.getElementById('icsTestDataActions');
+
+const loadHead2 =
+  document.getElementById('icsTestLoadHead2');
+
+const loadActivation4 =
+  document.getElementById('icsTestLoadActivation4');
+
+const clearTestData =
+  document.getElementById('icsTestClearData');
+
+  function renderTestModeStatus() {
+    const active = isIcsTestMode();
+
+    if (testActions) {
+  testActions.hidden = !active;
+}
+
+    if (status) {
+      status.textContent = active
+        ? 'TESTMODUS AKTIV – echte Verlaufsdaten bleiben unberührt.'
+        : 'Testmodus ist ausgeschaltet.';
+    }
+
+    if (toggle) {
+      toggle.textContent = active
+        ? 'Testmodus beenden'
+        : 'Testmodus aktivieren';
+    }
+  }
+
+  toggle?.addEventListener('click', () => {
+    const nextMode =
+      !isIcsTestMode();
+
+    localStorage.setItem(
+      icsTestModeKey,
+      String(nextMode)
+    );
+
+function createTestRecord({
+  routerState,
+  focus,
+  impulseId,
+  impulseTitle,
+  foundations,
+  minutesAgo
+}) {
+  const createdAt =
+    new Date(Date.now() - minutesAgo * 60000).toISOString();
+
+  return {
+    id: `TEST_${routerState}_${Date.now()}_${minutesAgo}`,
+    createdAt,
+
+    before: {
+      energy: 5,
+      body: 5,
+      mind: 4
+    },
+
+    after: {
+      energy: 6,
+      body: 6,
+      mind: 5
+    },
+
+    delta: {
+      energy: 1,
+      body: 1,
+      mind: 1
+    },
+
+    focus,
+    routerState,
+    duration: 1,
+    impulseId,
+    impulseTitle,
+    foundations,
+    noticedAt: 'Kopf',
+    source: 'mentor',
+    mentorState: routerState
+  };
+}
+
+function saveTestRecords(records) {
+  if (!isIcsTestMode()) return;
+
+  localStorage.setItem(
+    energyHistoryTestKey,
+    JSON.stringify(records)
+  );
+
+  renderEnergyHistory();
+  renderLatestEnergyForMeinIcs();
+}
+
+loadHead2?.addEventListener('click', () => {
+  saveTestRecords([
+    createTestRecord({
+      routerState: 'kopfVoll',
+      focus: 'mind',
+      impulseId: 'ENG_301',
+      impulseTitle: 'Ein bewusster Atemzug nach dem anderen',
+      foundations: ['FOUND_07'],
+      minutesAgo: 1
+    }),
+
+    createTestRecord({
+      routerState: 'kopfVoll',
+      focus: 'mind',
+      impulseId: 'ENG_301',
+      impulseTitle: 'Ein bewusster Atemzug nach dem anderen',
+      foundations: ['FOUND_07'],
+      minutesAgo: 2
+    })
+  ]);
+});
+
+loadActivation4?.addEventListener('click', () => {
+  saveTestRecords([
+    createTestRecord({
+      routerState: 'kopfVoll',
+      focus: 'mind',
+      impulseId: 'ENG_301',
+      impulseTitle: 'Ein bewusster Atemzug nach dem anderen',
+      foundations: ['FOUND_07'],
+      minutesAgo: 1
+    }),
+
+    createTestRecord({
+      routerState: 'angespannt',
+      focus: 'body',
+      impulseId: 'ENG_201',
+      impulseTitle: 'Spannung lösen',
+      foundations: ['FOUND_04'],
+      minutesAgo: 2
+    }),
+
+    createTestRecord({
+      routerState: 'unruhig',
+      focus: 'mind',
+      impulseId: 'ENG_301',
+      impulseTitle: 'Ein bewusster Atemzug nach dem anderen',
+      foundations: ['FOUND_07'],
+      minutesAgo: 3
+    }),
+
+    createTestRecord({
+      routerState: 'kopfVoll',
+      focus: 'mind',
+      impulseId: 'ENG_301',
+      impulseTitle: 'Ein bewusster Atemzug nach dem anderen',
+      foundations: ['FOUND_07'],
+      minutesAgo: 4
+    })
+  ]);
+});
+
+clearTestData?.addEventListener('click', () => {
+  localStorage.removeItem(
+    energyHistoryTestKey
+  );
+
+  renderEnergyHistory();
+  renderLatestEnergyForMeinIcs();
+});
+    
+    renderTestModeStatus();
+
+    renderEnergyHistory();
+    renderLatestEnergyForMeinIcs();
+  });
+
+  renderTestModeStatus();
+}
+
+createIcsTestModeUI();
+
 const icsStateRouter = {
   kopfVoll: {
     label: 'Kopf voll',
@@ -2947,7 +3219,7 @@ function isValidEnergyHistoryRecord(record) {
 function getEnergyHistory() {
   try {
     const history = JSON.parse(
-      localStorage.getItem(energyHistoryKey) || '[]'
+      localStorage.getItem(getActiveEnergyHistoryKey()) || '[]'
     );
 
     if (!Array.isArray(history)) {
@@ -3684,10 +3956,10 @@ const duplicateCheck = history.some((item) => {
 if (duplicateCheck) return false;
 
   try {
-    localStorage.setItem(
-      energyHistoryKey,
-      JSON.stringify([record, ...history].slice(0, energyHistoryLimit))
-    );
+localStorage.setItem(
+  getActiveEnergyHistoryKey(),
+  JSON.stringify([record, ...history].slice(0, energyHistoryLimit))
+);
     return true;
   } catch {
     return false;
