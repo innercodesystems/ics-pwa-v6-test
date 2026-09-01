@@ -5843,16 +5843,33 @@ ${
   ">
     <small>MÖGLICHER ZUSAMMENHANG</small>
 
-    <p style="margin-top:10px;">
-      In diesem Beispiel könnte mentale Belastung
-      mit deinem Energieempfinden zusammenhängen.
-    </p>
+${
+  record.focus === 'energy'
+    ? `
+      <p style="margin-top:10px;">
+        In diesem Beispiel könnte dein Energieempfinden
+        mit körperlicher Aktivierung zusammenhängen.
+      </p>
 
-    <p>
-      Nachdem dein Kopf entlastet wurde, hat sich dort
-      die stärkste Veränderung gezeigt.
-      Gleichzeitig bewegten sich auch Körper und Energie.
-    </p>
+      <p>
+        Nach Wasser und Bewegung hat sich deine Energie
+        am deutlichsten verändert.
+        Gleichzeitig bewegten sich auch Körper und Kopf.
+      </p>
+    `
+    : `
+      <p style="margin-top:10px;">
+        In diesem Beispiel könnte mentale Belastung
+        mit deinem Energieempfinden zusammenhängen.
+      </p>
+
+      <p>
+        Nachdem dein Kopf entlastet wurde, hat sich dort
+        die stärkste Veränderung gezeigt.
+        Gleichzeitig bewegten sich auch Körper und Energie.
+      </p>
+    `
+}
 
     <p>
       <strong>
@@ -5876,11 +5893,25 @@ ${
     </p>
 
     <p>
-      Taucht „Kopf voll“ häufiger auf?<br>
-      Ist deine Energie dann ebenfalls niedriger?<br>
-      Reagiert dein Körper gleichzeitig?<br>
-      Welche kurzen Impulse helfen dir wiederholt?
-    </p>
+${
+  record.focus === 'energy'
+    ? `
+      <p>
+        Taucht „Energielos“ häufiger auf?<br>
+        Wie fühlt sich dein Körper in diesen Situationen an?<br>
+        Was passiert gleichzeitig in deinem Kopf?<br>
+        Welche kleinen Aktivierungen helfen dir wiederholt?
+      </p>
+    `
+    : `
+      <p>
+        Taucht „Kopf voll“ häufiger auf?<br>
+        Ist deine Energie dann ebenfalls niedriger?<br>
+        Reagiert dein Körper gleichzeitig?<br>
+        Welche kurzen Impulse helfen dir wiederholt?
+      </p>
+    `
+}
 
     <p>
       Genau daraus entsteht mit der Zeit
@@ -5908,6 +5939,38 @@ ${
     ">
       <small>BEISPIEL NACH 10 CHECK-INS</small>
 
+      ${
+  record.focus === 'energy'
+    ? `
+      <p style="margin-top:12px;">
+        <strong>4×</strong> trat „Energielos“ auf.
+      </p>
+
+      <p>
+        Bei <strong>3 von 4 Situationen</strong>
+        fühlte sich gleichzeitig auch dein Körper weniger aktiviert an.
+      </p>
+
+      <p>
+        Wasser und Bewegung verbesserten deine Energie
+        in diesen Situationen durchschnittlich um
+        <strong>+3 Punkte.</strong>
+      </p>
+    </div>
+
+    <p style="
+      margin-top:18px;
+      padding:16px 18px;
+      border-left:2px solid #b8924f;
+    ">
+      „Ich sehe eine mögliche Verbindung:
+      Wenn deine Energie niedrig ist,
+      reagiert häufig auch dein Körper.
+      Kleine körperliche Aktivierungen scheinen dir
+      wiederholt gutzutun.“
+    </p>
+    `
+    : `
       <p style="margin-top:12px;">
         <strong>4×</strong> trat „Kopf voll“ auf.
       </p>
@@ -5935,6 +5998,8 @@ ${
       Kurze mentale Entlastung scheint dir
       wiederholt gutzutun.“
     </p>
+    `
+}
   </div>
 
   <div style="
@@ -5954,21 +6019,44 @@ ${
       könnte dein Mentor dich fragen:
     </p>
 
-    <p style="
-      margin-top:14px;
-      font-size:1.05em;
-    ">
-      <strong>
-        „Möchtest du herausfinden,
-        was deinen Kopf immer wieder so stark beschäftigt?“
-      </strong>
-    </p>
+${
+  record.focus === 'energy'
+    ? `
+      <p style="
+        margin-top:14px;
+        font-size:1.05em;
+      ">
+        <strong>
+          „Möchtest du herausfinden,
+          was deine Energie immer wieder beeinflusst?“
+        </strong>
+      </p>
 
-    <p>
-      Von dort könnte ICS mit dir tiefer gehen –
-      zum Beispiel in Gedankenmuster, innere Auslöser,
-      Körperreaktionen oder deinen nächsten Handlungsschritt.
-    </p>
+      <p>
+        Von dort könnte ICS mit dir tiefer gehen –
+        zum Beispiel in körperliche Aktivierung,
+        Regeneration, grundlegende Versorgung
+        oder deinen Umgang mit deiner Energie.
+      </p>
+    `
+    : `
+      <p style="
+        margin-top:14px;
+        font-size:1.05em;
+      ">
+        <strong>
+          „Möchtest du herausfinden,
+          was deinen Kopf immer wieder so stark beschäftigt?“
+        </strong>
+      </p>
+
+      <p>
+        Von dort könnte ICS mit dir tiefer gehen –
+        zum Beispiel in Gedankenmuster, innere Auslöser,
+        Körperreaktionen oder deinen nächsten Handlungsschritt.
+      </p>
+    `
+}
   </div>
 
   <div style="
