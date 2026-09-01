@@ -5691,7 +5691,7 @@ energy: {
   impulseTitle: 'Wasser und Bewegung',
 
   foundations: [
-    'FOUND_01',
+    'FOUND_02',
     'FOUND_04'
   ],
 
