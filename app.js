@@ -4431,10 +4431,12 @@ const demoRecord =
 icsDemoExplorePattern?.addEventListener('click', () => {
   if (!icsDemoMode) return;
 
-  const demoState =
+const demoState =
   selectedGuideTarget === 'demo-energy'
     ? 'energy'
-    : 'mind';
+    : selectedGuideTarget === 'demo-orientation'
+      ? 'orientation'
+      : 'mind';
 
   let deepDive =
     document.getElementById('icsDemoDeepDive');
@@ -4531,86 +4533,166 @@ icsDemoExplorePattern?.addEventListener('click', () => {
         Schritt genauer auf dich auszurichten.
       </p>
     `
-    : `
-      <p class="section-kicker">
-        ICS GEHT EINEN SCHRITT TIEFER
-      </p>
+    : demoState === 'orientation'
+      ? `
+        <p class="section-kicker">
+          ICS GEHT EINEN SCHRITT TIEFER
+        </p>
 
-      <h2>
-        Was passiert bei dir, wenn dein Kopf voll wird?
-      </h2>
+        <h2>
+          Was passiert bei dir, wenn du nicht weiterkommst?
+        </h2>
 
-      <p style="margin-top:14px;">
-        ICS würde jetzt nicht versuchen, dir eine fertige
-        Erklärung zu geben.
-      </p>
+        <p style="margin-top:14px;">
+          ICS würde auch hier nicht sofort entscheiden,
+          warum du feststeckst.
+        </p>
 
-      <p>
-        Es würde zuerst prüfen, welcher innere Zusammenhang
-        für dich tatsächlich stimmig sein könnte.
-      </p>
+        <p>
+          Es würde zuerst prüfen, welcher Zusammenhang
+          für dich tatsächlich eine Rolle spielen könnte.
+        </p>
 
-      <p style="margin-top:20px;">
-        <strong>
-          Was trifft in solchen Momenten am ehesten auf dich zu?
-        </strong>
-      </p>
+        <p style="margin-top:20px;">
+          <strong>
+            Was trifft in solchen Situationen am ehesten auf dich zu?
+          </strong>
+        </p>
 
-      <div class="menu-list" style="margin-top:18px;">
+        <div class="menu-list" style="margin-top:18px;">
 
-        <button
-          type="button"
-          class="menu-card ics-demo-deep-choice"
-          data-demo-deep="holding"
-        >
-          <div>
-            <small>VIEL FESTHALTEN</small>
-            <strong>
-              Ich versuche, zu viel gleichzeitig im Kopf zu behalten.
-            </strong>
-          </div>
-          <b>›</b>
-        </button>
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="tooMuch"
+          >
+            <div>
+              <small>ZU VIEL AUF EINMAL</small>
+              <strong>
+                Es gibt so viele Aufgaben, Möglichkeiten oder Gedanken,
+                dass ich nicht mehr erkenne, womit ich anfangen soll.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
 
-        <button
-          type="button"
-          class="menu-card ics-demo-deep-choice"
-          data-demo-deep="ahead"
-        >
-          <div>
-            <small>STÄNDIG VORAUSDENKEN</small>
-            <strong>
-              Ich bin gedanklich schon beim Nächsten,
-              bevor das Aktuelle abgeschlossen ist.
-            </strong>
-          </div>
-          <b>›</b>
-        </button>
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="uncertainty"
+          >
+            <div>
+              <small>UNSICHERHEIT</small>
+              <strong>
+                Ich möchte erst sicher sein, dass ich richtig entscheide,
+                bevor ich den nächsten Schritt gehe.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
 
-        <button
-          type="button"
-          class="menu-card ics-demo-deep-choice"
-          data-demo-deep="switchOff"
-        >
-          <div>
-            <small>SCHWER ABSCHALTEN</small>
-            <strong>
-              Auch wenn ich nichts tun muss,
-              läuft mein Kopf weiter.
-            </strong>
-          </div>
-          <b>›</b>
-        </button>
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="innerConflict"
+          >
+            <div>
+              <small>INNERE RICHTUNG</small>
+              <strong>
+                Unterschiedliche Wünsche, Erwartungen oder Möglichkeiten
+                ziehen mich gleichzeitig in verschiedene Richtungen.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
 
-      </div>
+        </div>
 
-      <p style="margin-top:20px; opacity:.78;">
-        Es gibt hier kein richtig oder falsch.
-        ICS nutzt deine Antwort nur, um den nächsten
-        Schritt genauer auf dich auszurichten.
-      </p>
-    `;
+        <p style="margin-top:20px; opacity:.78;">
+          Es gibt hier kein richtig oder falsch.
+          ICS nutzt deine Antwort nur, um den nächsten
+          Schritt genauer auf dich auszurichten.
+        </p>
+      `
+      : `
+        <p class="section-kicker">
+          ICS GEHT EINEN SCHRITT TIEFER
+        </p>
 
+        <h2>
+          Was passiert bei dir, wenn dein Kopf voll wird?
+        </h2>
+
+        <p style="margin-top:14px;">
+          ICS würde jetzt nicht versuchen, dir eine fertige
+          Erklärung zu geben.
+        </p>
+
+        <p>
+          Es würde zuerst prüfen, welcher innere Zusammenhang
+          für dich tatsächlich stimmig sein könnte.
+        </p>
+
+        <p style="margin-top:20px;">
+          <strong>
+            Was trifft in solchen Momenten am ehesten auf dich zu?
+          </strong>
+        </p>
+
+        <div class="menu-list" style="margin-top:18px;">
+
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="holding"
+          >
+            <div>
+              <small>VIEL FESTHALTEN</small>
+              <strong>
+                Ich versuche, zu viel gleichzeitig im Kopf zu behalten.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
+
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="ahead"
+          >
+            <div>
+              <small>STÄNDIG VORAUSDENKEN</small>
+              <strong>
+                Ich bin gedanklich schon beim Nächsten,
+                bevor das Aktuelle abgeschlossen ist.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
+
+          <button
+            type="button"
+            class="menu-card ics-demo-deep-choice"
+            data-demo-deep="switchOff"
+          >
+            <div>
+              <small>SCHWER ABSCHALTEN</small>
+              <strong>
+                Auch wenn ich nichts tun muss,
+                läuft mein Kopf weiter.
+              </strong>
+            </div>
+            <b>›</b>
+          </button>
+
+        </div>
+
+        <p style="margin-top:20px; opacity:.78;">
+          Es gibt hier kein richtig oder falsch.
+          ICS nutzt deine Antwort nur, um den nächsten
+          Schritt genauer auf dich auszurichten.
+        </p>
+      `;
     const exploreArea =
       document.getElementById('icsDemoExploreArea');
 
@@ -6237,20 +6319,21 @@ ${
     ">
       <small>BEISPIEL NACH 10 CHECK-INS</small>
 
-      ${
-  record.focus === 'energy'
+${
+  record.mentorState === 'orientation'
     ? `
       <p style="margin-top:12px;">
-        <strong>4×</strong> trat „Energielos“ auf.
+        <strong>4×</strong> trat „Festgefahren“ auf.
       </p>
 
       <p>
         Bei <strong>3 von 4 Situationen</strong>
-        fühlte sich gleichzeitig auch dein Körper weniger aktiviert an.
+        war dein Kopf gleichzeitig deutlich weniger klar.
       </p>
 
       <p>
-        Wasser und Bewegung verbesserten deine Energie
+        Gedanken sichtbar zu machen und zu sortieren
+        verbesserte deine mentale Klarheit
         in diesen Situationen durchschnittlich um
         <strong>+3 Punkte.</strong>
       </p>
@@ -6262,41 +6345,71 @@ ${
       border-left:2px solid #b8924f;
     ">
       „Ich sehe eine mögliche Verbindung:
-      Wenn deine Energie niedrig ist,
-      reagiert häufig auch dein Körper.
-      Kleine körperliche Aktivierungen scheinen dir
-      wiederholt gutzutun.“
+      Wenn du dich festgefahren fühlst,
+      scheint gleichzeitig deine mentale Klarheit abzunehmen.
+      Gedanken sichtbar zu machen hilft dir offenbar wiederholt,
+      einen nächsten Schritt besser zu erkennen.“
     </p>
     `
-    : `
-      <p style="margin-top:12px;">
-        <strong>4×</strong> trat „Kopf voll“ auf.
-      </p>
+    : record.focus === 'energy'
+      ? `
+        <p style="margin-top:12px;">
+          <strong>4×</strong> trat „Energielos“ auf.
+        </p>
 
-      <p>
-        Bei <strong>3 von 4 Situationen</strong>
-        war gleichzeitig deine Energie niedriger.
-      </p>
+        <p>
+          Bei <strong>3 von 4 Situationen</strong>
+          fühlte sich gleichzeitig auch dein Körper weniger aktiviert an.
+        </p>
 
-      <p>
-        Mentale Entlastung verbesserte deinen Kopf
-        in diesen Situationen durchschnittlich um
-        <strong>+3 Punkte.</strong>
-      </p>
-    </div>
+        <p>
+          Wasser und Bewegung verbesserten deine Energie
+          in diesen Situationen durchschnittlich um
+          <strong>+3 Punkte.</strong>
+        </p>
+      </div>
 
-    <p style="
-      margin-top:18px;
-      padding:16px 18px;
-      border-left:2px solid #b8924f;
-    ">
-      „Ich sehe eine mögliche Verbindung:
-      Wenn dein Kopf stark belastet ist,
-      sinkt bei dir häufiger auch die Energie.
-      Kurze mentale Entlastung scheint dir
-      wiederholt gutzutun.“
-    </p>
-    `
+      <p style="
+        margin-top:18px;
+        padding:16px 18px;
+        border-left:2px solid #b8924f;
+      ">
+        „Ich sehe eine mögliche Verbindung:
+        Wenn deine Energie niedrig ist,
+        reagiert häufig auch dein Körper.
+        Kleine körperliche Aktivierungen scheinen dir
+        wiederholt gutzutun.“
+      </p>
+      `
+      : `
+        <p style="margin-top:12px;">
+          <strong>4×</strong> trat „Kopf voll“ auf.
+        </p>
+
+        <p>
+          Bei <strong>3 von 4 Situationen</strong>
+          war gleichzeitig deine Energie niedriger.
+        </p>
+
+        <p>
+          Mentale Entlastung verbesserte deinen Kopf
+          in diesen Situationen durchschnittlich um
+          <strong>+3 Punkte.</strong>
+        </p>
+      </div>
+
+      <p style="
+        margin-top:18px;
+        padding:16px 18px;
+        border-left:2px solid #b8924f;
+      ">
+        „Ich sehe eine mögliche Verbindung:
+        Wenn dein Kopf stark belastet ist,
+        sinkt bei dir häufiger auch die Energie.
+        Kurze mentale Entlastung scheint dir
+        wiederholt gutzutun.“
+      </p>
+      `
 }
   </div>
 
@@ -6318,7 +6431,7 @@ ${
     </p>
 
 ${
-  record.focus === 'energy'
+  record.mentorState === 'orientation'
     ? `
       <p style="
         margin-top:14px;
@@ -6326,34 +6439,53 @@ ${
       ">
         <strong>
           „Möchtest du herausfinden,
-          was deine Energie immer wieder beeinflusst?“
+          was deinen nächsten Schritt immer wieder blockiert?“
         </strong>
       </p>
 
       <p>
-        Von dort könnte ICS mit dir tiefer gehen –
-        zum Beispiel in körperliche Aktivierung,
-        Regeneration, grundlegende Versorgung
-        oder deinen Umgang mit deiner Energie.
+        Von dort könnte ICS mit dir tiefer schauen –
+        zum Beispiel darauf, ob zu viele Möglichkeiten,
+        Unsicherheit oder unterschiedliche innere Richtungen
+        dazu führen, dass du feststeckst.
       </p>
     `
-    : `
-      <p style="
-        margin-top:14px;
-        font-size:1.05em;
-      ">
-        <strong>
-          „Möchtest du herausfinden,
-          was deinen Kopf immer wieder so stark beschäftigt?“
-        </strong>
-      </p>
+    : record.focus === 'energy'
+      ? `
+        <p style="
+          margin-top:14px;
+          font-size:1.05em;
+        ">
+          <strong>
+            „Möchtest du herausfinden,
+            was deine Energie immer wieder beeinflusst?“
+          </strong>
+        </p>
 
-      <p>
-        Von dort könnte ICS mit dir tiefer gehen –
-        zum Beispiel in Gedankenmuster, innere Auslöser,
-        Körperreaktionen oder deinen nächsten Handlungsschritt.
-      </p>
-    `
+        <p>
+          Von dort könnte ICS mit dir tiefer gehen –
+          zum Beispiel in körperliche Aktivierung,
+          Regeneration, grundlegende Versorgung
+          oder deinen Umgang mit deiner Energie.
+        </p>
+      `
+      : `
+        <p style="
+          margin-top:14px;
+          font-size:1.05em;
+        ">
+          <strong>
+            „Möchtest du herausfinden,
+            was deinen Kopf immer wieder so voll macht?“
+          </strong>
+        </p>
+
+        <p>
+          Von dort könnte ICS mit dir tiefer gehen –
+          zum Beispiel in Gedankenmuster, innere Erwartungen,
+          Verantwortung oder deinen Umgang mit mentaler Belastung.
+        </p>
+      `
 }
   </div>
 
