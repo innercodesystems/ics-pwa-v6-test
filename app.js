@@ -4343,15 +4343,17 @@ function updateIcsGuideModeUi() {
   const demoChoices =
     document.getElementById('icsDemoChoices');
 
-const normalChoices =
-  document.getElementById('icsGuideChoices');
+  const normalChoices =
+    document.getElementById('icsGuideChoices');
 
   if (demoChoices) {
-    demoChoices.hidden = !icsDemoMode;
+    demoChoices.style.display =
+      icsDemoMode ? '' : 'none';
   }
 
   if (normalChoices) {
-    normalChoices.hidden = icsDemoMode;
+    normalChoices.style.display =
+      icsDemoMode ? 'none' : '';
   }
 }
 
