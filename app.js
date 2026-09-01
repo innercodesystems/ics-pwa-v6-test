@@ -1427,6 +1427,9 @@ const icsDemoStartReal =
 const icsDemoFinishImpulse =
   document.getElementById('icsDemoFinishImpulse');
 
+const icsDemoExplorePattern =
+  document.getElementById('icsDemoExplorePattern');
+
 const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
 const innerTo99Codes = document.getElementById('innerTo99Codes');
@@ -4420,6 +4423,394 @@ icsDemoFinishImpulse?.addEventListener('click', () => {
       block: 'start'
     });
   }
+});
+
+icsDemoExplorePattern?.addEventListener('click', () => {
+  if (!icsDemoMode) return;
+
+  let deepDive =
+    document.getElementById('icsDemoDeepDive');
+
+  if (!deepDive) {
+    deepDive = document.createElement('div');
+    deepDive.id = 'icsDemoDeepDive';
+
+    deepDive.style.cssText = `
+      margin-top:28px;
+      padding-top:24px;
+      border-top:1px solid rgba(184,146,79,.35);
+    `;
+
+    deepDive.innerHTML = `
+      <p class="section-kicker">
+        ICS GEHT EINEN SCHRITT TIEFER
+      </p>
+
+      <h2>
+        Was passiert bei dir, wenn dein Kopf voll wird?
+      </h2>
+
+      <p style="margin-top:14px;">
+        ICS würde jetzt nicht versuchen, dir eine fertige
+        Erklärung zu geben.
+      </p>
+
+      <p>
+        Es würde zuerst prüfen, welcher innere Zusammenhang
+        für dich tatsächlich stimmig sein könnte.
+      </p>
+
+      <p style="margin-top:20px;">
+        <strong>
+          Was trifft in solchen Momenten am ehesten auf dich zu?
+        </strong>
+      </p>
+
+      <div
+        class="menu-list"
+        style="margin-top:18px;"
+      >
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="holding"
+        >
+          <div>
+            <small>VIEL FESTHALTEN</small>
+            <strong>
+              Ich versuche, zu viel gleichzeitig im Kopf zu behalten.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="ahead"
+        >
+          <div>
+            <small>STÄNDIG VORAUSDENKEN</small>
+            <strong>
+              Ich bin gedanklich schon beim Nächsten,
+              bevor das Aktuelle abgeschlossen ist.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+        <button
+          type="button"
+          class="menu-card ics-demo-deep-choice"
+          data-demo-deep="switchOff"
+        >
+          <div>
+            <small>SCHWER ABSCHALTEN</small>
+            <strong>
+              Auch wenn ich nichts tun muss,
+              läuft mein Kopf weiter.
+            </strong>
+          </div>
+          <b>›</b>
+        </button>
+
+      </div>
+
+      <p style="
+        margin-top:20px;
+        opacity:.78;
+      ">
+        Es gibt hier kein richtig oder falsch.
+        ICS nutzt deine Antwort nur, um den nächsten
+        Schritt genauer auf dich auszurichten.
+      </p>
+    `;
+
+    const exploreArea =
+      document.getElementById('icsDemoExploreArea');
+
+    exploreArea?.insertAdjacentElement(
+      'afterend',
+      deepDive
+    );
+  }
+
+  icsDemoExplorePattern.textContent =
+    'Zusammenhang wird erkundet';
+
+  icsDemoExplorePattern.disabled = true;
+
+  deepDive.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+document.addEventListener('click', (event) => {
+  const button =
+    event.target.closest('.ics-demo-deep-choice');
+
+  if (!button || !icsDemoMode) return;
+
+  const choice = button.dataset.demoDeep;
+
+  const reflections = {
+    holding: {
+      title: 'Du hältst möglicherweise zu viel gleichzeitig fest.',
+      text:
+        'Wenn viele offene Gedanken gleichzeitig im Kopf bleiben, ' +
+        'muss dein System ständig Aufmerksamkeit dafür bereithalten.',
+      connection:
+        'ICS würde jetzt beobachten, ob deine mentale Belastung besonders dann steigt, ' +
+        'wenn viele unerledigte oder noch nicht eingeordnete Dinge gleichzeitig präsent sind.',
+      question:
+        'Was davon müsste wirklich jetzt von dir getragen werden – und was dürfte außerhalb deines Kopfes festgehalten werden?'
+    },
+
+    ahead: {
+      title: 'Dein Kopf ist möglicherweise ständig einen Schritt voraus.',
+      text:
+        'Du scheinst gedanklich bereits beim Nächsten zu sein, ' +
+        'während das Aktuelle noch nicht vollständig abgeschlossen ist.',
+      connection:
+        'ICS würde prüfen, ob deine Energie besonders dann sinkt, ' +
+        'wenn deine Aufmerksamkeit dauerhaft zwischen Gegenwart und nächsten Aufgaben wechselt.',
+      question:
+        'Was würde sich verändern, wenn für einen Moment nur der aktuelle Schritt wichtig wäre?'
+    },
+
+    switchOff: {
+      title: 'Dein System findet möglicherweise schwer in echte Ruhe.',
+      text:
+        'Auch wenn äußerlich nichts mehr erledigt werden muss, ' +
+        'scheint dein Kopf innerlich weiterzuarbeiten.',
+      connection:
+        'ICS würde beobachten, ob fehlende mentale Ruhe mit Erschöpfung, ' +
+        'körperlicher Anspannung oder niedriger Energie zusammenfällt.',
+      question:
+        'Woran würde dein System erkennen, dass für diesen Moment wirklich nichts mehr von dir verlangt wird?'
+    }
+  };
+
+  const reflection =
+    reflections[choice];
+
+  if (!reflection) return;
+
+  document
+    .querySelectorAll('.ics-demo-deep-choice')
+    .forEach((item) => {
+      item.classList.toggle(
+        'active',
+        item === button
+      );
+    });
+
+  let result =
+    document.getElementById('icsDemoDeepResult');
+
+  if (!result) {
+    result = document.createElement('div');
+    result.id = 'icsDemoDeepResult';
+
+    const deepDive =
+      document.getElementById('icsDemoDeepDive');
+
+    deepDive?.appendChild(result);
+  }
+
+  result.innerHTML = `
+    <div style="
+      margin-top:26px;
+      padding-top:22px;
+      border-top:1px solid rgba(184,146,79,.35);
+    ">
+      <p class="section-kicker">
+        DEINE PERSÖNLICHE ICS-SPIEGELUNG
+      </p>
+
+      <h2 style="margin-top:10px;">
+        ${reflection.title}
+      </h2>
+
+      <p style="margin-top:16px;">
+        ${reflection.text}
+      </p>
+
+      <div style="
+        margin-top:22px;
+        padding:18px;
+        border:1px solid rgba(184,146,79,.30);
+        border-radius:14px;
+      ">
+        <small>WAS ICS WEITER BEOBACHTEN WÜRDE</small>
+
+        <p style="margin-top:10px;">
+          ${reflection.connection}
+        </p>
+      </div>
+
+      <div style="
+        margin-top:22px;
+        padding:18px;
+        border-left:2px solid #b8924f;
+      ">
+        <small>DEINE NÄCHSTE REFLEXIONSFRAGE</small>
+
+        <p style="
+          margin-top:10px;
+          font-size:1.05em;
+        ">
+          <strong>
+            ${reflection.question}
+          </strong>
+        </p>
+      </div>
+
+      <p style="margin-top:22px;">
+        Genau hier beginnt ICS tiefer zu arbeiten:
+        nicht mit einer fertigen Erklärung,
+        sondern indem deine Antworten,
+        deine Zustände und deine Veränderungen
+        Schritt für Schritt miteinander verbunden werden.
+      </p>
+
+<div style="
+  margin-top:26px;
+  padding-top:22px;
+  border-top:1px solid rgba(184,146,79,.35);
+">
+  <small>WIE MÖCHTEST DU WEITERGEHEN?</small>
+
+  <p style="margin-top:10px;">
+    Du entscheidest, ob ICS diesen möglichen Zusammenhang
+    noch etwas weiter mit dir erkunden soll.
+  </p>
+
+  <button
+    type="button"
+    class="gold-button"
+    id="icsDemoGoDeeper"
+    style="margin-top:18px;"
+  >
+    Noch tiefer schauen
+  </button>
+
+  <button
+    type="button"
+    id="icsDemoEnoughForToday"
+    style="
+      display:block;
+      width:100%;
+      margin-top:12px;
+      padding:14px 18px;
+      border:1px solid rgba(184,146,79,.35);
+      border-radius:12px;
+      background:transparent;
+      color:inherit;
+      cursor:pointer;
+    "
+  >
+    Für heute reicht es
+  </button>
+</div>
+      
+    </div>
+  `;
+
+  result.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+document.addEventListener('click', (event) => {
+  const button =
+    event.target.closest('#icsDemoEnoughForToday');
+
+  if (!button || !icsDemoMode) return;
+
+  const result =
+    document.getElementById('icsDemoDeepResult');
+
+  if (!result) return;
+
+  let closing =
+    document.getElementById('icsDemoClosing');
+
+  if (!closing) {
+    closing = document.createElement('div');
+    closing.id = 'icsDemoClosing';
+
+    closing.style.cssText = `
+      margin-top:26px;
+      padding:22px 18px;
+      border:1px solid rgba(184,146,79,.35);
+      border-radius:14px;
+    `;
+
+    closing.innerHTML = `
+      <p class="section-kicker">
+        FÜR HEUTE REICHT ES
+      </p>
+
+      <h2 style="margin-top:10px;">
+        Nicht jeder Impuls muss sofort weitergeführt werden.
+      </h2>
+
+      <p style="margin-top:16px;">
+        Du hast wahrgenommen, dass sich etwas verändert hat.
+        ICS hat einen möglichen Zusammenhang sichtbar gemacht
+        und eine Frage geöffnet.
+      </p>
+
+      <p>
+        <strong>
+          Mehr muss daraus in diesem Moment nicht entstehen.
+        </strong>
+      </p>
+
+      <p>
+        Wenn du ICS wirklich nutzt, bleibt diese Erfahrung
+        erhalten. Bei späteren Check-ins kann dein Mentor
+        darauf zurückgreifen und prüfen, ob sich etwas
+        wiederholt oder verändert.
+      </p>
+
+      <div style="
+        margin-top:22px;
+        padding:16px 18px;
+        border-left:2px solid #b8924f;
+      ">
+        <small>ICS MENTOR</small>
+
+        <p style="margin-top:10px;">
+          „Für heute darf das reichen.
+          Wir müssen nichts erzwingen.
+          Wenn dieses Thema wieder auftaucht,
+          schauen wir gemeinsam weiter.“
+        </p>
+      </div>
+    `;
+
+    result.appendChild(closing);
+  }
+
+  button.disabled = true;
+  button.textContent = 'Für heute abgeschlossen';
+
+  const goDeeper =
+    document.getElementById('icsDemoGoDeeper');
+
+  if (goDeeper) {
+    goDeeper.style.display = 'none';
+  }
+
+  closing.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 });
 
 icsDemoStartReal?.addEventListener('click', () => {
