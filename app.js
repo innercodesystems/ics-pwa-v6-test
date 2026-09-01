@@ -4339,16 +4339,37 @@ repeatEnergyRecommendation?.addEventListener('click', () => {
   showEnergyStep('check');
 });
 
+function updateIcsGuideModeUi() {
+  const demoChoices =
+    document.getElementById('icsDemoChoices');
+
+  const normalChoices =
+    document.querySelector('#view-fuehremich > .menu-list');
+
+  if (demoChoices) {
+    demoChoices.hidden = !icsDemoMode;
+  }
+
+  if (normalChoices) {
+    normalChoices.hidden = icsDemoMode;
+  }
+}
+
 openFuehreMich?.addEventListener('click', () => {
+  icsDemoMode = false;
+  updateIcsGuideModeUi();
   openView('fuehremich');
 });
 
 openIcsGuide?.addEventListener('click', () => {
   icsDemoMode = false;
+  updateIcsGuideModeUi();
   openView('fuehremich');
 });
 
 openIcsDemo?.addEventListener('click', () => {
+  icsDemoMode = true;
+  updateIcsGuideModeUi();
   openView('fuehremich');
 });
 
@@ -4924,6 +4945,85 @@ mind: {
   }
 };
 
+const icsDemoScenarios = {
+  mind: {
+    title: 'Dein Kopf ist gerade sehr voll.',
+    text:
+      'ICS würde zuerst nicht versuchen, alles zu lösen. ' +
+      'Der erste Schritt wäre, deine Gedanken kurz zu entlasten und wieder mehr inneren Raum zu schaffen.',
+    area: 'Inner Code · Klarheit',
+    target: 'mind'
+  },
+
+  energy: {
+    title: 'Deine Energie ist gerade niedrig.',
+    text:
+      'ICS würde jetzt keinen großen Plan verlangen. ' +
+      'Es würde einen kleinen Schritt auswählen, der zu deiner aktuellen Energie passt.',
+    area: 'Body Code · Energie',
+    target: 'energy'
+  },
+
+  orientation: {
+    title: 'Du kommst gerade nicht weiter.',
+    text:
+      'ICS würde zuerst unterscheiden, was dich wirklich festhält und was gerade nur zu viel auf einmal ist. ' +
+      'Daraus entsteht ein klarerer nächster Schritt.',
+    area: 'Action Code · Orientierung',
+    target: 'orientation'
+  }
+};
+
+document.querySelectorAll('.ics-demo-choice').forEach((button) => {
+  button.addEventListener('click', () => {
+    if (!icsDemoMode) return;
+
+    const state = button.dataset.demoState;
+    const scenario = icsDemoScenarios[state];
+
+    if (!scenario) return;
+
+    document.querySelectorAll('.ics-demo-choice').forEach((choice) => {
+      choice.classList.toggle('active', choice === button);
+    });
+
+    selectedGuideTarget = `demo-${scenario.target}`;
+
+    if (guideRecommendationTitle) {
+      guideRecommendationTitle.textContent = scenario.title;
+    }
+
+    if (guideRecommendationText) {
+      guideRecommendationText.textContent = scenario.text;
+    }
+
+    if (guideRecommendationArea) {
+      guideRecommendationArea.textContent = scenario.area;
+    }
+
+    if (guideLastExperience) {
+      guideLastExperience.hidden = true;
+    }
+
+    if (guideEnergyPattern) {
+      guideEnergyPattern.hidden = true;
+    }
+
+    if (startGuideRecommendation) {
+      startGuideRecommendation.textContent = 'Demo erleben';
+    }
+
+    if (guideRecommendation) {
+      guideRecommendation.hidden = false;
+
+      guideRecommendation.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
+
 document.querySelectorAll('.guide-choice').forEach((button) => {
   button.addEventListener('click', () => {
     const state = button.dataset.guideState;
@@ -4995,6 +5095,93 @@ if (state === 'energy') {
 });
 
 startGuideRecommendation?.addEventListener('click', () => {
+
+if (
+  icsDemoMode &&
+  selectedGuideTarget?.startsWith('demo-')
+) {
+  const demoState =
+    selectedGuideTarget.replace('demo-', '');
+
+  const demoResults = {
+    mind: {
+      title: 'ICS würde deinen Kopf zuerst entlasten.',
+      text:
+        'Du müsstest jetzt nicht alles lösen. ' +
+        'ICS würde dir zum Beispiel einen kurzen 1- bis 3-Minuten-Impuls geben, ' +
+        'danach mit dir prüfen, ob dein Kopf ruhiger geworden ist. ' +
+        'Wenn dieses Thema häufiger auftaucht, würde ICS die Wiederholung erkennen und dich vorsichtig darauf aufmerksam machen.',
+      area: 'WAHRNEHMEN → ENTLASTEN → VERÄNDERUNG PRÜFEN'
+    },
+
+    energy: {
+      title: 'ICS würde sich deinem aktuellen Energielevel anpassen.',
+      text:
+        'Statt dir einen großen Plan zu geben, würde ICS zuerst fragen, ' +
+        'wie viel gerade wirklich möglich ist: 1, 3 oder 10 Minuten. ' +
+        'Danach würde ICS prüfen, ob sich deine Energie verändert hat und über mehrere Einträge erkennen, was dir tatsächlich guttut.',
+      area: 'ENERGIE → MACHBARER SCHRITT → WIRKUNG ERKENNEN'
+    },
+
+    orientation: {
+      title: 'ICS würde aus dem Feststecken einen nächsten Schritt entwickeln.',
+      text:
+        'ICS würde nicht sofort eine fertige Lösung vorgeben. ' +
+        'Es würde zuerst sichtbar machen, was gerade wirkt, dir einen kleinen nächsten Schritt anbieten ' +
+        'und später erkennen, ob dieses Thema wiederkehrt oder mit anderen Zuständen zusammenhängt.',
+      area: 'KLARHEIT → NÄCHSTER SCHRITT → MUSTER ERKENNEN'
+    }
+  };
+
+  const result = demoResults[demoState];
+
+  if (!result) return;
+
+  if (startGuideRecommendation.dataset.demoStage === 'result') {
+    icsDemoMode = false;
+    selectedGuideTarget = null;
+
+    startGuideRecommendation.dataset.demoStage = '';
+    startGuideRecommendation.textContent =
+      'Diesen Weg starten';
+
+    guideRecommendation.hidden = true;
+
+    document
+      .querySelectorAll('.ics-demo-choice')
+      .forEach((choice) => {
+        choice.classList.remove('active');
+      });
+
+    updateIcsGuideModeUi();
+    openView('fuehremich');
+
+    return;
+  }
+
+  guideRecommendationTitle.textContent =
+    result.title;
+
+  guideRecommendationText.textContent =
+    result.text;
+
+  guideRecommendationArea.textContent =
+    result.area;
+
+  startGuideRecommendation.textContent =
+    'Jetzt mit meinen eigenen Daten starten';
+
+  startGuideRecommendation.dataset.demoStage =
+    'result';
+
+  guideRecommendation.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+  return;
+}
+  
   if (!selectedGuideTarget) return;
 
   const selectedState =
