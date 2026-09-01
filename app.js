@@ -5895,6 +5895,46 @@ energy: {
 
   source: 'demo',
   mentorState: 'energy'
+},
+
+orientation: {
+  id: 'ICS_DEMO_ORIENTATION',
+  stateLabel: 'Festgefahren',
+  createdAt: new Date().toISOString(),
+
+  before: {
+    energy: 5,
+    body: 5,
+    mind: 3
+  },
+
+  after: {
+    energy: 5,
+    body: 5,
+    mind: 6
+  },
+
+  delta: {
+    energy: 0,
+    body: 0,
+    mind: 3
+  },
+
+  focus: 'mind',
+  routerState: 'festgefahren',
+  duration: 3,
+
+  impulseId: 'ENG_305',
+  impulseTitle: 'Gedanken parken',
+
+  foundations: [
+    'FOUND_07'
+  ],
+
+  noticedAt: 'Kopf',
+
+  source: 'demo',
+  mentorState: 'orientation'
 }
 };
 
@@ -5976,25 +6016,43 @@ container.innerHTML = `
     <small>DEINE VERÄNDERUNG</small>
 
 ${
-  record.focus === 'energy'
+  record.mentorState === 'orientation'
     ? `
       <p style="margin-top:10px;">
-        Deine Energie hat besonders deutlich reagiert:
-        von <strong>${record.before.energy}/10</strong>
-        auf <strong>${record.after.energy}/10</strong>.
-        Gleichzeitig haben sich auch Körper und Kopf leicht
-        mitbewegt.
-      </p>
-    `
-    : `
-      <p style="margin-top:10px;">
-        Dein Kopf hat besonders deutlich reagiert:
+        Dein Kopf hat sich deutlich geklärt:
         von <strong>${record.before.mind}/10</strong>
         auf <strong>${record.after.mind}/10</strong>.
-        Gleichzeitig haben sich auch Körper und Energie leicht
-        mitbewegt.
+        Körper und Energie sind dabei stabil geblieben.
+      </p>
+
+      <p>
+        Das bedeutet in diesem Beispiel nicht,
+        dass bereits die Lösung gefunden wurde.
+        <strong>
+          Aber zwischen Feststecken und nächstem Schritt
+          ist wieder mehr innerer Raum entstanden.
+        </strong>
       </p>
     `
+    : record.focus === 'energy'
+      ? `
+        <p style="margin-top:10px;">
+          Deine Energie hat besonders deutlich reagiert:
+          von <strong>${record.before.energy}/10</strong>
+          auf <strong>${record.after.energy}/10</strong>.
+          Gleichzeitig haben sich auch Körper und Kopf leicht
+          mitbewegt.
+        </p>
+      `
+      : `
+        <p style="margin-top:10px;">
+          Dein Kopf hat besonders deutlich reagiert:
+          von <strong>${record.before.mind}/10</strong>
+          auf <strong>${record.after.mind}/10</strong>.
+          Gleichzeitig haben sich auch Körper und Energie leicht
+          mitbewegt.
+        </p>
+      `
 }
   </div>
 
@@ -6006,21 +6064,37 @@ ${
     <small>WAS ICS DARIN SIEHT</small>
 
 ${
-  record.focus === 'energy'
+  record.mentorState === 'orientation'
     ? `
       <p style="margin-top:10px;">
-        Die deutlichste Veränderung zeigt sich in deiner Energie.
-        Gleichzeitig haben sich auch Körper und Kopf
-        mitverändert.
+        Die deutlichste Veränderung zeigt sich in deiner
+        mentalen Klarheit.
+      </p>
+
+      <p>
+        Energie und Körper mussten sich dafür in diesem Beispiel
+        gar nicht verändern.
+        <strong>
+          Entscheidend ist, dass aus dem Gefühl des Feststeckens
+          wieder mehr Orientierung entstehen konnte.
+        </strong>
       </p>
     `
-    : `
-      <p style="margin-top:10px;">
-        Die deutlichste Veränderung zeigt sich in deinem Kopf.
-        Gleichzeitig haben sich Körper und Energie leicht
-        mitverändert.
-      </p>
-    `
+    : record.focus === 'energy'
+      ? `
+        <p style="margin-top:10px;">
+          Die deutlichste Veränderung zeigt sich in deiner Energie.
+          Gleichzeitig haben sich auch Körper und Kopf
+          mitverändert.
+        </p>
+      `
+      : `
+        <p style="margin-top:10px;">
+          Die deutlichste Veränderung zeigt sich in deinem Kopf.
+          Gleichzeitig haben sich Körper und Energie leicht
+          mitverändert.
+        </p>
+      `
 }
 
     <p>
@@ -6676,6 +6750,55 @@ if (demoState === 'energy') {
     }
 
     demoImpulse.dataset.demoState = 'energy';
+    demoImpulse.hidden = false;
+
+    demoImpulse.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+
+  return;
+}
+
+if (demoState === 'orientation') {
+  const demoImpulse =
+    document.getElementById('icsDemoImpulse');
+
+  const demoOverview =
+    document.getElementById('icsDemoOverview');
+
+  if (guideRecommendation) {
+    guideRecommendation.hidden = true;
+  }
+
+  if (demoOverview) {
+    demoOverview.hidden = true;
+  }
+
+  if (demoImpulse) {
+    const impulseTitle =
+      demoImpulse.querySelector('h2');
+
+    const impulseTexts =
+      demoImpulse.querySelectorAll('p');
+
+    if (impulseTitle) {
+      impulseTitle.textContent =
+        'Gedanken parken';
+    }
+
+    if (impulseTexts[1]) {
+      impulseTexts[1].innerHTML =
+        'Schreibe für drei Minuten alles auf, was dich gerade festhält oder gleichzeitig nach deiner Aufmerksamkeit verlangt.';
+    }
+
+    if (impulseTexts[2]) {
+      impulseTexts[2].innerHTML =
+        'Du musst noch keine Lösung finden. <strong>Mach zuerst sichtbar, was gerade zwischen dir und deinem nächsten Schritt steht.</strong>';
+    }
+
+    demoImpulse.dataset.demoState = 'orientation';
     demoImpulse.hidden = false;
 
     demoImpulse.scrollIntoView({
