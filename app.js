@@ -1423,6 +1423,10 @@ const openIcsDemo = document.getElementById('openIcsDemo');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
 const icsDemoStartReal =
   document.getElementById('icsDemoStartReal');
+
+const icsDemoFinishImpulse =
+  document.getElementById('icsDemoFinishImpulse');
+
 const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
 const innerTo99Codes = document.getElementById('innerTo99Codes');
@@ -4390,6 +4394,34 @@ openIcsDemo?.addEventListener('click', () => {
   openView('fuehremich');
 });
 
+icsDemoFinishImpulse?.addEventListener('click', () => {
+  if (!icsDemoMode) return;
+
+  const demoImpulse =
+    document.getElementById('icsDemoImpulse');
+
+  const demoOverview =
+    document.getElementById('icsDemoOverview');
+
+  const demoRecord =
+    icsDemoRecords.mind;
+
+  if (demoImpulse) {
+    demoImpulse.hidden = true;
+  }
+
+  renderIcsDemoRecord(demoRecord);
+
+  if (demoOverview) {
+    demoOverview.hidden = false;
+
+    demoOverview.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+});
+
 icsDemoStartReal?.addEventListener('click', () => {
   icsDemoMode = false;
   selectedGuideTarget = null;
@@ -5350,22 +5382,24 @@ if (
   }
 
 if (demoState === 'mind') {
+  const demoImpulse =
+    document.getElementById('icsDemoImpulse');
+
   const demoOverview =
     document.getElementById('icsDemoOverview');
-
-  const demoRecord =
-    icsDemoRecords.mind;
-
-  renderIcsDemoRecord(demoRecord);
 
   if (guideRecommendation) {
     guideRecommendation.hidden = true;
   }
 
   if (demoOverview) {
-    demoOverview.hidden = false;
+    demoOverview.hidden = true;
+  }
 
-    demoOverview.scrollIntoView({
+  if (demoImpulse) {
+    demoImpulse.hidden = false;
+
+    demoImpulse.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     });
