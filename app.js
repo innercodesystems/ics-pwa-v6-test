@@ -4406,8 +4406,11 @@ icsDemoFinishImpulse?.addEventListener('click', () => {
   const demoOverview =
     document.getElementById('icsDemoOverview');
 
-  const demoRecord =
-    icsDemoRecords.mind;
+const demoState =
+  demoImpulse?.dataset.demoState || 'mind';
+
+const demoRecord =
+  icsDemoRecords[demoState];
 
   if (demoImpulse) {
     demoImpulse.hidden = true;
@@ -4813,6 +4816,254 @@ document.addEventListener('click', (event) => {
   });
 });
 
+document.addEventListener('click', (event) => {
+  const button =
+    event.target.closest('#icsDemoGoDeeper');
+
+  if (!button || !icsDemoMode) return;
+
+  const selectedChoice =
+    document.querySelector('.ics-demo-deep-choice.active');
+
+  if (!selectedChoice) return;
+
+  const choice =
+    selectedChoice.dataset.demoDeep;
+
+  const deeperPaths = {
+    holding: {
+      code: 'INNER CODE',
+      title: 'Was glaubst du, alles im Kopf behalten zu müssen?',
+      text:
+        'ICS würde jetzt nicht nur auf die Menge deiner Gedanken schauen, ' +
+        'sondern darauf, warum dein System glaubt, sie festhalten zu müssen.',
+      question:
+        'Was befürchtest du, könnte passieren, wenn du nicht alles gleichzeitig im Blick behältst?',
+      insight:
+        'Hier könnte sich mit der Zeit zeigen, ob hinter deinem vollen Kopf ' +
+        'zum Beispiel Verantwortung, Kontrolle oder die Angst liegt, etwas Wichtiges zu übersehen.'
+    },
+
+    ahead: {
+      code: 'ACTION CODE',
+      title: 'Was zieht deine Aufmerksamkeit ständig nach vorne?',
+      text:
+        'ICS würde jetzt untersuchen, warum dein nächster Schritt ' +
+        'innerlich bereits Raum einnimmt, obwohl der aktuelle noch läuft.',
+      question:
+        'Was glaubst du gewinnen zu müssen, indem du gedanklich immer schon beim Nächsten bist?',
+      insight:
+        'Hier könnte ICS mit der Zeit erkennen, ob Vorausdenken dir Orientierung gibt ' +
+        'oder ob es dich davon abhält, einen Schritt wirklich abzuschließen.'
+    },
+
+    switchOff: {
+      code: 'RESET',
+      title: 'Was hält dein System innerlich noch in Bereitschaft?',
+      text:
+        'ICS würde jetzt nicht versuchen, deinen Kopf einfach ruhigzustellen. ' +
+        'Es würde erkunden, warum dein System offenbar noch keinen Grund sieht, vollständig loszulassen.',
+      question:
+        'Was müsste innerlich geklärt oder abgeschlossen sein, damit dein System wirklich in Ruhe gehen dürfte?',
+      insight:
+        'Hier könnte sich mit der Zeit zeigen, ob bestimmte Gedanken, Erwartungen ' +
+        'oder innere Spannungen dein System immer wieder in Aktivierung halten.'
+    }
+  };
+
+  const path =
+    deeperPaths[choice];
+
+  if (!path) return;
+
+  let deeperResult =
+    document.getElementById('icsDemoDeeperResult');
+
+  if (!deeperResult) {
+    deeperResult =
+      document.createElement('div');
+
+    deeperResult.id =
+      'icsDemoDeeperResult';
+
+    const deepResult =
+      document.getElementById('icsDemoDeepResult');
+
+    deepResult?.appendChild(deeperResult);
+  }
+
+  deeperResult.innerHTML = `
+    <div style="
+      margin-top:28px;
+      padding-top:24px;
+      border-top:1px solid rgba(184,146,79,.35);
+    ">
+
+      <p class="section-kicker">
+        ${path.code} · NÄCHSTE EBENE
+      </p>
+
+      <h2 style="margin-top:10px;">
+        ${path.title}
+      </h2>
+
+      <p style="margin-top:16px;">
+        ${path.text}
+      </p>
+
+      <div style="
+        margin-top:22px;
+        padding:18px;
+        border-left:2px solid #b8924f;
+      ">
+        <small>ICS FRAGT DICH</small>
+
+        <p style="
+          margin-top:10px;
+          font-size:1.08em;
+        ">
+          <strong>
+            ${path.question}
+          </strong>
+        </p>
+      </div>
+
+      <div style="
+        margin-top:22px;
+        padding:18px;
+        border:1px solid rgba(184,146,79,.30);
+        border-radius:14px;
+      ">
+        <small>WARUM ICS HIER TIEFER GEHT</small>
+
+        <p style="margin-top:10px;">
+          ${path.insight}
+        </p>
+      </div>
+
+      <div style="
+        margin-top:24px;
+        padding-top:20px;
+        border-top:1px solid rgba(184,146,79,.20);
+      ">
+        <small>DER WEG BIS HIERHER</small>
+
+        <p style="margin-top:10px;">
+          <strong>Kopf voll</strong>
+          → Gedanken parken
+          → Veränderung wahrnehmen
+          → möglichen Zusammenhang erkennen
+          → persönliche Antwort
+          → <strong>${path.code}</strong>
+        </p>
+
+        <p style="margin-top:16px;">
+          Genau so entsteht aus einem einfachen Zustand
+          Schritt für Schritt eine persönliche ICS-Begleitung.
+        </p>
+
+<div style="
+  margin-top:28px;
+  padding-top:24px;
+  border-top:1px solid rgba(184,146,79,.35);
+">
+  <p class="section-kicker">
+    DAS WAR NUR EIN BEISPIEL
+  </p>
+
+  <h2 style="margin-top:10px;">
+    Mit deinen eigenen Daten entsteht dein persönlicher Weg.
+  </h2>
+
+  <p style="margin-top:16px;">
+    In dieser Demo hat ICS mit vorbereiteten Beispielwerten
+    gearbeitet.
+  </p>
+
+  <p>
+    In deiner echten Nutzung entstehen solche Zusammenhänge
+    aus <strong>deinen eigenen Zuständen, deinen Reaktionen,
+    deinen Antworten und deinen Veränderungen.</strong>
+  </p>
+
+  <div style="
+    margin-top:22px;
+    padding:18px;
+    border:1px solid rgba(184,146,79,.30);
+    border-radius:14px;
+  ">
+    <small>MIT DER ZEIT KANN ICS</small>
+
+    <p style="margin-top:12px;">
+      erkennen, welche Zustände bei dir wiederkehren,
+    </p>
+
+    <p>
+      vergleichen, welche Impulse dir tatsächlich helfen,
+    </p>
+
+    <p>
+      Zusammenhänge zwischen Kopf, Körper,
+      Energie und Handlung sichtbar machen
+    </p>
+
+    <p>
+      und dich genau dort tiefer begleiten,
+      wo sich wirklich etwas wiederholt.
+    </p>
+  </div>
+
+  <div style="
+    margin-top:22px;
+    padding:18px;
+    border-left:2px solid #b8924f;
+  ">
+    <small>DEIN ICS MENTOR</small>
+
+    <p style="
+      margin-top:10px;
+      font-size:1.05em;
+    ">
+      „Ich gebe dir nicht einfach Antworten.
+      Ich lerne mit dir, was dir hilft,
+      was sich wiederholt und wo dein nächster
+      sinnvoller Schritt liegt.“
+    </p>
+  </div>
+
+  <p style="
+    margin-top:24px;
+    text-align:center;
+  ">
+    <strong>
+      Aus einzelnen Momenten entsteht mit der Zeit
+      dein persönliches Bild.
+    </strong>
+  </p>
+</div>
+        
+      </div>
+
+    </div>
+  `;
+
+  button.disabled = true;
+  button.textContent =
+    'Tiefere Ebene geöffnet';
+
+  const enoughButton =
+    document.getElementById('icsDemoEnoughForToday');
+
+  if (enoughButton) {
+    enoughButton.style.display = 'none';
+  }
+
+  deeperResult.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
 icsDemoStartReal?.addEventListener('click', () => {
   icsDemoMode = false;
   selectedGuideTarget = null;
@@ -4843,6 +5094,27 @@ backFromFuehreMich?.addEventListener('click', () => {
     icsDemoMode = false;
     selectedGuideTarget = null;
 
+    const demoImpulse =
+      document.getElementById('icsDemoImpulse');
+
+    const demoOverview =
+      document.getElementById('icsDemoOverview');
+
+    const deepDive =
+      document.getElementById('icsDemoDeepDive');
+
+    if (demoImpulse) {
+      demoImpulse.hidden = true;
+    }
+
+    if (demoOverview) {
+      demoOverview.hidden = true;
+    }
+
+    if (deepDive) {
+      deepDive.remove();
+    }
+
     if (startGuideRecommendation) {
       startGuideRecommendation.dataset.demoStage = '';
       startGuideRecommendation.textContent =
@@ -4853,6 +5125,19 @@ backFromFuehreMich?.addEventListener('click', () => {
       guideRecommendation.hidden = true;
     }
 
+    document
+      .querySelectorAll('.ics-demo-choice')
+      .forEach((choice) => {
+        choice.classList.remove('active');
+      });
+
+    if (icsDemoExplorePattern) {
+      icsDemoExplorePattern.disabled = false;
+      icsDemoExplorePattern.textContent =
+        'Zusammenhang weiter erkunden';
+    }
+
+    updateIcsGuideModeUi();
     openView('heute');
     return;
   }
@@ -5337,6 +5622,7 @@ let icsDemoMode = false;
 const icsDemoRecords = {
   mind: {
     id: 'ICS_DEMO_MIND',
+    stateLabel: 'Kopf voll',
     createdAt: new Date().toISOString(),
 
     before: {
@@ -5370,9 +5656,50 @@ const icsDemoRecords = {
 
     noticedAt: 'Kopf',
 
-    source: 'demo',
-    mentorState: 'mind'
-  }
+source: 'demo',
+mentorState: 'mind'
+},
+
+energy: {
+  id: 'ICS_DEMO_ENERGY',
+  stateLabel: 'Energielos',
+  createdAt: new Date().toISOString(),
+
+  before: {
+    energy: 2,
+    body: 4,
+    mind: 5
+  },
+
+  after: {
+    energy: 5,
+    body: 6,
+    mind: 6
+  },
+
+  delta: {
+    energy: 3,
+    body: 2,
+    mind: 1
+  },
+
+  focus: 'energy',
+  routerState: 'energielos',
+  duration: 3,
+
+  impulseId: 'ENG_102',
+  impulseTitle: 'Wasser und Bewegung',
+
+  foundations: [
+    'FOUND_01',
+    'FOUND_04'
+  ],
+
+  noticedAt: 'Körper',
+
+  source: 'demo',
+  mentorState: 'energy'
+}
 };
 
 function renderIcsDemoRecord(record) {
@@ -5409,9 +5736,9 @@ container.innerHTML = `
 
   <h2>Das hat ICS gerade über deinen Zustand gelernt.</h2>
 
-  <p style="margin-top:18px;">
-    <strong>Ausgangslage:</strong> Kopf voll
-  </p>
+<p style="margin-top:18px;">
+  <strong>Ausgangslage:</strong> ${record.stateLabel}
+</p>
 
   <div
     class="energy-history-values"
@@ -5452,13 +5779,27 @@ container.innerHTML = `
   ">
     <small>DEINE VERÄNDERUNG</small>
 
-    <p style="margin-top:10px;">
-      Dein Kopf hat besonders deutlich reagiert:
-      von <strong>${record.before.mind}/10</strong>
-      auf <strong>${record.after.mind}/10</strong>.
-      Gleichzeitig haben sich auch Körper und Energie leicht
-      mitbewegt.
-    </p>
+${
+  record.focus === 'energy'
+    ? `
+      <p style="margin-top:10px;">
+        Deine Energie hat besonders deutlich reagiert:
+        von <strong>${record.before.energy}/10</strong>
+        auf <strong>${record.after.energy}/10</strong>.
+        Gleichzeitig haben sich auch Körper und Kopf leicht
+        mitbewegt.
+      </p>
+    `
+    : `
+      <p style="margin-top:10px;">
+        Dein Kopf hat besonders deutlich reagiert:
+        von <strong>${record.before.mind}/10</strong>
+        auf <strong>${record.after.mind}/10</strong>.
+        Gleichzeitig haben sich auch Körper und Energie leicht
+        mitbewegt.
+      </p>
+    `
+}
   </div>
 
   <div style="
@@ -5468,11 +5809,23 @@ container.innerHTML = `
   ">
     <small>WAS ICS DARIN SIEHT</small>
 
-    <p style="margin-top:10px;">
-      Die deutlichste Veränderung zeigt sich in deinem Kopf.
-      Gleichzeitig haben sich Körper und Energie leicht
-      mitverändert.
-    </p>
+${
+  record.focus === 'energy'
+    ? `
+      <p style="margin-top:10px;">
+        Die deutlichste Veränderung zeigt sich in deiner Energie.
+        Gleichzeitig haben sich auch Körper und Kopf
+        mitverändert.
+      </p>
+    `
+    : `
+      <p style="margin-top:10px;">
+        Die deutlichste Veränderung zeigt sich in deinem Kopf.
+        Gleichzeitig haben sich Körper und Energie leicht
+        mitverändert.
+      </p>
+    `
+}
 
     <p>
       Das ist für ICS wichtig:
@@ -5978,6 +6331,56 @@ if (demoState === 'mind') {
 
   return;
 }
+
+if (demoState === 'energy') {
+  const demoImpulse =
+    document.getElementById('icsDemoImpulse');
+
+  const demoOverview =
+    document.getElementById('icsDemoOverview');
+
+  if (guideRecommendation) {
+    guideRecommendation.hidden = true;
+  }
+
+  if (demoOverview) {
+    demoOverview.hidden = true;
+  }
+
+  if (demoImpulse) {
+    const impulseTitle =
+      demoImpulse.querySelector('h2');
+
+    const impulseTexts =
+      demoImpulse.querySelectorAll('p');
+
+    if (impulseTitle) {
+      impulseTitle.textContent =
+        'Wasser und Bewegung';
+    }
+
+    if (impulseTexts[1]) {
+      impulseTexts[1].innerHTML =
+        'Trink bewusst ein Glas Wasser und bring deinen Körper anschließend für einige Minuten sanft in Bewegung.';
+    }
+
+    if (impulseTexts[2]) {
+      impulseTexts[2].innerHTML =
+        'Du musst keine Leistung erzeugen. <strong>Es geht nur darum, deinem System ein kleines Signal für Aktivierung zu geben.</strong>';
+    }
+
+    demoImpulse.dataset.demoState = 'energy';
+    demoImpulse.hidden = false;
+
+    demoImpulse.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+
+  return;
+}
+  
 }
   
   if (!selectedGuideTarget) return;
