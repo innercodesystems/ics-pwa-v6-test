@@ -4343,8 +4343,8 @@ function updateIcsGuideModeUi() {
   const demoChoices =
     document.getElementById('icsDemoChoices');
 
-  const normalChoices =
-    document.querySelector('#view-fuehremich > .menu-list');
+const normalChoices =
+  document.getElementById('icsGuideChoices');
 
   if (demoChoices) {
     demoChoices.hidden = !icsDemoMode;
