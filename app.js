@@ -5192,27 +5192,67 @@ if (
     return;
   }
 
-  guideRecommendationTitle.textContent =
-    result.title;
+if (demoState === 'mind') {
+  const demoOverview =
+    document.getElementById('icsDemoOverview');
 
-  guideRecommendationText.textContent =
-    result.text;
+  const demoStateEl =
+    document.getElementById('icsDemoState');
 
-  guideRecommendationArea.textContent =
-    result.area;
+  const demoDurationEl =
+    document.getElementById('icsDemoDuration');
 
-  startGuideRecommendation.textContent =
-    'Jetzt mit meinen eigenen Daten starten';
+  const demoBeforeEl =
+    document.getElementById('icsDemoBefore');
 
-  startGuideRecommendation.dataset.demoStage =
-    'result';
+  const demoAfterEl =
+    document.getElementById('icsDemoAfter');
 
-  guideRecommendation.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  const demoChangeEl =
+    document.getElementById('icsDemoChange');
+
+  const demoReflectionEl =
+    document.getElementById('icsDemoReflection');
+
+  if (demoStateEl) {
+    demoStateEl.textContent = 'Kopf voll';
+  }
+
+  if (demoDurationEl) {
+    demoDurationEl.textContent = '3 Minuten';
+  }
+
+  if (demoBeforeEl) {
+    demoBeforeEl.textContent = '4/10';
+  }
+
+  if (demoAfterEl) {
+    demoAfterEl.textContent = '7/10';
+  }
+
+  if (demoChangeEl) {
+    demoChangeEl.textContent = '+3';
+  }
+
+  if (demoReflectionEl) {
+    demoReflectionEl.textContent =
+      'Der kurze Impuls hat dir gerade geholfen, etwas mehr Klarheit zu schaffen. ' +
+      'In deiner echten ICS Begleitung würde diese Veränderung gespeichert und mit späteren Einträgen verglichen.';
+  }
+
+  guideRecommendation.hidden = true;
+
+  if (demoOverview) {
+    demoOverview.hidden = false;
+
+    demoOverview.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
 
   return;
+}
 }
   
   if (!selectedGuideTarget) return;
