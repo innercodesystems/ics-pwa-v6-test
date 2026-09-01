@@ -1419,6 +1419,7 @@ function getBestIcsRecommendation(contentId, preferredContexts = []) {
 const openIcsEnergy = document.getElementById('openIcsEnergy');
 const openFuehreMich = document.getElementById('openFuehreMich');
 const openIcsGuide = document.getElementById('openIcsGuide');
+const openIcsDemo = document.getElementById('openIcsDemo');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
 const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
@@ -4343,6 +4344,11 @@ openFuehreMich?.addEventListener('click', () => {
 });
 
 openIcsGuide?.addEventListener('click', () => {
+  icsDemoMode = false;
+  openView('fuehremich');
+});
+
+openIcsDemo?.addEventListener('click', () => {
   openView('fuehremich');
 });
 
@@ -4822,6 +4828,7 @@ const startGuideRecommendation =
   document.getElementById('startGuideRecommendation');
 
 let selectedGuideTarget = null;
+let icsDemoMode = false;
 
 const icsMentorStateMatrix = {
   kopfVoll: {
