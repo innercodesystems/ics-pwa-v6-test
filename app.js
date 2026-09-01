@@ -3044,6 +3044,7 @@ return {
       .filter(Boolean)
   )]
 };
+})    
 .filter((cluster) =>
   cluster.count >= 3 &&
   cluster.states.length >= 2 &&
@@ -3092,6 +3093,14 @@ const icsMentorClusterQuestions = {
   orientation:
     'Was würde dir im Moment mehr helfen: mehr Klarheit oder ein konkreter nächster Schritt?'
 };
+
+function getIcsMentorClusterText(limit = 10) {
+  const cluster =
+    getIcsMentorClusterSignal(limit);
+
+  if (!cluster) {
+    return null;
+  }
 
 const text =
   icsMentorClusterTexts[cluster.key];
