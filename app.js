@@ -5013,64 +5013,152 @@ function renderIcsDemoRecord(record) {
     })
     .join('');
 
-  container.innerHTML = `
-    <p class="section-kicker">DEINE DEMO-AUSWERTUNG</p>
+container.innerHTML = `
+  <p class="section-kicker">DEINE ICS-AUSWERTUNG</p>
 
-    <h2>So macht ICS deine Veränderung sichtbar.</h2>
+  <h2>Das hat ICS gerade über deinen Zustand gelernt.</h2>
 
-    <p style="margin-top:18px;">
-      <strong>Ausgangslage:</strong> Kopf voll
+  <p style="margin-top:18px;">
+    <strong>Ausgangslage:</strong> Kopf voll
+  </p>
+
+  <div
+    class="energy-history-values"
+    style="margin-top:20px;"
+  >
+    ${values}
+  </div>
+
+  <div
+    class="energy-history-details"
+    style="margin-top:22px;"
+  >
+    <p>
+      <strong>Schwerpunkt:</strong>
+      ${labels[record.focus]}
     </p>
 
-    <div
-      class="energy-history-values"
-      style="margin-top:20px;"
-    >
-      ${values}
-    </div>
+    <p>
+      <strong>Impuls:</strong>
+      ${record.impulseTitle}
+    </p>
 
-    <div
-      class="energy-history-details"
-      style="margin-top:22px;"
-    >
-      <p>
-        <strong>Schwerpunkt:</strong>
-        ${labels[record.focus]}
-      </p>
+    <p>
+      <strong>Dauer:</strong>
+      ${record.duration} Minuten
+    </p>
 
-      <p>
-        <strong>Impuls:</strong>
-        ${record.impulseTitle}
-      </p>
+    <p>
+      <strong>Zuerst bemerkt:</strong>
+      ${record.noticedAt}
+    </p>
+  </div>
 
-      <p>
-        <strong>Dauer:</strong>
-        ${record.duration} Minuten
-      </p>
+  <div style="
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px solid rgba(184,146,79,.35);
+  ">
+    <small>DEINE VERÄNDERUNG</small>
 
-      <p>
-        <strong>Zuerst bemerkt:</strong>
-        ${record.noticedAt}
-      </p>
-    </div>
+    <p style="margin-top:10px;">
+      Dein Kopf hat besonders deutlich reagiert:
+      von <strong>${record.before.mind}/10</strong>
+      auf <strong>${record.after.mind}/10</strong>.
+      Gleichzeitig haben sich auch Körper und Energie leicht
+      mitbewegt.
+    </p>
+  </div>
 
-    <div style="
-      margin-top:24px;
-      padding-top:20px;
-      border-top:1px solid rgba(184,146,79,.35);
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.20);
+  ">
+    <small>MÖGLICHER ZUSAMMENHANG</small>
+
+    <p style="margin-top:10px;">
+      In diesem Beispiel zeigt sich ein interessanter Hinweis:
+      Nicht nur deine Energie war niedrig – dein Kopf war
+      gleichzeitig stark belastet.
+    </p>
+
+    <p>
+      Nachdem du Gedanken bewusst abgegeben hast,
+      hat sich dein mentaler Zustand deutlich verändert.
+      Es könnte deshalb sein, dass
+      <strong>mentale Überlastung einen Teil deiner verfügbaren
+      Energie bindet.</strong>
+    </p>
+  </div>
+
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.20);
+  ">
+    <small>DAS WÜRDE ICS JETZT BEOBACHTEN</small>
+
+    <p style="margin-top:10px;">
+      Ein einzelner Check-in ist noch kein Muster.
+      Deshalb würde ICS jetzt nicht vorschnell interpretieren.
+    </p>
+
+    <p>
+      Bei deinen nächsten Check-ins würde ICS beobachten:
+      Taucht „Kopf voll“ häufiger auf?
+      Sinkt gleichzeitig deine Energie?
+      Und hilft dir mentale Entlastung wiederholt?
+    </p>
+  </div>
+
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.20);
+  ">
+    <small>SO LERNT DEIN ICS MENTOR</small>
+
+    <p style="margin-top:10px;">
+      Mit jedem weiteren Eintrag kann ICS deine Reaktionen
+      vergleichen und persönliche Zusammenhänge erkennen.
+    </p>
+
+    <p>
+      Nach mehreren ähnlichen Situationen könnte dein Mentor
+      dir zum Beispiel spiegeln:
+    </p>
+
+    <p style="
+      margin-top:14px;
+      padding:16px 18px;
+      border-left:2px solid #b8924f;
     ">
-      <small>ICS SPIEGELT DIR</small>
+      „Ich sehe, dass ein voller Kopf bei dir häufiger
+      mit niedriger Energie zusammenfällt.
+      Kurze mentale Entlastung hat dir dabei wiederholt geholfen.
+      Möchtest du anschauen, was deinen Kopf immer wieder
+      so stark beschäftigt?“
+    </p>
+  </div>
 
-      <p style="margin-top:10px;">
-        Dein Kopf hat auf den kurzen Impuls deutlich reagiert:
-        von ${record.before.mind}/10 auf ${record.after.mind}/10.
-        Gleichzeitig haben sich auch Körper und Energie leicht verändert.
-        ICS würde diese Erfahrung in deiner echten Begleitung mit
-        späteren Einträgen vergleichen und daraus nach und nach
-        persönliche Zusammenhänge erkennen.
-      </p>
-    </div>
-  `;
+  <div style="
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid rgba(184,146,79,.35);
+  ">
+    <small>DEIN NÄCHSTER SCHRITT</small>
+
+    <p style="margin-top:10px;">
+      Für den Moment musst du daraus nichts weiter machen.
+      Dein System hat auf einen kleinen Impuls reagiert.
+    </p>
+
+    <p>
+      <strong>Diese Veränderung wahrzunehmen reicht für heute.</strong>
+    </p>
+  </div>
+`;
 }
 
 const icsMentorStateMatrix = {
