@@ -1421,6 +1421,8 @@ const openFuehreMich = document.getElementById('openFuehreMich');
 const openIcsGuide = document.getElementById('openIcsGuide');
 const openIcsDemo = document.getElementById('openIcsDemo');
 const backFromFuehreMich = document.getElementById('backFromFuehreMich');
+const icsDemoStartReal =
+  document.getElementById('icsDemoStartReal');
 const innerToImpulse = document.getElementById('innerToImpulse');
 const innerToTruth = document.getElementById('innerToTruth');
 const innerTo99Codes = document.getElementById('innerTo99Codes');
@@ -4384,6 +4386,31 @@ openIcsGuide?.addEventListener('click', () => {
 
 openIcsDemo?.addEventListener('click', () => {
   icsDemoMode = true;
+  updateIcsGuideModeUi();
+  openView('fuehremich');
+});
+
+icsDemoStartReal?.addEventListener('click', () => {
+  icsDemoMode = false;
+  selectedGuideTarget = null;
+
+  const demoOverview =
+    document.getElementById('icsDemoOverview');
+
+  if (demoOverview) {
+    demoOverview.hidden = true;
+  }
+
+  if (guideRecommendation) {
+    guideRecommendation.hidden = true;
+  }
+
+  document
+    .querySelectorAll('.ics-demo-choice')
+    .forEach((choice) => {
+      choice.classList.remove('active');
+    });
+
   updateIcsGuideModeUi();
   openView('fuehremich');
 });
