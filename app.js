@@ -319,7 +319,7 @@ openReports?.addEventListener('click', () => {
 });
 
 meinIcsBackToToday?.addEventListener('click', () => {
-  openView('heute');
+  window.location.href = './index.html?view=heute';
 });
 
 todayToNachschlagewerk?.addEventListener('click', () => {
