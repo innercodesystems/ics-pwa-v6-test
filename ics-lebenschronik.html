@@ -554,23 +554,28 @@ body.print-light #premiumReport{
 <body>
 <main class="wrap">
 
-  <div class="no-print" style="margin-bottom:14px;">
-    <button
-      type="button"
-      class="ghost"
-      id="backToIcs"
-      style="width:auto;padding:10px 14px;"
-    >
-      ← Zurück zu ICS
-    </button>
-  </div>
-
-  <section class="brand">
-    <div class="kicker">Inner Code Systems</div>
-    <h1>Lebenschronik</h1>
-    <p class="sub">Entdecke deine Lebensphasen, erkenne wiederkehrende Muster und richte dein nächstes Kapitel bewusst aus.</p>
-  </section>
+<div class="no-print" style="margin-bottom:14px; display:flex; gap:10px; flex-wrap:wrap;">
   
+  <button
+    type="button"
+    class="ghost"
+    id="backToIcs"
+    style="width:auto;padding:10px 14px;"
+  >
+    ← Zurück zu Mein ICS
+  </button>
+
+  <button
+    type="button"
+    class="ghost"
+    id="goToChronicle"
+    style="width:auto;padding:10px 14px;"
+  >
+    Zur Chronik ↓
+  </button>
+
+</div>
+
   <section class="brand">
     <div class="kicker">Inner Code Systems</div>
     <h1>Lebenschronik</h1>
@@ -2132,6 +2137,15 @@ const backToIcs = document.getElementById('backToIcs');
 
 backToIcs?.addEventListener('click', () => {
   window.location.href = './index.html';
+});
+
+const goToChronicle = document.getElementById('goToChronicle');
+
+goToChronicle?.addEventListener('click', () => {
+  document.querySelector('.input-card')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 });
   
 </script>
