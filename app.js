@@ -5515,6 +5515,14 @@ backFromWaehleMeinenWeg?.addEventListener('click', () => {
   openView('welten');
 });
 
+const openLifeChronicle =
+  document.getElementById('openLifeChronicle');
+
+openLifeChronicle?.addEventListener('click', () => {
+  sessionStorage.setItem('ICS_RETURN_VIEW', 'waehlemeinenweg');
+  window.location.href = './ics-lebenschronik.html';
+});
+
 document.querySelectorAll('.choose-path').forEach((button) => {
   button.addEventListener('click', () => {
     const target = button.dataset.pathTarget;
