@@ -1,0 +1,98 @@
+name: Hide public ICS test mode
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/hide-public-test-mode.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restrict ICS test mode to developer access
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('app.js')
+          text = path.read_text(encoding='utf-8')
+
+          old_keys = """const icsTestModeKey = 'ICS_TEST_MODE';
+const energyHistoryTestKey = 'ICS_ENERGY_HISTORY_TEST';
+"""
+
+          new_keys = """const icsTestModeKey = 'ICS_TEST_MODE';
+const energyHistoryTestKey = 'ICS_ENERGY_HISTORY_TEST';
+const icsDeveloperAccessKey = 'ICS_DEVELOPER_ACCESS';
+
+const icsDevParams = new URLSearchParams(window.location.search);
+const icsDevCommand = icsDevParams.get('icsdev');
+
+if (icsDevCommand === '1') {
+  localStorage.setItem(icsDeveloperAccessKey, 'true');
+}
+
+if (icsDevCommand === '0') {
+  localStorage.removeItem(icsDeveloperAccessKey);
+  localStorage.removeItem(icsTestModeKey);
+}
+
+if (icsDevCommand === '1' || icsDevCommand === '0') {
+  const cleanUrl = new URL(window.location.href);
+  cleanUrl.searchParams.delete('icsdev');
+  window.history.replaceState(
+    {},
+    document.title,
+    cleanUrl.pathname + cleanUrl.search + cleanUrl.hash
+  );
+}
+
+function hasIcsDeveloperAccess() {
+  return localStorage.getItem(icsDeveloperAccessKey) === 'true';
+}
+
+if (!hasIcsDeveloperAccess()) {
+  localStorage.removeItem(icsTestModeKey);
+}
+"""
+
+          old_call = "createIcsTestModeUI();"
+          new_call = """if (hasIcsDeveloperAccess()) {
+  createIcsTestModeUI();
+}"""
+
+          if new_keys not in text:
+            if old_keys not in text:
+              raise SystemExit('Test mode key block not found')
+            text = text.replace(old_keys, new_keys, 1)
+
+          if new_call not in text:
+            if old_call not in text:
+              raise SystemExit('Test mode UI call not found')
+            text = text.replace(old_call, new_call, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+          node --check app.js
+
+      - name: Commit repair
+        run: |
+          if git diff --quiet -- app.js; then
+            echo "No app.js change needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js
+          git commit -m "Hide ICS test mode from public users"
+          git push
