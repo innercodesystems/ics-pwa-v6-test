@@ -52,7 +52,10 @@ function openView(name, addToHistory = true) {
   currentViewName = name;
 
   if (name === 'meinics') {
-  renderLatestEnergyForMeinIcs();
+  // Defer until app.js has finished initializing all const bindings.
+  setTimeout(() => {
+    renderLatestEnergyForMeinIcs();
+  }, 0);
 }
 
   window.scrollTo(0, 0);
