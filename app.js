@@ -69,8 +69,9 @@ function openView(name, addToHistory = true) {
 
   if (name === 'meinics') {
   // Defer until app.js has finished initializing all const bindings.
-  setTimeout(() => {
+setTimeout(() => {
     renderLatestEnergyForMeinIcs();
+    renderLatestMentorInsightForMeinIcs();
   }, 0);
 }
 
@@ -3258,6 +3259,107 @@ function getLatestMentorChoice() {
   } catch {
     return null;
   }
+}
+
+function renderLatestMentorInsightForMeinIcs() {
+  const container =
+    document.getElementById('icsLatestMentorInsight');
+
+  if (!container) return;
+
+  let history = [];
+
+  try {
+    const stored = JSON.parse(
+      localStorage.getItem(mentorHistoryKey) || '[]'
+    );
+
+    history = Array.isArray(stored)
+      ? stored
+      : [];
+  } catch {
+    history = [];
+  }
+
+  const latestInsight = history.find(
+    (record) =>
+      record &&
+      record.source === 'free-mentor'
+  );
+
+  if (!latestInsight) {
+    container.innerHTML = `
+      <small>
+        Deine nächste Mentor-Erkenntnis erscheint hier.
+      </small>
+    `;
+    return;
+  }
+
+  const patternLabels = {
+    energieverlust: 'Energieverlust und Erschöpfung',
+    ueberforderung: 'Überforderungsmuster',
+    perfektionismus: 'Perfektionismus',
+    kontrolle: 'Kontrolle',
+    anpassung: 'Anpassung',
+    harmonie: 'Harmonie',
+    rueckzug: 'Rückzug',
+    vermeidung: 'Vermeidung',
+    leistung: 'Leistung',
+    verantwortung: 'Überverantwortung',
+    selbstwert: 'Selbstwert',
+    verlustangst: 'Verlustangst'
+  };
+
+  const stateLabels = {
+    energy: 'Energie',
+    body: 'Körper',
+    mind: 'Gedanken',
+    pressure: 'Innerer Druck',
+    orientation: 'Orientierung',
+    impulse: 'Impuls'
+  };
+
+  const patterns = Array.isArray(
+    latestInsight.patterns
+  )
+    ? latestInsight.patterns
+        .map(
+          (pattern) =>
+            patternLabels[pattern] || pattern
+        )
+        .slice(0, 3)
+    : [];
+
+  const date = new Date(
+    latestInsight.createdAt
+  );
+
+  const dateText = Number.isNaN(date.getTime())
+    ? ''
+    : date.toLocaleDateString('de-DE');
+
+  const stateText =
+    stateLabels[latestInsight.state] || '';
+
+  container.innerHTML = `
+    <small>LETZTE MENTOR-ERKENNTNIS</small>
+
+    <p style="margin:8px 0 0;">
+      <strong>
+        ${patterns.length
+          ? patterns.join(' · ')
+          : 'Eine neue Erkenntnis wurde gespeichert.'}
+      </strong>
+    </p>
+
+    <p style="margin:6px 0 0; opacity:.78;">
+      ${[
+        stateText,
+        dateText
+      ].filter(Boolean).join(' · ')}
+    </p>
+  `;
 }
 
 function sendContextToIcsMentor() {
