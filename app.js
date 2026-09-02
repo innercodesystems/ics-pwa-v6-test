@@ -2459,6 +2459,33 @@ const energyHistoryLimit = 100;
 
 const icsTestModeKey = 'ICS_TEST_MODE';
 const energyHistoryTestKey = 'ICS_ENERGY_HISTORY_TEST';
+const icsDeveloperAccessKey = 'ICS_DEVELOPER_ACCESS';
+
+const icsDevParams = new URLSearchParams(window.location.search);
+const icsDevCommand = icsDevParams.get('icsdev');
+
+if (icsDevCommand === '1') {
+  localStorage.setItem(icsDeveloperAccessKey, 'true');
+}
+
+if (icsDevCommand === '0') {
+  localStorage.removeItem(icsDeveloperAccessKey);
+  localStorage.removeItem(icsTestModeKey);
+}
+
+if (icsDevCommand === '1' || icsDevCommand === '0') {
+  const cleanUrl = new URL(window.location.href);
+  cleanUrl.searchParams.delete('icsdev');
+  window.history.replaceState({}, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+}
+
+function hasIcsDeveloperAccess() {
+  return localStorage.getItem(icsDeveloperAccessKey) === 'true';
+}
+
+if (!hasIcsDeveloperAccess()) {
+  localStorage.removeItem(icsTestModeKey);
+}
 
 function isIcsTestMode() {
   return localStorage.getItem(icsTestModeKey) === 'true';
@@ -2723,7 +2750,9 @@ clearTestData?.addEventListener('click', () => {
   renderTestModeStatus();
 }
 
-createIcsTestModeUI();
+if (hasIcsDeveloperAccess()) {
+  createIcsTestModeUI();
+}
 
 const icsStateRouter = {
   kopfVoll: {
