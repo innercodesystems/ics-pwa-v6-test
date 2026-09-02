@@ -3286,6 +3286,89 @@ openIcsMentor?.addEventListener(
   sendContextToIcsMentor
 );
 
+window.addEventListener('message', (event) => {
+  if (
+    event.origin !==
+    'https://innercodesystems.github.io'
+  ) {
+    return;
+  }
+
+  if (
+    event.source !==
+    icsMentorFrame?.contentWindow
+  ) {
+    return;
+  }
+
+  const data = event.data;
+
+  if (
+    !data ||
+    data.type !== 'ICS_MENTOR_INSIGHT_V1'
+  ) {
+    return;
+  }
+
+  const insight = data.insight;
+
+  if (
+    !insight ||
+    typeof insight !== 'object'
+  ) {
+    return;
+  }
+
+  const patterns = Array.isArray(insight.patterns)
+    ? insight.patterns
+        .filter((item) => typeof item === 'string')
+        .slice(0, 5)
+    : [];
+
+  const theme =
+    typeof insight.theme === 'string'
+      ? insight.theme
+      : '';
+
+  const emotion =
+    typeof insight.emotion === 'string'
+      ? insight.emotion
+      : '';
+
+  if (
+    patterns.length === 0 &&
+    !theme &&
+    !emotion
+  ) {
+    return;
+  }
+
+  saveMentorChoice({
+    id:
+      typeof insight.id === 'string'
+        ? insight.id
+        : `MENTOR_INSIGHT_${Date.now()}`,
+
+    createdAt:
+      typeof insight.createdAt === 'string'
+        ? insight.createdAt
+        : new Date().toISOString(),
+
+    source: 'free-mentor',
+    state:
+      typeof insight.state === 'string'
+        ? insight.state
+        : null,
+
+    title: 'Erkenntnis aus dem ICS Mentor',
+    area: 'ICS Digital Mentor',
+    target: 'icsmentor',
+    patterns,
+    theme,
+    emotion
+  });
+});
+
 const energySteps = {
   check: document.getElementById('energyCheckStep'),
   impulse: document.getElementById('energyImpulseStep'),
