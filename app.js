@@ -9,6 +9,8 @@
 
 const navItems = [...document.querySelectorAll('.nav-item')];
 const appViews = [...document.querySelectorAll('.app-view')];
+const bottomNav =
+  document.querySelector('.bottom-nav');
 
 // ICS FIX: ensure Mehr view is a direct app-shell child
 const appShell = document.querySelector('.app-shell');
@@ -56,6 +58,13 @@ function openView(name, addToHistory = true) {
     item.classList.toggle('active', item.dataset.view === name);
   });
 
+  if (bottomNav) {
+    bottomNav.style.display =
+      name === 'icsmentor'
+        ? 'none'
+        : '';
+  }
+  
   currentViewName = name;
 
   if (name === 'meinics') {
