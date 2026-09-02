@@ -10,6 +10,13 @@
 const navItems = [...document.querySelectorAll('.nav-item')];
 const appViews = [...document.querySelectorAll('.app-view')];
 
+// ICS FIX: ensure Mehr view is a direct app-shell child
+const appShell = document.querySelector('.app-shell');
+const moreView = document.getElementById('view-mehr');
+if (appShell && moreView && moreView.parentElement !== appShell) {
+  appShell.appendChild(moreView);
+}
+
 const userNameKey = 'ICS_USER_NAME';
 const userBirthDateKey = 'ICS_USER_BIRTHDATE';
 
