@@ -1,0 +1,66 @@
+name: Open ICS Akademie in new tab
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/open-academy-new-tab.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch ICS Akademie link
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          old = '''<button class="menu-card" id="openAcademy"
+        onclick="window.location.href='https://innercodesystems.com/ics-akademie'">
+  <div>
+    <small>ENTWICKLUNG</small>
+    <strong>ICS Akademie</strong>
+    <p>Vertiefe die ICS-Methode.</p>
+  </div>
+  <b>›</b>
+</button>'''
+          new = '''<a class="menu-card"
+   id="openAcademy"
+   href="https://innercodesystems.com/ics-akademie"
+   target="_blank"
+   rel="noopener noreferrer"
+   style="text-decoration:none;">
+  <div>
+    <small>ENTWICKLUNG</small>
+    <strong>ICS Akademie</strong>
+    <p>Vertiefe die ICS-Methode.</p>
+  </div>
+  <b>›</b>
+</a>'''
+          if new in text:
+              pass
+          elif old in text:
+              text = text.replace(old, new, 1)
+              p.write_text(text, encoding='utf-8')
+          else:
+              raise SystemExit('ICS Akademie block not found; no change made.')
+          PY
+
+      - name: Commit patch and remove workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/open-academy-new-tab.yml
+          git add index.html
+          git commit -m "Open ICS Akademie in new tab"
+          git push
