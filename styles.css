@@ -1620,3 +1620,24 @@ textarea:focus {
 #icsBirthDate::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
+
+/* =========================================================
+   MOBILE · ICS EINSTIEGSBUTTONS
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .guide-entry-card #openIcsGuide,
+  .guide-entry-card #openIcsDemo {
+    display: block;
+    width: 100%;
+    max-width: none;
+    min-height: 56px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: center;
+  }
+
+  .guide-entry-card #openIcsDemo {
+    margin-top: 12px !important;
+  }
+}
