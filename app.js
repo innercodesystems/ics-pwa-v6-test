@@ -3343,7 +3343,7 @@ window.addEventListener('message', (event) => {
     return;
   }
 
-  saveMentorChoice({
+    const insightSaved = saveMentorChoice({
     id:
       typeof insight.id === 'string'
         ? insight.id
@@ -3367,6 +3367,12 @@ window.addEventListener('message', (event) => {
     theme,
     emotion
   });
+
+  if (insightSaved) {
+    showToast(
+      'ICS hat diese Erkenntnis in deinem Mentor-Verlauf gespeichert.'
+    );
+  }
 });
 
 const energySteps = {
