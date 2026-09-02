@@ -89,13 +89,17 @@ const savedUserName = getIcsUserName();
 if (savedUserName) {
   applyIcsUserName();
 
-  if (requestedView === 'meinics') {
-    openView('meinics', false);
-  } else if (returnView === 'innercode') {
-    openView('innercode', false);
-  } else {
-    openView('heute');
-  }
+if (requestedView === 'meinics') {
+  openView('meinics', false);
+} else if (returnView === 'meinics') {
+  openView('meinics', false);
+} else if (returnView === 'innercode') {
+  openView('innercode', false);
+} else if (returnView === 'waehlemeinenweg') {
+  openView('waehlemeinenweg', false);
+} else {
+  openView('heute');
+}
 
 } else {
   openView('welcome');
