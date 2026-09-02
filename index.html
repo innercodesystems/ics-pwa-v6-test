@@ -2419,6 +2419,24 @@
   <section class="menu-list">
 
     <section class="menu-list" id="icsGuideChoices">
+
+<button
+  type="button"
+  class="menu-card"
+  onclick="openView('icsmentor')"
+>
+  <div>
+    <small>FREIES GESPRÄCH</small>
+    <strong>Mit dem ICS Mentor sprechen</strong>
+    <p>
+      Beschreibe deine Situation in deinen eigenen Worten.
+      ICS hilft dir, Muster und Zusammenhänge zu erkennen.
+    </p>
+  </div>
+  <b>›</b>
+</button>
+
+<button class="menu-card guide-choice" data-guide-state="energy">      
       <div>
         <small>ENERGIE</small>
         <strong>Ich bin energielos</strong>
@@ -2647,6 +2665,51 @@
 
 </section>
 
+<!-- =========================
+     ICS DIGITAL MENTOR
+========================== -->
+<section class="app-view" id="view-icsmentor">
+
+  <div class="view-header">
+    <p class="section-kicker">ICS DIGITAL MENTOR</p>
+    <h1>Was beschäftigt dich gerade?</h1>
+    <p>
+      Beschreibe deine Situation in deinen eigenen Worten.
+      Der ICS Mentor begleitet dich Schritt für Schritt.
+    </p>
+  </div>
+
+  <section
+    class="premium-card"
+    style="padding:0; overflow:hidden;"
+  >
+    <iframe
+      src="https://innercodesystems.github.io/ics-auswertungstool/ics-mentor/"
+      title="ICS Digital Mentor"
+      style="
+        width:100%;
+        height:78vh;
+        min-height:680px;
+        border:0;
+        display:block;
+        background:#f6f1e7;
+      "
+      loading="lazy"
+    ></iframe>
+  </section>
+
+  <div style="margin-top:24px; text-align:center;">
+    <button
+      type="button"
+      class="gold-button"
+      onclick="openView('fuehremich')"
+    >
+      ← Zurück zu „ICS, führe mich“
+    </button>
+  </div>
+
+</section>
+  
   <!-- =========================
      ICS ENERGIE · VERLAUF
 ========================== -->
