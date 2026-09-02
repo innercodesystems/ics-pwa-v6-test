@@ -553,6 +553,24 @@ body.print-light #premiumReport{
 </head>
 <body>
 <main class="wrap">
+
+  <div class="no-print" style="margin-bottom:14px;">
+    <button
+      type="button"
+      class="ghost"
+      id="backToIcs"
+      style="width:auto;padding:10px 14px;"
+    >
+      ← Zurück zu ICS
+    </button>
+  </div>
+
+  <section class="brand">
+    <div class="kicker">Inner Code Systems</div>
+    <h1>Lebenschronik</h1>
+    <p class="sub">Entdecke deine Lebensphasen, erkenne wiederkehrende Muster und richte dein nächstes Kapitel bewusst aus.</p>
+  </section>
+  
   <section class="brand">
     <div class="kicker">Inner Code Systems</div>
     <h1>Lebenschronik</h1>
@@ -2109,6 +2127,13 @@ document.getElementById("printBtn").onclick=()=>{
 
 loadProfile();
 if(birthInput.value)render();
+
+const backToIcs = document.getElementById('backToIcs');
+
+backToIcs?.addEventListener('click', () => {
+  window.location.href = './index.html';
+});
+  
 </script>
 </body>
 </html>
