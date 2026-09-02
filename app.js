@@ -3234,6 +3234,49 @@ function saveMentorChoice(record) {
   }
 }
 
+const icsMentorFrame =
+  document.getElementById('icsMentorFrame');
+
+function getLatestMentorChoice() {
+  try {
+    const history = JSON.parse(
+      localStorage.getItem(mentorHistoryKey) || '[]'
+    );
+
+    return Array.isArray(history)
+      ? history[0] || null
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function sendContextToIcsMentor() {
+  if (!icsMentorFrame?.contentWindow) return;
+
+  const latestChoice = getLatestMentorChoice();
+
+  icsMentorFrame.contentWindow.postMessage(
+    {
+      type: 'ICS_APP_CONTEXT_V1',
+      context: {
+        latestChoice
+      }
+    },
+    'https://innercodesystems.github.io'
+  );
+}
+
+icsMentorFrame?.addEventListener(
+  'load',
+  sendContextToIcsMentor
+);
+
+openIcsMentor?.addEventListener(
+  'click',
+  sendContextToIcsMentor
+);
+
 const energySteps = {
   check: document.getElementById('energyCheckStep'),
   impulse: document.getElementById('energyImpulseStep'),
