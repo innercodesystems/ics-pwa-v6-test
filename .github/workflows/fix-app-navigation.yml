@@ -19,34 +19,30 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Repair Mehr view placement
+      - name: Add direct Mehr navigation fallback
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          path = Path('app.js')
+          path = Path('index.html')
           text = path.read_text(encoding='utf-8')
-          marker = "// ICS FIX: ensure Mehr view is a direct app-shell child"
-          if marker in text:
+          old = '<button class="nav-item" data-view="mehr">'
+          new = '''<button class="nav-item" data-view="mehr" onclick="const v=document.getElementById(\'view-mehr\');const s=document.querySelector(\'.app-shell\');if(v&&s&&v.parentElement!==s)s.appendChild(v);document.querySelectorAll(\'.app-view\').forEach(x=>x.classList.remove(\'active\'));if(v)v.classList.add(\'active\');document.querySelectorAll(\'.nav-item\').forEach(x=>x.classList.remove(\'active\'));this.classList.add(\'active\');window.scrollTo(0,0);">'''
+          if new in text:
               raise SystemExit(0)
-          anchor = "const appViews = [...document.querySelectorAll('.app-view')];\n"
-          if anchor not in text:
-              raise SystemExit('Expected appViews declaration not found; no file changed.')
-          patch = "const appViews = [...document.querySelectorAll('.app-view')];\n\n// ICS FIX: ensure Mehr view is a direct app-shell child\nconst appShell = document.querySelector('.app-shell');\nconst moreView = document.getElementById('view-mehr');\nif (appShell && moreView && moreView.parentElement !== appShell) {\n  appShell.appendChild(moreView);\n}\n"
-          text = text.replace(anchor, patch, 1)
+          if old not in text:
+              raise SystemExit('Mehr navigation button not found; no file changed.')
+          text = text.replace(old, new, 1)
           path.write_text(text, encoding='utf-8')
           PY
 
-      - name: Check JavaScript syntax
-        run: node --check app.js
-
       - name: Commit repair
         run: |
-          if git diff --quiet -- app.js; then
-            echo "No app.js change needed."
+          if git diff --quiet -- index.html; then
+            echo "No index.html change needed."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app.js
-          git commit -m "Fix Mehr view navigation"
+          git add index.html
+          git commit -m "Add direct Mehr navigation fallback"
           git push
