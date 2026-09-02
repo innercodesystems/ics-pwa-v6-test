@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1a1815">
+<title>ICS Lebenschronik V10.4.3</title>
+<style>
+:root{
+  --bg:#1a1815;--panel:#24211d;--panel2:#2d2924;--gold:#b8924f;
+  --gold2:#d4a03a;--cream:#f6f1e7;--muted:#bdb5a8;--line:rgba(184,146,79,.30);
+  --soft:rgba(184,146,79,.10)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--cream);
+  background:linear-gradient(180deg,#14120f,#1a1815 35%,#211e1a);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+.wrap{max-width:800px;margin:auto;padding:22px 16px 90px}
+.brand{text-align:center;margin:12px 0 26px}
+.kicker{color:var(--gold);text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:800}
+h1{font-size:clamp(2rem,8vw,3.35rem);line-height:1;margin:8px 0}
+.sub{color:var(--muted);line-height:1.55;margin:0 auto;max-width:640px}
+.card{
+  background:rgba(36,33,29,.94);border:1px solid var(--line);border-radius:22px;
+  padding:18px;margin:14px 0;box-shadow:0 16px 40px rgba(0,0,0,.18)
+}
+label,.label{
+  display:block;color:var(--gold);font-size:.78rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:800;margin-bottom:8px
+}
+input,textarea{
+  width:100%;border:1px solid rgba(255,255,255,.12);background:#171512;color:var(--cream);
+  border-radius:14px;padding:14px;font:inherit;outline:none
+}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,146,79,.12)}
+textarea{min-height:118px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{
+  width:100%;border:0;border-radius:14px;padding:14px 16px;font:inherit;font-weight:800;cursor:pointer
+}
+.primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130d}
+.secondary{background:#171512;color:var(--cream);border:1px solid var(--line)}
+.ghost{background:transparent;color:var(--gold);border:1px solid var(--line)}
+.hidden{display:none!important}
+.status{
+  padding:18px;border-radius:18px;background:linear-gradient(135deg,rgba(184,146,79,.17),rgba(184,146,79,.04));
+  border:1px solid rgba(184,146,79,.45)
+}
+.status strong{color:var(--gold2);font-size:1.18rem}
+.timeline{display:flex;overflow-x:auto;gap:10px;padding:6px 2px 10px;scroll-snap-type:x mandatory}
+.phase-pill{
+  min-width:92px;padding:12px 10px;border-radius:16px;background:#171512;
+  border:1px solid rgba(255,255,255,.08);text-align:center;scroll-snap-align:start;cursor:pointer
+}
+.phase-pill.current{border-color:var(--gold2);background:rgba(184,146,79,.16)}
+.phase-pill.done::after{content:"✓";display:block;color:var(--gold2);font-weight:900;margin-top:3px}
+.phase-pill .small{display:block;font-size:.72rem;color:var(--muted);margin-top:4px}
+.progress-shell{height:9px;background:#171512;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0}
+.progress-text{color:var(--muted);font-size:.9rem;margin-top:8px}
+.phase-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.phase-title{font-size:1.48rem;margin:4px 0 0}
+.badge{background:var(--gold2);color:#17130d;border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:900;white-space:nowrap}
+.lead{color:#ddd5c8;line-height:1.65}
+.topics{color:var(--gold);font-weight:750;line-height:1.75;margin:12px 0}
+.field{margin-top:15px}
+.guided-box{margin:14px 0;padding:15px;border-radius:17px;background:rgba(184,146,79,.07);border:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:9px 0 15px}
+.chip{width:auto;padding:9px 12px;border-radius:999px;background:#171512;color:var(--cream);border:1px solid rgba(255,255,255,.10);font-size:.88rem}
+.chip.selected{background:rgba(212,160,58,.20);border-color:var(--gold2);color:#f4d992}
+.guided-q{color:#ddd5c8;line-height:1.5;margin:12px 0 7px;font-weight:650}
+.choice-group{margin:16px 0}
+.choice-title{color:var(--gold);font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.choice-grid{display:flex;flex-wrap:wrap;gap:8px}
+.choice-btn{width:auto;padding:10px 12px;border-radius:999px;background:#171512;color:var(--cream);border:1px solid rgba(255,255,255,.10);font-size:.9rem}
+.choice-btn.selected{background:rgba(212,160,58,.20);border-color:var(--gold2);color:#f4d992}
+.auto-summary{margin-top:16px;padding:15px;border-radius:16px;background:rgba(184,146,79,.08);border:1px solid var(--line);color:#e6ddd0;line-height:1.6}
+.auto-summary b{color:var(--gold2)}
+.optional-note{margin-top:14px}
+.actions,.nav-actions,.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.saved{color:#dbc690;font-size:.9rem;min-height:1.4em;margin-top:8px}
+.analysis-hero{
+  padding:18px;border-radius:18px;background:linear-gradient(135deg,rgba(212,160,58,.17),rgba(184,146,79,.03));
+  border:1px solid rgba(212,160,58,.44);margin:14px 0
+}
+.analysis-hero h3{margin:0 0 6px;color:var(--gold2);font-size:1.35rem}
+.analysis-hero p{margin:0;color:#dfd7cb;line-height:1.6}
+.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.theme{
+  background:#171512;border:1px solid var(--line);border-radius:16px;padding:14px
+}
+.theme b{color:var(--gold2);display:block;margin-bottom:5px}
+.theme span{color:var(--muted);font-size:.92rem;line-height:1.45}
+.quote-card{
+  border-left:3px solid var(--gold2);padding:12px 14px;background:var(--soft);
+  border-radius:0 14px 14px 0;margin:12px 0;color:#e7dfd2;line-height:1.6
+}
+.summary-title{font-size:1.5rem;margin:0 0 5px}
+.summary-phase{border-top:1px solid var(--line);padding:16px 0}
+.summary-phase:first-of-type{border-top:0}
+.summary-phase h3{margin:0 0 8px;color:var(--gold2)}
+.summary-section{margin:8px 0}
+.summary-section b{color:var(--gold)}
+.summary-section div{white-space:pre-wrap;color:#ded7cc;line-height:1.55}
+.empty{color:var(--muted);text-align:center;padding:20px 4px}
+.footnote{color:#928a7e;font-size:.82rem;line-height:1.5;margin-top:18px}
+.premium-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.premium-card{background:#171512;border:1px solid var(--line);border-radius:16px;padding:14px}
+.premium-card b{display:block;color:var(--gold2);margin-bottom:6px}
+.premium-card p{margin:0;color:var(--muted);line-height:1.5}
+.turning-point{border-left:3px solid var(--gold2);padding:11px 13px;margin:10px 0;background:rgba(184,146,79,.07);border-radius:0 14px 14px 0}
+.turning-point strong{color:var(--gold2)}
+.final-three{display:grid;gap:10px;margin-top:12px}
+.final-three textarea{min-height:88px}
+.plan{
+  display:grid;gap:10px;margin-top:12px
+}
+.plan-item{
+  border:1px solid var(--line);border-radius:16px;padding:14px;background:#171512
+}
+.plan-item .n{
+  display:inline-grid;place-items:center;width:26px;height:26px;border-radius:999px;
+  background:var(--gold2);color:#17130d;font-weight:900;margin-right:8px
+}
+.plan-item b{color:var(--cream)}
+.plan-item p{color:var(--muted);margin:8px 0 0;line-height:1.5}
+@media(max-width:560px){.row,.actions,.nav-actions,.toolbar,.theme-grid,.premium-grid{grid-template-columns:1fr}}
+@media print{
+  body{background:#fff;color:#111}
+  .wrap{max-width:none;padding:0}
+  .brand,.input-card,.timeline-card,.phase-card,.footnote,.no-print{display:none!important}
+  #result{display:block!important}
+  #analysisCard,#summaryCard{display:block!important;border:0;box-shadow:none;background:#fff;color:#111}
+  #analysisCard *,#summaryCard *{color:#111!important}
+  #analysisCard h2,#analysisCard h3,#summaryCard h2,#summaryCard h3,
+  .summary-section b,.theme b{color:#7f612d!important}
+  .theme,.plan-item,.analysis-hero,.quote-card{background:#fff!important;border-color:#c9c1b4!important}
+  .summary-phase{break-inside:avoid;border-color:#c9c1b4}
+}
+
+.premium-report{
+  margin-top:22px;
+  border:1px solid rgba(212,160,58,.38);
+  border-radius:24px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#171512 0%,#11100e 100%);
+}
+.premium-cover{
+  min-height:420px;
+  padding:34px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(212,160,58,.25);
+}
+.premium-brand{
+  color:var(--gold2);
+  font-size:.78rem;
+  letter-spacing:.18em;
+  font-weight:800;
+}
+.premium-cover h1{
+  margin:18px 0 8px;
+  font-size:2.15rem;
+  line-height:1.05;
+}
+.premium-cover .name{
+  color:var(--gold2);
+  font-size:1.2rem;
+  font-weight:700;
+}
+.premium-cover .phase{
+  color:var(--muted);
+  line-height:1.6;
+}
+.premium-section{
+  padding:24px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.premium-section:last-child{border-bottom:none}
+.premium-section h3{
+  margin:0 0 10px;
+  color:var(--gold2);
+  font-size:1.25rem;
+}
+.premium-section p{
+  color:#e7dfd3;
+  line-height:1.7;
+  margin:7px 0;
+}
+.premium-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.premium-tag{
+  border:1px solid rgba(212,160,58,.38);
+  color:#e8c976;
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:.86rem;
+  background:rgba(212,160,58,.06);
+}
+.premium-path{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.premium-path-item{
+  background:#151310;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:13px 14px;
+}
+.premium-path-item strong{color:var(--gold2)}
+.premium-final{
+  padding:24px;
+  background:rgba(212,160,58,.05);
+}
+.premium-final blockquote{
+  margin:10px 0 0;
+  padding:14px 16px;
+  border-left:3px solid var(--gold2);
+  color:#f2eadf;
+  background:#14120f;
+  border-radius:0 14px 14px 0;
+  line-height:1.6;
+}
+@media print{
+  .premium-report{break-before:page}
+  .premium-cover{min-height:90vh}
+}
+
+.change-card{margin-top:14px;border:1px solid rgba(212,160,58,.34);border-radius:18px;overflow:hidden;background:#14120f}
+.change-row{padding:15px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.change-row:last-child{border-bottom:none}
+.change-row .mini{color:var(--gold2);font-size:.76rem;letter-spacing:.12em;font-weight:800;text-transform:uppercase;margin-bottom:6px}
+.change-row .value{color:#eee5d8;line-height:1.6}
+.insight-box{margin-top:14px;padding:16px;border-radius:16px;background:rgba(212,160,58,.07);border:1px solid rgba(212,160,58,.25);line-height:1.65;color:#ece3d7}
+.insight-box b{color:var(--gold2)}
+.report-progress{margin:12px 0 18px}
+.report-progress-line{height:8px;background:#0f0e0c;border:1px solid rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+.report-progress-fill{height:100%;background:linear-gradient(90deg,#8f6c2d,#d4a03a);border-radius:999px}
+.report-progress-text{margin-top:7px;color:var(--muted);font-size:.86rem}
+
+.memory-hint{margin-top:12px;padding:12px 14px;border:1px dashed rgba(212,160,58,.32);border-radius:14px;background:rgba(212,160,58,.04);color:var(--muted);font-size:.9rem;line-height:1.5}
+.flow-hint{margin:12px 0;padding:13px 14px;border-radius:14px;background:rgba(212,160,58,.06);border:1px solid rgba(212,160,58,.22);color:#e9e0d3;line-height:1.5}
+
+.report-opening{
+  padding:20px;
+  margin:0;
+  background:linear-gradient(180deg,rgba(212,160,58,.09),rgba(212,160,58,.025));
+  border-bottom:1px solid rgba(212,160,58,.22);
+}
+.report-opening .eyebrow{
+  color:var(--gold2);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase
+}
+.report-opening h2{font-size:1.55rem;margin:8px 0 10px}
+.report-opening p{margin:0;color:#e9e0d4;line-height:1.7}
+.report-chapter-number{
+  display:inline-flex;width:28px;height:28px;border-radius:50%;
+  align-items:center;justify-content:center;margin-right:8px;
+  background:rgba(212,160,58,.14);border:1px solid rgba(212,160,58,.35);
+  color:var(--gold2);font-size:.8rem;font-weight:800
+}
+.report-closing{
+  padding:26px 24px;
+  background:linear-gradient(180deg,rgba(212,160,58,.04),rgba(212,160,58,.11));
+  text-align:center
+}
+.report-closing .big{
+  color:#f4eadb;font-size:1.3rem;font-weight:800;line-height:1.45;margin:8px auto;max-width:520px
+}
+.report-closing .small{color:var(--muted);line-height:1.6;max-width:520px;margin:8px auto 0}
+
+.deep-analysis{margin-top:16px;padding:18px;border:1px solid rgba(212,160,58,.28);border-radius:18px;background:rgba(212,160,58,.045)}
+.deep-analysis h3{margin:0 0 8px;color:var(--gold2)}
+.deep-pattern{padding:14px 0;border-top:1px solid rgba(212,160,58,.16)}
+.deep-pattern:first-of-type{border-top:0}
+.deep-pattern-title{font-weight:800;color:#f2e7d6;margin-bottom:6px}
+.deep-pattern-meta{font-size:.84rem;color:var(--gold2);margin-bottom:7px}
+.deep-pattern p{margin:5px 0;color:#ddd2c3;line-height:1.55}
+
+.phase-meaning{
+  margin-top:14px;padding:14px;border-left:3px solid var(--gold);
+  background:rgba(212,160,58,.055);border-radius:0 14px 14px 0
+}
+.phase-meaning-title{color:var(--gold2);font-weight:800;margin-bottom:7px}
+.phase-meaning p{margin:5px 0;color:#ddd3c6;line-height:1.55}
+
+.life-tracks{margin-top:16px;padding:18px;border:1px solid rgba(212,160,58,.28);border-radius:18px;background:rgba(212,160,58,.04)}
+.life-tracks h3{margin:0 0 8px;color:var(--gold2)}
+.life-track{padding:14px 0;border-top:1px solid rgba(212,160,58,.16)}
+.life-track:first-of-type{border-top:0}
+.life-track-name{font-weight:800;color:#f2e7d6}
+.life-track-phases{margin:5px 0;color:var(--gold2);font-size:.86rem}
+.life-track p{margin:5px 0;color:#ddd3c6;line-height:1.55}
+
+.life-compass{margin-top:16px;padding:20px;border:1px solid rgba(212,160,58,.32);border-radius:20px;background:linear-gradient(180deg,rgba(212,160,58,.07),rgba(212,160,58,.025))}
+.life-compass h3{margin:0 0 8px;color:var(--gold2)}
+.compass-grid{display:grid;gap:10px;margin-top:14px}
+.compass-item{padding:14px;border:1px solid rgba(212,160,58,.18);border-radius:14px;background:rgba(0,0,0,.12)}
+.compass-kicker{color:var(--gold2);font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.compass-item p{margin:6px 0 0;color:#e3d9ca;line-height:1.55}
+
+.training-loaded{opacity:.82}
+.training-jump{margin-top:8px}
+
+.print-tools{margin-top:14px;padding:16px;border:1px solid rgba(212,160,58,.28);border-radius:16px;background:rgba(212,160,58,.045)}
+.print-tools p{margin:5px 0 10px}
+.print-actions{display:grid;gap:8px}
+@media(min-width:620px){.print-actions{grid-template-columns:1fr 1fr}}
+
+@media print{
+  @page{margin:12mm}
+  body *{visibility:hidden!important}
+  #premiumReport,#premiumReport *{visibility:visible!important}
+  #premiumReport{
+    display:block!important;position:absolute!important;left:0!important;top:0!important;
+    width:100%!important;margin:0!important;padding:0!important;border:0!important;
+    box-shadow:none!important
+  }
+  .no-print{display:none!important}
+  .premium-section,.premium-final,.report-opening,.report-closing{
+    break-inside:avoid;page-break-inside:avoid
+  }
+}
+
+body.print-light #premiumReport,
+body.print-light #premiumReport *{
+  background:#fff!important;color:#1a1815!important;border-color:#c6a15a!important;
+  box-shadow:none!important;text-shadow:none!important
+}
+body.print-light #premiumReport .premium-brand,
+body.print-light #premiumReport .eyebrow,
+body.print-light #premiumReport .label,
+body.print-light #premiumReport h2,
+body.print-light #premiumReport h3,
+body.print-light #premiumReport b,
+body.print-light #premiumReport .report-chapter-number{
+  color:#936617!important
+}
+
+/* Deutliche Druck-/PDF-Themes */
+body.print-dark #premiumReport,
+body.print-dark #premiumReport *{
+  -webkit-print-color-adjust:exact!important;
+  print-color-adjust:exact!important;
+}
+body.print-dark #premiumReport{
+  background:#11100e!important;
+  color:#f6f1e7!important;
+}
+body.print-dark #premiumReport .premium-section,
+body.print-dark #premiumReport .premium-final,
+body.print-dark #premiumReport .report-opening,
+body.print-dark #premiumReport .report-closing{
+  background:#11100e!important;
+  color:#f6f1e7!important;
+  border-color:#d4a03a!important;
+}
+body.print-dark #premiumReport h1,
+body.print-dark #premiumReport h2,
+body.print-dark #premiumReport h3,
+body.print-dark #premiumReport .label,
+body.print-dark #premiumReport .premium-brand,
+body.print-dark #premiumReport .eyebrow,
+body.print-dark #premiumReport .report-chapter-number,
+body.print-dark #premiumReport b{
+  color:#d4a03a!important;
+}
+
+body.print-light #premiumReport,
+body.print-light #premiumReport *{
+  -webkit-print-color-adjust:exact!important;
+  print-color-adjust:exact!important;
+}
+body.print-light #premiumReport{
+  background:#fffdf8!important;
+  color:#1a1815!important;
+}
+body.print-light #premiumReport .premium-section,
+body.print-light #premiumReport .premium-final,
+body.print-light #premiumReport .report-opening,
+body.print-light #premiumReport .report-closing{
+  background:#fffdf8!important;
+  color:#1a1815!important;
+  border-color:#c59a48!important;
+}
+body.print-light #premiumReport h1,
+body.print-light #premiumReport h2,
+body.print-light #premiumReport h3,
+body.print-light #premiumReport .label,
+body.print-light #premiumReport .premium-brand,
+body.print-light #premiumReport .eyebrow,
+body.print-light #premiumReport .report-chapter-number,
+body.print-light #premiumReport b{
+  color:#8f6518!important;
+}
+
+/* Sichtbare Vorschau vor dem Druckdialog */
+body.print-dark #premiumReport,
+body.print-light #premiumReport{
+  transition:background .2s ease,color .2s ease;
+}
+
+/* V10 · Premium Report */
+.premium-report{
+  overflow:hidden;
+  border:1px solid rgba(212,160,58,.30);
+  border-radius:24px;
+  background:#11100e;
+}
+.report-page{
+  position:relative;
+  padding:32px 26px;
+  border-bottom:1px solid rgba(212,160,58,.16);
+}
+.report-page:last-child{border-bottom:0}
+.report-page-number{
+  position:absolute;right:24px;bottom:18px;
+  color:rgba(246,241,231,.35);font-size:.72rem;letter-spacing:.08em
+}
+.report-kicker{
+  color:var(--gold2);font-size:.72rem;font-weight:800;
+  letter-spacing:.16em;text-transform:uppercase
+}
+.report-title{
+  margin:10px 0 8px;font-size:1.7rem;line-height:1.12
+}
+.report-lead{
+  color:#e9e0d4;line-height:1.72;margin:0;max-width:680px
+}
+.report-rule{
+  width:72px;height:1px;background:var(--gold2);margin:18px 0
+}
+.report-meta{
+  display:grid;grid-template-columns:1fr;gap:9px;margin-top:18px
+}
+.report-meta-item{
+  padding:12px 14px;border:1px solid rgba(212,160,58,.18);
+  border-radius:14px;background:rgba(212,160,58,.035)
+}
+.report-meta-item span{
+  display:block;color:var(--muted);font-size:.74rem;
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px
+}
+.report-meta-item strong{color:#f4eadb;font-size:.97rem}
+.report-toc{
+  display:grid;gap:8px;margin-top:18px
+}
+.report-toc-row{
+  display:flex;gap:12px;align-items:center;padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,.06)
+}
+.report-toc-row:last-child{border-bottom:0}
+.report-toc-n{
+  width:30px;height:30px;flex:0 0 30px;border-radius:50%;
+  border:1px solid rgba(212,160,58,.38);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold2);font-weight:800;font-size:.78rem
+}
+.report-toc-title{color:#eee5d8;font-weight:700}
+.report-signature{
+  margin-top:26px;padding-top:18px;border-top:1px solid rgba(212,160,58,.16);
+  color:var(--muted);font-size:.82rem;line-height:1.6
+}
+.report-highlight{
+  margin-top:16px;padding:15px 16px;
+  border-left:3px solid var(--gold2);
+  border-radius:0 14px 14px 0;
+  background:rgba(212,160,58,.055);
+  color:#eee4d7;line-height:1.65
+}
+.report-section-intro{color:var(--muted);line-height:1.65;margin:6px 0 16px}
+.report-footer-brand{
+  margin-top:28px;color:rgba(212,160,58,.72);
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase
+}
+
+@media(min-width:620px){
+  .report-meta{grid-template-columns:repeat(2,1fr)}
+}
+
+@media print{
+  .premium-report{
+    border:0!important;border-radius:0!important;overflow:visible!important
+  }
+  .premium-cover{
+    min-height:250mm!important;
+    page-break-after:always!important;
+    break-after:page!important;
+  }
+  .report-page{
+    min-height:250mm;
+    page-break-after:always!important;
+    break-after:page!important;
+    padding:18mm 16mm 15mm!important;
+    border-bottom:0!important;
+  }
+  .report-page:last-child{
+    page-break-after:auto!important;
+    break-after:auto!important;
+  }
+  .premium-section{
+    page-break-inside:avoid!important;
+    break-inside:avoid!important;
+  }
+}
+
+.combo-analysis{
+  margin-top:18px;padding:18px;border:1px solid rgba(212,160,58,.22);
+  border-radius:18px;background:rgba(212,160,58,.035)
+}
+.combo-pattern{
+  margin-top:12px;padding:15px 16px;border:1px solid rgba(212,160,58,.17);
+  border-radius:15px;background:rgba(0,0,0,.13)
+}
+.combo-pattern-title{font-weight:800;color:var(--gold2);font-size:1rem}
+.combo-pattern-meta{margin-top:4px;color:var(--muted);font-size:.78rem}
+.combo-pattern p{margin:9px 0 0;line-height:1.58}
+.combo-evidence{
+  margin-top:9px;color:#ded4c6;font-size:.83rem;line-height:1.55
+}
+
+.life-essence{
+  margin-top:18px;padding:20px;border:1px solid rgba(212,160,58,.30);
+  border-radius:20px;background:linear-gradient(180deg,rgba(212,160,58,.07),rgba(212,160,58,.025))
+}
+.essence-block{margin-top:15px;padding-top:15px;border-top:1px solid rgba(212,160,58,.14)}
+.essence-block:first-of-type{border-top:0;padding-top:5px}
+.essence-title{color:var(--gold2);font-weight:800;margin-bottom:6px}
+.essence-block p{margin:0;line-height:1.65}
+.essence-final{
+  margin-top:18px;padding:16px;border-left:3px solid var(--gold2);
+  border-radius:0 14px 14px 0;background:rgba(212,160,58,.06);line-height:1.65
+}
+
+.theme-evidence{
+  display:block;margin-top:10px;padding:11px 12px;
+  border-left:2px solid rgba(212,160,58,.55);
+  background:rgba(212,160,58,.035);border-radius:0 10px 10px 0;
+  font-size:.82rem;line-height:1.55;color:#ded4c6
+}
+.theme-evidence-row{display:block;margin-top:5px}
+.theme-evidence-row:first-child{margin-top:0}
+.theme-evidence-row b{color:var(--gold2)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="brand">
+    <div class="kicker">Inner Code Systems</div>
+    <h1>Lebenschronik</h1>
+    <p class="sub">Entdecke deine Lebensphasen, erkenne wiederkehrende Muster und richte dein nächstes Kapitel bewusst aus.</p>
+  </section>
+
+  <section class="card input-card">
+    <div class="row">
+      <div>
+        <label for="name">Dein Name (optional)</label>
+        <input id="name" type="text" placeholder="Vorname">
+      </div>
+      <div>
+        <label for="birthdate">Geburtsdatum</label>
+        <input id="birthdate" type="date">
+      </div>
+    </div>
+    <button class="primary" id="startBtn" style="margin-top:12px">Meine Lebenslinie erstellen</button>
+    <div style="margin-top:14px;padding:15px;border:1px solid rgba(212,160,58,.35);border-radius:16px;background:rgba(212,160,58,.06)">
+      <div class="label">TRAININGSMODUS</div>
+      <p style="margin:7px 0 12px;color:var(--muted);line-height:1.5">Komplette Beispiel-Chronik automatisch laden und sofort alle Auswertungen testen.</p>
+      <div style="display:grid;gap:8px">
+        <button type="button" class="secondary" id="trainingLoad">Trainingsdaten laden</button>
+        <button type="button" class="ghost" id="trainingClear">Trainingsdaten wieder entfernen</button>
+        <button type="button" class="primary training-jump hidden" id="trainingJump">Zur Auswertung</button>
+      </div>
+      <div id="trainingMsg" class="saved"></div>
+    </div>
+  </section>
+
+  <section id="result" class="hidden">
+    <section class="card">
+      <div class="status" id="currentStatus"></div>
+    </section>
+
+    <section class="card timeline-card">
+      <div class="label">Dein Fortschritt</div>
+      <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-text" id="progressText"></div>
+      <div class="label" style="margin-top:18px">Deine Lebenslinie</div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section class="card phase-card" id="phaseDetail">
+      <div class="empty">Wähle eine Lebensphase aus.</div>
+    </section>
+
+    <section class="card" id="analysisCard">
+      <div class="label">Deine persönliche Auswertung</div>
+      <h2 class="summary-title">Der rote Faden deines Lebens</h2>
+      <p class="lead">Die Auswertung nutzt ausschließlich deine eigenen gespeicherten Angaben und sucht nach wiederkehrenden Themen.</p>
+
+      <div class="toolbar no-print">
+        <button class="primary" id="analyseBtn">Meine Muster analysieren</button>
+        <button class="secondary" id="printBtn">Premium-Auswertung anzeigen</button>
+      </div>
+
+      <div id="analysisContent">
+        <div class="empty">Bearbeite mehrere Lebensphasen, damit hier eine individuelle Auswertung entstehen kann.</div>
+      </div>
+    </section>
+
+
+    <section class="card" id="directionCard" style="border:2px solid rgba(212,160,58,.65);box-shadow:0 0 22px rgba(212,160,58,.08)">
+      <div class="label">DEIN NÄCHSTES KAPITEL · NEU</div>
+      <h2 class="summary-title">Heute → Morgen</h2>
+      <p class="lead">Nicht nur zurückblicken. Entscheide bewusst, was aus deiner Geschichte bleiben darf, was enden darf und was du jetzt gestalten möchtest.</p>
+
+      <div class="final-three">
+        <div class="field">
+          <label>Was darf bleiben?</label>
+          <textarea id="keepTextMain" placeholder="Welche Stärke, Erfahrung oder Verbindung möchtest du bewusst mitnehmen?"></textarea>
+        </div>
+        <div class="field">
+          <label>Was darf enden?</label>
+          <textarea id="endTextMain" placeholder="Welches alte Muster oder welche Rolle möchtest du nicht weiterführen?"></textarea>
+        </div>
+        <div class="field">
+          <label>Was möchtest du gestalten?</label>
+          <textarea id="createTextMain" placeholder="Wofür möchtest du dich in deinem nächsten Kapitel entscheiden?"></textarea>
+        </div>
+      </div>
+
+      <button class="primary no-print" id="saveDirectionMain">Meine Ausrichtung speichern</button>
+      <div id="directionMainMsg" class="saved"></div>
+    </section>
+
+    
+<section class="card" id="premiumReportCard">
+  <div class="label">PREMIUM-AUSWERTUNG</div>
+  <h2>Deine persönliche Lebenschronik</h2>
+  <p class="sub">Aus deinen eigenen Angaben entsteht hier deine persönliche Zusammenfassung – nicht als Diagnose, sondern als Spiegel deiner bisherigen Reise.</p>
+
+  <div class="deep-analysis">
+  <div class="label">TIEFENANALYSE</div>
+  <h3>Deine Entwicklungslinien</h3>
+  <p class="muted">Wiederkehrende Themen werden ausschließlich aus deinen eigenen Angaben über mehrere Lebensphasen hinweg verbunden.</p>
+  <div id="deepAnalysisResult"><p class="muted">Starte die Analyse, damit mögliche Entwicklungslinien sichtbar werden.</p></div>
+</div>
+<div class="life-tracks">
+  <div class="label">LEBENSLINIEN</div>
+  <h3>Themen durch dein Leben</h3>
+  <p class="muted">Welche Themen tauchen in verschiedenen Lebensphasen wieder auf? Die Chronik verbindet nur das, was du selbst ausgewählt oder beschrieben hast.</p>
+  <div id="lifeTracksResult"><p class="muted">Nach der Analyse erscheinen hier deine stärksten Lebenslinien.</p></div>
+</div>
+<div class="combo-analysis">
+  <div class="label">KOMBINATIONSANALYSE</div>
+  <h3>Wenn mehrere Antworten zusammenwirken</h3>
+  <p class="muted">Hier werden nicht nur einzelne Begriffe gezählt. Die Chronik prüft, welche deiner ausgewählten Erfahrungen, Themen und Rollen innerhalb derselben Lebensphase gemeinsam auftreten.</p>
+  <div id="comboAnalysisResult"><p class="muted">Nach der Analyse erscheinen hier mögliche Zusammenhänge aus deinen eigenen Angaben.</p></div>
+</div>
+<div class="life-essence">
+  <div class="label">DEINE ESSENZ</div>
+  <h3>Was deine Lebensgeschichte heute zeigen könnte</h3>
+  <p class="muted">Eine verdichtete Abschlussreflexion aus deinen bereits gespeicherten Lebensphasen – ohne neue Aussagen hinzuzuerfinden.</p>
+  <div id="lifeEssenceResult"><p class="muted">Führe zuerst die Auswertung durch.</p></div>
+</div>
+<div class="life-compass">
+  <div class="label">DEIN LEBENSKOMPASS</div>
+  <h3>Was deine Geschichte dir heute zeigen könnte</h3>
+  <p class="muted">Eine verdichtete Orientierung aus deinen eigenen Lebensphasen – nicht als Vorgabe, sondern als Einladung zur bewussten Wahl.</p>
+  <div id="lifeCompassResult"><p class="muted">Nach der Analyse entsteht hier dein persönlicher Lebenskompass.</p></div>
+</div>
+<button class="primary no-print" id="buildPremiumReport">Premium-Auswertung erstellen</button>
+<div class="print-tools no-print">
+  <div class="label">DRUCK & PDF</div>
+  <p class="muted">Wähle nach der Premium-Auswertung zwischen dem originalen ICS Look und einer hellen, druckerfreundlichen Version.</p>
+  <div class="print-actions">
+    <button type="button" class="secondary" id="printDark">Schwarz / Gold Vorschau & Druck</button>
+    <button type="button" class="ghost" id="printLight">Hell / Gold Vorschau & Druck</button>
+  </div>
+  <div class="saved" id="printMsg"></div>
+</div>
+
+  <div id="premiumReport" class="premium-report" style="display:none"></div>
+</section>
+
+<section class="card" id="summaryCard">
+      <div class="label">Chronik</div>
+      <h2 class="summary-title">Deine gespeicherten Lebensphasen</h2>
+      <div class="toolbar no-print">
+        <button class="ghost" id="buildSummary">Chronik zusammenstellen</button>
+        <button class="ghost" id="backupBtn">Sicherung erstellen</button>
+      </div>
+      <div id="summaryContent" style="margin-top:16px">
+        <div class="empty">Noch keine Chronik zusammengestellt.</div>
+      </div>
+    </section>
+  </section>
+
+  <section class="footnote">
+    Dieses Tool dient der persönlichen Reflexion. Die Auswertung ist keine Diagnose und leitet keine konkreten Ereignisse oder Persönlichkeitsmerkmale aus dem Geburtsdatum ab.
+  </section>
+</main>
+
+<script>
+const phaseContent = [
+{start:0,end:7,title:"Urvertrauen & Prägung",lead:"Die ersten Lebensjahre können prägend dafür sein, wie wir Sicherheit, Nähe, Zugehörigkeit und unsere Umgebung erleben. Nicht alles davon ist bewusst erinnerbar.",topics:"Sicherheit · Bindung · Zugehörigkeit · Vertrauen · Familie · Grenzen · Selbstständigkeit"},
+{start:7,end:14,title:"Zugehörigkeit & Selbstbild",lead:"In dieser Phase erweitern sich soziale Räume. Schule, Freundschaften, Leistung, Anerkennung und erste Abgrenzung können an Bedeutung gewinnen.",topics:"Freundschaften · Schule · Leistung · Anerkennung · Selbstbild · Regeln · Zugehörigkeit"},
+{start:14,end:21,title:"Identität & Ablösung",lead:"Jugend und frühes Erwachsensein bringen oft die Frage mit sich, wer man sein möchte – jenseits familiärer Erwartungen und bisheriger Rollen.",topics:"Identität · Freiheit · erste Liebe · Körperbild · Entscheidungen · Zukunft · Ablösung"},
+{start:21,end:28,title:"Aufbruch & Eigenständigkeit",lead:"Viele Menschen beginnen in diesen Jahren, ihr eigenes Leben praktisch zu gestalten – beruflich, räumlich, finanziell und in Beziehungen.",topics:"Beruf · Partnerschaft · Wohnen · Verantwortung · Unabhängigkeit · Richtung"},
+{start:28,end:35,title:"Aufbau & Positionierung",lead:"Diese Lebensphase kann von Aufbau, Festigung und der Frage geprägt sein, welche Entscheidungen wirklich zur eigenen Identität passen.",topics:"Aufbau · Familie · Karriere · Verantwortung · Werte · Kurskorrektur"},
+{start:35,end:42,title:"Überprüfung & Neuordnung",lead:"Bestehende Rollen und Lebensentwürfe werden häufig bewusster betrachtet. Was trägt noch – und was wurde vielleicht nur übernommen?",topics:"Neuordnung · Sinn · Beziehung · Beruf · Selbstbestimmung · Grenzen"},
+{start:42,end:49,title:"Wahrheit & Veränderung",lead:"Diese Jahre können ein stärkeres Bedürfnis nach Echtheit und Selbstbestimmung mit sich bringen. Manche Weichen werden neu gestellt.",topics:"Authentizität · Veränderung · Mut · Freiheit · Körper · Prioritäten"},
+{start:49,end:56,title:"Integration & Klarheit",lead:"Erfahrungen aus mehreren Lebensphasen beginnen sich stärker zu verbinden. Was soll bleiben, was darf gehen, was soll neu entstehen?",topics:"Integration · Klarheit · Erfahrung · Loslassen · Ausrichtung · Sinn"},
+{start:56,end:63,title:"Neuausrichtung & Gestaltung",lead:"Diese Phase kann Raum schaffen für eine bewusstere Gestaltung: weniger müssen, stärker wählen, was wirklich Bedeutung hat.",topics:"Gestaltung · Freiheit · Wirkung · Gesundheit · Beziehungen · Vermächtnis"},
+{start:63,end:70,title:"Ernte & Weitergabe",lead:"Erfahrung, Wissen und Lebensgeschichte können stärker in den Vordergrund treten. Die Frage nach Weitergabe und Lebensqualität gewinnt Gewicht.",topics:"Ernte · Weitergabe · Erfahrung · Lebensqualität · Verbundenheit · Freiheit"},
+{start:70,end:77,title:"Essenz & Präsenz",lead:"Die Aufmerksamkeit kann sich stärker auf Wesentliches richten: Menschen, Erfahrungen, Sinn und den eigenen Umgang mit Zeit.",topics:"Essenz · Präsenz · Beziehungen · Zeit · Dankbarkeit · Selbstbestimmung"},
+{start:77,end:84,title:"Weisheit & Verbundenheit",lead:"Lebensgeschichte, Beziehungen und innere Haltung können sich zu einer persönlichen Essenz verdichten.",topics:"Weisheit · Würdigung · Verbundenheit · Erinnerung · Weitergabe · Frieden"},
+{start:84,end:91,title:"Würdigung & Gegenwart",lead:"Diese Lebensphase lädt dazu ein, die eigene Geschichte zu würdigen und Gegenwart, Beziehungen und persönliche Bedeutung bewusst zu erleben.",topics:"Würdigung · Gegenwart · Nähe · Lebensgeschichte · Bedeutung · Verbundenheit"}
+];
+
+
+
+const phaseChoices = {
+0:{
+  experience:["geborgen","frei","behütet","unsicher","angespannt","allein","wechselhaft"],
+  events:["Familie","Geschwister","Umzug","Trennung","Krankheit","Verlust","Kindergarten","besondere Bezugsperson"],
+  roles:["angepasst","neugierig","still","früh selbstständig","stark","sensibel","rebellisch"],
+  beliefs:["Ich muss funktionieren.","Ich muss stark sein.","Ich muss mich anpassen.","Ich darf vertrauen.","Ich kann mich auf mich verlassen.","Keines davon passt."]
+},
+7:{
+  experience:["geborgen","frei","angepasst","angespannt","allein","leistungsorientiert","wechselhaft"],
+  events:["Familie","Schule","Freunde","Umzug","Trennung","Ausgrenzung","Erfolg","frühe Verantwortung"],
+  roles:["angepasst","verantwortlich","stark","ruhig","vermittelnd","rebellisch","Außenseiter/in"],
+  beliefs:["Ich muss funktionieren.","Ich muss stark sein.","Ich muss es allen recht machen.","Ich muss mich anpassen.","Ich darf auffallen.","Ich kann mich auf mich verlassen.","Keines davon passt."]
+},
+14:{
+  experience:["frei","unsicher","angepasst","rebellisch","leistungsorientiert","suchend","wechselhaft"],
+  events:["Schule/Ausbildung","Freunde","erste Liebe","Konflikte","Ablösung","Körperbild","Erfolg","Enttäuschung"],
+  roles:["angepasst","rebellisch","leistend","suchend","zurückgezogen","vermittelnd","unabhängig"],
+  beliefs:["Ich muss meinen eigenen Weg finden.","Ich muss dazugehören.","Ich darf anders sein.","Ich muss stark wirken.","Ich darf mich zeigen.","Ich muss mich anpassen.","Keines davon passt."]
+},
+21:{
+  experience:["aufbruchsstark","frei","überfordert","ehrgeizig","unsicher","verantwortungsvoll","suchend"],
+  events:["Beruf","Partnerschaft","Wohnen","Geld","Familie","Umzug","Neuanfang","Verantwortung"],
+  roles:["Macher/in","angepasst","Versorger/in","Suchende/r","unabhängig","verantwortlich","funktionierend"],
+  beliefs:["Ich muss etwas aufbauen.","Ich muss funktionieren.","Ich darf meinen Weg wählen.","Ich muss Verantwortung tragen.","Ich darf frei sein.","Ich muss Sicherheit schaffen.","Keines davon passt."]
+},
+28:{
+  experience:["stabil","leistungsorientiert","überfordert","erfolgreich","festgelegt","zufrieden","unruhig"],
+  events:["Karriere","Familie","Partnerschaft","Aufbau","Haus/Wohnung","Kinder","Kurswechsel","Überforderung"],
+  roles:["Versorger/in","Leistungsträger/in","angepasst","Macher/in","verantwortlich","stark","Suchende/r"],
+  beliefs:["Ich muss leisten.","Ich muss für alle da sein.","Ich darf Erfolg haben.","Ich darf neu wählen.","Ich muss durchhalten.","Ich darf Grenzen setzen.","Keines davon passt."]
+},
+35:{
+  experience:["nachdenklich","überfordert","stabil","unruhig","suchend","klarer","festgefahren"],
+  events:["Beruf","Beziehung","Familie","Krise","Neuordnung","Grenzen","Sinnfrage","Verlust"],
+  roles:["funktionierend","verantwortlich","angepasst","Suchende/r","stark","vermittelnd","neu orientierend"],
+  beliefs:["So kann es nicht weitergehen.","Ich muss funktionieren.","Ich darf mich neu ausrichten.","Ich muss stark bleiben.","Ich darf Grenzen setzen.","Ich darf mich selbst wichtiger nehmen.","Keines davon passt."]
+},
+42:{
+  experience:["veränderungsbereit","unruhig","klar","freiheitsliebend","erschöpft","mutig","suchend"],
+  events:["Veränderung","Beziehung","Beruf","Körper","Neubeginn","Loslassen","Trennung","Neuausrichtung"],
+  roles:["Neustarter/in","Macher/in","Suchende/r","Grenzensetzer/in","Loslassende/r","funktionierend","freiheitsliebend"],
+  beliefs:["Ich darf mein Leben ändern.","Ich muss nichts mehr beweisen.","Ich darf frei wählen.","Ich muss mich selbst ernst nehmen.","Ich darf loslassen.","Ich darf authentisch sein.","Keines davon passt."]
+},
+49:{
+  experience:["klarer","ruhiger","suchend","erschöpft","befreit","neu ausgerichtet","nachdenklich"],
+  events:["Loslassen","Gesundheit","Beziehung","Beruf","Sinn","Neuausrichtung","Verlust","Neubeginn"],
+  roles:["Integrative/r","Mentor/in","Suchende/r","Grenzensetzer/in","Loslassende/r","Neuorientierte/r","Verantwortliche/r"],
+  beliefs:["Ich darf auswählen, was bleibt.","Ich muss nicht alles tragen.","Ich darf mich neu ausrichten.","Ich darf leichter leben.","Ich darf Grenzen setzen.","Ich darf meiner Erfahrung vertrauen.","Keines davon passt."]
+},
+56:{
+  experience:["freiheitsliebend","klar","erschöpft","neu ausgerichtet","genussorientiert","suchend","gestaltungsstark"],
+  events:["Beziehungen","Gesundheit","Berufung","Neubeginn","Freiheit","Wirkung","Loslassen","Selbstfürsorge"],
+  roles:["Gestalter/in","Mentor/in","Grenzensetzer/in","Versorger/in","Suchende/r","Neustarter/in","freiheitsliebend"],
+  beliefs:["Ich darf an mich denken.","Ich muss nicht mehr für alle da sein.","Ich darf frei wählen.","Ich darf Wirkung entfalten.","Ich darf genießen.","Ich darf mein eigenes Leben gestalten.","Keines davon passt."]
+},
+63:{
+  experience:["frei","ruhig","klar","genussorientiert","verbunden","suchend","neu orientiert"],
+  events:["Familie","Gesundheit","Weitergabe","Reisen","Freiheit","Sinn","Genuss","Neubeginn"],
+  roles:["Mentor/in","Genießer/in","Weitergebende/r","Freie/r","Verbinder/in","Suchende/r","Gestalter/in"],
+  beliefs:["Ich darf genießen.","Ich darf loslassen.","Ich darf weitergeben.","Ich muss nichts mehr beweisen.","Ich darf frei sein.","Ich darf Lebensqualität wählen.","Keines davon passt."]
+}
+};
+
+const guidedPrompts={
+0:{chips:["Familie","Geborgenheit","Nähe","Trennung","Geschwister","Umzug","Krankheit","Angst"],q1:"Welche Menschen oder Situationen gaben dir Sicherheit – oder fehlten?",q2:"Was hast du früh über Nähe, Vertrauen oder Zugehörigkeit gelernt?"},
+7:{chips:["Familie","Schule","Freunde","Leistung","Verantwortung","Zugehörigkeit","Ausgrenzung","Selbstständigkeit"],q1:"Wo hast du dich zugehörig gefühlt – und wo eher nicht?",q2:"Was musstest du vielleicht schon früh können, leisten oder tragen?"},
+14:{chips:["Identität","Freunde","erste Liebe","Schule/Ausbildung","Körper","Freiheit","Konflikte","Ablösung"],q1:"Wann konntest du du selbst sein – und wann hast du dich angepasst?",q2:"Welche Erfahrungen haben dein damaliges Selbstbild geprägt?"},
+21:{chips:["Beruf","Partnerschaft","Wohnen","Geld","Unabhängigkeit","Familie","Aufbruch","Verantwortung"],q1:"Wo hast du begonnen, dein eigenes Leben selbst zu gestalten?",q2:"Welche Entscheidung beeinflusste deinen weiteren Weg besonders?"},
+28:{chips:["Karriere","Familie","Partnerschaft","Aufbau","Pflichten","Erfolg","Kurswechsel","Überforderung"],q1:"Was hast du aufgebaut – und welchen Preis hatte es vielleicht?",q2:"Was entsprach wirklich dir und was eher Erwartungen?"},
+35:{chips:["Beruf","Beziehung","Sinn","Familie","Grenzen","Neuordnung","Krise","Selbstbestimmung"],q1:"Was begann nicht mehr richtig zu passen?",q2:"Wo hast du deine eigenen Bedürfnisse oder Grenzen deutlicher wahrgenommen?"},
+42:{chips:["Veränderung","Freiheit","Beziehung","Beruf","Körper","Neubeginn","Loslassen","Authentizität"],q1:"Welche Wahrheit über dein Leben konntest du nicht mehr übersehen?",q2:"Wo hast du verändert – oder gespürt, dass Veränderung nötig wäre?"},
+49:{chips:["Klarheit","Loslassen","Sinn","Beziehungen","Gesundheit","Erfahrung","Neuausrichtung","Freiheit"],q1:"Was wurde dir klarer als früher?",q2:"Was wolltest du nicht mehr in den nächsten Abschnitt mitnehmen?"},
+56:{chips:["Gestaltung","Freiheit","Beziehungen","Gesundheit","Wirkung","Berufung","Selbstfürsorge","Neubeginn"],q1:"Was möchtest du heute nicht mehr nur für andere oder aus Gewohnheit tun?",q2:"Wenn du frei wählen könntest: Wie soll sich dieser Abschnitt wirklich anfühlen?"},
+63:{chips:["Weitergabe","Freiheit","Lebensqualität","Familie","Erfahrung","Sinn","Gesundheit","Genuss"],q1:"Welche Erfahrungen möchtest du weitergeben – und welche Verpflichtungen loslassen?",q2:"Was bedeutet Lebensqualität ganz persönlich für dich?"}
+};
+
+const themeMap = [
+ {name:"Für andere da sein", words:["andere","helfen","für andere","kümmern","aufopfer","verantwortung","tragen","retten"], impulse:"Achte darauf, wo Verantwortung aus freier Wahl entsteht – und wo du dich selbst dabei verlässt."},
+ {name:"Selbstbestimmung", words:["selbst","freiheit","eigenständig","eigenstaendig","unabhängig","unabhaengig","entscheiden","mein weg","selbstbestimmung"], impulse:"Deine Einträge deuten darauf hin, dass eigene Entscheidungen und innere Freiheit für dich wiederholt wichtig werden."},
+ {name:"Beziehung & Nähe", words:["beziehung","partner","liebe","nähe","naehe","familie","trennung","verbunden","allein"], impulse:"Beziehungen scheinen in mehreren Phasen wichtige Entwicklungspunkte zu markieren."},
+ {name:"Leistung & Funktionieren", words:["leistung","funktionieren","arbeiten","müssen","muessen","pflicht","stark sein","durchhalten","beruf"], impulse:"Prüfe, wann Leistung Ausdruck deiner Stärke ist – und wann sie Bedürfnisse überdeckt."},
+ {name:"Neubeginn & Veränderung", words:["neuanfang","neubeginn","veränder","veraender","umzug","wechsel","neu","aufbruch","loslassen"], impulse:"Veränderung taucht als wiederkehrender Bewegungsimpuls in deiner Geschichte auf."},
+ {name:"Grenzen & Selbstfürsorge", words:["grenze","nein","mich","selbstfürsorge","selbstfuersorge","an mich denken","ruhe","zurückziehen","zurueckziehen"], impulse:"Ein möglicher roter Faden ist die Frage, wie viel Raum du dir selbst zugestehst."},
+ {name:"Sicherheit & Kontrolle", words:["sicherheit","kontrolle","angst","unsicher","stabil","absichern","verlust"], impulse:"Sicherheit und Kontrolle könnten in bestimmten Phasen eine wichtige Schutzfunktion gehabt haben."},
+ {name:"Sinn & Ausrichtung", words:["sinn","berufung","ausrichtung","weg","bedeutung","wirkung","vision","ziel"], impulse:"Mehrere Einträge können auf die wiederkehrende Frage hinweisen, wofür du deine Energie einsetzen möchtest."}
+];
+
+
+const resourceMap = [
+  {name:"Eigenständigkeit", words:["selbstständig","selbststaendig","unabhängig","unabhaengig","selbstbestimmung","mein weg","frei"], text:"Du hast in mehreren Phasen Hinweise auf Eigenständigkeit und die Fähigkeit gezeigt, deinen Weg selbst zu gestalten."},
+  {name:"Verantwortungsfähigkeit", words:["verantwortung","tragen","für andere","fuer andere","kümmern","kuemmern","versorger"], text:"Verantwortung ist in deiner Geschichte nicht nur Belastung – sie kann auch auf Verlässlichkeit und Tragfähigkeit hinweisen."},
+  {name:"Anpassungsfähigkeit", words:["anpassen","angepasst","recht machen","vermitteln","vermittelnd"], text:"Deine Geschichte zeigt, dass du dich auf Menschen und Situationen einstellen kannst. Die Stärke liegt darin, diese Fähigkeit heute bewusster einzusetzen."},
+  {name:"Durchhaltevermögen", words:["durchhalten","funktionieren","stark","leistung","leistungsorientiert"], text:"Du hast offenbar gelernt, auch in fordernden Phasen handlungsfähig zu bleiben. Heute darf diese Stärke mit Selbstfürsorge verbunden werden."},
+  {name:"Mut zur Veränderung", words:["neubeginn","veränder","veraender","neu wählen","neu waehlen","loslassen","aufbruch","wechsel"], text:"Mehrere Hinweise sprechen für die Fähigkeit, Veränderungen zuzulassen und neue Wege zu beginnen."},
+  {name:"Beziehungsfähigkeit", words:["beziehung","familie","nähe","naehe","verbunden","freunde","partner"], text:"Beziehungen und Verbundenheit spielen in deiner Geschichte eine wichtige Rolle und können eine zentrale Ressource sein."},
+  {name:"Klarheit & Reflexion", words:["klar","klarheit","sinn","erkennt","ausrichtung","reflex"], text:"Du scheinst Erfahrungen nicht nur zu durchleben, sondern zunehmend einordnen und daraus neue Entscheidungen ableiten zu können."},
+  {name:"Gestaltungskraft", words:["gestalten","gestaltung","wirkung","vision","ziel","berufung","macher"], text:"Deine Einträge enthalten Hinweise auf den Wunsch und die Fähigkeit, dein Leben aktiv zu gestalten."}
+];
+
+const transitionWords = ["trennung","umzug","neubeginn","neuanfang","wechsel","verlust","krise","kündigung","kuendigung","neuausrichtung","loslassen","veränderung","veraenderung","krankheit","beziehung","beruf"];
+
+
+const changePatterns=[
+{name:"Für andere da sein → Selbstfürsorge",earlier:["recht machen","für andere","fuer andere","versorger","angepasst","vermittelnd","funktionieren","verantwortung"],newer:["an mich denken","selbstfürsorge","selbstfuersorge","grenzen setzen","eigene bedürfnisse","eigene beduerfnisse","frei wählen","frei waehlen"],strength:"Verantwortungsfähigkeit mit bewussteren Grenzen"},
+{name:"Anpassung → Selbstbestimmung",earlier:["anpassen","angepasst","mit schwimmen","mitschwimmen","dazugehören","dazugehoeren","recht machen"],newer:["selbstbestimmung","eigenen weg","mein weg","frei wählen","frei waehlen","authentisch","gestalten"],strength:"Eigenständigkeit und Gestaltungskraft"},
+{name:"Funktionieren → Bewusst gestalten",earlier:["funktionieren","durchhalten","leistung","leistungsorientiert","stark bleiben"],newer:["gestalten","genießen","geniessen","neu ausrichten","neuausrichtung","berufung","wirkung"],strength:"Durchhaltevermögen, das heute zielgerichteter eingesetzt werden kann"},
+{name:"Kontrolle/Sicherheit → Vertrauen/Freiheit",earlier:["sicherheit","kontrolle","stark sein","stark bleiben","verantwortung tragen"],newer:["vertrauen","frei sein","freiheit","loslassen","leichter leben"],strength:"Stabilität verbunden mit größerer innerer Freiheit"},
+{name:"Rückzug/Unsicherheit → Sichtbarkeit",earlier:["allein","unsicher","zurückgezogen","zurueckgezogen","ruhig","außenseiter","aussenseiter"],newer:["zeigen","auffallen","wirkung","authentisch","sichtbar","mentor"],strength:"Tiefe Wahrnehmung verbunden mit wachsender Ausdruckskraft"}
+];
+
+function phaseCorpus(i){
+  return [...(i.experience||[]),...(i.eventsSelected||[]),...(i.roles||[]),...(i.beliefs||[]),i.note||"",i.events||"",i.impact||"",i.pattern||"",i.reset||""].join(" ").toLowerCase();
+}
+
+function detectChange(items){
+  if(!items.length)return null;
+  const sorted=[...items].sort((a,b)=>a.start-b.start);
+  const split=Math.max(1,Math.ceil(sorted.length/2));
+  const early=sorted.slice(0,split),late=sorted.slice(split);
+  const earlyText=early.map(phaseCorpus).join(" ");
+  const lateText=(late.length?late:sorted.slice(-1)).map(phaseCorpus).join(" ");
+  let best=null;
+  changePatterns.forEach(p=>{
+    const earlyHits=p.earlier.filter(w=>earlyText.includes(w));
+    const lateHits=p.newer.filter(w=>lateText.includes(w));
+    const score=earlyHits.length*2+lateHits.length*3;
+    if(score>0&&(!best||score>best.score))best={...p,score,earlyHits,lateHits};
+  });
+  const first=sorted[0],last=sorted[sorted.length-1];
+  return {
+    pattern:best,
+    firstPhase:`${first.start}–${first.start+7}`,
+    lastPhase:`${last.start}–${last.start+7}`,
+    firstText:(first.pattern||first.beliefs?.[0]||first.note||"").trim(),
+    lastText:(last.reset||last.beliefs?.find(x=>x.toLowerCase().includes("darf"))||last.note||last.beliefs?.[0]||"").trim()
+  };
+}
+
+const birthInput=document.getElementById("birthdate");
+const nameInput=document.getElementById("name");
+const result=document.getElementById("result");
+const timeline=document.getElementById("timeline");
+const phaseDetail=document.getElementById("phaseDetail");
+const currentStatus=document.getElementById("currentStatus");
+let currentStart=null,maxStart=84;
+
+let trainingPreviousProfile=null;
+const TRAINING_DATE="1970-01-01";
+
+function trainingDataFor(start){
+  const rows={
+    0:[["geborgen","wechselhaft"],["Familie","Geschwister","Umzug"],["neugierig","früh selbstständig"],["Ich kann mich auf mich verlassen."],"Familie, Veränderungen und erste Selbstständigkeit."],
+    7:[["angepasst","leistungsorientiert"],["Schule","Freunde","frühe Verantwortung"],["verantwortlich","angepasst"],["Ich muss es allen recht machen."],"Schule, Zugehörigkeit und frühe Verantwortung."],
+    14:[["suchend","unsicher"],["Freunde","erste Liebe","Ablösung"],["suchend","angepasst"],["Ich muss dazugehören."],"Suche nach Zugehörigkeit und eigenem Weg."],
+    21:[["aufbruchsstark","verantwortungsvoll"],["Beruf","Partnerschaft","Wohnen","Verantwortung"],["Macher/in","verantwortlich"],["Ich muss etwas aufbauen."],"Beruf, Partnerschaft und Aufbau des eigenen Lebens."],
+    28:[["leistungsorientiert","überfordert"],["Karriere","Familie","Aufbau","Überforderung"],["Versorger/in","Leistungsträger/in"],["Ich muss für alle da sein."],"Viel Verantwortung für Beruf und Familie."],
+    35:[["festgefahren","suchend"],["Beruf","Beziehung","Sinnfrage","Grenzen"],["funktionierend","Suchende/r"],["Ich darf mich selbst wichtiger nehmen."],"Sinnfragen und der Wunsch nach eigener Ausrichtung."],
+    42:[["veränderungsbereit","mutig"],["Veränderung","Neubeginn","Loslassen","Neuausrichtung"],["Neustarter/in","Grenzensetzer/in"],["Ich darf mein Leben ändern."],"Neubeginn, Loslassen und bewusste Veränderung."],
+    49:[["klarer","befreit"],["Loslassen","Sinn","Neuausrichtung","Neubeginn"],["Neuorientierte/r","Loslassende/r"],["Ich darf leichter leben."],"Mehr Klarheit und bewusste Auswahl dessen, was bleiben darf."],
+    56:[["gestaltungsstark","freiheitsliebend"],["Freiheit","Wirkung","Selbstfürsorge","Berufung"],["Gestalter/in","Mentor/in"],["Ich darf mein eigenes Leben gestalten."],"Eigene Ausrichtung, Wirkung und Selbstfürsorge."],
+    63:[["frei","genussorientiert"],["Weitergabe","Freiheit","Sinn","Genuss"],["Mentor/in","Genießer/in"],["Ich darf genießen."],"Erfahrung weitergeben und Lebensqualität bewusst leben."]
+  };
+  const r=rows[start];
+  if(!r)return null;
+  return {experience:r[0],eventsSelected:r[1],roles:r[2],beliefs:r[3],note:r[4],events:r[4],
+          impact:r[2].join(", "),pattern:r[3].join(" / "),reset:r[3].filter(x=>x.toLowerCase().includes("darf")).join(" / "),
+          updatedAt:new Date().toISOString()};
+}
+
+
+function setTrainingUI(loaded){
+  const loadBtn=document.getElementById("trainingLoad");
+  const jumpBtn=document.getElementById("trainingJump");
+  if(loadBtn){
+    loadBtn.textContent=loaded ? "✓ Trainingsdaten geladen" : "Trainingsdaten laden";
+    loadBtn.classList.toggle("training-loaded",loaded);
+  }
+  if(jumpBtn) jumpBtn.classList.toggle("hidden",!loaded);
+}
+
+function loadTraining(){
+  trainingPreviousProfile=localStorage.getItem("ICS_LIFECHRONICLE_PROFILE");
+  nameInput.value="ICS Demo";
+  birthInput.value=TRAINING_DATE;
+  [0,7,14,21,28,35,42,49,56,63].forEach(s=>{
+    const d=trainingDataFor(s);
+    localStorage.setItem(`ICS_LIFECHRONICLE_${TRAINING_DATE}_${s}`,JSON.stringify(d));
+  });
+  localStorage.setItem("ICS_LIFECHRONICLE_KEEP_"+TRAINING_DATE,"Klarheit, Eigenständigkeit und meine gewachsene Erfahrung.");
+  localStorage.setItem("ICS_LIFECHRONICLE_END_"+TRAINING_DATE,"Für alle funktionieren und mich selbst zurückstellen.");
+  localStorage.setItem("ICS_LIFECHRONICLE_CREATE_"+TRAINING_DATE,"Mehr Freiheit, Wirkung, Genuss und bewusste Gestaltung.");
+  localStorage.setItem("ICS_LIFECHRONICLE_LIFECODE_"+TRAINING_DATE,"Ich gestalte mein Leben bewusst aus meiner eigenen Klarheit heraus.");
+  render();
+  loadMainDirection();
+  analyse();
+  document.getElementById("trainingMsg").textContent="✓ Trainingsdaten geladen. Die komplette Auswertung ist bereit.";
+  setTrainingUI(true);
+}
+
+function clearTraining(){
+  [0,7,14,21,28,35,42,49,56,63,70,77,84].forEach(s=>localStorage.removeItem(`ICS_LIFECHRONICLE_${TRAINING_DATE}_${s}`));
+  ["KEEP_","END_","CREATE_","LIFECODE_"].forEach(x=>localStorage.removeItem("ICS_LIFECHRONICLE_"+x+TRAINING_DATE));
+  if(trainingPreviousProfile){
+    localStorage.setItem("ICS_LIFECHRONICLE_PROFILE",trainingPreviousProfile);
+    try{const p=JSON.parse(trainingPreviousProfile);nameInput.value=p.name||"";birthInput.value=p.birthdate||"";}catch(e){}
+  }else{
+    localStorage.removeItem("ICS_LIFECHRONICLE_PROFILE");
+    nameInput.value=""; birthInput.value="";
+  }
+  result.classList.add("hidden");
+  document.getElementById("trainingMsg").textContent="✓ Trainingsdaten entfernt.";
+  setTrainingUI(false);
+}
+
+
+function ageOnDate(birth,today=new Date()){
+  let age=today.getFullYear()-birth.getFullYear();
+  const m=today.getMonth()-birth.getMonth();
+  if(m<0||(m===0&&today.getDate()<birth.getDate()))age--;
+  return Math.max(0,age);
+}
+function phaseForAge(age){
+  const start=Math.floor(age/7)*7;
+  return {start,end:start+7,year:(age-start)+1};
+}
+function keyForPhase(start){
+  return `ICS_LIFECHRONICLE_${birthInput.value||"unknown"}_${start}`;
+}
+function getSaved(start){
+  try{return JSON.parse(localStorage.getItem(keyForPhase(start)))||{}}catch(e){return{}}
+}
+function isDone(start){
+  const d=getSaved(start);
+  return !!(d.events||d.impact||d.pattern||d.reset||d.note||(d.experience&&d.experience.length)||(d.eventsSelected&&d.eventsSelected.length)||(d.roles&&d.roles.length)||(d.beliefs&&d.beliefs.length));
+}
+function saveProfile(){
+  localStorage.setItem("ICS_LIFECHRONICLE_PROFILE",JSON.stringify({
+    name:nameInput.value.trim(),birthdate:birthInput.value
+  }));
+}
+function loadProfile(){
+  try{
+    const p=JSON.parse(localStorage.getItem("ICS_LIFECHRONICLE_PROFILE"));
+    if(p){nameInput.value=p.name||"";birthInput.value=p.birthdate||""}
+  }catch(e){}
+}
+function getContent(start){
+  return phaseContent.find(p=>p.start===start)||{
+    start,end:start+7,title:"Deine Lebensphase",
+    lead:"Nutze diese Phase, um deine tatsächlichen Erfahrungen, Wendepunkte und Erkenntnisse festzuhalten.",
+    topics:"Erfahrungen · Beziehungen · Entscheidungen · Körper · Beruf · Wendepunkte"
+  }
+}
+function updateProgress(){
+  const birth=new Date(birthInput.value+"T12:00:00");
+  const age=ageOnDate(birth),last=Math.floor(age/7)*7,starts=[];
+  for(let s=0;s<=last;s+=7)starts.push(s);
+  const done=starts.filter(isDone).length,total=starts.length||1;
+  document.getElementById("progressBar").style.width=`${Math.round(done/total*100)}%`;
+  document.getElementById("progressText").textContent=`${done} von ${total} bisherigen Lebensphasen bearbeitet`;
+}
+function buildTimeline(){
+  timeline.innerHTML="";
+  for(let s=0;s<=maxStart;s+=7){
+    const el=document.createElement("div");
+    el.className="phase-pill"+(s===currentStart?" current":"")+(isDone(s)?" done":"");
+    el.innerHTML=`${s}–${s+7}<span class="small">${s===currentStart?"aktuell":"öffnen"}</span>`;
+    el.onclick=()=>openPhase(s);
+    timeline.appendChild(el);
+  }
+}
+function render(){
+  if(!birthInput.value){alert("Bitte gib dein Geburtsdatum ein.");return}
+  const birth=new Date(birthInput.value+"T12:00:00");
+  if(birth>new Date()){alert("Das Geburtsdatum liegt in der Zukunft.");return}
+  saveProfile();
+  const age=ageOnDate(birth),current=phaseForAge(age);
+  currentStart=current.start;maxStart=Math.max(84,current.start+7);
+  const n=nameInput.value.trim();
+  currentStatus.innerHTML=`
+    <div class="label">Du bist hier</div>
+    <strong>${n?n+", du":"Du"} befindest dich aktuell in der Lebensphase ${current.start}–${current.end} Jahre.</strong>
+    <div style="margin-top:8px;color:var(--muted)">Aktuelles Zyklusjahr: <b style="color:var(--cream)">Jahr ${current.year} von 7</b></div>`;
+  buildTimeline();updateProgress();result.classList.remove("hidden");
+  openPhase(current.start,false);
+}
+function openPhase(start,scroll=true){
+  const c=getContent(start),saved=getSaved(start);
+  phaseDetail.innerHTML=`
+    <div class="phase-head">
+      <div><div class="label">${start}–${start+7} Jahre</div><h2 class="phase-title">${c.title}</h2></div>
+      ${start===currentStart?'<div class="badge">AKTUELL</div>':''}
+    </div>
+    <p class="lead">${c.lead}</p><div class="topics">${c.topics}</div>
+    ${(()=>{
+      const pc=phaseChoices[start]||phaseChoices[56];
+      const exp=saved.experience||[];
+      const ev=saved.eventsSelected||[];
+      const roles=saved.roles||[];
+      const beliefs=saved.beliefs||[];
+      const mk=(arr,group,sel)=>arr.map(x=>`<button type="button" class="choice-btn ${sel.includes(x)?"selected":""}" data-group="${group}" data-value="${x}">${x}</button>`).join("");
+      return `<div class="flow-hint"><b style="color:var(--gold2)">Einfach auswählen.</b> Du musst nichts perfekt erinnern. Wähle nur, was sich für diese Lebensphase stimmig anfühlt.</div>
+<div class="guided-box">
+        <div class="label">Deine geführte Lebensphase</div>
+        <div style="color:var(--muted);line-height:1.5">Wähle einfach aus, was zu dir passt. Mehrfachauswahl ist möglich.</div>
+
+        <div class="choice-group">
+          <div class="choice-title">Wie hast du diese Zeit überwiegend erlebt?</div>
+          <div class="choice-grid">${mk(pc.experience,"experience",exp)}</div>
+        </div>
+
+        <div class="choice-group">
+          <div class="choice-title">Was war besonders prägend?</div>
+          <div class="choice-grid">${mk(pc.events,"eventsSelected",ev)}</div>
+        </div>
+
+        <div class="choice-group">
+          <div class="choice-title">Welche Rolle hattest du häufig?</div>
+          <div class="choice-grid">${mk(pc.roles,"roles",roles)}</div>
+        </div>
+
+        <div class="choice-group">
+          <div class="choice-title">Welcher Satz passt rückblickend am ehesten?</div>
+          <div class="choice-grid">${mk(pc.beliefs,"beliefs",beliefs)}</div>
+        </div>
+
+        <div class="auto-summary" id="autoSummary">Wähle einige Punkte aus – daraus entsteht automatisch deine Zusammenfassung.</div>
+
+        <div class="optional-note">
+          <label>Optional ergänzen</label><div class="memory-hint">Wenn dir nichts mehr einfällt, lass dieses Feld einfach leer. Deine Auswahl reicht für die Auswertung aus.</div>
+          <textarea id="note" placeholder="Nur wenn du noch etwas Wichtiges hinzufügen möchtest ...">${saved.note||saved.events||""}</textarea>
+        </div>
+      </div>`;
+    })()}
+
+    <div class="actions">
+      <button class="primary" id="savePhase">Phase speichern & weiter</button>
+      <button class="secondary" id="clearPhase">Eingaben löschen</button>
+    </div>
+    <div class="nav-actions">
+      <button class="ghost" id="prevPhase">← Vorherige Phase</button>
+      <button class="ghost" id="nextPhase">Nächste Phase →</button>
+    </div>
+    <div id="savedMsg" class="saved"></div>`;
+
+  function selectedValues(group){
+    return [...document.querySelectorAll(`.choice-btn.selected[data-group="${group}"]`)].map(x=>x.dataset.value);
+  }
+  function refreshAutoSummary(){
+    const exp=selectedValues("experience");
+    const ev=selectedValues("eventsSelected");
+    const roles=selectedValues("roles");
+    const beliefs=selectedValues("beliefs");
+    let parts=[];
+    if(exp.length) parts.push(`Du beschreibst diese Zeit als ${exp.join(", ")}.`);
+    if(ev.length) parts.push(`Besonders prägend waren für dich: ${ev.join(", ")}.`);
+    if(roles.length) parts.push(`Du erkennst dich rückblickend häufig in der Rolle ${roles.join(", ")}.`);
+    if(beliefs.length) parts.push(`Als möglicher innerer Satz passt: ${beliefs.join(" / ")}`);
+    document.getElementById("autoSummary").innerHTML = parts.length ? `<b>Deine Zusammenfassung</b><br>${parts.join(" ")}` : "Wähle einige Punkte aus – daraus entsteht automatisch deine Zusammenfassung.";
+  }
+  document.querySelectorAll(".choice-btn").forEach(btn=>{
+    btn.onclick=()=>{btn.classList.toggle("selected");refreshAutoSummary();}
+  });
+  refreshAutoSummary();
+
+  document.getElementById("savePhase").onclick=()=>{
+    const data={
+      experience:selectedValues("experience"),
+      eventsSelected:selectedValues("eventsSelected"),
+      roles:selectedValues("roles"),
+      beliefs:selectedValues("beliefs"),
+      note:document.getElementById("note")?.value.trim()||"",
+      events:document.getElementById("note")?.value.trim()||"",
+      impact:selectedValues("roles").join(", "),
+      pattern:selectedValues("beliefs").join(" / "),
+      reset:start===currentStart ? selectedValues("beliefs").filter(x=>x.toLowerCase().includes("darf")).join(" / ") : "",
+      updatedAt:new Date().toISOString()
+    };
+    localStorage.setItem(keyForPhase(start),JSON.stringify(data));
+    document.getElementById("savedMsg").textContent="✓ Gespeichert – diese Angaben fließen in deine persönliche Auswertung ein.";
+    buildTimeline();updateProgress();
+  };
+  document.getElementById("clearPhase").onclick=()=>{
+    if(confirm("Eingaben dieser Lebensphase wirklich löschen?")){
+      localStorage.removeItem(keyForPhase(start));openPhase(start,false);buildTimeline();updateProgress()
+    }
+  };
+  document.getElementById("prevPhase").onclick=()=>openPhase(Math.max(0,start-7));
+  document.getElementById("nextPhase").onclick=()=>openPhase(Math.min(maxStart,start+7));
+  if(scroll)phaseDetail.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function esc(s){
+  return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function collectData(){
+  const birth=new Date(birthInput.value+"T12:00:00");
+  const age=ageOnDate(birth),last=Math.floor(age/7)*7;
+  const items=[];
+  for(let s=0;s<=last;s+=7){
+    const d=getSaved(s);
+    if(isDone(s))items.push({start:s,...d});
+  }
+  return items;
+}
+
+function themeEvidenceForPhase(start, themeName){
+  const d=getSaved(start);
+  const values=[
+    ...(d.experience||[]),
+    ...(d.eventsSelected||[]),
+    ...(d.roles||[]),
+    ...(d.beliefs||[])
+  ].filter(Boolean);
+
+  const words={
+    "Neubeginn & Veränderung":["veränderung","neubeginn","umzug","loslassen","neuausrichtung","wechselhaft","krise","trennung"],
+    "Sinn & Ausrichtung":["sinn","suchend","neuausrichtung","berufung","wirkung","eigenen weg","mein weg","gestalten"],
+    "Leistung & Funktionieren":["leistung","leistungsorientiert","funktionier","durchhalten","stark","verantwort","macher","versorger"],
+    "Grenzen & Selbstfürsorge":["grenzen","grenzensetzer","selbstfürsorge","an mich denken","wichtiger nehmen","loslassen","frei wählen"]
+  }[themeName]||[];
+
+  return [...new Set(values.filter(v=>{
+    const low=v.toLowerCase();
+    return words.some(w=>low.includes(w));
+  }))].slice(0,4);
+}
+
+function themeEvidenceHtml(themeName, phases){
+  const rows=(phases||[]).map(phase=>{
+    const start=parseInt(String(phase).split("–")[0],10);
+    if(Number.isNaN(start)) return "";
+    const hits=themeEvidenceForPhase(start,themeName);
+    return hits.length
+      ? `<span class="theme-evidence-row"><b>${esc(String(phase))} Jahre:</b> ${hits.map(esc).join(" · ")}</span>`
+      : "";
+  }).filter(Boolean);
+
+  return rows.length
+    ? `<span class="theme-evidence"><b>Warum dieses Thema erkannt wurde:</b>${rows.join("")}</span>`
+    : "";
+}
+
+function analyse(){
+  const items=collectData();
+  if(items.length<2){
+    document.getElementById("analysisContent").innerHTML=
+      `<div class="empty">Für eine echte Musteranalyse solltest du mindestens zwei Lebensphasen bearbeiten.</div>`;
+    return;
+  }
+  const allText=items.map(i=>[...(i.experience||[]),...(i.eventsSelected||[]),...(i.roles||[]),...(i.beliefs||[]),i.note,i.events,i.impact,i.pattern,i.reset].join(" ")).join(" ").toLowerCase();
+  const scored=themeMap.map(t=>{
+    let score=0,matched=[];
+    t.words.forEach(w=>{
+      const count=(allText.split(w).length-1);
+      if(count>0){score+=count;matched.push(w)}
+    });
+    const phases=items.filter(i=>{
+      const txt=[...(i.experience||[]),...(i.eventsSelected||[]),...(i.roles||[]),...(i.beliefs||[]),i.note,i.events,i.impact,i.pattern,i.reset].join(" ").toLowerCase();
+      return t.words.some(w=>txt.includes(w));
+    }).map(i=>`${i.start}–${i.start+7}`);
+    return {...t,score,phases:[...new Set(phases)]};
+  }).filter(t=>t.score>0).sort((a,b)=>b.score-a.score).slice(0,4);
+
+  const resetTexts=items.map(i=>i.reset).filter(Boolean);
+  const patternTexts=items.map(i=>i.pattern).filter(Boolean);
+  const name=nameInput.value.trim();
+  const top=scored[0];
+
+  const early=items[0],latest=items[items.length-1];
+  const earlyPattern=(early.pattern||early.guided2||early.impact||"").trim();
+  const latestPattern=(latest.pattern||latest.guided2||latest.impact||"").trim();
+  const latestReset=(latest.reset||"").trim();
+  const bridge=earlyPattern&&latestPattern?`<div class="label" style="margin-top:18px">Von damals bis heute</div><div class="quote-card">In deiner Phase ${early.start}–${early.start+7} beschreibst du: „${esc(earlyPattern)}“<br><br>In ${latest.start}–${latest.start+7} taucht bei dir auf: „${esc(latestPattern)}“${latestReset?`<br><br>Heute formulierst du eine neue Richtung: „${esc(latestReset)}“`:""}</div>`:"";
+
+
+  const resourceScores=resourceMap.map(r=>{
+    let score=0;
+    r.words.forEach(w=>{ score += (allText.split(w).length-1); });
+    return {...r,score};
+  }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score).slice(0,4);
+
+  const turningPoints=[];
+  items.forEach(i=>{
+    const txt=[...(i.eventsSelected||[]),i.note,i.events].join(" ").toLowerCase();
+    const hits=transitionWords.filter(w=>txt.includes(w));
+    if(hits.length){
+      const c=getContent(i.start);
+      turningPoints.push({phase:`${i.start}–${i.start+7}`,title:c.title,hits:[...new Set(hits)]});
+    }
+  });
+
+  let intro;
+  if(top){
+    intro=`${name?name+", ":""}in deinen bisherigen Einträgen zeigt sich besonders das Thema „${top.name}“. Es taucht nicht als feststehende Wahrheit auf, sondern als wiederkehrender Hinweis aus deinen eigenen Formulierungen.`;
+  }else{
+    intro=`${name?name+", ":""}deine bisherigen Einträge zeigen bereits mehrere persönliche Wendepunkte. Noch ist kein einzelnes Thema deutlich dominant – das ist völlig in Ordnung.`;
+  }
+
+  const themesHtml=scored.length?`
+    <div class="theme-grid">
+      ${scored.map(t=>`<div class="theme"><b>${esc(t.name)}</b><span>${esc(t.impulse)}${t.phases.length?`<br><br><b>In diesen Lebensphasen zeigt sich dieses Thema:</b><br>${t.phases.map(p=>`${p} Jahre`).join(" · ")}${themeEvidenceHtml(t.name,t.phases)}`:""}</span></div>`).join("")}
+    </div>`:`<div class="empty">Noch keine klaren wiederkehrenden Themen erkannt.</div>`;
+
+  const quote=patternTexts.length?patternTexts[patternTexts.length-1]:
+              resetTexts.length?resetTexts[resetTexts.length-1]:"";
+
+  const current=getContent(currentStart);
+  document.getElementById("analysisContent").innerHTML=`
+    <div class="analysis-hero">
+      <h3>Dein derzeit stärkster roter Faden</h3>
+      <p>${esc(intro)}</p>
+    </div>
+
+    ${bridge}
+    ${themesHtml}
+
+    ${quote?`<div class="label" style="margin-top:18px">Eine deiner eigenen Aussagen</div>
+    <div class="quote-card">„${esc(quote)}“</div>`:""}
+
+    <div class="label" style="margin-top:18px">Dein Wandel</div>
+    ${(()=>{
+      const ch=detectChange(items);
+      if(!ch)return `<div class="empty">Mit weiteren Lebensphasen wird hier deine Entwicklung sichtbar.</div>`;
+      const p=ch.pattern;
+      return `<div class="change-card">
+        <div class="change-row"><div class="mini">Früher</div><div class="value">${ch.firstText?esc(ch.firstText):"Erste Prägungen und Rollen werden sichtbar."}</div></div>
+        <div class="change-row"><div class="mini">Wiederkehrend</div><div class="value">${p?esc(p.name.split("→")[0].trim()):"Noch kein eindeutiger roter Faden."}</div></div>
+        <div class="change-row"><div class="mini">Heute neu</div><div class="value">${ch.lastText?esc(ch.lastText):"Deine neue Ausrichtung entsteht."}</div></div>
+      </div>`;
+    })()}
+
+    <div class="label" style="margin-top:18px">Deine Ressourcen & Stärken</div>
+    ${resourceScores.length?`<div class="premium-grid">${resourceScores.map(r=>`<div class="premium-card"><b>${esc(r.name)}</b><p>${esc(r.text)}</p></div>`).join("")}</div>`:
+    `<div class="empty">Mit weiteren Lebensphasen werden hier persönliche Ressourcen sichtbarer.</div>`}
+
+    <div class="label" style="margin-top:18px">Mögliche Wendepunkte</div>
+    ${turningPoints.length?turningPoints.map(t=>`<div class="turning-point"><strong>${t.phase} · ${esc(t.title)}</strong><div style="margin-top:5px;color:var(--muted)">In deinen Angaben tauchen Hinweise auf Veränderung auf: ${t.hits.map(esc).join(", ")}.</div></div>`).join(""):
+    `<div class="empty">Noch keine deutlichen Wendepunkt-Hinweise erkannt.</div>`}
+
+    <div class="label" style="margin-top:18px">Dein aktuelles Kapitel</div>
+    <div class="analysis-hero">
+      <h3>${currentStart}–${currentStart+7} · ${esc(current.title)}</h3>
+      <p>${esc(current.lead)}</p>
+    </div>
+
+    <div class="label">Dein nächster ICS-Schritt</div>
+    <div class="plan">
+      <div class="plan-item"><span class="n">1</span><b>Erkennen</b><p>Welches wiederkehrende Muster möchtest du in dieser Lebensphase nicht mehr automatisch weiterführen?</p></div>
+      <div class="plan-item"><span class="n">2</span><b>Entscheiden</b><p>Welche deiner bisherigen Erfahrungen möchtest du bewusst als Stärke mitnehmen?</p></div>
+      <div class="plan-item"><span class="n">3</span><b>Gestalten</b><p>Welche eine konkrete Entscheidung würde dein nächstes Kapitel stärker zu deinem eigenen machen?</p></div>
+    </div>
+
+    <div class="field">
+      <label>Mein persönlicher Lebenscode für dieses Kapitel</label>
+      <textarea id="lifeCode" placeholder="Zum Beispiel: Ich entscheide mich dafür, ...">${esc(localStorage.getItem("ICS_LIFECHRONICLE_LIFECODE_"+birthInput.value)||"")}</textarea>
+    </div>
+    <button class="primary no-print" id="saveLifeCode">Meinen Lebenscode speichern</button>
+    <div id="lifeCodeMsg" class="saved"></div>
+
+    <div class="label" style="margin-top:22px">Heute → Morgen</div>
+    <div class="final-three">
+      <div><label>Was darf bleiben?</label><textarea id="keepText" placeholder="Welche Stärke, Beziehung oder Erfahrung möchtest du bewusst mitnehmen?">${esc(localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value)||"")}</textarea></div>
+      <div><label>Was darf enden?</label><textarea id="endText" placeholder="Welches Muster, welche Verpflichtung oder alte Rolle möchtest du nicht weiterführen?">${esc(localStorage.getItem("ICS_LIFECHRONICLE_END_"+birthInput.value)||"")}</textarea></div>
+      <div><label>Was möchtest du gestalten?</label><textarea id="createText" placeholder="Wofür möchtest du dich in deinem nächsten Kapitel entscheiden?">${esc(localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value)||"")}</textarea></div>
+    </div>
+    <button class="primary no-print" id="saveDirection" style="margin-top:12px">Meine Ausrichtung speichern</button>
+    <div id="directionMsg" class="saved"></div>
+  `;
+  document.getElementById("saveLifeCode").onclick=()=>{
+    localStorage.setItem("ICS_LIFECHRONICLE_LIFECODE_"+birthInput.value,document.getElementById("lifeCode").value.trim());
+    document.getElementById("lifeCodeMsg").textContent="✓ Dein persönlicher Lebenscode wurde gespeichert.";
+  };
+  document.getElementById("saveDirection").onclick=()=>{
+    localStorage.setItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value,document.getElementById("keepText").value.trim());
+    localStorage.setItem("ICS_LIFECHRONICLE_END_"+birthInput.value,document.getElementById("endText").value.trim());
+    localStorage.setItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value,document.getElementById("createText").value.trim());
+    document.getElementById("directionMsg").textContent="✓ Deine Ausrichtung für das nächste Kapitel wurde gespeichert.";
+  };
+  document.getElementById("analysisCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function phaseMeaningText(d){
+  const text=[
+    ...(d.beliefs||[]),...(d.roles||[]),...(d.experience||[]),
+    d.pattern||"",d.reset||"",d.note||"",d.impact||""
+  ].join(" ").toLowerCase();
+
+  const out=[];
+  if(/recht machen|für alle da|versorger|angepasst|verantwort|funktionier/.test(text))
+    out.push("Diese Phase könnte mit Verantwortung, Anpassung oder dem Für-andere-da-sein verbunden sein.");
+  if(/unsicher|dazugehören|außenseiter|zurückgezogen|allein/.test(text))
+    out.push("Hier könnte Zugehörigkeit, Sicherheit oder die Frage nach dem eigenen Platz eine Rolle gespielt haben.");
+  if(/leistung|durchhalten|stark|aufbauen|macher/.test(text))
+    out.push("Möglicherweise zeigt sich hier eine starke Leistungs- oder Durchhaltestrategie.");
+  if(/frei|gestalten|authentisch|eigenen weg|mein weg|neuausrichtung|loslassen/.test(text))
+    out.push("Gleichzeitig zeigen deine Angaben Hinweise auf mehr Eigenständigkeit, Freiheit oder bewusste Neuausrichtung.");
+  return (out.length?out.slice(0,2):["Die Bedeutung dieser Phase bestimmst du selbst."]).join(" ");
+}
+
+function phaseTodayQuestion(d){
+  const text=[...(d.beliefs||[]),...(d.roles||[]),d.pattern||"",d.reset||"",d.note||""].join(" ").toLowerCase();
+  if(/recht machen|für alle da|angepasst|versorger|funktionier/.test(text))
+    return "Wo entscheidest du heute bewusster zwischen Verantwortung für andere und Verantwortung für dich selbst?";
+  if(/unsicher|dazugehören|allein|außenseiter/.test(text))
+    return "Was gibt dir heute das Gefühl, wirklich bei dir selbst anzukommen?";
+  if(/leistung|durchhalten|stark|macher/.test(text))
+    return "Wo darf heute weniger Durchhalten und mehr bewusste Wahl entstehen?";
+  if(/frei|gestalten|neuausrichtung|loslassen/.test(text))
+    return "Was möchtest du aus dieser Entwicklung heute ganz konkret weiterleben?";
+  return "Was aus dieser Lebensphase wirkt heute noch nach – und was darf sich verändert haben?";
+}
+
+function buildSummary(){
+  const items=collectData();
+  if(!items.length){
+    document.getElementById("summaryContent").innerHTML=`<div class="empty">Noch keine gespeicherten Lebensphasen vorhanden.</div>`;
+    return;
+  }
+  let blocks="";
+  items.forEach(i=>{
+    const c=getContent(i.start);
+    blocks+=`
+      <section class="summary-phase">
+        <h3>${i.start}–${i.start+7} Jahre · ${esc(c.title)}</h3>
+        ${i.experience&&i.experience.length?`<div class="summary-section"><b>So habe ich diese Zeit erlebt</b><div>${i.experience.map(esc).join(" · ")}</div></div>`:""}
+        ${i.eventsSelected&&i.eventsSelected.length?`<div class="summary-section"><b>Besonders prägend</b><div>${i.eventsSelected.map(esc).join(" · ")}</div></div>`:""}
+        ${i.roles&&i.roles.length?`<div class="summary-section"><b>Meine damalige Rolle</b><div>${i.roles.map(esc).join(" · ")}</div></div>`:""}
+        ${i.beliefs&&i.beliefs.length?`<div class="summary-section"><b>Möglicher innerer Satz</b><div>${i.beliefs.map(esc).join(" · ")}</div></div>`:""}
+        ${i.note?`<div class="summary-section"><b>Meine Ergänzung</b><div>${esc(i.note)}</div></div>`:""}
+        ${i.impact?`<div class="summary-section"><b>Was mich geprägt hat</b><div>${esc(i.impact)}</div></div>`:""}
+        ${i.pattern?`<div class="summary-section"><b>Möglicher roter Faden</b><div>${esc(i.pattern)}</div></div>`:""}
+        ${i.reset?`<div class="summary-section"><b>Was heute anders sein darf</b><div>${esc(i.reset)}</div></div>`:""}
+        <div class="phase-meaning">
+          <div class="phase-meaning-title">Von damals zu heute</div>
+          <p>${esc(phaseMeaningText(i))}</p>
+          <p><b>Reflexionsfrage:</b> ${esc(phaseTodayQuestion(i))}</p>
+        </div>
+      </section>`;
+  });
+  const lifeCode=localStorage.getItem("ICS_LIFECHRONICLE_LIFECODE_"+birthInput.value)||"";
+  const keep=localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value)||"";
+  const end=localStorage.getItem("ICS_LIFECHRONICLE_END_"+birthInput.value)||"";
+  const create=localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value)||"";
+  const direction=(keep||end||create)?`<section class="summary-phase"><h3>Heute → Morgen</h3>
+    ${keep?`<div class="summary-section"><b>Was bleiben darf</b><div>${esc(keep)}</div></div>`:""}
+    ${end?`<div class="summary-section"><b>Was enden darf</b><div>${esc(end)}</div></div>`:""}
+    ${create?`<div class="summary-section"><b>Was ich gestalten möchte</b><div>${esc(create)}</div></div>`:""}
+  </section>`:"";
+  document.getElementById("summaryContent").innerHTML=
+    `${blocks}${lifeCode?`<section class="summary-phase"><h3>Mein aktueller Lebenscode</h3><div class="quote-card">${esc(lifeCode)}</div></section>`:""}${direction}`;
+}
+function backup(){
+  const payload={
+    version:6,
+    profile:{name:nameInput.value.trim(),birthdate:birthInput.value},
+    phases:collectData(),
+    lifeCode:localStorage.getItem("ICS_LIFECHRONICLE_LIFECODE_"+birthInput.value)||"",
+    direction:{
+      keep:localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value)||"",
+      end:localStorage.getItem("ICS_LIFECHRONICLE_END_"+birthInput.value)||"",
+      create:localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value)||""
+    },
+    createdAt:new Date().toISOString()
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="ics-lebenschronik-sicherung.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+document.getElementById("startBtn").onclick=render;
+document.getElementById("trainingLoad").onclick=loadTraining;
+document.getElementById("trainingClear").onclick=clearTraining;
+const trainingJump=document.getElementById("trainingJump");
+if(trainingJump) trainingJump.onclick=()=>{
+  const target=document.getElementById("analysisResult") ||
+               document.getElementById("deepAnalysisResult") ||
+               document.getElementById("buildPremiumReport");
+  if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+};
+document.getElementById("analyseBtn").onclick=analyse;
+document.getElementById("analyseBtn").addEventListener("click",()=>setTimeout(renderLifeEssence,0));
+document.getElementById("analyseBtn").addEventListener("click",()=>setTimeout(renderCombinationAnalysis,0));
+
+function loadMainDirection(){
+  if(!birthInput.value) return;
+  document.getElementById("keepTextMain").value=localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value)||"";
+  document.getElementById("endTextMain").value=localStorage.getItem("ICS_LIFECHRONICLE_END_"+birthInput.value)||"";
+  document.getElementById("createTextMain").value=localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value)||"";
+}
+document.getElementById("saveDirectionMain").onclick=()=>{
+  if(!birthInput.value){
+    document.getElementById("directionMainMsg").textContent="Bitte zuerst dein Geburtsdatum eingeben.";
+    return;
+  }
+  localStorage.setItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value,document.getElementById("keepTextMain").value.trim());
+  localStorage.setItem("ICS_LIFECHRONICLE_END_"+birthInput.value,document.getElementById("endTextMain").value.trim());
+  localStorage.setItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value,document.getElementById("createTextMain").value.trim());
+  document.getElementById("directionMainMsg").textContent="✓ Deine Ausrichtung wurde gespeichert.";
+};
+birthInput.addEventListener("change",loadMainDirection);
+loadMainDirection();
+
+
+function getAllPhaseItems(){
+  const out=[];
+  if(!birthInput.value) return out;
+
+  const birth=new Date(birthInput.value+"T12:00:00");
+  const age=ageOnDate(birth);
+  const last=Math.floor(age/7)*7;
+
+  for(let start=0; start<=last; start+=7){
+    const d=getSaved(start);
+    if(d && (
+      d.note || d.events || d.impact || d.pattern || d.reset ||
+      (d.experience&&d.experience.length) ||
+      (d.eventsSelected&&d.eventsSelected.length) ||
+      (d.roles&&d.roles.length) ||
+      (d.beliefs&&d.beliefs.length)
+    )) out.push({start,...d});
+  }
+  return out;
+}
+
+function premiumThemeScores(items){
+  const txt=items.map(i=>[
+    ...(i.experience||[]),
+    ...(i.eventsSelected||[]),
+    ...(i.roles||[]),
+    ...(i.beliefs||[]),
+    i.note||"",i.events||"",i.impact||"",i.pattern||"",i.reset||""
+  ].join(" ")).join(" ").toLowerCase();
+
+  return themeMap.map(t=>{
+    let score=0;
+    t.words.forEach(w=>{score+=(txt.split(w).length-1)});
+    return {...t,score};
+  }).filter(t=>t.score>0).sort((a,b)=>b.score-a.score).slice(0,4);
+}
+
+function premiumResourceScores(items){
+  const txt=items.map(i=>[
+    ...(i.experience||[]),
+    ...(i.eventsSelected||[]),
+    ...(i.roles||[]),
+    ...(i.beliefs||[]),
+    i.note||"",i.events||"",i.impact||"",i.pattern||"",i.reset||""
+  ].join(" ")).join(" ").toLowerCase();
+
+  return resourceMap.map(r=>{
+    let score=0;
+    r.words.forEach(w=>{score+=(txt.split(w).length-1)});
+    return {...r,score};
+  }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score).slice(0,4);
+}
+
+
+const deepLines=[
+ {title:"Für andere da sein → Selbstfürsorge",early:["recht machen","für alle da","versorger","angepasst","verantwort","funktionier"],late:["an mich denken","selbstfürsorge","grenzen","eigene bedürfnisse","leichter leben"],resource:"Verantwortungsfähigkeit mit bewussteren Grenzen"},
+ {title:"Anpassung → Selbstbestimmung",early:["anpassen","angepasst","dazugehören","recht machen","mit schwimmen","mitschwimmen"],late:["eigenen weg","mein weg","frei wählen","authentisch","gestalten","freiheit"],resource:"Eigenständigkeit und Gestaltungskraft"},
+ {title:"Funktionieren → Bewusst gestalten",early:["funktionier","durchhalten","leistung","stark bleiben","aufbauen"],late:["gestalten","genießen","neu ausrichten","neuausrichtung","berufung","wirkung"],resource:"Durchhaltevermögen, das heute bewusster eingesetzt werden kann"},
+ {title:"Sicherheit → Freiheit & Vertrauen",early:["sicherheit","kontrolle","stark sein","verantwortung tragen"],late:["vertrauen","frei sein","freiheit","loslassen","leichter leben"],resource:"Stabilität verbunden mit wachsender innerer Freiheit"}
+];
+function deepText(i){return [...(i.experience||[]),...(i.eventsSelected||[]),...(i.roles||[]),...(i.beliefs||[]),i.note||"",i.events||"",i.impact||"",i.pattern||"",i.reset||""].join(" ").toLowerCase()}
+function hasDeep(t,a){return a.some(w=>t.includes(w))}
+function renderDeepAnalysis(){
+ const box=document.getElementById("deepAnalysisResult"); if(!box)return;
+ const items=getAllPhaseItems(), found=[];
+ deepLines.forEach(l=>{
+   const e=items.filter(x=>hasDeep(deepText(x),l.early)), n=items.filter(x=>hasDeep(deepText(x),l.late));
+   if(e.length&&n.length&&n[n.length-1].start>=e[0].start) found.push({...l,e,n});
+ });
+ if(!found.length){box.innerHTML='<p class="muted">Mit weiteren ausgefüllten Phasen können hier mögliche Entwicklungslinien sichtbar werden.</p>';return}
+ box.innerHTML=found.slice(0,3).map(x=>{
+   const phases=[...new Set(x.e.map(i=>i.start))].map(s=>`${s}–${s+7}`).join(", ");
+   const ns=x.n[x.n.length-1].start;
+   return `<div class="deep-pattern"><div class="deep-pattern-title">${esc(x.title)}</div><div class="deep-pattern-meta">Frühere Hinweise: ${phases} · neue Richtung: ${ns}–${ns+7}</div><p>In deinen Angaben könnte sich hier eine Entwicklung zeigen: Ein früheres Thema erhält im weiteren Lebensverlauf eine neue Richtung.</p><p><b>Mögliche gewachsene Ressource:</b> ${esc(x.resource)}.</p></div>`
+ }).join("");
+}
+
+
+function prettyTurnWord(word){
+  const map={
+    "umzug":"Umzug","veränderung":"Veränderung","beruf":"Beruf",
+    "beziehung":"Beziehung","neubeginn":"Neubeginn",
+    "neuausrichtung":"Neuausrichtung","loslassen":"Loslassen",
+    "verlust":"Verlust","krise":"Krise","krankheit":"Krankheit"
+  };
+  return map[String(word).toLowerCase()] || (String(word).charAt(0).toUpperCase()+String(word).slice(1));
+}
+
+
+const lifeTrackDefs=[
+ {name:"Beziehung & Zugehörigkeit",words:["beziehung","partnerschaft","freunde","familie","erste liebe","dazugehören","allein","ausgrenzung"],question:"Wie hat sich dein Erleben von Nähe, Zugehörigkeit und Beziehung verändert?"},
+ {name:"Beruf & Wirkung",words:["beruf","karriere","berufung","wirkung","leistung","aufbauen","macher"],question:"Wo wurde aus Leistung zunehmend eine selbst gewählte Form von Wirkung?"},
+ {name:"Verantwortung & Grenzen",words:["verantwort","versorger","für alle da","recht machen","grenzen","selbstfürsorge","funktionier"],question:"Wie hat sich dein Verhältnis zwischen Verantwortung für andere und Verantwortung für dich entwickelt?"},
+ {name:"Freiheit & Selbstbestimmung",words:["freiheit","frei ","frei wählen","eigenen weg","mein weg","gestalten","authentisch","neuausrichtung"],question:"In welchen Phasen wurde dein eigener Weg immer deutlicher?"},
+ {name:"Neubeginn & Veränderung",words:["neubeginn","veränderung","umzug","trennung","loslassen","neuausrichtung","wechsel","krise"],question:"Was hat dir bei Veränderungen geholfen, wieder eine neue Richtung zu finden?"}
+];
+
+function renderLifeTracks(){
+ const box=document.getElementById("lifeTracksResult"); if(!box)return;
+ const items=getAllPhaseItems();
+ const tracks=lifeTrackDefs.map(def=>{
+   const hits=items.filter(i=>def.words.some(w=>deepText(i).includes(w)));
+   return {...def,hits};
+ }).filter(x=>x.hits.length>=2).sort((a,b)=>b.hits.length-a.hits.length).slice(0,4);
+
+ if(!tracks.length){
+   box.innerHTML='<p class="muted">Sobald ein Thema in mehreren Lebensphasen auftaucht, wird hier eine mögliche Lebenslinie sichtbar.</p>';
+   return;
+ }
+ box.innerHTML=tracks.map(t=>{
+   const phases=t.hits.map(i=>`${i.start}–${i.start+7}`).join(" · ");
+   return `<div class="life-track">
+     <div class="life-track-name">${esc(t.name)}</div>
+     <div class="life-track-phases">${phases}</div>
+     <p>Dieses Thema erscheint in ${t.hits.length} deiner ausgefüllten Lebensphasen. Das bedeutet nicht automatisch, dass dieselbe Ursache dahintersteht – aber es kann sich lohnen, die Entwicklung über die Zeit zu betrachten.</p>
+     <p><b>Deine Vertiefungsfrage:</b> ${esc(t.question)}</p>
+   </div>`;
+ }).join("");
+}
+
+
+
+const comboRules=[
+  {
+    title:"Freiheit → bewusste Gestaltung",
+    groups:[
+      ["frei","freiheitsliebend","freiheit","frei wählen"],
+      ["gestalter","gestaltungsstark","eigenes leben gestalten","neuausrichtung"],
+      ["berufung","wirkung","mentor","weitergabe"]
+    ],
+    text:"In dieser Phase könnte Freiheit bei dir nicht nur Rückzug von Verpflichtungen bedeuten, sondern zunehmend mit eigener Gestaltung und Wirkung verbunden sein.",
+    question:"Wo möchtest du deine Freiheit heute ganz konkret in Gestaltung oder Wirkung übersetzen?"
+  },
+  {
+    title:"Verantwortung → Selbstfürsorge & Grenzen",
+    groups:[
+      ["versorger","verantwortlich","für alle da","funktionier"],
+      ["selbstfürsorge","grenzen","grenzensetzer","an mich denken"],
+      ["frei wählen","leichter leben","eigene bedürfnisse","neu ausrichten"]
+    ],
+    text:"Hier könnte sich eine Veränderung zeigen: Verantwortung bleibt eine Stärke, wird aber möglicherweise bewusster mit Grenzen und Selbstfürsorge verbunden.",
+    question:"Welche Verantwortung möchtest du behalten – und welche nicht mehr automatisch übernehmen?"
+  },
+  {
+    title:"Anpassung → eigener Weg",
+    groups:[
+      ["angepasst","anpassen","dazugehören","recht machen"],
+      ["suchend","eigenen weg","mein weg","anders sein"],
+      ["frei","authentisch","gestalten","unabhängig"]
+    ],
+    text:"Die Kombination könnte darauf hinweisen, dass Zugehörigkeit und Anpassung im Laufe der Zeit stärker durch Eigenständigkeit und bewusste Wahl ergänzt werden.",
+    question:"Wo wählst du heute deinen eigenen Weg, auch wenn andere ihn nicht sofort verstehen?"
+  },
+  {
+    title:"Leistung → bewusstere Ausrichtung",
+    groups:[
+      ["leistung","leistungsorientiert","durchhalten","stark bleiben"],
+      ["überfordert","erschöpft","festgefahren"],
+      ["neu ausrichten","neuausrichtung","sinn","berufung","genießen"]
+    ],
+    text:"Leistung und Durchhalten könnten in dieser Phase auf eine Grenze treffen, an der Sinn, Neuorientierung oder Lebensqualität wichtiger werden.",
+    question:"Was wäre heute Erfolg, wenn er nicht nur über Leistung definiert wäre?"
+  },
+  {
+    title:"Veränderung → gewachsene Übergangskompetenz",
+    groups:[
+      ["neubeginn","veränderung","umzug","trennung","krise"],
+      ["loslassen","neuausrichtung","neustarter"],
+      ["mutig","klar","gestaltungsstark","frei"]
+    ],
+    text:"Mehrere Veränderungssignale zusammen könnten zeigen, dass Übergänge nicht nur Belastung waren, sondern auch eine Fähigkeit zum Neuorientieren gestärkt haben.",
+    question:"Welche Erfahrung aus früheren Übergängen hilft dir heute bei Veränderungen?"
+  },
+  {
+    title:"Nähe & Eigenständigkeit",
+    groups:[
+      ["beziehung","partnerschaft","familie","freunde","zugehörigkeit"],
+      ["freiheit","freiheitsliebend","unabhängig","grenzen"],
+      ["verbunden","authentisch","selbstfürsorge","frei wählen"]
+    ],
+    text:"In deinen Angaben könnten Nähe und Eigenständigkeit gleichzeitig wichtig sein. Interessant ist nicht entweder/oder, sondern wie beides nebeneinander Platz bekommt.",
+    question:"Wie sieht Verbindung für dich aus, wenn du dich dabei nicht selbst verlierst?"
+  },
+  {
+    title:"Erfahrung → Weitergabe & Wirkung",
+    groups:[
+      ["mentor","weitergabe","wirkung"],
+      ["klar","gestaltungsstark","verantwortlich","erfahrung"],
+      ["berufung","sinn","verbunden","genuss"]
+    ],
+    text:"Diese Kombination könnte darauf hinweisen, dass eigene Erfahrung zunehmend nicht nur persönlich wichtig ist, sondern auch in Weitergabe, Begleitung oder Wirkung münden darf.",
+    question:"Was aus deiner Erfahrung möchtest du heute weitergeben, ohne daraus eine Pflicht zu machen?"
+  }
+];
+
+function comboPhaseText(item){
+  return [
+    ...(item.experience||[]),
+    ...(item.eventsSelected||[]),
+    ...(item.roles||[]),
+    ...(item.beliefs||[]),
+    item.note||"",item.events||"",item.impact||"",item.pattern||"",item.reset||""
+  ].join(" ").toLowerCase();
+}
+
+function comboGroupHit(text,group){
+  return group.find(word=>text.includes(word));
+}
+
+function renderCombinationAnalysis(){
+  const box=document.getElementById("comboAnalysisResult");
+  if(!box)return;
+
+  const items=getAllPhaseItems();
+  const matches=[];
+
+  items.forEach(item=>{
+    const text=comboPhaseText(item);
+    comboRules.forEach(rule=>{
+      const hits=rule.groups.map(group=>comboGroupHit(text,group)).filter(Boolean);
+      if(hits.length>=2){
+        matches.push({
+          ...rule,
+          start:item.start,
+          hits:[...new Set(hits)],
+          strength:hits.length
+        });
+      }
+    });
+  });
+
+  matches.sort((a,b)=>b.strength-a.strength || b.start-a.start);
+
+  const unique=[];
+  const seen=new Set();
+  matches.forEach(m=>{
+    const key=m.title+"-"+m.start;
+    if(!seen.has(key)){seen.add(key);unique.push(m)}
+  });
+
+  if(!unique.length){
+    box.innerHTML='<p class="muted">Noch ist keine ausreichend klare Kombination sichtbar. Mit weiteren ausgefüllten Phasen kann die Analyse differenzierter werden.</p>';
+    return;
+  }
+
+  box.innerHTML=unique.slice(0,5).map(m=>`
+    <div class="combo-pattern">
+      <div class="combo-pattern-title">${esc(m.title)}</div>
+      <div class="combo-pattern-meta">Lebensphase ${m.start}–${m.start+7} · ${m.strength} zusammenwirkende Ebenen</div>
+      <div class="combo-evidence"><b>Aus deinen Angaben:</b> ${m.hits.map(esc).join(" · ")}</div>
+      <p>${esc(m.text)}</p>
+      <p><b>Reflexionsfrage:</b> ${esc(m.question)}</p>
+    </div>
+  `).join("");
+}
+
+
+function renderLifeEssence(){
+  const box=document.getElementById("lifeEssenceResult");
+  if(!box)return;
+
+  const items=getAllPhaseItems();
+  if(!items.length){
+    box.innerHTML='<p class="muted">Noch sind nicht genügend Lebensphasen gespeichert.</p>';
+    return;
+  }
+
+  const allText=items.map(comboPhaseText).join(" ");
+  const earlyText=items.filter(i=>i.start<=35).map(comboPhaseText).join(" ");
+  const laterText=items.filter(i=>i.start>=35).map(comboPhaseText).join(" ");
+
+  const has=(text,words)=>words.some(w=>text.includes(w));
+
+  const earlyCare=has(earlyText,["angepasst","recht machen","versorger","verantwort","funktionier","leistung"]);
+  const laterSelf=has(laterText,["selbstfürsorge","grenzen","frei wählen","freiheit","gestalter","eigenes leben","neu ausricht"]);
+  const change=has(allText,["neubeginn","veränderung","loslassen","neuausrichtung","umzug","trennung","krise"]);
+  const impact=has(laterText,["wirkung","mentor","weitergabe","berufung","gestaltungsstark"]);
+  const belonging=has(allText,["dazugehören","freunde","familie","beziehung","partnerschaft"]);
+  const autonomy=has(laterText,["freiheit","freiheitsliebend","unabhängig","gestalter","authentisch"]);
+
+  const parts=[];
+
+  if(earlyCare){
+    parts.push({
+      title:"Was du lange getragen haben könntest",
+      text:"In mehreren deiner Angaben spielen Verantwortung, Anpassung, Leistung oder das Für-andere-da-sein eine Rolle. Das könnte ein wichtiger Teil deiner bisherigen Lebensstrategie gewesen sein."
+    });
+  }
+
+  if(laterSelf){
+    parts.push({
+      title:"Was sich verändert haben könnte",
+      text:"In späteren Lebensphasen werden Selbstfürsorge, Grenzen, Freiheit oder eigene Gestaltung deutlicher. Darin könnte ein Wandel von automatischem Funktionieren hin zu bewussterem Wählen sichtbar werden."
+    });
+  }
+
+  if(change){
+    parts.push({
+      title:"Was in dir gewachsen sein könnte",
+      text:"Neubeginn, Veränderung, Loslassen oder Neuausrichtung tauchen in deiner Chronik auf. Daraus könnte eine gewachsene Fähigkeit entstanden sein, Übergänge nicht nur auszuhalten, sondern dein Leben neu auszurichten."
+    });
+  }
+
+  if(belonging && autonomy){
+    parts.push({
+      title:"Was Verbindung heute bedeuten könnte",
+      text:"Zugehörigkeit und Beziehung bleiben Teil deiner Geschichte, gleichzeitig wird Eigenständigkeit sichtbarer. Eine mögliche Entwicklung liegt darin, verbunden zu sein, ohne die eigene Richtung aufzugeben."
+    });
+  } else if(impact){
+    parts.push({
+      title:"Was heute stärker nach außen wirken könnte",
+      text:"Wirkung, Berufung, Gestaltung oder Weitergabe werden in deinen späteren Angaben sichtbarer. Deine Erfahrung könnte heute stärker zu etwas werden, das du bewusst einsetzt oder weitergibst."
+    });
+  }
+
+  const birth=birthInput.value;
+  const keep=localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birth)||"";
+  const end=localStorage.getItem("ICS_LIFECHRONICLE_END_"+birth)||"";
+  const create=localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birth)||"";
+  const lifeCode=localStorage.getItem("ICS_LIFECHRONICLE_LIFECODE_"+birth)||"";
+
+  let finalText="";
+  if(create) finalText=`Deine heutige Ausrichtung lautet: ${create}`;
+  else if(lifeCode) finalText=lifeCode;
+  else if(laterSelf) finalText="Dein nächstes Kapitel könnte weniger vom automatischen Funktionieren und stärker von bewusster eigener Gestaltung geprägt sein.";
+  else finalText="Welche Entscheidung möchtest du aus deiner bisherigen Geschichte heute bewusst treffen?";
+
+  box.innerHTML=parts.slice(0,4).map(p=>`
+    <div class="essence-block">
+      <div class="essence-title">${esc(p.title)}</div>
+      <p>${esc(p.text)}</p>
+    </div>
+  `).join("") + `
+    <div class="essence-final">
+      <b>Dein nächstes Kapitel</b><br>${esc(finalText)}
+      ${end?`<br><br><b>Was enden darf:</b><br>${esc(end)}`:""}
+      ${keep?`<br><br><b>Was bleiben darf:</b><br>${esc(keep)}`:""}
+    </div>`;
+}
+
+function renderLifeCompass(){
+  const box=document.getElementById("lifeCompassResult"); if(!box)return;
+  const items=getAllPhaseItems();
+  if(!items.length){
+    box.innerHTML='<p class="muted">Fülle Lebensphasen aus, damit dein Lebenskompass entstehen kann.</p>'; return;
+  }
+
+  const all=items.map(deepText).join(" ");
+  const lines=[];
+
+  if(/recht machen|für alle da|versorger|angepasst|funktionier/.test(all))
+    lines.push(["Was du getragen hast","Verantwortung für andere, Anpassung oder Funktionieren erscheinen in deiner Geschichte als mögliche wiederkehrende Themen."]);
+  if(/frei|gestalten|eigenen weg|mein weg|authentisch|neuausrichtung/.test(all))
+    lines.push(["Was stärker werden könnte","Eigenständigkeit, Freiheit und bewusste Gestaltung zeigen sich als mögliche Gegenbewegung oder neue Richtung."]);
+  if(/loslassen|neubeginn|veränderung|umzug|trennung|krise/.test(all))
+    lines.push(["Was du bereits kannst","Deine Angaben enthalten mehrere Hinweise auf Veränderung und Neubeginn – eine mögliche Ressource für weitere Übergänge."]);
+  if(/beziehung|partnerschaft|familie|freunde|dazugehören/.test(all))
+    lines.push(["Was Verbindung bedeutet","Beziehung und Zugehörigkeit ziehen sich durch Teile deiner Chronik. Interessant ist, wie sich Nähe und Eigenständigkeit heute miteinander verbinden dürfen."]);
+
+  const create=document.getElementById("directionCreate")?.value?.trim() || "";
+  const end=document.getElementById("directionEnd")?.value?.trim() || "";
+  if(end) lines.push(["Was enden darf",end]);
+  if(create) lines.push(["Wohin du dich ausrichtest",create]);
+
+  if(!lines.length)
+    lines.push(["Deine heutige Wahl","Welche Erfahrung aus deiner Geschichte möchtest du behalten – und welche Richtung möchtest du heute bewusst wählen?"]);
+
+  box.innerHTML='<div class="compass-grid">'+lines.slice(0,6).map(x=>`
+    <div class="compass-item">
+      <div class="compass-kicker">${esc(x[0])}</div>
+      <p>${esc(x[1])}</p>
+    </div>`).join("")+'</div>';
+}
+
+
+function printPremium(mode){
+  buildPremiumReport();
+
+  const report=document.getElementById("premiumReport");
+  const msg=document.getElementById("printMsg");
+  if(!report){
+    if(msg) msg.textContent="Premium-Auswertung konnte nicht erstellt werden.";
+    return;
+  }
+
+  document.body.classList.remove("print-dark","print-light");
+  document.body.classList.add(mode==="light" ? "print-light" : "print-dark");
+
+  if(msg){
+    msg.textContent=mode==="light"
+      ? "Hell / Gold Vorschau ist aktiv."
+      : "Schwarz / Gold Vorschau ist aktiv.";
+  }
+
+  report.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+
+function reportDate(){
+  try{
+    return new Intl.DateTimeFormat("de-DE",{
+      day:"2-digit",month:"2-digit",year:"numeric"
+    }).format(new Date());
+  }catch(e){ return ""; }
+}
+
+function buildPremiumReport(){
+  if(!birthInput.value){
+    alert("Bitte zuerst dein Geburtsdatum eingeben.");
+    return;
+  }
+
+  const items=getAllPhaseItems();
+  if(!items.length){
+    alert("Bitte fülle zuerst mindestens eine Lebensphase aus.");
+    return;
+  }
+
+  const name=(nameInput?.value||"").trim() || "Deine";
+  const age=ageOnDate(new Date(birthInput.value+"T12:00:00"));
+  const current=Math.floor(age/7)*7;
+  const currentContent=getContent(current);
+  const themes=premiumThemeScores(items);
+  const resources=premiumResourceScores(items);
+  const change=detectChange(items);
+  const completedCount=items.length;
+  const totalCount=Math.floor(age/7)+1;
+  const completionPct=Math.min(100,Math.round((completedCount/totalCount)*100));
+
+  const turning=[];
+  items.forEach(i=>{
+    const txt=[...(i.eventsSelected||[]),i.note||"",i.events||""].join(" ").toLowerCase();
+    const hits=[...new Set(transitionWords.filter(w=>txt.includes(w)))];
+    if(hits.length) turning.push({phase:`${i.start}–${i.start+7}`,title:getContent(i.start).title,hits});
+  });
+
+  const keep=localStorage.getItem("ICS_LIFECHRONICLE_KEEP_"+birthInput.value)||"";
+  const end=localStorage.getItem("ICS_LIFECHRONICLE_END_"+birthInput.value)||"";
+  const create=localStorage.getItem("ICS_LIFECHRONICLE_CREATE_"+birthInput.value)||"";
+  const lifeCode=localStorage.getItem("ICS_LIFECHRONICLE_LIFECODE_"+birthInput.value)||"";
+
+  let timeline=items.map(i=>{
+    const c=getContent(i.start);
+    const key=[
+      ...(i.eventsSelected||[]),
+      ...(i.experience||[]),
+      ...(i.roles||[])
+    ].slice(0,5);
+    return `<div class="premium-path-item">
+      <strong>${i.start}–${i.start+7} · ${esc(c.title)}</strong>
+      ${key.length?`<div style="margin-top:6px;color:var(--muted)">${key.map(esc).join(" · ")}</div>`:""}
+    </div>`;
+  }).join("");
+
+  const themeHtml=themes.length
+    ? themes.map(t=>`<span class="premium-tag">${esc(t.name)}</span>`).join("")
+    : `<span class="premium-tag">Noch im Entstehen</span>`;
+
+  const resourceHtml=resources.length
+    ? resources.map(r=>`<span class="premium-tag">${esc(r.name)}</span>`).join("")
+    : `<span class="premium-tag">Noch im Entstehen</span>`;
+
+  const turningHtml=turning.length
+    ? turning.slice(0,6).map(t=>`<div class="premium-path-item"><strong>${t.phase}</strong><div style="margin-top:6px;color:var(--muted)">${t.hits.map(prettyTurnWord).map(esc).join(" · ")}</div></div>`).join("")
+    : `<p>Noch keine deutlichen Wendepunkte erfasst.</p>`;
+
+  const old=items[0];
+  const recent=items[items.length-1];
+  let bridge="";
+  if(old && recent && old.start!==recent.start){
+    const oldText=(old.pattern||old.beliefs?.[0]||old.note||"").trim();
+    const newText=(recent.reset||recent.beliefs?.[0]||recent.note||"").trim();
+    if(oldText || newText){
+      bridge=`<p>Zwischen deiner früheren Phase <b>${old.start}–${old.start+7}</b> und deiner späteren Phase <b>${recent.start}–${recent.start+7}</b> wird eine Entwicklung sichtbar. ${oldText?`Früher beschreibst du sinngemäß: „${esc(oldText)}“. `:""}${newText?`Heute zeigt sich eine neue Richtung: „${esc(newText)}“.`:""}</p>`;
+    }
+  }
+
+  document.getElementById("premiumReport").innerHTML=`
+    <div class="premium-cover">
+      <div>
+        <div class="premium-brand">INNER CODE SYSTEMS</div>
+        <div class="report-rule"></div>
+        <div class="report-kicker">PERSÖNLICHE LEBENSCHRONIK</div>
+        <h1>Deine Reise durch die<br>7-Jahres-Phasen</h1>
+        <div class="name">${esc(name)}</div>
+      </div>
+      <div class="phase">
+        <div class="report-meta">
+          <div class="report-meta-item">
+            <span>Aktuelle Lebensphase</span>
+            <strong>${current}–${current+7} · ${esc(currentContent.title)}</strong>
+          </div>
+          <div class="report-meta-item">
+            <span>Stand</span>
+            <strong>${esc(reportDate())}</strong>
+          </div>
+        </div>
+        <div class="report-progress">
+          <div class="report-progress-line"><div class="report-progress-fill" style="width:${completionPct}%"></div></div>
+          <div class="report-progress-text">${completedCount} von ${totalCount} Lebensphasen reflektiert</div>
+        </div>
+        <div class="report-footer-brand">INNER CODE SYSTEMS · LEBENSCHRONIK</div>
+      </div>
+    </div>
+
+    <div class="report-page">
+      <div class="report-kicker">DEINE AUSWERTUNG</div>
+      <h2 class="report-title">${esc(name)}, deine Geschichte wird sichtbar.</h2>
+      <div class="report-rule"></div>
+      <p class="report-lead">Diese Lebenschronik verbindet ausschließlich das, was du selbst über deine Lebensphasen ausgewählt oder beschrieben hast. Sie legt dich nicht fest. Sie macht mögliche Zusammenhänge, Entwicklungen und Ressourcen sichtbar, damit du bewusster auf dein nächstes Kapitel schauen kannst.</p>
+
+      <div class="report-highlight">
+        Nicht die einzelne Erfahrung entscheidet über deine Geschichte. Spannend wird, was sich wiederholt, was sich verändert – und was du heute neu wählen möchtest.
+      </div>
+
+      <div class="report-kicker" style="margin-top:28px">INHALT</div>
+      <div class="report-toc">
+        <div class="report-toc-row"><div class="report-toc-n">1</div><div class="report-toc-title">Deine Lebenslinie</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">2</div><div class="report-toc-title">Was sich durch dein Leben zieht</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">3</div><div class="report-toc-title">Dein Wandel</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">4</div><div class="report-toc-title">Was in dir gewachsen ist</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">5</div><div class="report-toc-title">Wendepunkte deiner Reise</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">6</div><div class="report-toc-title">Wo du heute stehst</div></div>
+        <div class="report-toc-row"><div class="report-toc-n">7</div><div class="report-toc-title">Heute → Morgen</div></div>
+      </div>
+
+      <div class="report-signature">Reflexionsreport · Inner Code Systems<br>Keine Diagnose und keine festgelegte Aussage über deine Persönlichkeit oder Zukunft.</div>
+      <div class="report-page-number">01</div>
+    </div>
+
+    <div class="report-page">
+      <div class="report-kicker">KAPITEL 1</div>
+      <h2 class="report-title">Deine Lebenslinie</h2>
+      <p class="report-section-intro">Die Lebensphasen, die du bereits mit deinen eigenen Erinnerungen und Einschätzungen gefüllt hast.</p>
+      <div class="premium-path">${timeline}</div>
+      <div class="report-page-number">02</div>
+    </div>
+
+    <div class="report-page">
+      <div class="premium-section" style="padding:0;border:0">
+        <div class="report-kicker">KAPITEL 2</div>
+        <h2 class="report-title">Was sich durch dein Leben zieht</h2>
+        <p class="report-section-intro">Diese Themen tauchen in deinen bisherigen Angaben mehrfach oder besonders deutlich auf.</p>
+        <div class="premium-tags">${themeHtml}</div>
+        ${bridge}
+      </div>
+
+      <div class="premium-section" id="changePremiumSection" style="padding:30px 0 0;border:0">
+        <div class="report-kicker">KAPITEL 3</div>
+        <h2 class="report-title">Dein Wandel</h2>
+        <div id="premiumChangeContent"></div>
+      </div>
+      <div class="report-page-number">03</div>
+    </div>
+
+    <div class="report-page">
+      <div class="premium-section" style="padding:0;border:0">
+        <div class="report-kicker">KAPITEL 4</div>
+        <h2 class="report-title">Was in dir gewachsen ist</h2>
+        <p class="report-section-intro">Neben Herausforderungen zeigt deine Geschichte auch Fähigkeiten, die sich aus deinen Erfahrungen entwickelt haben können.</p>
+        <div class="premium-tags">${resourceHtml}</div>
+      </div>
+
+      <div class="premium-section" style="padding:30px 0 0;border:0">
+        <div class="report-kicker">KAPITEL 5</div>
+        <h2 class="report-title">Wendepunkte deiner Reise</h2>
+        <p class="report-section-intro">Lebensphasen, in denen Veränderung, Neubeginn, Loslassen oder andere markante Übergänge in deinen Angaben auftauchen.</p>
+        <div class="premium-path">${turningHtml}</div>
+      </div>
+      <div class="report-page-number">04</div>
+    </div>
+
+    <div class="report-page">
+      <div class="report-kicker">KAPITEL 6</div>
+      <h2 class="report-title">Wo du heute stehst</h2>
+      <p class="report-lead">Du befindest dich aktuell in der Phase <b>${current}–${current+7}</b> · ${esc(currentContent.title)}.</p>
+      <div class="report-highlight">Der Blick zurück bekommt hier seinen eigentlichen Sinn: Was möchtest du aus deiner Geschichte bewusst weitertragen – und was nicht mehr?</div>
+
+      <div class="premium-final" style="margin:30px -4px 0;border-radius:18px">
+        <div class="report-kicker">KAPITEL 7 · DEIN NÄCHSTES KAPITEL</div>
+        <h2 class="report-title">Heute → Morgen</h2>
+        ${keep?`<p><b>Was bleiben darf</b><br>${esc(keep)}</p>`:""}
+        ${end?`<p><b>Was enden darf</b><br>${esc(end)}</p>`:""}
+        ${create?`<p><b>Was du gestalten möchtest</b><br>${esc(create)}</p>`:""}
+        ${lifeCode?`<blockquote><b>Dein persönlicher Lebenscode</b><br>${esc(lifeCode)}</blockquote>`:""}
+        ${(!keep&&!end&&!create&&!lifeCode)?`<p>Fülle „Heute → Morgen“ und deinen persönlichen Lebenscode aus. Dann erscheint hier deine persönliche Ausrichtung.</p>`:""}
+      </div>
+      <div class="report-page-number">05</div>
+    </div>
+
+    <div class="report-page report-closing">
+      <div style="margin:auto;max-width:600px">
+        <div class="premium-brand">INNER CODE SYSTEMS</div>
+        <div class="report-rule" style="margin:18px auto"></div>
+        <div class="big">Deine Vergangenheit erklärt nicht, wer du sein musst.</div>
+        <div class="big" style="color:var(--gold2)">Sie kann dir zeigen, was du heute bewusst wählen möchtest.</div>
+        <div class="small">Deine Lebenschronik darf sich weiterentwickeln. Neue Erfahrungen, Entscheidungen und Erkenntnisse können jederzeit ergänzt werden.</div>
+        ${lifeCode?`<div class="report-highlight" style="text-align:left;margin-top:28px"><b>Dein Lebenscode</b><br>${esc(lifeCode)}</div>`:""}
+        <div class="report-footer-brand">INNER CODE SYSTEMS · VERSTEHEN · SPÜREN · HANDELN · INTEGRIEREN</div>
+      </div>
+      <div class="report-page-number">06</div>
+    </div>
+  `;
+
+
+  const changeTarget=document.getElementById("premiumChangeContent");
+  if(changeTarget){
+    if(change&&(change.firstText||change.lastText||change.pattern)){
+      const p=change.pattern;
+      let insight="";
+      if(p){
+        insight=`<div class="insight-box"><b>Mögliche Entwicklung:</b> ${esc(p.name)}.<br><br>Daraus kann heute eine Ressource entstehen: <b>${esc(p.strength)}</b>.</div>`;
+      }
+      changeTarget.innerHTML=`
+        <div class="change-card">
+          <div class="change-row"><div class="mini">Früher</div><div class="value">${change.firstText?`In ${change.firstPhase} beschreibst du sinngemäß: „${esc(change.firstText)}“.`:"Deine frühen Einträge zeigen erste Prägungen und Rollen."}</div></div>
+          <div class="change-row"><div class="mini">Wiederkehrend</div><div class="value">${p?`Ein Thema, das sich durch mehrere Angaben ziehen könnte: <b>${esc(p.name.split("→")[0].trim())}</b>.`:"Mit weiteren Lebensphasen wird hier ein möglicher roter Faden sichtbarer."}</div></div>
+          <div class="change-row"><div class="mini">Heute neu</div><div class="value">${change.lastText?`In ${change.lastPhase} formulierst du eine neue Richtung: „${esc(change.lastText)}“.`:"Deine aktuelle Ausrichtung kann hier später als bewusste neue Entscheidung sichtbar werden."}</div></div>
+        </div>${insight}`;
+    }else{
+      changeTarget.innerHTML=`<p>Fülle mindestens zwei Lebensphasen aus. Dann kann hier eine mögliche Entwicklung zwischen früher und heute sichtbar werden.</p>`;
+    }
+  }
+
+  document.getElementById("premiumReport").style.display="block";
+  document.getElementById("premiumReport").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("buildPremiumReport").onclick=buildPremiumReport;
+document.getElementById("printDark").onclick=()=>printPremium("dark");
+document.getElementById("printLight").onclick=()=>printPremium("light");
+document.getElementById("buildPremiumReport").addEventListener("click",renderLifeCompass);
+document.getElementById("buildPremiumReport").addEventListener("click",renderLifeEssence);
+document.getElementById("buildPremiumReport").addEventListener("click",renderCombinationAnalysis);
+document.getElementById("trainingLoad").addEventListener("click",()=>setTimeout(renderLifeCompass,0));
+document.getElementById("trainingLoad").addEventListener("click",()=>setTimeout(renderLifeEssence,0));
+document.getElementById("trainingLoad").addEventListener("click",()=>setTimeout(renderCombinationAnalysis,0));
+if(nameInput.value==="ICS Demo" && birthInput.value===TRAINING_DATE) setTrainingUI(true);
+document.getElementById("buildPremiumReport").addEventListener("click",renderLifeTracks);
+document.getElementById("trainingLoad").addEventListener("click",()=>setTimeout(renderLifeTracks,0));
+
+const chronikBuildBtn=document.getElementById("buildSummary");
+if(chronikBuildBtn){
+  chronikBuildBtn.addEventListener("click",()=>{
+    if(typeof buildChronicle==="function") buildChronicle();
+    const target=document.getElementById("chronicleOutput") ||
+                 document.getElementById("chronicleResult") ||
+                 chronikBuildBtn.parentElement;
+    if(target) setTimeout(()=>target.scrollIntoView({behavior:"smooth",block:"start"}),50);
+  });
+}
+
+document.getElementById("buildPremiumReport").addEventListener("click",renderDeepAnalysis);
+document.getElementById("trainingLoad").addEventListener("click",()=>setTimeout(renderDeepAnalysis,0));
+
+document.getElementById("buildSummary").onclick=buildSummary;
+document.getElementById("backupBtn").onclick=backup;
+document.getElementById("printBtn").onclick=()=>{
+  analyse();
+  buildSummary();
+  buildPremiumReport();
+
+  const report=document.getElementById("premiumReport");
+  if(!report){
+    alert("Die Premium-Auswertung konnte nicht aufgebaut werden.");
+    return;
+  }
+
+  const msg=document.getElementById("printMsg");
+  if(msg) msg.textContent="Premium-Auswertung ist bereit. Der PDF-Export wird separat ergänzt.";
+
+  report.scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+loadProfile();
+if(birthInput.value)render();
+</script>
+</body>
+</html>
