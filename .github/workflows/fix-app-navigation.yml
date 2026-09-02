@@ -1,0 +1,69 @@
+name: Fix ICS app navigation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/fix-app-navigation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Repair early Mein ICS render
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('app.js')
+          text = path.read_text(encoding='utf-8')
+
+          old = """  if (name === 'meinics') {
+            renderLatestEnergyForMeinIcs();
+          }
+          """
+
+          # Current file has the same code with uneven indentation.
+          if old not in text:
+              old = """  if (name === 'meinics') {
+          renderLatestEnergyForMeinIcs();
+          }
+          """
+
+          new = """  if (name === 'meinics') {
+            // Defer until app.js has finished initializing all const bindings.
+            setTimeout(() => {
+              renderLatestEnergyForMeinIcs();
+            }, 0);
+          }
+          """
+
+          if old not in text:
+              raise SystemExit('Expected Mein ICS block not found; no file changed.')
+
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+
+      - name: Check JavaScript syntax
+        run: node --check app.js
+
+      - name: Commit repair
+        run: |
+          if git diff --quiet -- app.js; then
+            echo "No app.js change needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js
+          git commit -m "Fix app button initialization after Mein ICS return"
+          git push
