@@ -1268,6 +1268,7 @@ document
   .forEach((button) => {
 
 if (
+  button.id === 'openIcsMentor' ||
   button.id === 'open99Codes' ||
   button.id === 'openAcademy' ||
   button.id === 'openMeditations' ||
@@ -1305,6 +1306,13 @@ button.id === 'installApp'
     });
 
   });
+
+const openIcsMentor =
+  document.getElementById('openIcsMentor');
+
+openIcsMentor?.addEventListener('click', () => {
+  openView('icsmentor');
+});
 
 // ---------------------------------------------------------
 // APP INSTALLIEREN
