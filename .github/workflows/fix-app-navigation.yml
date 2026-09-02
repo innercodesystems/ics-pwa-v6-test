@@ -1,4 +1,4 @@
-name: Fix ICS app navigation
+name: Fix ICS Mehr navigation
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Repair early Mein ICS render
+      - name: Repair Mehr view placement
         shell: python
         run: |
           from pathlib import Path
@@ -27,30 +27,27 @@ jobs:
           path = Path('app.js')
           text = path.read_text(encoding='utf-8')
 
-          old = """  if (name === 'meinics') {
-            renderLatestEnergyForMeinIcs();
-          }
-          """
+          marker = "// ICS FIX: ensure Mehr view is a direct app-shell child"
+          if marker in text:
+              raise SystemExit(0)
 
-          # Current file has the same code with uneven indentation.
-          if old not in text:
-              old = """  if (name === 'meinics') {
-          renderLatestEnergyForMeinIcs();
-          }
-          """
+          anchor = "const appViews = [...document.querySelectorAll('.app-view')];\n"
+          if anchor not in text:
+              raise SystemExit('Expected appViews declaration not found; no file changed.')
 
-          new = """  if (name === 'meinics') {
-            // Defer until app.js has finished initializing all const bindings.
-            setTimeout(() => {
-              renderLatestEnergyForMeinIcs();
-            }, 0);
-          }
-          """
+          patch = """const appViews = [...document.querySelectorAll('.app-view')];
 
-          if old not in text:
-              raise SystemExit('Expected Mein ICS block not found; no file changed.')
+// ICS FIX: ensure Mehr view is a direct app-shell child
+// If earlier HTML sections were accidentally nested, the Mehr view can stay
+// inside a hidden .app-view even when it receives the active class.
+const appShell = document.querySelector('.app-shell');
+const moreView = document.getElementById('view-mehr');
+if (appShell && moreView && moreView.parentElement !== appShell) {
+  appShell.appendChild(moreView);
+}
+"""
 
-          text = text.replace(old, new, 1)
+          text = text.replace(anchor, patch, 1)
           path.write_text(text, encoding='utf-8')
 
       - name: Check JavaScript syntax
@@ -65,5 +62,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add app.js
-          git commit -m "Fix app button initialization after Mein ICS return"
+          git commit -m "Fix Mehr view navigation"
           git push
