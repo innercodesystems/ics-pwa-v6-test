@@ -1268,7 +1268,7 @@ function showToast(message) {
   showToast.timer =
     window.setTimeout(() => {
       toast.classList.remove('show');
-    }, 2200);
+    }, 4500);
 
 }
 
