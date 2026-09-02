@@ -3665,7 +3665,7 @@
     <small>Welten</small>
   </button>
 
-  <button class="nav-item" data-view="mehr">
+  <button class="nav-item" data-view="mehr" onclick="const v=document.getElementById('view-mehr');const s=document.querySelector('.app-shell');if(v&&s&&v.parentElement!==s)s.appendChild(v);document.querySelectorAll('.app-view').forEach(x=>x.classList.remove('active'));if(v)v.classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));this.classList.add('active');window.scrollTo(0,0);">
     <span>•••</span>
     <small>Mehr</small>
   </button>
