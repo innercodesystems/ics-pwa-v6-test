@@ -1,0 +1,41 @@
+name: Fix ICS Academy new tab
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/fix-academy-new-tab.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Force academy to new tab
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          text=p.read_text(encoding='utf-8')
+          old='<a class="menu-card" id="openAcademy" href="https://innercodesystems.com/ics-akademie" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">'
+          new='<a class="menu-card" id="openAcademy" href="https://innercodesystems.com/ics-akademie" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" onclick="event.preventDefault();event.stopImmediatePropagation();window.open(\'https://innercodesystems.com/ics-akademie\',\'_blank\',\'noopener,noreferrer\');return false;">'
+          if new in text:
+              raise SystemExit(0)
+          if old not in text:
+              raise SystemExit('Academy anchor not found')
+          p.write_text(text.replace(old,new,1),encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          if git diff --quiet -- index.html; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Force ICS Akademie to open in new tab"
+          git push
