@@ -1594,3 +1594,29 @@ textarea:focus {
   text-align: center;
   line-height: 1.4;
 }
+
+/* =========================================================
+   MEIN ICS · GEBURTSDATUM SCHWARZ / GOLD
+   ========================================================= */
+
+#icsBirthDate {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #1a1815;
+  color: #f6f1e7;
+  border: 1px solid #b8924f;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  outline: none;
+  color-scheme: dark;
+}
+
+#icsBirthDate:focus {
+  border-color: #d4a03a;
+  box-shadow: 0 0 0 2px rgba(212, 160, 58, 0.15);
+}
+
+#icsBirthDate::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
