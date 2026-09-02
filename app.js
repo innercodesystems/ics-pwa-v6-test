@@ -3341,6 +3341,21 @@ function renderLatestMentorInsightForMeinIcs() {
 
   const stateText =
     stateLabels[latestInsight.state] || '';
+  const repetitionLevel = Number(
+  latestInsight.repetitionLevel || 1
+);
+
+let repetitionText = '';
+
+if (repetitionLevel === 2) {
+  repetitionText =
+    'Dieses Thema zeigt sich erneut.';
+}
+
+if (repetitionLevel >= 3) {
+  repetitionText =
+    'Ich sehe eine mögliche Verbindung zu früheren Check-ins.';
+}
 
   container.innerHTML = `
     <small>LETZTE MENTOR-ERKENNTNIS</small>
@@ -3353,13 +3368,74 @@ function renderLatestMentorInsightForMeinIcs() {
       </strong>
     </p>
 
-    <p style="margin:6px 0 0; opacity:.78;">
-      ${[
-        stateText,
-        dateText
-      ].filter(Boolean).join(' · ')}
+<p style="margin:6px 0 0; opacity:.78;">
+  ${[
+    stateText,
+    dateText
+  ].filter(Boolean).join(' · ')}
+</p>
+
+${repetitionText
+  ? `
+    <p style="margin:10px 0 0;">
+      ${repetitionText}
     </p>
+  `
+  : ''}
   `;
+}
+
+function getMentorRepetitionLevel(patterns) {
+  if (!Array.isArray(patterns) || patterns.length === 0) {
+    return 1;
+  }
+
+  let history = [];
+
+  try {
+    const stored = JSON.parse(
+      localStorage.getItem(mentorHistoryKey) || '[]'
+    );
+
+    history = Array.isArray(stored) ? stored : [];
+  } catch {
+    return 1;
+  }
+
+  const matchingTimes = history
+    .filter((record) => {
+      if (
+        !record ||
+        record.source !== 'free-mentor' ||
+        !Array.isArray(record.patterns)
+      ) {
+        return false;
+      }
+
+      return record.patterns.some((pattern) =>
+        patterns.includes(pattern)
+      );
+    })
+    .map((record) => new Date(record.createdAt).getTime())
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+
+  let previousOccurrences = 0;
+  let lastOccurrence = null;
+  const conversationWindow = 30 * 60 * 1000;
+
+  matchingTimes.forEach((time) => {
+    if (
+      lastOccurrence === null ||
+      time - lastOccurrence > conversationWindow
+    ) {
+      previousOccurrences += 1;
+    }
+
+    lastOccurrence = time;
+  });
+
+  return previousOccurrences + 1;
 }
 
 function sendContextToIcsMentor() {
@@ -3445,6 +3521,9 @@ window.addEventListener('message', (event) => {
     return;
   }
 
+  const repetitionLevel =
+  getMentorRepetitionLevel(patterns);
+
     const insightSaved = saveMentorChoice({
     id:
       typeof insight.id === 'string'
@@ -3467,14 +3546,26 @@ window.addEventListener('message', (event) => {
     target: 'icsmentor',
     patterns,
     theme,
-    emotion
+    emotion,
+    repetitionLevel
   });
 
-  if (insightSaved) {
-    showToast(
-      'ICS hat diese Erkenntnis in deinem Mentor-Verlauf gespeichert.'
-    );
+if (insightSaved) {
+  let message =
+    'ICS hat diese Erkenntnis in deinem Mentor-Verlauf gespeichert.';
+
+  if (repetitionLevel === 2) {
+    message =
+      'Dieses Thema zeigt sich erneut. ICS behält diese mögliche Wiederholung im Blick.';
   }
+
+  if (repetitionLevel >= 3) {
+    message =
+      'Ich sehe eine mögliche Verbindung zu früheren Check-ins. Du kannst in Ruhe prüfen, ob sie auf dich zutrifft.';
+  }
+
+  showToast(message);
+}
 });
 
 const energySteps = {
