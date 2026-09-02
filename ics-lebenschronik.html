@@ -2136,9 +2136,10 @@ if(birthInput.value)render();
 const backToIcs = document.getElementById('backToIcs');
 
 backToIcs?.addEventListener('click', () => {
-  window.location.href = './index.html';
+  sessionStorage.setItem('ICS_RETURN_VIEW', 'meinics');
+  window.location.href = './index.html?return=meinics';
 });
-
+  
 const goToChronicle = document.getElementById('goToChronicle');
 
 goToChronicle?.addEventListener('click', () => {
