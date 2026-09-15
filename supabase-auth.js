@@ -16,53 +16,95 @@
 
   let coreLoaded = false;
 
-  function installLogoutControl() {
-    if (document.getElementById('icsLogoutButton')) return;
+  async function logout() {
+    const confirmed = window.confirm(
+      'Möchtest du dich wirklich aus deiner ICS Welt abmelden?'
+    );
 
-    const moreView = document.getElementById('view-mehr');
-    const menuList = moreView?.querySelector('.menu-list');
-    if (!menuList) return;
+    if (!confirmed) return;
 
-    const logoutButton = document.createElement('button');
-    logoutButton.type = 'button';
-    logoutButton.className = 'menu-card';
-    logoutButton.id = 'icsLogoutButton';
-    logoutButton.innerHTML = `
-      <div>
-        <small>DEIN ACCOUNT</small>
-        <strong>Abmelden</strong>
-        <p>Beende deine persönliche ICS Sitzung auf diesem Gerät.</p>
-      </div>
-      <b>›</b>
-    `;
+    const logoutButton = document.getElementById('icsAccountLogout');
 
-    logoutButton.addEventListener('click', async () => {
-      const confirmed = window.confirm('Möchtest du dich wirklich aus deiner ICS Welt abmelden?');
-      if (!confirmed) return;
-
+    if (logoutButton) {
       logoutButton.disabled = true;
+      logoutButton.textContent = 'Abmeldung läuft …';
+    }
 
-      const { error } = await client.auth.signOut();
+    const { error } = await client.auth.signOut();
 
-      if (error) {
-        console.error('ICS Abmeldung fehlgeschlagen:', error);
+    if (error) {
+      console.error('ICS Abmeldung fehlgeschlagen:', error);
+
+      if (logoutButton) {
         logoutButton.disabled = false;
-        window.alert('Abmeldung war nicht möglich. Bitte versuche es erneut.');
+        logoutButton.textContent = 'Abmelden';
+      }
+
+      window.alert('Abmeldung war nicht möglich. Bitte versuche es erneut.');
+      return;
+    }
+
+    window.location.reload();
+  }
+
+  window.icsLogout = logout;
+
+  function installAccountControls(user) {
+    const accountButton = document.getElementById('icsAccountButton');
+    const accountEmail = document.getElementById('icsAccountEmail');
+    const accountLogout = document.getElementById('icsAccountLogout');
+    const backFromAccount = document.getElementById('backFromAccount');
+
+    if (accountEmail) {
+      accountEmail.textContent = user?.email || '–';
+    }
+
+    accountButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if (typeof window.openView === 'function') {
+        window.openView('account');
         return;
       }
 
-      window.location.reload();
+      document.querySelectorAll('.app-view').forEach((view) => {
+        view.classList.toggle('active', view.id === 'view-account');
+      });
+
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.classList.remove('active');
+      });
+
+      window.scrollTo(0, 0);
     });
 
-    menuList.appendChild(logoutButton);
+    backFromAccount?.addEventListener('click', () => {
+      if (typeof window.openView === 'function') {
+        window.openView('mehr');
+        return;
+      }
+
+      document.querySelectorAll('.app-view').forEach((view) => {
+        view.classList.toggle('active', view.id === 'view-mehr');
+      });
+
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.classList.toggle('active', item.dataset.view === 'mehr');
+      });
+
+      window.scrollTo(0, 0);
+    });
+
+    accountLogout?.addEventListener('click', logout);
   }
 
-  function loadCoreApp() {
+  function loadCoreApp(user) {
     if (coreLoaded) return;
     coreLoaded = true;
 
     document.getElementById('ics-auth-gate')?.remove();
-    installLogoutControl();
+    installAccountControls(user);
 
     const script = document.createElement('script');
     script.src = 'app-core.js';
@@ -78,7 +120,10 @@
       .upsert({ id: user.id }, { onConflict: 'id' });
 
     if (error) {
-      console.warn('ICS Profil konnte noch nicht synchronisiert werden:', error.message);
+      console.warn(
+        'ICS Profil konnte noch nicht synchronisiert werden:',
+        error.message
+      );
     }
   }
 
@@ -127,14 +172,15 @@
       });
 
       if (error) {
-        message.textContent = 'Anmeldung nicht möglich. Bitte E-Mail und Passwort prüfen.';
+        message.textContent =
+          'Anmeldung nicht möglich. Bitte E-Mail und Passwort prüfen.';
         button.disabled = false;
         button.textContent = 'Meine ICS Welt öffnen';
         return;
       }
 
       await ensureProfile(data.user);
-      loadCoreApp();
+      loadCoreApp(data.user);
     });
   }
 
@@ -142,12 +188,15 @@
     const { data, error } = await client.auth.getSession();
 
     if (error) {
-      console.warn('ICS Sitzung konnte nicht gelesen werden:', error.message);
+      console.warn(
+        'ICS Sitzung konnte nicht gelesen werden:',
+        error.message
+      );
     }
 
     if (data?.session?.user) {
       await ensureProfile(data.session.user);
-      loadCoreApp();
+      loadCoreApp(data.session.user);
       return;
     }
 
