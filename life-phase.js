@@ -1,6 +1,6 @@
 // =========================================================
 // ICS LEBENSPHASE · AUSFÜHRLICHE AUSWERTUNG
-// Ergänzt die bestehende 7-Jahres-Zyklus-Anzeige in Mein ICS.
+// Behält Eingabe + Button nach jeder Auswertung sichtbar.
 // =========================================================
 
 (() => {
@@ -73,6 +73,18 @@
     return { age, cycleStart, cycleEnd, yearInCycle };
   }
 
+  function birthDateControls(value) {
+    return `
+      <div class="ics-birthdate-input" style="margin-top:20px;">
+        <label for="icsBirthDate">Geburtsdatum</label>
+        <input type="date" id="icsBirthDate" value="${value || ''}">
+        <button type="button" class="gold-button" id="saveIcsBirthDate">
+          Lebensphase anzeigen
+        </button>
+      </div>
+    `;
+  }
+
   function renderLifePhase(value) {
     const target = document.getElementById('icsLifeCycleOverview');
     const cycle = calculateCycle(value);
@@ -119,10 +131,14 @@
         <p style="margin:18px 0 0; font-size:.82rem; opacity:.58; line-height:1.45;">
           Die 7-Jahres-Zyklen sind ein ICS-Reflexionsmodell zur persönlichen Orientierung – keine wissenschaftliche Prognose oder festgelegte Lebensdeutung.
         </p>
+
+        ${birthDateControls(value)}
       </div>
     `;
   }
 
+  // Capture-Phase: Diese Auswertung läuft vor dem alten Kurz-Auswertungs-Handler
+  // in app-core.js. So kann dieser den kompletten Tool-Bereich nicht mehr ersetzen.
   document.addEventListener('click', (event) => {
     const button = event.target.closest('#saveIcsBirthDate');
     if (!button) return;
@@ -131,21 +147,31 @@
     const value = input?.value || '';
     if (!value) return;
 
-    localStorage.setItem(BIRTHDATE_KEY, value);
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
 
-    // Die bestehende App darf ihren Zyklus zuerst berechnen;
-    // danach ersetzt ICS die Kurzfassung durch die ausführliche Auswertung.
-    window.setTimeout(() => renderLifePhase(value), 0);
-  });
+    localStorage.setItem(BIRTHDATE_KEY, value);
+    renderLifePhase(value);
+  }, true);
 
   const timer = window.setInterval(() => {
     const input = document.getElementById('icsBirthDate');
     const target = document.getElementById('icsLifeCycleOverview');
 
-    if (!input || !target) return;
+    if (!target) return;
 
     const saved = localStorage.getItem(BIRTHDATE_KEY);
-    if (saved && !input.value) input.value = saved;
+
+    // Repariert auch einen bereits durch die alte Kurz-Auswertung ersetzten Block.
+    if (!input && saved) {
+      target.innerHTML = `
+        <small>Deine aktuelle Lebensphase erscheint hier.</small>
+        ${birthDateControls(saved)}
+      `;
+    } else if (input && saved && !input.value) {
+      input.value = saved;
+    }
 
     window.clearInterval(timer);
   }, 250);
