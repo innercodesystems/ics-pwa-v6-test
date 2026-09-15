@@ -16,11 +16,53 @@
 
   let coreLoaded = false;
 
+  function installLogoutControl() {
+    if (document.getElementById('icsLogoutButton')) return;
+
+    const moreView = document.getElementById('view-mehr');
+    const menuList = moreView?.querySelector('.menu-list');
+    if (!menuList) return;
+
+    const logoutButton = document.createElement('button');
+    logoutButton.type = 'button';
+    logoutButton.className = 'menu-card';
+    logoutButton.id = 'icsLogoutButton';
+    logoutButton.innerHTML = `
+      <div>
+        <small>DEIN ACCOUNT</small>
+        <strong>Abmelden</strong>
+        <p>Beende deine persönliche ICS Sitzung auf diesem Gerät.</p>
+      </div>
+      <b>›</b>
+    `;
+
+    logoutButton.addEventListener('click', async () => {
+      const confirmed = window.confirm('Möchtest du dich wirklich aus deiner ICS Welt abmelden?');
+      if (!confirmed) return;
+
+      logoutButton.disabled = true;
+
+      const { error } = await client.auth.signOut();
+
+      if (error) {
+        console.error('ICS Abmeldung fehlgeschlagen:', error);
+        logoutButton.disabled = false;
+        window.alert('Abmeldung war nicht möglich. Bitte versuche es erneut.');
+        return;
+      }
+
+      window.location.reload();
+    });
+
+    menuList.appendChild(logoutButton);
+  }
+
   function loadCoreApp() {
     if (coreLoaded) return;
     coreLoaded = true;
 
     document.getElementById('ics-auth-gate')?.remove();
+    installLogoutControl();
 
     const script = document.createElement('script');
     script.src = 'app-core.js';
