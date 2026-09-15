@@ -214,12 +214,43 @@
   }
 
   // -------------------------------------------------------
-  // MEIN ICS · LETZTER CLOUD-JOURNAL-EINTRAG
+  // MEIN ICS · EIGENER CLOUD-AKTIVITÄTSBEREICH
+  // Bestehende lokale Entwicklungsanzeige bleibt unangetastet.
   // -------------------------------------------------------
 
-  async function renderLatestCloudJournalForMeinIcs() {
-    const target =
+  function getCloudActivityTarget() {
+    const existing =
+      document.getElementById('icsLatestCloudActivity');
+
+    if (existing) {
+      return existing;
+    }
+
+    const overview =
+      document.getElementById('icsPersonalOverview');
+
+    const localDevelopment =
       document.getElementById('icsLatestEnergy');
+
+    if (!overview || !localDevelopment) {
+      return null;
+    }
+
+    const target = document.createElement('div');
+    target.id = 'icsLatestCloudActivity';
+    target.style.marginTop = '16px';
+    target.style.paddingTop = '16px';
+    target.style.borderTop = '1px solid rgba(184,146,79,.28)';
+    target.innerHTML =
+      '<small>Deine gespeicherten ICS-Aktivitäten erscheinen hier.</small>';
+
+    localDevelopment.insertAdjacentElement('afterend', target);
+
+    return target;
+  }
+
+  async function renderLatestCloudJournalForMeinIcs() {
+    const target = getCloudActivityTarget();
 
     if (!target) {
       return false;
@@ -229,12 +260,14 @@
       await getLatestToolResult('journal');
 
     if (!latest.ok) {
+      target.innerHTML =
+        '<small>Cloud-Aktivitäten konnten gerade nicht geladen werden.</small>';
       return false;
     }
 
     if (!latest.data) {
       target.innerHTML =
-        '<small>Deine letzten ICS-Aktivitäten erscheinen hier.</small>';
+        '<small>Noch keine Journal-Aktivität in deiner Cloud gespeichert.</small>';
       return true;
     }
 
@@ -253,7 +286,7 @@
     );
 
     target.innerHTML = `
-      <div style="margin-top:10px;">
+      <div>
         <small style="display:block; color:#b8924f; letter-spacing:.08em; text-transform:uppercase;">
           Letzte Cloud-Aktivität · Journal
         </small>
@@ -276,8 +309,7 @@
       return true;
     }
 
-    const target =
-      document.getElementById('icsLatestEnergy');
+    const target = getCloudActivityTarget();
 
     if (!target) {
       return false;
@@ -357,7 +389,10 @@
 
         if (!saved.ok) {
           lastSyncedJournalId = null;
+          return;
         }
+
+        renderLatestCloudJournalForMeinIcs();
       }, 0);
     });
 
