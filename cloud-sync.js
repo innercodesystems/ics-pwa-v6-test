@@ -10,6 +10,7 @@
 
   let journalInstalled = false;
   let actionInstalled = false;
+  let meinIcsCloudInstalled = false;
 
   let lastSyncedJournalId = null;
   let lastSyncedActionId = null;
@@ -183,6 +184,133 @@
     }
   }
 
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function formatCloudDate(value) {
+    if (!value) {
+      return '';
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+
+    return new Intl.DateTimeFormat('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(date);
+  }
+
+  // -------------------------------------------------------
+  // MEIN ICS · LETZTER CLOUD-JOURNAL-EINTRAG
+  // -------------------------------------------------------
+
+  async function renderLatestCloudJournalForMeinIcs() {
+    const target =
+      document.getElementById('icsLatestEnergy');
+
+    if (!target) {
+      return false;
+    }
+
+    const latest =
+      await getLatestToolResult('journal');
+
+    if (!latest.ok) {
+      return false;
+    }
+
+    if (!latest.data) {
+      target.innerHTML =
+        '<small>Deine letzten ICS-Aktivitäten erscheinen hier.</small>';
+      return true;
+    }
+
+    const result = latest.data.result || {};
+    const text = String(result.text || '').trim();
+    const types = Array.isArray(result.types)
+      ? result.types.filter(Boolean)
+      : [];
+
+    const label = types.length
+      ? types.join(' · ')
+      : 'Dein Check-in';
+
+    const date = formatCloudDate(
+      result.date || latest.data.created_at
+    );
+
+    target.innerHTML = `
+      <div style="margin-top:10px;">
+        <small style="display:block; color:#b8924f; letter-spacing:.08em; text-transform:uppercase;">
+          Letzte Cloud-Aktivität · Journal
+        </small>
+        <strong style="display:block; margin-top:8px; color:#f6f1e7;">
+          ${escapeHtml(label)}
+        </strong>
+        ${text ? `<p style="margin:8px 0 0;">${escapeHtml(text)}</p>` : ''}
+        ${date ? `<small style="display:block; margin-top:8px; opacity:.72;">${escapeHtml(date)}</small>` : ''}
+      </div>
+    `;
+
+    return true;
+  }
+
+  window.icsRenderLatestCloudJournalForMeinIcs =
+    renderLatestCloudJournalForMeinIcs;
+
+  function installMeinIcsCloudView() {
+    if (meinIcsCloudInstalled) {
+      return true;
+    }
+
+    const target =
+      document.getElementById('icsLatestEnergy');
+
+    if (!target) {
+      return false;
+    }
+
+    meinIcsCloudInstalled = true;
+
+    document.addEventListener('click', (event) => {
+      const meinIcsTrigger = event.target.closest(
+        '[data-view="meinics"]'
+      );
+
+      if (!meinIcsTrigger) {
+        return;
+      }
+
+      window.setTimeout(() => {
+        renderLatestCloudJournalForMeinIcs();
+      }, 50);
+    });
+
+    if (
+      new URLSearchParams(window.location.search)
+        .get('view') === 'meinics'
+    ) {
+      window.setTimeout(() => {
+        renderLatestCloudJournalForMeinIcs();
+      }, 100);
+    }
+
+    return true;
+  }
+
   // -------------------------------------------------------
   // JOURNAL
   // -------------------------------------------------------
@@ -308,7 +436,14 @@
     const actionReady =
       installActionSync();
 
-    if (journalReady && actionReady) {
+    const meinIcsReady =
+      installMeinIcsCloudView();
+
+    if (
+      journalReady &&
+      actionReady &&
+      meinIcsReady
+    ) {
       window.clearInterval(timer);
     }
   }, 250);
