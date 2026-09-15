@@ -137,8 +137,9 @@
     `;
   }
 
-  // Capture-Phase: Diese Auswertung läuft vor dem alten Kurz-Auswertungs-Handler
-  // in app-core.js. So kann dieser den kompletten Tool-Bereich nicht mehr ersetzen.
+  // Den Wert sichern, dann die bestehende Kurz-Auswertung in app-core.js
+  // vollständig auslaufen lassen. Anschließend rendert ICS zuverlässig
+  // die ausführliche Auswertung inklusive Eingabe und Button neu.
   document.addEventListener('click', (event) => {
     const button = event.target.closest('#saveIcsBirthDate');
     if (!button) return;
@@ -147,12 +148,8 @@
     const value = input?.value || '';
     if (!value) return;
 
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-
     localStorage.setItem(BIRTHDATE_KEY, value);
-    renderLifePhase(value);
+    window.setTimeout(() => renderLifePhase(value), 20);
   }, true);
 
   const timer = window.setInterval(() => {
@@ -163,7 +160,6 @@
 
     const saved = localStorage.getItem(BIRTHDATE_KEY);
 
-    // Repariert auch einen bereits durch die alte Kurz-Auswertung ersetzten Block.
     if (!input && saved) {
       target.innerHTML = `
         <small>Deine aktuelle Lebensphase erscheint hier.</small>
