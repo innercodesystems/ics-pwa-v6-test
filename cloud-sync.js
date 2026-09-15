@@ -1,6 +1,7 @@
 // =========================================================
 // ICS CLOUD SYNC
 // Journal + ACTION sicher dem eingeloggten Nutzer zuordnen
+// Persönliche Tool-Ergebnisse sicher aus der Cloud lesen
 // =========================================================
 
 (() => {
@@ -13,11 +14,14 @@
   let lastSyncedJournalId = null;
   let lastSyncedActionId = null;
 
-  async function saveToolResult(toolId, toolName, result) {
+  async function getCurrentUser() {
     const client = window.icsSupabase;
 
     if (!client) {
-      return { ok: false };
+      return {
+        ok: false,
+        user: null
+      };
     }
 
     const { data: sessionData, error: sessionError } =
@@ -28,12 +32,33 @@
         'ICS Sitzung konnte nicht gelesen werden:',
         sessionError.message
       );
+
+      return {
+        ok: false,
+        user: null,
+        error: sessionError
+      };
+    }
+
+    const user = sessionData?.session?.user || null;
+
+    return {
+      ok: Boolean(user?.id),
+      user
+    };
+  }
+
+  async function saveToolResult(toolId, toolName, result) {
+    const client = window.icsSupabase;
+
+    if (!client) {
       return { ok: false };
     }
 
-    const user = sessionData?.session?.user;
+    const currentUser = await getCurrentUser();
+    const user = currentUser.user;
 
-    if (!user?.id) {
+    if (!currentUser.ok || !user?.id) {
       return { ok: false };
     }
 
@@ -66,8 +91,85 @@
     };
   }
 
-  // Zentrale Schnittstelle für weitere ICS Bereiche
+  async function getToolResults(options = {}) {
+    const client = window.icsSupabase;
+
+    if (!client) {
+      return {
+        ok: false,
+        data: []
+      };
+    }
+
+    const currentUser = await getCurrentUser();
+    const user = currentUser.user;
+
+    if (!currentUser.ok || !user?.id) {
+      return {
+        ok: false,
+        data: []
+      };
+    }
+
+    const toolId =
+      typeof options.toolId === 'string'
+        ? options.toolId.trim()
+        : '';
+
+    const parsedLimit = Number(options.limit);
+    const limit = Number.isFinite(parsedLimit)
+      ? Math.min(Math.max(Math.trunc(parsedLimit), 1), 100)
+      : 50;
+
+    let query = client
+      .from('tool_results')
+      .select('id,user_id,tool_id,tool_name,result,created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (toolId) {
+      query = query.eq('tool_id', toolId);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.warn(
+        'ICS Cloud Lesen:',
+        error.message
+      );
+
+      return {
+        ok: false,
+        data: [],
+        error
+      };
+    }
+
+    return {
+      ok: true,
+      data: Array.isArray(data) ? data : []
+    };
+  }
+
+  async function getLatestToolResult(toolId) {
+    const result = await getToolResults({
+      toolId,
+      limit: 1
+    });
+
+    return {
+      ok: result.ok,
+      data: result.data[0] || null,
+      error: result.error
+    };
+  }
+
+  // Zentrale Schnittstellen für weitere ICS Bereiche
   window.icsSaveToolResult = saveToolResult;
+  window.icsGetToolResults = getToolResults;
+  window.icsGetLatestToolResult = getLatestToolResult;
 
   function readLocalArray(key) {
     try {
