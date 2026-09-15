@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v5';
+const CACHE = 'ics-v6-test-v6';
 
 const ASSETS = [
   './',
@@ -48,6 +48,8 @@ self.addEventListener('fetch', event => {
   const alwaysFresh =
     url.pathname.endsWith('/styles.css') ||
     url.pathname.endsWith('/app.js') ||
+    url.pathname.endsWith('/app-core.js') ||
+    url.pathname.endsWith('/supabase-auth.js') ||
     url.pathname.endsWith('/99-inner-codes.html');
 
   if (alwaysFresh) {
