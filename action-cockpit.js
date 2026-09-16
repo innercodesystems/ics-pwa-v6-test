@@ -1,6 +1,7 @@
 // =========================================================
 // ICS · ACTION COCKPIT BRIDGE
-// Zeigt in Mein ICS → Deine ACTION zuerst den aktuell offenen Schritt.
+// Zeigt in Mein ICS → Deine ACTION zuerst den aktuell offenen Schritt
+// und darunter die zuletzt umgesetzte & integrierte ACTION.
 // Die bestehende ACTION-Logik bleibt die Quelle der Wahrheit.
 // =========================================================
 (() => {
@@ -14,6 +15,18 @@
     card.parentNode?.insertBefore(placeholder, card);
   }
 
+  function prepareIntegration(content, card) {
+    const integration = document.getElementById('icsLatestActionIntegration');
+    if (!integration || integration === card) return;
+
+    // Falls das Cockpit die Integration bereits in die Detailansicht verschoben hat,
+    // bleibt sie dort und bekommt nur die richtige visuelle Reihenfolge.
+    if (integration.parentElement !== content) content.appendChild(integration);
+    integration.style.marginTop = card && !card.hidden ? '28px' : '0';
+    integration.style.paddingTop = card && !card.hidden ? '24px' : '';
+    integration.style.borderTop = card && !card.hidden ? '1px solid rgba(184,146,79,.28)' : '';
+  }
+
   function moveCurrentActionIntoDetail() {
     const detail = document.getElementById('icsCockpitDetail');
     const content = detail?.querySelector('#icsCockpitDetailContent');
@@ -23,11 +36,13 @@
     ensurePlaceholder(card);
 
     // Die bestehende App-Core-Logik hat den aktuell offenen Schritt bereits gerendert.
-    // Ist kein Schritt offen, bleibt die Karte verborgen.
+    // Ist kein Schritt offen, bleibt die Karte verborgen und die Integration steht allein.
     if (!card.hidden) {
       content.insertBefore(card, content.firstChild);
       card.style.marginTop = '0';
     }
+
+    prepareIntegration(content, card);
     return true;
   }
 
