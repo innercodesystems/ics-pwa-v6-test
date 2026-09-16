@@ -235,15 +235,36 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
+  function openRequestedReturnDetail() {
+    const detail = sessionStorage.getItem('ICS_RETURN_DETAIL');
+    if (!detail) return false;
+    sessionStorage.removeItem('ICS_RETURN_DETAIL');
+    if (detail === 'life') {
+      if (typeof window.openView === 'function') window.openView('meinics');
+      openDetail('life');
+      return true;
+    }
+    return false;
+  }
+
   document.addEventListener('click', event => {
     const detailButton = event.target.closest('[data-ics-detail]');
     if (detailButton) { openDetail(detailButton.dataset.icsDetail); return; }
     if (event.target.closest('#icsCockpitBack')) { backHome(); return; }
-    if (event.target.closest('#icsOpenLifeChronicle')) { window.location.href = './ics-lebenschronik.html'; return; }
+    if (event.target.closest('#icsOpenLifeChronicle')) {
+      sessionStorage.setItem('ICS_RETURN_DETAIL', 'life');
+      window.location.href = './ics-lebenschronik.html';
+      return;
+    }
     if (event.target.closest('[data-view="meinics"]')) window.setTimeout(renderHome,180);
   });
 
-  const timer = window.setInterval(() => { if (renderHome()) window.clearInterval(timer); },300);
+  const timer = window.setInterval(() => {
+    if (renderHome()) {
+      window.clearInterval(timer);
+      window.setTimeout(openRequestedReturnDetail, 80);
+    }
+  },300);
   window.setTimeout(() => window.clearInterval(timer),15000);
   window.icsOrganizeMeinIcsCockpit = renderHome;
 })();
