@@ -81,4 +81,5 @@
   const timer = setInterval(() => { if (install()) clearInterval(timer); },250);
   setTimeout(() => clearInterval(timer),15000);
   window.icsRenderLatestActionIntegration = renderLatestIntegrationForMeinIcs;
+  window.icsShowActionReflection = showReflection;
 })();
