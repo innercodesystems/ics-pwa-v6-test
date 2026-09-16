@@ -1,7 +1,7 @@
 // =========================================================
 // ICS · HEUTE PERSONAL
-// Ersetzt den statischen Demo-Tagesbereich durch echte Cloud-Daten.
-// Bestehende HEUTE-Funktionen bleiben erhalten.
+// Echte Cloud-Daten: Erkenntnis, Zustand und aktuell offene ACTION.
+// Integrierte ACTIONS werden nicht erneut als offen angezeigt.
 // =========================================================
 (() => {
   const GOLD = '#b8924f';
@@ -30,7 +30,19 @@
     return items.find(item => item.tool_id === toolId) || null;
   }
   function findOpenAction(items) {
-    return items.find(item => item.tool_id === 'action_next_step' && item?.result?.done !== true) || null;
+    const integrations = items.filter(item => item.tool_id === 'action_integration');
+    const integratedIds = new Set(integrations.map(item => first(item.result || {}, ['local_action_id'])).filter(Boolean));
+    const integratedSteps = new Set(integrations.map(item => first(item.result || {}, ['step'])).filter(Boolean));
+
+    return items.find(item => {
+      if (item.tool_id !== 'action_next_step' || item?.result?.done === true) return false;
+      const r = item.result || {};
+      const localId = first(r, ['local_id','id']);
+      const step = first(r, ['step','action','text']);
+      if (localId && integratedIds.has(localId)) return false;
+      if (!localId && step && integratedSteps.has(step)) return false;
+      return true;
+    }) || null;
   }
   function getName() {
     const local = localStorage.getItem('ICS_USER_NAME') || localStorage.getItem('icsUserName') || '';
@@ -50,7 +62,6 @@
     if (!today) return null;
     let target = document.getElementById('icsTodayPersonal');
     if (target) return target;
-
     const oldWelcome = today.querySelector('.welcome-card');
     target = document.createElement('section');
     target.id = 'icsTodayPersonal';
@@ -80,22 +91,17 @@
     const action = findOpenAction(items);
     const name = getName();
 
-    const tr = trigger?.result || {};
-    const ir = integration?.result || {};
-    const er = energy?.result || {};
-    const ar = action?.result || {};
-
+    const tr = trigger?.result || {}, ir = integration?.result || {}, er = energy?.result || {}, ar = action?.result || {};
     const insightTitle = first(ir,['learning','takeaway','integration']) || first(tr,['newCode','new_code']) || first(tr,['trigger','theme']) || 'Dein Weg entsteht mit deiner Nutzung.';
     const insightText = first(ir,['changed','change','reflection']) || (first(tr,['trigger']) ? `Zuletzt sichtbar: ${first(tr,['trigger'])}` : 'Deine gespeicherten Erkenntnisse werden hier für heute verdichtet.');
-
     const state = STATE_LABELS[er.routerState] || first(er,['selectedState','state','topic']) || (er.focus === 'mind' ? 'Kopf' : er.focus === 'body' ? 'Körper' : er.focus === 'energy' ? 'Energie' : 'Noch kein Check');
     const changes = [];
     if (er.before?.energy != null && er.after?.energy != null) changes.push(`Energie ${er.before.energy} → ${er.after.energy}`);
     if (er.before?.body != null && er.after?.body != null) changes.push(`Körper ${er.before.body} → ${er.after.body}`);
     if (er.before?.mind != null && er.after?.mind != null) changes.push(`Kopf ${er.before.mind} → ${er.after.mind}`);
 
-    const actionTitle = first(ar,['step','action','text']) || 'Aktuell ist keine offene ACTION gespeichert.';
-    const actionText = first(ar,['topic','theme']) || (action ? 'Dein nächster gespeicherter Schritt.' : 'Wenn aus einer Erkenntnis ein Schritt entsteht, erscheint er hier.');
+    const actionTitle = first(ar,['step','action','text']) || 'Für heute ist kein nächster Schritt offen.';
+    const actionText = action ? (first(ar,['topic','theme']) || 'Dein nächster gespeicherter Schritt.') : 'Deine zuletzt integrierte ACTION ist abgeschlossen. Ein neuer Schritt erscheint hier, sobald du ihn festlegst.';
 
     target.innerHTML = `<p class="section-kicker">DEIN HEUTE</p>
       <h2 style="margin-bottom:6px;">${esc(name ? `Willkommen zurück, ${name}.` : 'Dein persönlicher Tag.')}</h2>
@@ -113,21 +119,17 @@
     if (!button) return;
     const detail = button.dataset.todayView;
     if (typeof window.openView === 'function') window.openView('meinics');
-    window.setTimeout(() => {
-      const cardButton = document.querySelector(`[data-ics-detail="${detail}"]`);
-      cardButton?.click();
-    }, 120);
+    window.setTimeout(() => document.querySelector(`[data-ics-detail="${detail}"]`)?.click(),120);
   });
 
   const timer = window.setInterval(() => {
     if (document.getElementById('view-heute') && window.icsGetToolResults) {
-      window.clearInterval(timer);
-      ensureTarget();
-      renderToday();
+      window.clearInterval(timer); ensureTarget(); renderToday();
     }
   },100);
   window.setTimeout(() => window.clearInterval(timer),15000);
   window.addEventListener('ics:energy-cloud-saved',renderToday);
   window.addEventListener('ics:energy-cloud-restored',renderToday);
+  window.addEventListener('ics:action-integrated',renderToday);
   window.icsRenderTodayPersonal = renderToday;
 })();
