@@ -1,6 +1,7 @@
 // =========================================================
 // ICS · ACTION COCKPIT BRIDGE
 // Offene ACTION -> Rückblick -> Integration -> nächste ACTION / letzte Integration.
+// Rückblick kann aus lokalem Stand ODER Cloud-ACTION wiederhergestellt werden.
 // =========================================================
 (() => {
   const ACTION_KEY = 'ICS_ACTION_NEXT_STEPS';
@@ -13,13 +14,56 @@
   function readSteps() { try { const data=JSON.parse(localStorage.getItem(ACTION_KEY)||'[]'); return Array.isArray(data)?data:[]; } catch { return []; } }
   function getContent() { const detail=document.getElementById('icsCockpitDetail'); if(!detail||detail.hidden)return null; return detail.querySelector('#icsCockpitDetailContent'); }
   function ensurePlaceholder(card) { if(placeholder?.isConnected)return; placeholder=document.createElement('span'); placeholder.id='icsActionCurrentStepPlaceholder'; placeholder.hidden=true; card.parentNode?.insertBefore(placeholder,card); }
+  function norm(value){return String(value||'').trim().toLowerCase().replace(/\s+/g,' ');}
 
-  function recoverPendingReflection() {
+  async function recoverPendingReflection() {
     const existing=document.getElementById('icsActionIntegrationCard');
     if (existing && !existing.hidden) return true;
-    const pending=readSteps().filter(item=>item?.done===true && !item?.integration).sort((a,b)=>new Date(b.completedAt||b.createdAt||0)-new Date(a.completedAt||a.createdAt||0))[0];
-    if (!pending || typeof window.icsShowActionReflection!=='function') return false;
-    window.icsShowActionReflection(pending);
+    if (typeof window.icsShowActionReflection!=='function') return false;
+
+    // 1. Zuerst der eindeutige lokale Stand.
+    const localPending=readSteps().filter(item=>item?.done===true && !item?.integration)
+      .sort((a,b)=>new Date(b.completedAt||b.createdAt||0)-new Date(a.completedAt||a.createdAt||0))[0];
+    if (localPending) {
+      window.icsShowActionReflection(localPending);
+      return true;
+    }
+
+    // 2. Fallback für ältere/testweise ACTIONS: Cloud-ACTION gegen bereits
+    //    vorhandene Integrationen abgleichen. Cloud speichert die ACTION beim
+    //    Erstellen; ältere Datensätze wurden beim Erledigen noch nicht aktualisiert.
+    if (typeof window.icsGetToolResults!=='function') return false;
+    const [actionsRes, integrationsRes]=await Promise.all([
+      window.icsGetToolResults({toolId:'action_next_step',limit:30}),
+      window.icsGetToolResults({toolId:'action_integration',limit:30})
+    ]);
+    if (!actionsRes?.ok) return false;
+    const integrations=integrationsRes?.ok ? integrationsRes.data||[] : [];
+    const integratedIds=new Set(integrations.map(x=>x?.result?.local_action_id).filter(Boolean));
+    const integratedTexts=new Set(integrations.map(x=>norm(x?.result?.step)).filter(Boolean));
+    const localOpenIds=new Set(readSteps().filter(x=>x?.done!==true).map(x=>x.id).filter(Boolean));
+
+    const candidate=(actionsRes.data||[]).find(item=>{
+      const r=item?.result||{};
+      const id=r.local_id;
+      const text=norm(r.step);
+      if (!id && !text) return false;
+      if (integratedIds.has(id) || (text && integratedTexts.has(text))) return false;
+      // Eine lokal weiterhin offene ACTION darf nicht als erledigt behandelt werden.
+      if (id && localOpenIds.has(id)) return false;
+      return true;
+    });
+    if (!candidate) return false;
+    const r=candidate.result||{};
+    window.icsShowActionReflection({
+      id:r.local_id || `cloud_${candidate.id}`,
+      createdAt:r.created_at || candidate.created_at,
+      completedAt:r.completed_at || new Date().toISOString(),
+      topic:r.topic || '',
+      size:r.size || 'small',
+      step:r.step || '',
+      done:true
+    });
     return true;
   }
 
@@ -36,8 +80,10 @@
   async function syncActionDetail() {
     const content=getContent(),card=document.getElementById('actionCurrentStepCard'); if(!content||!card)return false; ensurePlaceholder(card);
     let reflection=document.getElementById('icsActionIntegrationCard');
-    if ((!reflection || reflection.hidden) && !card.hidden) { /* offene ACTION hat Vorrang */ }
-    else if (!reflection || reflection.hidden) { recoverPendingReflection(); reflection=document.getElementById('icsActionIntegrationCard'); }
+    if ((!reflection || reflection.hidden) && card.hidden) {
+      await recoverPendingReflection();
+      reflection=document.getElementById('icsActionIntegrationCard');
+    }
     const hasCurrentAction=!card.hidden,hasReflection=Boolean(reflection&&!reflection.hidden);
     if(hasCurrentAction){content.insertBefore(card,content.firstChild);card.style.marginTop='0';}
     if(hasReflection){if(reflection.parentElement!==content)content.appendChild(reflection);reflection.style.marginTop=hasCurrentAction?'24px':'0';}
@@ -47,7 +93,7 @@
   function restoreMovedCards(){const card=document.getElementById('actionCurrentStepCard');if(card&&placeholder?.isConnected){placeholder.parentNode.insertBefore(card,placeholder.nextSibling);card.style.marginTop='24px';}const reflection=document.getElementById('icsActionIntegrationCard');if(reflection&&card?.parentNode&&reflection.parentElement!==card.parentElement)card.insertAdjacentElement('afterend',reflection);}
   document.addEventListener('click',event=>{if(event.target.closest('#icsCockpitBack'))restoreMovedCards();},true);
   document.addEventListener('click',event=>{if(event.target.closest('[data-ics-detail="action"]'))window.setTimeout(syncActionDetail,60);});
-  document.addEventListener('click',event=>{if(!event.target.closest('#completeActionCurrentStep'))return;window.setTimeout(()=>{recoverPendingReflection();syncActionDetail();},120);},true);
+  document.addEventListener('click',event=>{if(!event.target.closest('#completeActionCurrentStep'))return;window.setTimeout(syncActionDetail,120);},true);
   window.addEventListener('ics:action-integrated',()=>window.setTimeout(syncActionDetail,80));
   window.icsShowCurrentActionInCockpit=syncActionDetail;
 })();
