@@ -1428,7 +1428,18 @@ function backup(){
   URL.revokeObjectURL(a.href);
 }
 
-document.getElementById("startBtn").onclick=render;
+document.getElementById("startBtn").onclick=()=>{
+  render();
+
+  if(!result.classList.contains("hidden")){
+    setTimeout(()=>{
+      result.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+    },80);
+  }
+};
 document.getElementById("trainingLoad").onclick=loadTraining;
 document.getElementById("trainingClear").onclick=clearTraining;
 const trainingJump=document.getElementById("trainingJump");
