@@ -16,6 +16,7 @@
       await loadScript('life-phase.js?v=20260916-5');
       await loadScript('trigger-integration.js');
       await loadScript('action-integration.js');
+      await loadScript('energy-cloud-sync.js?v=20260916-1');
       await loadScript('mein-ics-cockpit.js?v=20260916-2');
     } catch (error) {
       console.error('ICS Startfehler:', error);
