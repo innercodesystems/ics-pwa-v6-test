@@ -2,7 +2,9 @@
 // ICS ENERGY CLOUD SYNC
 // Abgeschlossene Zustands- und Energie-Checks zusätzlich
 // sicher dem eingeloggten Nutzer in Supabase zuordnen.
-// Die bestehende lokale Energie-Logik bleibt unverändert.
+// Beim App-Start wird der letzte Cloud-Check außerdem wieder
+// in die bestehende lokale Energie-Historie übernommen.
+// Die bestehende Energie-Logik in app-core.js bleibt unverändert.
 // =========================================================
 
 (() => {
@@ -12,6 +14,7 @@
 
   let installed = false;
   let lastSyncedRecordId = null;
+  let cloudRestoreStarted = false;
 
   function readLocalEnergyHistory() {
     try {
@@ -23,6 +26,78 @@
     } catch {
       return [];
     }
+  }
+
+  function writeLocalEnergyHistory(history) {
+    try {
+      localStorage.setItem(
+        ENERGY_KEY,
+        JSON.stringify(Array.isArray(history) ? history : [])
+      );
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function getRecordTime(record) {
+    const value =
+      record?.completedAt ||
+      record?.createdAt ||
+      record?.date ||
+      '';
+
+    const time = new Date(value).getTime();
+    return Number.isFinite(time) ? time : 0;
+  }
+
+  async function restoreLatestEnergyCheckFromCloud() {
+    if (cloudRestoreStarted) return false;
+
+    const getLatest = window.icsGetLatestToolResult;
+    if (typeof getLatest !== 'function') return false;
+
+    cloudRestoreStarted = true;
+
+    const latestCloud = await getLatest(TOOL_ID);
+    const cloudRecord = latestCloud?.data?.result;
+
+    if (!latestCloud?.ok || !cloudRecord?.id) {
+      return false;
+    }
+
+    const localHistory = readLocalEnergyHistory();
+    const existingIndex = localHistory.findIndex(
+      item => item?.id === cloudRecord.id
+    );
+
+    if (existingIndex >= 0) {
+      lastSyncedRecordId = cloudRecord.id;
+      return true;
+    }
+
+    const latestLocal = localHistory[0] || null;
+    const cloudIsNewer =
+      !latestLocal ||
+      getRecordTime(cloudRecord) >= getRecordTime(latestLocal);
+
+    const merged = cloudIsNewer
+      ? [cloudRecord, ...localHistory]
+      : [...localHistory, cloudRecord];
+
+    // Die vorhandene App arbeitet mit einer kompakten lokalen Historie.
+    // Deshalb übernehmen wir nur eine begrenzte Anzahl Datensätze.
+    const saved = writeLocalEnergyHistory(merged.slice(0, 100));
+
+    if (saved) {
+      lastSyncedRecordId = cloudRecord.id;
+      window.dispatchEvent(new CustomEvent('ics:energy-cloud-restored', {
+        detail: { record: cloudRecord }
+      }));
+      return true;
+    }
+
+    return false;
   }
 
   async function syncLatestEnergyCheck() {
@@ -91,6 +166,8 @@
   }
 
   const timer = window.setInterval(() => {
+    restoreLatestEnergyCheckFromCloud();
+
     if (installEnergyCloudSync()) {
       window.clearInterval(timer);
     }
@@ -99,4 +176,7 @@
   window.setTimeout(() => {
     window.clearInterval(timer);
   }, 15000);
+
+  window.icsRestoreLatestEnergyCheckFromCloud =
+    restoreLatestEnergyCheckFromCloud;
 })();
