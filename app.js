@@ -13,7 +13,7 @@
       await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
       await loadScript('supabase-auth.js');
       await loadScript('cloud-sync.js');
-      await loadScript('life-phase.js?v=20260916-4');
+      await loadScript('life-phase.js?v=20260916-5');
       await loadScript('trigger-integration.js');
       await loadScript('action-integration.js');
       await loadScript('mein-ics-cockpit.js?v=20260916-2');
