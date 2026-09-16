@@ -7,6 +7,14 @@
   const GOLD = '#b8924f';
   const CREAM = '#f6f1e7';
   const TOOL_IDS = ['trigger_kompass', 'action_next_step', 'action_integration', 'energy_check', 'journal'];
+  const ENERGY_STATE_LABELS = {
+    kopfVoll: 'Kopf voll',
+    erschoepft: 'Erschöpft',
+    angespannt: 'Angespannt',
+    unruhig: 'Unruhig',
+    festgefahren: 'Festgefahren',
+    energielos: 'Energielos'
+  };
 
   function escapeHtml(value) {
     return String(value ?? '')
@@ -52,14 +60,14 @@
     }
 
     if (item.tool_id === 'energy_check') {
-      const state = firstValue(r, ['state', 'topic', 'selectedState', 'focus']);
+      const state = ENERGY_STATE_LABELS[r?.routerState] || firstValue(r, ['selectedState', 'state', 'topic']) || (r?.focus === 'mind' ? 'Kopf' : r?.focus === 'body' ? 'Körper' : r?.focus === 'energy' ? 'Energie' : 'Zustands-Check');
       const before = r?.before || {};
       const after = r?.after || {};
       const values = [];
       if (before.energy != null && after.energy != null) values.push(`Energie ${before.energy} → ${after.energy}`);
       if (before.body != null && after.body != null) values.push(`Körper ${before.body} → ${after.body}`);
-      if (before.head != null && after.head != null) values.push(`Kopf ${before.head} → ${after.head}`);
-      return { stage: 'WAHRGENOMMEN', title: state ? `Zustand: ${state}` : 'Dein Zustand wurde bewusst wahrgenommen', text: values.join(' · '), date };
+      if (before.mind != null && after.mind != null) values.push(`Kopf ${before.mind} → ${after.mind}`);
+      return { stage: 'WAHRGENOMMEN', title: `Zustand: ${state}`, text: values.join(' · '), date };
     }
 
     if (item.tool_id === 'journal') {
@@ -130,7 +138,7 @@
       window.clearInterval(timer);
       loadJourney();
     }
-  }, 300);
+  }, 100);
   window.setTimeout(() => window.clearInterval(timer), 15000);
 
   window.addEventListener('ics:energy-cloud-saved', loadJourney);
