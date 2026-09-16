@@ -15,6 +15,7 @@
   window.icsSupabase = client;
 
   let coreLoaded = false;
+  let requestedViewAfterLogin = '';
 
   async function logout() {
     const confirmed = window.confirm(
@@ -99,8 +100,29 @@
     accountLogout?.addEventListener('click', logout);
   }
 
-  function loadCoreApp(user) {
-    if (coreLoaded) return;
+  function openRequestedViewAfterLogin(viewName) {
+    if (!viewName) return;
+    const tryOpen = () => {
+      if (typeof window.openView === 'function') {
+        window.openView(viewName);
+        requestedViewAfterLogin = '';
+        return true;
+      }
+      return false;
+    };
+    if (tryOpen()) return;
+    let attempts = 0;
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      if (tryOpen() || attempts >= 30) window.clearInterval(timer);
+    }, 100);
+  }
+
+  function loadCoreApp(user, targetView = '') {
+    if (coreLoaded) {
+      openRequestedViewAfterLogin(targetView);
+      return;
+    }
     coreLoaded = true;
 
     document.getElementById('ics-auth-gate')?.remove();
@@ -109,6 +131,7 @@
     const script = document.createElement('script');
     script.src = 'app-core.js';
     script.defer = false;
+    script.addEventListener('load', () => openRequestedViewAfterLogin(targetView));
     document.body.appendChild(script);
   }
 
@@ -160,6 +183,19 @@
     const button = document.getElementById('ics-login-button');
     const message = document.getElementById('ics-login-message');
 
+    document.querySelectorAll('.bottom-nav .nav-item').forEach((navItem) => {
+      navItem.addEventListener('click', (event) => {
+        if (!document.getElementById('ics-auth-gate')) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        requestedViewAfterLogin = navItem.dataset.view || '';
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(item => item.classList.remove('active'));
+        navItem.classList.add('active');
+        gate.scrollIntoView({ behavior:'smooth', block:'start' });
+        window.setTimeout(() => email?.focus(), 250);
+      }, true);
+    });
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       button.disabled = true;
@@ -180,7 +216,7 @@
       }
 
       await ensureProfile(data.user);
-      loadCoreApp(data.user);
+      loadCoreApp(data.user, requestedViewAfterLogin);
     });
   }
 
