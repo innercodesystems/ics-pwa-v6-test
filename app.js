@@ -16,7 +16,7 @@
       await loadScript('life-phase.js?v=20260916-4');
       await loadScript('trigger-integration.js');
       await loadScript('action-integration.js');
-      await loadScript('mein-ics-cockpit.js');
+      await loadScript('mein-ics-cockpit.js?v=20260916-2');
     } catch (error) {
       console.error('ICS Startfehler:', error);
       document.body.insertAdjacentHTML('afterbegin', '<div style="padding:18px;text-align:center;background:#1a1815;color:#f6f1e7">ICS konnte die sichere Anmeldung nicht laden. Bitte Seite neu laden.</div>');
