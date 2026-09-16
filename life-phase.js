@@ -1,6 +1,6 @@
 // =========================================================
 // ICS LEBENSPHASE · AUSFÜHRLICHE AUSWERTUNG
-// Behält Eingabe + Button nach jeder Auswertung sichtbar.
+// Eingabe + Button nur vor der Auswertung sichtbar.
 // =========================================================
 
 (() => {
@@ -131,15 +131,10 @@
         <p style="margin:18px 0 0; font-size:.82rem; opacity:.58; line-height:1.45;">
           Die 7-Jahres-Zyklen sind ein ICS-Reflexionsmodell zur persönlichen Orientierung – keine wissenschaftliche Prognose oder festgelegte Lebensdeutung.
         </p>
-
-        ${birthDateControls(value)}
       </div>
     `;
   }
 
-  // Den Wert sichern, dann die bestehende Kurz-Auswertung in app-core.js
-  // vollständig auslaufen lassen. Anschließend rendert ICS zuverlässig
-  // die ausführliche Auswertung inklusive Eingabe und Button neu.
   document.addEventListener('click', (event) => {
     const button = event.target.closest('#saveIcsBirthDate');
     if (!button) return;
