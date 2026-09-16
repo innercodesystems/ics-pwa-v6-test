@@ -729,6 +729,12 @@ body.print-light #premiumReport{
   <section class="footnote">
     Dieses Tool dient der persönlichen Reflexion. Die Auswertung ist keine Diagnose und leitet keine konkreten Ereignisse oder Persönlichkeitsmerkmale aus dem Geburtsdatum ab.
   </section>
+
+  <div class="no-print" style="margin-top:24px;">
+    <button type="button" class="ghost" id="backToLifePhase">
+      ← Zurück zu meiner Lebensphase
+    </button>
+  </div>
 </main>
 
 <script>
@@ -2136,6 +2142,14 @@ if(birthInput.value)render();
 const backToIcs = document.getElementById('backToIcs');
 
 backToIcs?.addEventListener('click', () => {
+  sessionStorage.setItem('ICS_RETURN_VIEW', 'meinics');
+  window.location.href = './index.html?return=meinics';
+});
+
+const backToLifePhase = document.getElementById('backToLifePhase');
+
+backToLifePhase?.addEventListener('click', () => {
+  sessionStorage.setItem('ICS_RETURN_DETAIL', 'life');
   sessionStorage.setItem('ICS_RETURN_VIEW', 'meinics');
   window.location.href = './index.html?return=meinics';
 });
