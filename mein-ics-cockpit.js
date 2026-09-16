@@ -61,6 +61,19 @@
     </button>`;
   }
 
+  function setOverviewOnlyMode(isDetail) {
+    const overview = document.getElementById('icsPersonalOverview');
+    const originalTitle = overview?.querySelector(':scope > strong');
+    if (originalTitle) {
+      originalTitle.hidden = true;
+      originalTitle.style.display = 'none';
+    }
+
+    document.querySelectorAll('#view-meinics > .tool-list').forEach(node => {
+      node.style.display = isDetail ? 'none' : '';
+    });
+  }
+
   function createShell() {
     const overview = document.getElementById('icsPersonalOverview');
     if (!overview) return null;
@@ -68,7 +81,10 @@
     if (shell) return shell;
 
     const originalTitle = overview.querySelector(':scope > strong');
-    if (originalTitle) originalTitle.hidden = true;
+    if (originalTitle) {
+      originalTitle.hidden = true;
+      originalTitle.style.display = 'none';
+    }
 
     shell = document.createElement('div');
     shell.id = 'icsCockpitShell';
@@ -107,6 +123,7 @@
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
+    setOverviewOnlyMode(false);
 
     const life = getLifePhaseSummary();
     const trigger = getTriggerSummary();
@@ -179,11 +196,11 @@
 
       const chronik = document.createElement('div');
       chronik.id = 'icsLifeChronicleEntry';
-      chronik.style.cssText = 'margin-top:22px;padding-top:20px;border-top:1px solid rgba(184,146,79,.28);';
+      chronik.style.cssText = 'margin-top:32px;padding-top:24px;padding-bottom:8px;border-top:1px solid rgba(184,146,79,.28);';
       chronik.innerHTML = `<small style="display:block;color:${GOLD};letter-spacing:.10em;text-transform:uppercase;">DEINE GESAMTE LEBENSLINIE</small>
-        <h3 style="margin:7px 0 6px;color:${CREAM};">Mehr als die aktuelle Phase</h3>
-        <p style="margin:0 0 14px;opacity:.72;">Öffne deine ausführliche ICS Lebenschronik mit Lebenslinie, Mustern und deinem nächsten Kapitel.</p>
-        <button type="button" id="icsOpenLifeChronicle" class="gold-button">Meine gesamte Lebenschronik öffnen →</button>`;
+        <h3 style="margin:8px 0 8px;color:${CREAM};">Mehr als die aktuelle Phase</h3>
+        <p style="margin:0 0 18px;opacity:.72;line-height:1.55;">Öffne deine ausführliche ICS Lebenschronik mit Lebenslinie, Mustern und deinem nächsten Kapitel.</p>
+        <button type="button" id="icsOpenLifeChronicle" class="gold-button" style="margin-bottom:8px;">Meine gesamte Lebenschronik öffnen →</button>`;
       target.appendChild(chronik);
     }
   }
@@ -195,9 +212,10 @@
     if (!shell || !home || !detail) return;
 
     storeExistingDetails();
+    setOverviewOnlyMode(true);
     detail.innerHTML = `<button type="button" id="icsCockpitBack" style="border:0;background:none;color:${GOLD};padding:0;cursor:pointer;font:inherit;font-weight:700;">← Zurück zu Mein ICS</button>
       <small style="display:block;margin-top:24px;color:${GOLD};letter-spacing:.10em;text-transform:uppercase;">DEIN PERSÖNLICHES SYSTEM</small>
-      <h2 style="margin:7px 0 18px;color:${CREAM};">${escapeHtml(detailTitle(type))}</h2>
+      <h2 style="margin:7px 0 24px;color:${CREAM};">${escapeHtml(detailTitle(type))}</h2>
       <div id="icsCockpitDetailContent"></div>`;
     appendDetailContent(type, detail.querySelector('#icsCockpitDetailContent'));
     home.hidden = true;
@@ -212,6 +230,7 @@
     if (content) [...content.children].forEach(node => {
       if (node.id !== 'icsLifeChronicleEntry') vault.appendChild(node);
     });
+    setOverviewOnlyMode(false);
     renderHome();
     window.scrollTo({top:0,behavior:'smooth'});
   }
