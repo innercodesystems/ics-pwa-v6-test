@@ -110,7 +110,7 @@
 
   function storeExistingDetails() {
     const vault = ensureVault();
-    ['icsLifeCycleOverview','icsLatestEnergy','icsLatestCloudActivity','icsLatestTrigger','icsLatestMentorInsight','icsLatestActionIntegration','icsNextStep','icsRepeatedPattern']
+    ['icsLifeCycleOverview','icsLatestEnergy','icsLatestCloudActivity','icsLatestTrigger','icsLatestMentorInsight','icsLatestActionIntegration','icsNextStep','icsRepeatedPattern','icsDevelopmentJourney']
       .forEach(id => {
         const node = document.getElementById(id);
         if (node && node.parentElement !== vault && !node.closest('#icsCockpitDetailContent')) vault.appendChild(node);
@@ -131,6 +131,7 @@
     const energy = compact(readText('icsLatestEnergy', 'Deinen aktuellen Zustand ansehen.'), 82);
     const journal = compact(readText('icsLatestCloudActivity', 'Deinen letzten Check-in ansehen.'), 82);
     const mentor = compact(readText('icsLatestMentorInsight', 'Deine letzte Mentor-Erkenntnis ansehen.'), 82);
+    const development = compact(readText('icsDevelopmentJourney', 'Deine persönliche Entwicklungslinie ansehen.'), 82);
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
 
@@ -159,6 +160,12 @@
       <h3 style="margin:6px 0 4px;color:${CREAM};">Handlung & Integration</h3>
       <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Was du umgesetzt hast und was daraus in dir entsteht.</p>
       ${card('✓','Integration',action.title,action.text,'integration')}
+    </section>
+    <section style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(184,146,79,.24);">
+      <small style="color:${GOLD};letter-spacing:.10em;">DEIN WEG</small>
+      <h3 style="margin:6px 0 4px;color:${CREAM};">Entwicklung</h3>
+      <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Was sich über deine gespeicherten ICS-Schritte hinweg bewegt.</p>
+      ${card('↗','Entwicklung','Deine persönliche Entwicklungslinie',development,'development')}
     </section>`;
 
     document.getElementById('icsCockpitHome').hidden = false;
@@ -167,7 +174,7 @@
   }
 
   function detailTitle(type) {
-    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration'})[type] || 'Dein ICS';
+    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration',development:'Deine Entwicklung'})[type] || 'Dein ICS';
   }
 
   function appendDetailContent(type, target) {
@@ -178,7 +185,8 @@
       journal:['icsLatestCloudActivity'],
       mentor:['icsLatestMentorInsight'],
       action:['icsLatestActionIntegration'],
-      integration:['icsLatestActionIntegration']
+      integration:['icsLatestActionIntegration'],
+      development:['icsDevelopmentJourney']
     })[type] || [];
     ids.forEach(id => { const node = document.getElementById(id); if (node) target.appendChild(node); });
 
