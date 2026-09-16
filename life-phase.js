@@ -1,6 +1,6 @@
 // =========================================================
 // ICS LEBENSPHASE · AUSFÜHRLICHE AUSWERTUNG
-// Eigene Lebensphase bleibt gespeichert. Andere Personen werden nur temporär ausgewertet.
+// Eigene Lebensphase wird im Benutzerprofil gespeichert. Andere Personen werden nur temporär ausgewertet.
 // =========================================================
 
 (() => {
@@ -36,8 +36,53 @@
     return String(value || '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
   }
 
+  async function getAuthenticatedUser() {
+    const client = window.icsSupabase;
+    if (!client) return null;
+    try {
+      const { data, error } = await client.auth.getUser();
+      if (error) return null;
+      return data?.user || null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function getCloudBirthdate() {
+    const client = window.icsSupabase;
+    const user = await getAuthenticatedUser();
+    if (!client || !user?.id) return { user:null, value:'', error:null };
+    try {
+      const { data, error } = await client
+        .from('profiles')
+        .select('birthdate')
+        .eq('id', user.id)
+        .maybeSingle();
+      return { user, value:data?.birthdate || '', error:error || null };
+    } catch (error) {
+      return { user, value:'', error };
+    }
+  }
+
+  async function saveOwnBirthdate(value) {
+    localStorage.setItem(BIRTHDATE_KEY, value);
+    const client = window.icsSupabase;
+    const user = await getAuthenticatedUser();
+    if (!client || !user?.id) return { cloud:false, error:new Error('Kein angemeldeter Benutzer gefunden.') };
+    try {
+      const { error } = await client
+        .from('profiles')
+        .update({ birthdate:value, updated_at:new Date().toISOString() })
+        .eq('id', user.id);
+      if (error) return { cloud:false, error };
+      return { cloud:true, error:null };
+    } catch (error) {
+      return { cloud:false, error };
+    }
+  }
+
   function birthDateControls(value) {
-    return `<div class="ics-birthdate-input" style="margin-top:20px;"><label for="icsBirthDate">Geburtsdatum</label><input type="date" id="icsBirthDate" value="${value || ''}"><button type="button" class="gold-button" id="saveIcsBirthDate">Lebensphase anzeigen</button></div>`;
+    return `<div class="ics-birthdate-input" style="margin-top:20px;"><label for="icsBirthDate">Geburtsdatum</label><input type="date" id="icsBirthDate" value="${value || ''}"><button type="button" class="gold-button" id="saveIcsBirthDate">Lebensphase anzeigen</button><p id="icsBirthdateSaveStatus" style="margin:10px 0 0;font-size:.82rem;opacity:.65;"></p></div>`;
   }
 
   function phaseHtml(value, guestName = '') {
@@ -79,13 +124,43 @@
     target.innerHTML = phaseHtml(value) + guestControls();
   }
 
-  document.addEventListener('click', event => {
+  async function initializeOwnLifePhase() {
+    const target = document.getElementById('icsLifeCycleOverview');
+    if (!target) return false;
+
+    const localValue = localStorage.getItem(BIRTHDATE_KEY) || '';
+    const cloud = await getCloudBirthdate();
+
+    if (cloud.value && calculateCycle(cloud.value)) {
+      localStorage.setItem(BIRTHDATE_KEY, cloud.value);
+      renderLifePhase(cloud.value);
+      return true;
+    }
+
+    if (localValue && calculateCycle(localValue)) {
+      if (cloud.user?.id && !cloud.error) {
+        const migrated = await saveOwnBirthdate(localValue);
+        if (!migrated.cloud) console.warn('ICS Lebensphase: Geburtsdatum konnte nicht in die Cloud migriert werden.', migrated.error);
+      }
+      renderLifePhase(localValue);
+      return true;
+    }
+
+    const input = document.getElementById('icsBirthDate');
+    if (input && localValue && !input.value) input.value = localValue;
+    return true;
+  }
+
+  document.addEventListener('click', async event => {
     const ownButton = event.target.closest('#saveIcsBirthDate');
     if (ownButton) {
       const input = document.getElementById('icsBirthDate');
       const value = input?.value || '';
-      if (!value) return;
-      localStorage.setItem(BIRTHDATE_KEY, value);
+      if (!value || !calculateCycle(value)) return;
+      ownButton.disabled = true;
+      const saved = await saveOwnBirthdate(value);
+      ownButton.disabled = false;
+      if (!saved.cloud) console.warn('ICS Lebensphase: Geburtsdatum nur lokal gespeichert.', saved.error);
       window.setTimeout(() => renderLifePhase(value), 20);
       return;
     }
@@ -115,14 +190,11 @@
     }
   }, true);
 
-  const timer = window.setInterval(() => {
-    const input = document.getElementById('icsBirthDate');
+  const timer = window.setInterval(async () => {
     const target = document.getElementById('icsLifeCycleOverview');
     if (!target) return;
-    const saved = localStorage.getItem(BIRTHDATE_KEY);
-    if (!input && saved) renderLifePhase(saved);
-    else if (input && saved && !input.value) input.value = saved;
     window.clearInterval(timer);
+    await initializeOwnLifePhase();
   }, 250);
 
   window.setTimeout(() => window.clearInterval(timer), 15000);
