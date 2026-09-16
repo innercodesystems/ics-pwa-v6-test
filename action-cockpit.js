@@ -1,7 +1,6 @@
 // =========================================================
 // ICS · ACTION COCKPIT BRIDGE
-// Zeigt in Mein ICS → Deine ACTION zuerst den aktuell offenen Schritt
-// und darunter die letzte Integration direkt aus den Cloud-Daten.
+// Offene ACTION -> Rückblick -> Integration -> nächste ACTION / letzte Integration.
 // =========================================================
 (() => {
   let placeholder = null;
@@ -19,7 +18,11 @@
     }
     return '';
   }
-
+  function getContent() {
+    const detail = document.getElementById('icsCockpitDetail');
+    if (!detail || detail.hidden) return null;
+    return detail.querySelector('#icsCockpitDetailContent');
+  }
   function ensurePlaceholder(card) {
     if (placeholder?.isConnected) return;
     placeholder = document.createElement('span');
@@ -28,77 +31,75 @@
     card.parentNode?.insertBefore(placeholder, card);
   }
 
-  async function renderLatestIntegration(content, hasCurrentAction) {
+  async function renderLatestIntegration(content, hasCurrentAction, hasReflection) {
     let block = document.getElementById('icsActionCloudIntegration');
-    if (!block) {
-      block = document.createElement('section');
-      block.id = 'icsActionCloudIntegration';
-    }
-    block.style.cssText = `margin-top:${hasCurrentAction ? '28px' : '0'};padding-top:${hasCurrentAction ? '24px' : '0'};border-top:${hasCurrentAction ? '1px solid rgba(184,146,79,.28)' : '0'};`;
+    if (!block) { block = document.createElement('section'); block.id = 'icsActionCloudIntegration'; }
+    const separated = hasCurrentAction || hasReflection;
+    block.style.cssText = `margin-top:${separated?'28px':'0'};padding-top:${separated?'24px':'0'};border-top:${separated?'1px solid rgba(184,146,79,.28)':'0'};`;
     block.innerHTML = '<small style="opacity:.6;">Letzte Integration wird geladen…</small>';
     content.appendChild(block);
-
-    if (typeof window.icsGetToolResults !== 'function') {
-      block.remove();
-      return;
-    }
-    const response = await window.icsGetToolResults({ toolId: 'action_integration', limit: 1 });
+    if (typeof window.icsGetToolResults !== 'function') { block.remove(); return; }
+    const response = await window.icsGetToolResults({ toolId:'action_integration', limit:1 });
     const item = response?.ok ? response.data?.[0] : null;
-    const r = item?.result || {};
-    if (!item) {
-      block.remove();
-      return;
-    }
-
+    if (!item) { block.remove(); return; }
+    const r = item.result || {};
     const topic = first(r,['topic','theme']) || 'ACTION';
     const step = first(r,['step','action','text']);
     const changed = first(r,['changed','change','reflection']);
     const learning = first(r,['learning','takeaway','integration']);
-
-    block.innerHTML = `<small style="display:block;color:${GOLD};letter-spacing:.08em;text-transform:uppercase;">ZULETZT UMGESETZT &amp; INTEGRIERT · ACTION</small>
-      <h3 style="margin:8px 0 0;color:${CREAM};">${esc(topic)}</h3>
-      ${step ? `<p style="margin:7px 0 0;opacity:.72;line-height:1.5;">Schritt: ${esc(step)}</p>` : ''}
-      ${changed ? `<div style="margin-top:15px;padding-left:12px;border-left:1px solid ${GOLD};"><small style="color:${GOLD};">WAS SICH VERÄNDERT HAT</small><strong style="display:block;margin-top:5px;color:${CREAM};font-size:1.05rem;line-height:1.4;">${esc(changed)}</strong></div>` : ''}
-      ${learning ? `<small style="display:block;margin-top:14px;color:${GOLD};">DEINE ERKENNTNIS</small><p style="margin:7px 0 0;opacity:.75;line-height:1.5;">${esc(learning)}</p>` : ''}`;
+    block.innerHTML = `<small style="display:block;color:${GOLD};letter-spacing:.08em;text-transform:uppercase;">ZULETZT UMGESETZT &amp; INTEGRIERT · ACTION</small><h3 style="margin:8px 0 0;color:${CREAM};">${esc(topic)}</h3>${step?`<p style="margin:7px 0 0;opacity:.72;line-height:1.5;">Schritt: ${esc(step)}</p>`:''}${changed?`<div style="margin-top:15px;padding-left:12px;border-left:1px solid ${GOLD};"><small style="color:${GOLD};">WAS SICH VERÄNDERT HAT</small><strong style="display:block;margin-top:5px;color:${CREAM};font-size:1.05rem;line-height:1.4;">${esc(changed)}</strong></div>`:''}${learning?`<small style="display:block;margin-top:14px;color:${GOLD};">DEINE ERKENNTNIS</small><p style="margin:7px 0 0;opacity:.75;line-height:1.5;">${esc(learning)}</p>`:''}`;
   }
 
-  async function moveCurrentActionIntoDetail() {
-    const detail = document.getElementById('icsCockpitDetail');
-    const content = detail?.querySelector('#icsCockpitDetailContent');
+  async function syncActionDetail() {
+    const content = getContent();
     const card = document.getElementById('actionCurrentStepCard');
-    if (!content || !card || detail.hidden) return false;
-
+    const reflection = document.getElementById('icsActionIntegrationCard');
+    if (!content || !card) return false;
     ensurePlaceholder(card);
+
     const hasCurrentAction = !card.hidden;
+    const hasReflection = Boolean(reflection && !reflection.hidden);
+
     if (hasCurrentAction) {
       content.insertBefore(card, content.firstChild);
       card.style.marginTop = '0';
     }
+    if (hasReflection) {
+      if (reflection.parentElement !== content) content.appendChild(reflection);
+      reflection.style.marginTop = hasCurrentAction ? '24px' : '0';
+    }
 
-    // Das alte verschobene Integrationselement wird in dieser Ansicht nicht mehr benötigt.
-    const oldIntegration = document.getElementById('icsLatestActionIntegration');
-    if (oldIntegration && oldIntegration.parentElement === content) oldIntegration.remove();
-
-    await renderLatestIntegration(content, hasCurrentAction);
+    await renderLatestIntegration(content, hasCurrentAction, hasReflection);
     return true;
   }
 
-  function restoreCurrentAction() {
+  function restoreMovedCards() {
     const card = document.getElementById('actionCurrentStepCard');
-    if (!card || !placeholder?.isConnected) return;
-    placeholder.parentNode.insertBefore(card, placeholder.nextSibling);
-    card.style.marginTop = '24px';
+    if (card && placeholder?.isConnected) {
+      placeholder.parentNode.insertBefore(card, placeholder.nextSibling);
+      card.style.marginTop = '24px';
+    }
+    const reflection = document.getElementById('icsActionIntegrationCard');
+    if (reflection && card?.parentNode && reflection.parentElement !== card.parentElement) card.insertAdjacentElement('afterend', reflection);
   }
 
   document.addEventListener('click', event => {
-    if (event.target.closest('#icsCockpitBack')) restoreCurrentAction();
+    if (event.target.closest('#icsCockpitBack')) restoreMovedCards();
   }, true);
 
   document.addEventListener('click', event => {
-    const button = event.target.closest('[data-ics-detail="action"]');
-    if (!button) return;
-    window.setTimeout(moveCurrentActionIntoDetail, 50);
+    if (event.target.closest('[data-ics-detail="action"]')) window.setTimeout(syncActionDetail, 60);
   });
 
-  window.icsShowCurrentActionInCockpit = moveCurrentActionIntoDetail;
+  // Wichtig: app-core blendet nach "erledigt" die aktuelle Karte aus.
+  // action-integration erzeugt kurz danach den Rückblick. Danach wird die Detailseite neu synchronisiert.
+  document.addEventListener('click', event => {
+    if (!event.target.closest('#completeActionCurrentStep')) return;
+    window.setTimeout(syncActionDetail, 120);
+  }, true);
+
+  // Nach dem Cloud-Speichern: Rückblick bleibt sichtbar, Cloud-Integration wird aktualisiert.
+  window.addEventListener('ics:action-integrated', () => window.setTimeout(syncActionDetail, 80));
+
+  window.icsShowCurrentActionInCockpit = syncActionDetail;
 })();
