@@ -1,6 +1,6 @@
 // =========================================================
 // ICS TRIGGER-KOMPASS · MEIN ICS INTEGRATION
-// Letzte Erkenntnis + Entwicklung aus mehreren Auswertungen
+// Letzte Erkenntnis + Entwicklung + Verlauf
 // =========================================================
 (() => {
   let installed = false;
@@ -12,6 +12,13 @@
       .replaceAll('>', '&gt;')
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
+  }
+
+  function formatDate(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
   function installTriggerCard() {
@@ -113,6 +120,48 @@
     `;
   }
 
+  function historyHtml(rows) {
+    const items = rows.map((row, index) => {
+      const r = row.result || {};
+      const date = formatDate(row.created_at);
+      return `
+        <div style="padding:13px 0;${index ? 'border-top:1px solid rgba(184,146,79,.16);' : ''}">
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+            <strong style="color:#f6f1e7;">${escapeHtml(r.theme || r.trigger || 'Trigger erkannt')}</strong>
+            ${date ? `<small style="white-space:nowrap;opacity:.62;">${escapeHtml(date)}</small>` : ''}
+          </div>
+          ${r.trigger ? `<p style="margin:5px 0 0;">Trigger: ${escapeHtml(r.trigger)}${r.need ? ` · Bedürfnis: ${escapeHtml(r.need)}` : ''}${r.intensity ? ` · ${escapeHtml(r.intensity)}/10` : ''}</p>` : ''}
+          ${r.newCode ? `<p style="margin:7px 0 0;"><small style="color:#b8924f;">NEUER CODE</small><br><strong>${escapeHtml(r.newCode)}</strong></p>` : ''}
+          ${r.nextStep ? `<p style="margin:7px 0 0;"><small>ACTION</small><br>${escapeHtml(r.nextStep)}</p>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <button id="icsToggleTriggerHistory" type="button" aria-expanded="false" style="margin-top:14px;width:100%;padding:11px 14px;border:1px solid rgba(184,146,79,.55);border-radius:14px;background:transparent;color:#d4a03a;font:inherit;font-weight:700;cursor:pointer;">
+        Alle ${rows.length} Auswertungen anzeigen ↓
+      </button>
+      <div id="icsTriggerHistory" hidden style="margin-top:10px;padding:4px 14px;border:1px solid rgba(184,146,79,.24);border-radius:14px;background:rgba(255,255,255,.015);">
+        ${items}
+      </div>
+    `;
+  }
+
+  function bindHistoryToggle(rows) {
+    const button = document.getElementById('icsToggleTriggerHistory');
+    const history = document.getElementById('icsTriggerHistory');
+    if (!button || !history) return;
+
+    button.addEventListener('click', () => {
+      const willOpen = history.hidden;
+      history.hidden = !willOpen;
+      button.setAttribute('aria-expanded', String(willOpen));
+      button.textContent = willOpen
+        ? 'Auswertungen schließen ↑'
+        : `Alle ${rows.length} Auswertungen anzeigen ↓`;
+    });
+  }
+
   async function renderLatestTrigger() {
     const target = getTriggerTarget();
     if (!target || typeof window.icsGetToolResults !== 'function') return false;
@@ -136,7 +185,9 @@
       ${r.newCode ? `<div style="margin-top:10px;padding-left:12px;border-left:2px solid #b8924f;"><small style="color:#b8924f;">DEIN NEUER CODE</small><p style="margin:5px 0 0;"><strong>${escapeHtml(r.newCode)}</strong></p></div>` : ''}
       ${r.nextStep ? `<p style="margin:10px 0 0;"><small>ACTION</small><br>${escapeHtml(r.nextStep)}</p>` : ''}
       ${developmentHtml(history.data)}
+      ${historyHtml(history.data)}
     `;
+    bindHistoryToggle(history.data);
     return true;
   }
 
