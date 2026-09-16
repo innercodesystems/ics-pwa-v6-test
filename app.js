@@ -17,7 +17,7 @@
       await loadScript('trigger-integration.js');
       await loadScript('action-integration.js');
       await loadScript('energy-cloud-sync.js?v=20260916-2');
-      await loadScript('development-journey.js?v=20260916-2');
+      await loadScript('development-journey.js?v=20260916-3');
       await loadScript('mein-ics-cockpit.js?v=20260916-3');
       await loadScript('mein-ics-ui-fix.js?v=20260916-2');
     } catch (error) {
