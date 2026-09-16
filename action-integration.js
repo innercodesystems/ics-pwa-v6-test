@@ -51,6 +51,21 @@
     if (button) { button.disabled = true; button.textContent = 'In Mein ICS gespeichert ✓'; }
     renderLatestIntegrationForMeinIcs();
     if (cloudSaved) window.dispatchEvent(new CustomEvent('ics:action-integrated',{detail:{localActionId:pendingStep.id}}));
+
+    // Nach erfolgreichem Speichern das doppelte Formular ruhig abschließen.
+    if (cloudSaved) {
+      const completedStep = pendingStep.step || 'Deine ACTION';
+      window.setTimeout(() => {
+        const card = document.getElementById('icsActionIntegrationCard');
+        if (!card) return;
+        card.innerHTML = `<p class="section-kicker">INTEGRATION ABGESCHLOSSEN</p><h2 style="margin-bottom:8px;">Gespeichert ✓</h2><p style="margin:0;opacity:.78;">${escapeHtml(completedStep)} ist jetzt mit deiner Entwicklung in Mein ICS verbunden.</p>`;
+        card.hidden = false;
+        card.style.paddingTop = '';
+        card.style.borderTop = '';
+        pendingStep = null;
+        window.dispatchEvent(new CustomEvent('ics:action-integration-collapsed'));
+      }, 900);
+    }
   }
   function getMeinIcsTarget() {
     let target = document.getElementById('icsLatestActionIntegration'); if (target) return target;
