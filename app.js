@@ -15,7 +15,7 @@
       await loadScript('cloud-sync.js');
       await loadScript('life-phase.js?v=20260916-5');
       await loadScript('trigger-integration.js');
-      await loadScript('action-integration.js?v=20260916-3');
+      await loadScript('action-integration.js?v=20260916-4');
       await loadScript('energy-cloud-sync.js?v=20260916-2');
       await loadScript('development-journey.js?v=20260916-3');
       await loadScript('mein-ics-cockpit.js?v=20260916-3');
