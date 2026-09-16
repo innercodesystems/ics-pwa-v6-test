@@ -19,7 +19,7 @@
       await loadScript('energy-cloud-sync.js?v=20260916-2');
       await loadScript('development-journey.js?v=20260916-2');
       await loadScript('mein-ics-cockpit.js?v=20260916-3');
-      await loadScript('mein-ics-ui-fix.js?v=20260916-1');
+      await loadScript('mein-ics-ui-fix.js?v=20260916-2');
     } catch (error) {
       console.error('ICS Startfehler:', error);
       document.body.insertAdjacentHTML('afterbegin', '<div style="padding:18px;text-align:center;background:#1a1815;color:#f6f1e7">ICS konnte die sichere Anmeldung nicht laden. Bitte Seite neu laden.</div>');
