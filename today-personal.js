@@ -26,21 +26,28 @@
     const text = String(value || '').replace(/\s+/g,' ').trim();
     return text.length > max ? `${text.slice(0,max-1).trim()}…` : text;
   }
+  function normalized(value) {
+    return String(value || '').replace(/\s+/g,' ').trim().toLowerCase();
+  }
   function findLatest(items, toolId) {
     return items.find(item => item.tool_id === toolId) || null;
   }
   function findOpenAction(items) {
     const integrations = items.filter(item => item.tool_id === 'action_integration');
     const integratedIds = new Set(integrations.map(item => first(item.result || {}, ['local_action_id'])).filter(Boolean));
-    const integratedSteps = new Set(integrations.map(item => first(item.result || {}, ['step'])).filter(Boolean));
+    const integratedSteps = new Set(integrations.map(item => normalized(first(item.result || {}, ['step']))).filter(Boolean));
 
     return items.find(item => {
       if (item.tool_id !== 'action_next_step' || item?.result?.done === true) return false;
       const r = item.result || {};
       const localId = first(r, ['local_id','id']);
-      const step = first(r, ['step','action','text']);
+      const step = normalized(first(r, ['step','action','text']));
+
+      // Ältere ACTION-Einträge und Integrationen stammen teilweise aus
+      // unterschiedlichen Speicherwegen. Deshalb gelten sowohl die stabile
+      // lokale ID als auch derselbe konkrete Schritttext als Abschlussbeleg.
       if (localId && integratedIds.has(localId)) return false;
-      if (!localId && step && integratedSteps.has(step)) return false;
+      if (step && integratedSteps.has(step)) return false;
       return true;
     }) || null;
   }
