@@ -21,7 +21,6 @@
     if (existing && !existing.hidden) return true;
     if (typeof window.icsShowActionReflection!=='function') return false;
 
-    // 1. Zuerst der eindeutige lokale Stand.
     const localPending=readSteps().filter(item=>item?.done===true && !item?.integration)
       .sort((a,b)=>new Date(b.completedAt||b.createdAt||0)-new Date(a.completedAt||a.createdAt||0))[0];
     if (localPending) {
@@ -29,9 +28,6 @@
       return true;
     }
 
-    // 2. Fallback für ältere/testweise ACTIONS: Cloud-ACTION gegen bereits
-    //    vorhandene Integrationen abgleichen. Cloud speichert die ACTION beim
-    //    Erstellen; ältere Datensätze wurden beim Erledigen noch nicht aktualisiert.
     if (typeof window.icsGetToolResults!=='function') return false;
     const [actionsRes, integrationsRes]=await Promise.all([
       window.icsGetToolResults({toolId:'action_next_step',limit:30}),
@@ -44,26 +40,15 @@
     const localOpenIds=new Set(readSteps().filter(x=>x?.done!==true).map(x=>x.id).filter(Boolean));
 
     const candidate=(actionsRes.data||[]).find(item=>{
-      const r=item?.result||{};
-      const id=r.local_id;
-      const text=norm(r.step);
+      const r=item?.result||{},id=r.local_id,text=norm(r.step);
       if (!id && !text) return false;
       if (integratedIds.has(id) || (text && integratedTexts.has(text))) return false;
-      // Eine lokal weiterhin offene ACTION darf nicht als erledigt behandelt werden.
       if (id && localOpenIds.has(id)) return false;
       return true;
     });
     if (!candidate) return false;
     const r=candidate.result||{};
-    window.icsShowActionReflection({
-      id:r.local_id || `cloud_${candidate.id}`,
-      createdAt:r.created_at || candidate.created_at,
-      completedAt:r.completed_at || new Date().toISOString(),
-      topic:r.topic || '',
-      size:r.size || 'small',
-      step:r.step || '',
-      done:true
-    });
+    window.icsShowActionReflection({id:r.local_id||`cloud_${candidate.id}`,createdAt:r.created_at||candidate.created_at,completedAt:r.completed_at||new Date().toISOString(),topic:r.topic||'',size:r.size||'small',step:r.step||'',done:true});
     return true;
   }
 
@@ -77,10 +62,10 @@
     block.innerHTML=`<small style="display:block;color:${GOLD};letter-spacing:.08em;text-transform:uppercase;">ZULETZT UMGESETZT &amp; INTEGRIERT · ACTION</small><h3 style="margin:8px 0 0;color:${CREAM};">${esc(topic)}</h3>${step?`<p style="margin:7px 0 0;opacity:.72;line-height:1.5;">Schritt: ${esc(step)}</p>`:''}${changed?`<div style="margin-top:15px;padding-left:12px;border-left:1px solid ${GOLD};"><small style="color:${GOLD};">WAS SICH VERÄNDERT HAT</small><strong style="display:block;margin-top:5px;color:${CREAM};font-size:1.05rem;line-height:1.4;">${esc(changed)}</strong></div>`:''}${learning?`<small style="display:block;margin-top:14px;color:${GOLD};">DEINE ERKENNTNIS</small><p style="margin:7px 0 0;opacity:.75;line-height:1.5;">${esc(learning)}</p>`:''}`;
   }
 
-  async function syncActionDetail() {
+  async function syncActionDetail(options={}) {
     const content=getContent(),card=document.getElementById('actionCurrentStepCard'); if(!content||!card)return false; ensurePlaceholder(card);
     let reflection=document.getElementById('icsActionIntegrationCard');
-    if ((!reflection || reflection.hidden) && card.hidden) {
+    if (!options.skipRecovery && (!reflection || reflection.hidden) && card.hidden) {
       await recoverPendingReflection();
       reflection=document.getElementById('icsActionIntegrationCard');
     }
@@ -92,8 +77,13 @@
 
   function restoreMovedCards(){const card=document.getElementById('actionCurrentStepCard');if(card&&placeholder?.isConnected){placeholder.parentNode.insertBefore(card,placeholder.nextSibling);card.style.marginTop='24px';}const reflection=document.getElementById('icsActionIntegrationCard');if(reflection&&card?.parentNode&&reflection.parentElement!==card.parentElement)card.insertAdjacentElement('afterend',reflection);}
   document.addEventListener('click',event=>{if(event.target.closest('#icsCockpitBack'))restoreMovedCards();},true);
-  document.addEventListener('click',event=>{if(event.target.closest('[data-ics-detail="action"]'))window.setTimeout(syncActionDetail,60);});
-  document.addEventListener('click',event=>{if(!event.target.closest('#completeActionCurrentStep'))return;window.setTimeout(syncActionDetail,120);},true);
-  window.addEventListener('ics:action-integrated',()=>window.setTimeout(syncActionDetail,80));
+  document.addEventListener('click',event=>{if(event.target.closest('[data-ics-detail="action"]'))window.setTimeout(()=>syncActionDetail(),60);});
+  document.addEventListener('click',event=>{if(!event.target.closest('#completeActionCurrentStep'))return;window.setTimeout(()=>syncActionDetail(),120);},true);
+
+  // Direkt nach erfolgreicher Integration darf die Recovery nicht das gerade
+  // abgeschlossene Formular wiederherstellen. Erst die Cloud-Karte aktualisieren.
+  window.addEventListener('ics:action-integrated',()=>window.setTimeout(()=>syncActionDetail({skipRecovery:true}),80));
+  window.addEventListener('ics:action-integration-collapsed',()=>window.setTimeout(()=>syncActionDetail({skipRecovery:true}),40));
+
   window.icsShowCurrentActionInCockpit=syncActionDetail;
 })();
