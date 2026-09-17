@@ -3,7 +3,7 @@
 (() => {
   const massageLink = document.querySelector('a[href="https://innercodesystems.com/massagebereich"]');
   if (massageLink) {
-    massageLink.href = 'https://innercodesystems.github.io/ics-auswertungstool/transformationsmassage.html';
+    massageLink.href = 'https://www.innercodesystems.com/transformationsmassage.html';
   }
 
   const akademieLinks = document.querySelectorAll(
