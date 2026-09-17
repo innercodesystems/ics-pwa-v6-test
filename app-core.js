@@ -159,6 +159,7 @@ const open99Codes = document.getElementById('open99Codes');
 const openResetCheck = document.getElementById('openResetCheck');
 const openAuswertung = document.getElementById('openAuswertung');
 const openGegenpolGenerator = document.getElementById('openGegenpolGenerator');
+const openGestaltungsCodefinder = document.getElementById('openGestaltungsCodefinder');
 const openErkenntnisse = document.getElementById('openErkenntnisse');
 const backFromErkenntnisse = document.getElementById('backFromErkenntnisse');
 
@@ -322,6 +323,11 @@ openAuswertung?.addEventListener('click', () => {
 openGegenpolGenerator?.addEventListener('click', () => {
   window.location.href =
     'https://innercodesystems.github.io/ics-auswertungstool/ics-gegenpol-generator.html';
+});
+
+openGestaltungsCodefinder?.addEventListener('click', () => {
+  window.location.href =
+    'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html';
 });
 
 openErkenntnisse?.addEventListener('click', () => {
@@ -1291,6 +1297,7 @@ if (
   button.id === 'openResetCheck' ||
   button.id === 'openAuswertung' ||
 button.id === 'openGegenpolGenerator' ||
+button.id === 'openGestaltungsCodefinder' ||
 button.id === 'openErkenntnisse' ||
 button.id === 'openReports' ||
 button.id === 'openZurRuheKommen' ||
