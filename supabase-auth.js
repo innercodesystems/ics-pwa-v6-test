@@ -169,8 +169,19 @@
             <label style="display:block;margin-bottom:8px;font-size:14px;">Passwort</label>
             <input id="ics-login-password" type="password" autocomplete="current-password" required style="width:100%;box-sizing:border-box;padding:14px 15px;margin-bottom:18px;border-radius:12px;border:1px solid rgba(184,146,79,.4);background:#1a1815;color:#f6f1e7;font-size:16px;">
 
-            <button id="ics-login-button" type="submit" style="width:100%;padding:15px;border:0;border-radius:12px;background:#b8924f;color:#1a1815;font-weight:700;font-size:16px;cursor:pointer;">Meine ICS Welt öffnen</button>
-            <p id="ics-login-message" role="status" style="min-height:22px;margin:14px 0 0;text-align:center;font-size:14px;color:#e8c982;"></p>
+<button id="ics-login-button" type="submit" style="width:100%;padding:15px;border:0;border-radius:12px;background:#b8924f;color:#1a1815;font-weight:700;font-size:16px;cursor:pointer;">Meine ICS Welt öffnen</button>
+
+<div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(184,146,79,.22);text-align:center;">
+  <div style="font-size:14px;opacity:.78;margin-bottom:10px;">
+    Noch kein ICS Konto?
+  </div>
+
+  <button id="ics-register-button" type="button" style="width:100%;padding:14px;border:1px solid #b8924f;border-radius:12px;background:transparent;color:#e8c982;font-weight:700;font-size:15px;cursor:pointer;">
+    Kostenlos registrieren
+  </button>
+</div>
+
+<p id="ics-login-message" role="status" style="min-height:22px;margin:14px 0 0;text-align:center;font-size:14px;color:#e8c982;"></p>
           </form>
         </div>
       </div>`;
@@ -180,8 +191,9 @@
     const form = document.getElementById('ics-login-form');
     const email = document.getElementById('ics-login-email');
     const password = document.getElementById('ics-login-password');
-    const button = document.getElementById('ics-login-button');
-    const message = document.getElementById('ics-login-message');
+const button = document.getElementById('ics-login-button');
+const registerButton = document.getElementById('ics-register-button');
+const message = document.getElementById('ics-login-message');
 
     document.querySelectorAll('.bottom-nav .nav-item').forEach((navItem) => {
       navItem.addEventListener('click', (event) => {
@@ -196,6 +208,56 @@
       }, true);
     });
 
+registerButton.addEventListener('click', async () => {
+  const userEmail = email.value.trim();
+  const userPassword = password.value;
+
+  message.textContent = '';
+
+  if (!userEmail || !userPassword) {
+    message.textContent =
+      'Bitte zuerst E-Mail-Adresse und Passwort eingeben.';
+    return;
+  }
+
+  if (userPassword.length < 6) {
+    message.textContent =
+      'Das Passwort muss mindestens 6 Zeichen haben.';
+    return;
+  }
+
+  registerButton.disabled = true;
+  registerButton.textContent = 'Registrierung läuft …';
+
+  const { data, error } = await client.auth.signUp({
+    email: userEmail,
+    password: userPassword
+  });
+
+  if (error) {
+    console.error('ICS Registrierung fehlgeschlagen:', error);
+
+    message.textContent =
+      error.message || 'Registrierung momentan nicht möglich.';
+
+    registerButton.disabled = false;
+    registerButton.textContent = 'Kostenlos registrieren';
+    return;
+  }
+
+  if (data?.session?.user) {
+    await ensureProfile(data.session.user);
+    loadCoreApp(data.session.user, requestedViewAfterLogin);
+    return;
+  }
+
+  message.textContent =
+    'Fast geschafft. Bitte prüfe dein E-Mail-Postfach und bestätige deine Registrierung. Danach kannst du dich hier anmelden.';
+
+  registerButton.disabled = false;
+  registerButton.textContent = 'Kostenlos registrieren';
+});
+    
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       button.disabled = true;
