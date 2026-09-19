@@ -1641,3 +1641,90 @@ textarea:focus {
     margin-top: 12px !important;
   }
 }
+
+
+/* =========================================================
+   TEST · HEUTE HELL
+   Nur #view-heute – alle anderen App-Bereiche bleiben unverändert.
+   ========================================================= */
+
+#view-heute {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: #f6f1e7;
+  color: #1a1815;
+}
+
+#view-heute .hero {
+  background: #f6f1e7;
+}
+
+#view-heute .brand-name,
+#view-heute h1,
+#view-heute h2,
+#view-heute .premium-card h2,
+#view-heute .mini-card strong {
+  color: #1a1815;
+}
+
+#view-heute p,
+#view-heute .mini-card p {
+  color: #665f54;
+}
+
+#view-heute .section-kicker,
+#view-heute .brand-subtitle,
+#view-heute .card-topline,
+#view-heute .mini-card > span,
+#view-heute .mini-card small {
+  color: #b8924f;
+}
+
+#view-heute .hero-line {
+  color: #746b5d;
+}
+
+#view-heute .premium-card {
+  background: rgba(255,255,255,.58);
+  border-color: rgba(184,146,79,.38);
+  box-shadow: 0 12px 32px rgba(64,48,24,.06);
+}
+
+#view-heute .code-card {
+  color: #1a1815;
+  background: rgba(255,255,255,.62);
+  border-color: rgba(184,146,79,.38);
+}
+
+#view-heute .code-card span {
+  color: #b8924f;
+}
+
+#view-heute .code-card small {
+  color: #746b5d;
+}
+
+#view-heute .mini-card {
+  background: rgba(255,255,255,.45);
+  border-color: rgba(184,146,79,.28);
+}
+
+#view-heute .mini-card button {
+  color: #1a1815;
+  border-color: rgba(184,146,79,.45);
+}
+
+#view-heute .code-badge {
+  border-color: rgba(184,146,79,.38);
+}
+
+@media (max-width: 600px) {
+  #view-heute {
+    margin-left: -14px;
+    margin-right: -14px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
