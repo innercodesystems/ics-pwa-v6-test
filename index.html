@@ -78,223 +78,46 @@
 ========================== -->
 <section class="app-view active" id="view-heute">
 
-    <header class="hero">
+  <header class="ics-simple-hero">
+    <img src="icons/icon-512.png" class="ics-simple-logo" alt="ICS – Inner Code Systems">
+    <p class="ics-simple-brand">ICS</p>
+    <p class="ics-simple-subtitle">INNER CODE SYSTEMS</p>
+    <h1>Was brauchst du gerade?</h1>
+    <button class="ics-guide-button" id="openIcsGuide">✦&nbsp;&nbsp; ICS, FÜHRE MICH <span>›</span></button>
+  </header>
 
-      <div class="logo-stage">
-        <span class="logo-ring ring-one"></span>
-        <span class="logo-ring ring-two"></span>
-        <img src="icons/icon-512.png"
-             class="app-logo"
-             alt="ICS – Inner Code Systems">
-      </div>
-
-      <p class="brand-name">ICS</p>
-      <p class="brand-subtitle">INNER CODE SYSTEMS</p>
-
-      <h1>Alles beginnt mit deiner Aufmerksamkeit.</h1>
-
-      <p class="hero-line">
-        VERSTEHEN. SPÜREN. HANDELN.
-      </p>
-
-    </header>
-
-  <section class="premium-card guide-entry-card">
-
-  <p class="section-kicker">
-    DU MUSST NICHT WISSEN, WO DU ANFANGEN SOLLST
-  </p>
-
-  <h2>Wie geht es dir gerade?</h2>
-
-  <p>
-    Sag ICS, was gerade bei dir los ist.
-    Du bekommst einen passenden nächsten Schritt.
-  </p>
-
-  <button class="gold-button" id="openIcsGuide">
-    ICS, führe mich
-  </button>
-
-<button
-  type="button"
-  class="gold-button"
-  id="openIcsDemo"
-  style="
-    margin-left:8px;
-    background:transparent;
-    color:#d4a03a;
-    border:1px solid #d4a03a;
-  "
->
-  ICS ausprobieren
-</button>
-    
-</section>
-
-    <section class="premium-card daily-card">
-
-      <div class="card-topline">
-        <span>DEIN TAGESIMPULS</span>
-        <span class="code-badge">CODE 01</span>
-      </div>
-
-      <h2>Wahrnehmen, was gerade wirklich da ist.</h2>
-
-      <p>
-        Nimm dir einen Moment. Atme ruhig und frage dich:
-        Was braucht heute meine bewusste Aufmerksamkeit?
-      </p>
-
-      <button class="gold-button" id="openDailyCode">
-        Tagescode öffnen
-      </button>
-
-    </section>
-
-
-<section class="code-grid">
-
-  <button class="code-card choose-path" data-path-target="innercode">
-    <span>01</span>
-    <strong>Inner Code</strong>
-    <small>Verstehen</small>
-  </button>
-
-  <button class="code-card choose-path" data-path-target="bodycode">
-    <span>02</span>
-    <strong>Body Code</strong>
-    <small>Spüren</small>
-  </button>
-
-  <button class="code-card choose-path" data-path-target="actioncode">
-    <span>03</span>
-    <strong>Action Code</strong>
-    <small>Handeln</small>
-  </button>
-
-  <button class="code-card choose-path" data-path-target="resetcode">
-    <span>04</span>
-    <strong>RESET</strong>
-    <small>Neu ausrichten</small>
-  </button>
-
-</section>
-
-    <section class="premium-card welcome-card">
-
-      <p class="section-kicker">MEIN ICS</p>
-
-      <h2>Willkommen zurück, Peter.</h2>
-
-      <p id="todayDate"></p>
-
-      <div class="today-grid">
-
-        <article class="mini-card">
-          <span>🧠</span>
-          <small>DEIN FOKUS</small>
-          <strong>Erwartungen loslassen</strong>
-          <p>Was darf heute leichter werden?</p>
-        </article>
-
-        <article class="mini-card">
-          <span>♥</span>
-          <small>DEINE ENERGIE</small>
-          <strong><span id="energyValue">7</span>/10</strong>
-          <input id="energyRange"
-                 type="range"
-                 min="1"
-                 max="10"
-                 value="7">
-        </article>
-
-        <article class="mini-card">
-          <span>▲</span>
-          <small>DEINE UMSETZUNG</small>
-          <strong id="actionStatus">Heute noch offen</strong>
-          <button data-action="action">
-            Als erledigt markieren
-          </button>
-        </article>
-
-        <article class="mini-card">
-          <span>↻</span>
-          <small>RESET</small>
-          <strong id="resetStatus">Noch nicht durchgeführt</strong>
-          <button data-action="reset">
-            RESET beginnen
-          </button>
-        </article>
-
-      </div>
-
-    </section>
-
-  <section class="premium-card" style="margin-top:24px;">
-
-  <p class="section-kicker">DEINE WISSENSBIBLIOTHEK</p>
-
-  <h2>ICS Nachschlagewerk</h2>
-
-  <p>
-    Verstehen. Nachschlagen. Zusammenhänge entdecken.
-  </p>
-
-  <button
-    type="button"
-    class="gold-button"
-    id="todayToNachschlagewerk"
-    style="margin-top:18px;"
-  >
-    Nachschlagewerk öffnen →
-  </button>
-
-</section>
-
-  <section class="premium-card" style="margin-top:24px;">
-
-  <p class="section-kicker">RESET · BODY · ACTION</p>
-
-  <h2>Mikro-RESET</h2>
-
-  <p>
-    Unterbrich einen automatischen Zustand genau in dem Moment,
-    in dem er entsteht. Wahrnehmen, regulieren, neu wählen
-    und mit einer kleinen Handlung verankern.
-  </p>
-
-  <a
-    href="https://innercodesystems.github.io/ics-auswertungstool/ics-mikro-reset.html"
-    class="gold-button"
-    style="
-      display:inline-block;
-      margin-top:18px;
-      text-decoration:none;
-      text-align:center;
-    "
-  >
-    Mikro-RESET starten →
-  </a>
-
-</section>
-  
-  <section class="premium-card" style="text-align:center;">
-  <p class="section-kicker">ICS AUF DEINEM GERÄT</p>
-
-  <h2>Deine ICS-Welt immer griffbereit.</h2>
-
-  <p>
-    Du kannst ICS direkt auf deinem Startbildschirm installieren
-    und wie eine App öffnen.
-  </p>
-
-  <p style="margin-top:12px;">
-    Gehe dazu auf <strong>Mehr → ICS installieren</strong>.
-  </p>
-</section>
-
+  <section class="ics-question-grid" aria-label="Deine ICS Einstiege">
+    <button class="ics-question-card choose-path" data-path-target="innercode">
+      <strong>WAS TRIGGERT<br>MICH?</strong><span>›</span>
+    </button>
+    <a class="ics-question-card" href="https://www.innercodesystems.com/was-naehrt-dich/">
+      <strong>WAS RAUBT MIR<br>ENERGIE?</strong><span>›</span>
+    </a>
+    <button class="ics-question-card choose-path" data-path-target="innercode">
+      <strong>WAS GLAUBE ICH<br>ÜBER MICH?</strong><span>›</span>
+    </button>
+    <button class="ics-question-card choose-path" data-path-target="actioncode">
+      <strong>WAS WILL ICH<br>WIRKLICH?</strong><span>›</span>
+    </button>
+    <a class="ics-question-card" href="https://www.innercodesystems.com/werte-kompass/">
+      <strong>WAS IST MIR<br>WICHTIG?</strong><span>›</span>
+    </a>
+    <button class="ics-question-card choose-path" data-path-target="bodycode">
+      <strong>WAS SAGT MEIN<br>KÖRPER?</strong><span>›</span>
+    </button>
+    <a class="ics-question-card" href="https://innercodesystems.github.io/ics-auswertungstool/ics-mikro-reset.html">
+      <strong>ICH WILL<br>RAUS HIER.</strong><span>›</span>
+    </a>
+    <button class="ics-question-card" id="todayToMeditationen">
+      <strong>ICH WILL ZUR<br>RUHE KOMMEN.</strong><span>›</span>
+    </button>
   </section>
+
+  <button class="ics-all-tools" type="button" id="todayToNachschlagewerk">
+    <div><strong>ALLE TOOLS</strong><small>Entdecke deine ICS-Werkzeuge.</small></div><span>›</span>
+  </button>
+
+</section>
 
   <!-- =========================
      ICS NACHSCHLAGEWERK
