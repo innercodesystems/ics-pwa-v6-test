@@ -1,0 +1,10 @@
+
+/* ICS Studio · TESTMODUL */
+.ics-studio-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.ics-studio-tabs button{border:1px solid var(--line);background:transparent;color:var(--cream);padding:10px 14px;border-radius:12px}
+.ics-studio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ics-studio-stat{border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:rgba(212,160,58,.05)}
+.ics-studio-stat strong{display:block;color:var(--gold-light);font-size:1.8rem}.ics-studio-stat span{color:var(--muted);font-size:.8rem}
+.ics-studio-list{margin-top:18px}.ics-studio-row{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid rgba(212,160,58,.2)}
+.ics-studio-row p{margin:4px 0 0;font-size:.85rem}.ics-studio-row button{background:transparent;color:var(--muted);border:0;font-size:1.2rem}
+@media(max-width:520px){.ics-studio-grid{grid-template-columns:1fr}.ics-studio-tabs>*{flex:1}}
