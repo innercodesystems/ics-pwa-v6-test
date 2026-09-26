@@ -23,6 +23,7 @@
       await loadScript('today-personal.js?v=20260916-3');
       await loadScript('action-cockpit.js?v=20260916-7');
       await loadScript('massage-link-fix.js?v=20260917-1');
+      await loadScript('ics-studio.js?v=20260926-1');
     } catch (error) {
       console.error('ICS Startfehler:', error);
       document.body.insertAdjacentHTML('afterbegin', '<div style="padding:18px;text-align:center;background:#1a1815;color:#f6f1e7">ICS konnte die sichere Anmeldung nicht laden. Bitte Seite neu laden.</div>');
