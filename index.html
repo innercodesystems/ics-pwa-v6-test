@@ -80,13 +80,32 @@
 
     <header class="hero">
 
-      <div class="logo-stage">
-        <span class="logo-ring ring-one"></span>
-        <span class="logo-ring ring-two"></span>
-        <img src="icons/icon-512.png"
-             class="app-logo"
-             alt="ICS – Inner Code Systems">
-      </div>
+      <div class="logo-stage ics-app-logo-stage">
+<svg class="ics-app-orbit-logo" viewBox="0 0 100 100" role="img" aria-label="ICS">
+<defs>
+ <radialGradient id="appTri"><stop stop-color="#5c234f"/><stop offset=".62" stop-color="#271622"/><stop offset="1" stop-color="#0d0b0b"/></radialGradient>
+ <linearGradient id="appGold"><stop stop-color="#6e3500"/><stop offset=".25" stop-color="#d99c22"/><stop offset=".5" stop-color="#ffe49a"/><stop offset=".75" stop-color="#d89a20"/><stop offset="1" stop-color="#683000"/></linearGradient>
+ <radialGradient id="appAura"><stop stop-color="#fff"/><stop offset=".1" stop-color="#ffe56a" stop-opacity=".98"/><stop offset=".32" stop-color="#e7a51f" stop-opacity=".82"/><stop offset=".58" stop-color="#a15c20" stop-opacity=".38"/><stop offset="1" stop-color="#25150b" stop-opacity="0"/></radialGradient>
+ <filter id="appGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation=".75" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="50" cy="50" r="31" fill="none" stroke="url(#appGold)" stroke-width="1.25" filter="url(#appGlow)"/>
+<path d="M50 25L72.5 67H27.5Z" fill="url(#appTri)" stroke="url(#appGold)" stroke-width="1.1"/>
+<g class="ics-app-energy">
+ <ellipse cx="50" cy="52" rx="15" ry="14.5" fill="url(#appAura)" opacity=".88"/>
+ <path d="M48.9 52.2C49.2 47.7 49.5 41.7 50 34C50.5 41.7 50.8 47.7 51.1 52.2Z" fill="#ffe96a" filter="url(#appGlow)"/>
+ <path d="M49.6 51.6C46 54.3 41.8 57 37.4 59.8C41.7 57.9 46 55.7 50.5 52.6Z" fill="#ffe96a" filter="url(#appGlow)"/>
+ <path d="M50.4 51.6C54 54.3 58.2 57 62.6 59.8C58.3 57.9 54 55.7 49.5 52.6Z" fill="#ffe96a" filter="url(#appGlow)"/>
+ <circle cx="50" cy="52" r="1.2" fill="#fff9d6" filter="url(#appGlow)"/>
+</g>
+<g class="ics-app-orbit"><ellipse cx="50" cy="50" rx="39.5" ry="15.2" fill="none" stroke="url(#appGold)" stroke-width="1.5" transform="rotate(-25 50 50)" filter="url(#appGlow)"/></g>
+<g fill="#d9a126">
+ <path class="ics-app-star" d="M23.5 28L24.3 31L27.3 31.6L24.3 32.2L23.5 35.2L22.7 32.2L19.7 31.6L22.7 31Z"/>
+ <path class="ics-app-star a2" d="M76.5 26L77.3 29L80.5 29.8L77.3 30.5L76.5 33.7L75.7 30.5L72.5 29.8L75.7 29Z"/>
+ <path class="ics-app-star a3" d="M80 63L80.7 65.6L83.4 66.3L80.7 67L80 69.7L79.3 67L76.6 66.3L79.3 65.6Z"/>
+ <path class="ics-app-star a4" d="M25.8 69L26.5 71.5L29.1 72.2L26.5 72.9L25.8 75.5L25.1 72.9L22.5 72.2L25.1 71.5Z"/>
+</g>
+</svg>
+</div>
 
       <p class="brand-name">ICS</p>
       <p class="brand-subtitle">INNER CODE SYSTEMS</p>
