@@ -8,7 +8,17 @@
   <title>ICS – Inner Code Systems</title>
 
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260927-logo3">
+  <style>
+  /* Critical logo animation inline so installed PWA cannot miss it */
+  .ics-app-orbit{transform-origin:50px 50px;transform-box:view-box;animation:icsAppSpin 7s linear infinite!important}
+  .ics-app-energy{transform-origin:50px 52px;transform-box:view-box;animation:icsAppBreath 2.8s ease-in-out infinite!important}
+  .ics-app-star{transform-box:fill-box;transform-origin:center;animation:icsAppTwinkle 2.2s ease-in-out infinite!important}
+  .ics-app-star.a2{animation-delay:-.55s!important}.ics-app-star.a3{animation-delay:-1.1s!important}.ics-app-star.a4{animation-delay:-1.65s!important}
+  @keyframes icsAppSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes icsAppBreath{0%,100%{opacity:.88;transform:scale(.96)}50%{opacity:1;transform:scale(1.08)}}
+  @keyframes icsAppTwinkle{0%,100%{opacity:.42;transform:scale(.72)}50%{opacity:1;transform:scale(1.38)}}
+  </style>
 </head>
 
 <body>
