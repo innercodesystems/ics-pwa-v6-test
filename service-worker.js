@@ -1,11 +1,11 @@
-const CACHE = 'ics-v6-test-v8-logo-animation';
+const CACHE = 'ics-v6-test-v9-new-app-icon';
 
 const ASSETS = [
   './',
   'index.html',
   'manifest.webmanifest',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
+  'icons/icon-192-new.png',
+  'icons/icon-512-new.png',
   'NW_001_Ich_darf_Mensch_sein.png',
   'NW_002_Ich_bin_richtig_wertvoll_und_liebevoll.png',
   'NW_003_Ich_darf_wachsen_und_lernen.png',
