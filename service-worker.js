@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v9-new-app-icon';
+const CACHE = 'ics-v6-test-v10-standalone-pwa';
 
 const ASSETS = [
   './',
