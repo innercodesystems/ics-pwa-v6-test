@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v7';
+const CACHE = 'ics-v6-test-v8-logo-animation';
 
 const ASSETS = [
   './',
