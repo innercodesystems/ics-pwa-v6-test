@@ -61,6 +61,9 @@
     if(e.target.closest('[data-wf-open-first]')){const s=read(),idx=steps.findIndex(x=>s.status?.[x.id]==='open');if(idx>=0){s.index=idx;delete s.status[steps[idx].id];save(s);mount();}return;}
     if(e.target.closest('[data-view="meinics"]'))setTimeout(mount,250);
   });
-  const timer=setInterval(()=>{if(mount())clearInterval(timer)},350); setTimeout(()=>clearInterval(timer),15000);
+  const timer=setInterval(()=>mount(),500);
+  setTimeout(()=>clearInterval(timer),15000);
+  const observer=new MutationObserver(()=>{ if(document.getElementById('icsWayfinderHost')) mount(); });
+  observer.observe(document.body,{childList:true,subtree:true});
   window.icsWayfinderRender=mount;
 })();
