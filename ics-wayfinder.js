@@ -19,7 +19,11 @@
     const cards=document.getElementById('icsCockpitCards');
     if(!cards) return false;
     let box=document.getElementById('icsWayfinder');
-    if(!box){box=document.createElement('section');box.id='icsWayfinder';cards.parentElement.insertBefore(box,cards);}
+    if(!box){box=document.createElement('section');box.id='icsWayfinder';}
+    // Cockpit rebuilds its inner HTML repeatedly, so keep the wayfinder outside that replaceable area.
+    const home=document.getElementById('icsCockpitHome');
+    if(home && box.parentElement!==home) home.insertBefore(box,cards);
+    if(!box.isConnected) return false;
     const s=read(), {i,step}=current(s), done=Object.values(s.status||{}).filter(x=>x==='done').length, open=Object.values(s.status||{}).filter(x=>x==='open').length;
     const finished=steps.every(x=>['done','open'].includes(s.status?.[x.id]));
     box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
