@@ -131,9 +131,8 @@
     const energy = compact(readText('icsLatestEnergy', 'Deinen aktuellen Zustand ansehen.'), 82);
     const journal = compact(readText('icsLatestCloudActivity', 'Deinen letzten Check-in ansehen.'), 82);
     const mentor = compact(readText('icsLatestMentorInsight', 'Deine letzte Mentor-Erkenntnis ansehen.'), 82);
-    const developmentNode = document.getElementById('icsDevelopmentJourney');
-    const developmentTitle = developmentNode?.querySelector('h3')?.textContent?.replace(/\s+/g,' ').trim() || 'Deine persönliche Entwicklungslinie';
-    const developmentText = developmentNode?.querySelector('p')?.textContent?.replace(/\s+/g,' ').trim() || 'Deine gespeicherten Schritte als sichtbaren Weg ansehen.';
+    const developmentTitle = 'Deine persönliche Entwicklungslinie';
+    const developmentText = 'Sieh, was sich auf deinem bisherigen ICS-Weg bereits bewegt und verändert hat.';
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
 
