@@ -353,7 +353,7 @@ todayToNachschlagewerk?.addEventListener('click', () => {
 });
 
 nachschlagewerkToKoerpersignale?.addEventListener('click', () => {
-  openView('koerpersignale');
+  window.location.href = nachschlagewerkToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html';
 });
 
 backFromNachschlagewerk?.addEventListener('click', () => {
@@ -6246,7 +6246,7 @@ bodyToImpulse?.addEventListener('click', () => {
 });
 
 bodyToKoerpersignale?.addEventListener('click', () => {
-  openView('koerpersignale');
+  window.location.href = bodyToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html';
 });
 
 backFromKoerpersignale?.addEventListener('click', () => {
