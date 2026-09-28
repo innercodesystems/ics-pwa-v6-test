@@ -131,7 +131,9 @@
     const energy = compact(readText('icsLatestEnergy', 'Deinen aktuellen Zustand ansehen.'), 82);
     const journal = compact(readText('icsLatestCloudActivity', 'Deinen letzten Check-in ansehen.'), 82);
     const mentor = compact(readText('icsLatestMentorInsight', 'Deine letzte Mentor-Erkenntnis ansehen.'), 82);
-    const development = compact(readText('icsDevelopmentJourney', 'Deine persönliche Entwicklungslinie ansehen.'), 82);
+    const developmentNode = document.getElementById('icsDevelopmentJourney');
+    const developmentTitle = developmentNode?.querySelector('h3')?.textContent?.replace(/\s+/g,' ').trim() || 'Deine persönliche Entwicklungslinie';
+    const developmentText = developmentNode?.querySelector('p')?.textContent?.replace(/\s+/g,' ').trim() || 'Deine gespeicherten Schritte als sichtbaren Weg ansehen.';
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
 
@@ -165,7 +167,7 @@
       <small style="color:${GOLD};letter-spacing:.10em;">DEIN WEG</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Entwicklung</h3>
       <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Was sich über deine gespeicherten ICS-Schritte hinweg bewegt.</p>
-      ${card('↗','Entwicklung','Deine persönliche Entwicklungslinie',development,'development')}
+      ${card('↗','Entwicklung',developmentTitle,developmentText,'development')}
     </section>`;
 
     document.getElementById('icsCockpitHome').hidden = false;
