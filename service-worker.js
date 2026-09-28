@@ -1,11 +1,9 @@
-const CACHE = 'ics-v6-test-v10-standalone-pwa';
+const CACHE = 'ics-v6-test-v11-install-fix';
 
 const ASSETS = [
   './',
   'index.html',
   'manifest.webmanifest',
-  'icons/icon-192-new.png',
-  'icons/icon-512-new.png',
   'NW_001_Ich_darf_Mensch_sein.png',
   'NW_002_Ich_bin_richtig_wertvoll_und_liebevoll.png',
   'NW_003_Ich_darf_wachsen_und_lernen.png',
