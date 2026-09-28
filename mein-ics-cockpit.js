@@ -92,6 +92,7 @@
       <small style="display:block;color:${GOLD};letter-spacing:.11em;text-transform:uppercase;">DEIN PERSÖNLICHES SYSTEM</small>
       <h2 style="margin:8px 0 0;color:${CREAM};font-size:clamp(1.8rem,5vw,2.35rem);">Dein Bild im Moment</h2>
       <p style="margin:7px 0 0;opacity:.72;">Wo du gerade stehst. Was sich zeigt. Was dein nächster Schritt ist.</p>
+      <div id="icsWayfinderHost" style="margin-top:22px;"></div>
       <div id="icsCockpitCards" style="margin-top:22px;"></div>
     </div><div id="icsCockpitDetail" hidden></div>`;
     overview.prepend(shell);
