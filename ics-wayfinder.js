@@ -61,9 +61,12 @@
     if(e.target.closest('[data-wf-open-first]')){const s=read(),idx=steps.findIndex(x=>s.status?.[x.id]==='open');if(idx>=0){s.index=idx;delete s.status[steps[idx].id];save(s);mount();}return;}
     if(e.target.closest('[data-view="meinics"]'))setTimeout(mount,250);
   });
-  const timer=setInterval(()=>mount(),500);
-  setTimeout(()=>clearInterval(timer),15000);
-  const observer=new MutationObserver(()=>{ if(document.getElementById('icsWayfinderHost')) mount(); });
-  observer.observe(document.body,{childList:true,subtree:true});
+  // Mount only when needed. Avoid observing our own DOM updates, which can create a render loop.
+  let attempts=0;
+  const timer=setInterval(()=>{
+    attempts++;
+    if(mount() || attempts>=30) clearInterval(timer);
+  },500);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(mount,150); });
   window.icsWayfinderRender=mount;
 })();
