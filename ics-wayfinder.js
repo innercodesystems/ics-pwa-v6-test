@@ -7,7 +7,7 @@
     {id:'trigger',title:'Trigger & Auslöser',text:'Erkenne, welche Situation dein Muster immer wieder aktiviert.',href:'./trigger-kompass-app.html'},
     {id:'gegenpol',title:'Gegenpol',text:'Finde eine neue innere Richtung und einen konkreten nächsten Schritt.',target:'#openGegenpolGenerator'},
     {id:'reset',title:'RESET',text:'Komm aus dem Reagieren zurück in einen bewussten Zustand.',target:'#openResetCheck'},
-    {id:'gestaltung',title:'Ins Handeln kommen',text:'Übersetze deine Erkenntnis in einen bewussten Gestaltungs-Schritt.',target:'#openGestaltungsCodefinder'}
+    {id:'gestaltung',title:'In den Schöpfermodus',text:'Übersetze deine Erkenntnis in einen bewussten Gestaltungs-Schritt.',target:'#openGestaltungsCodefinder'}
   ];
   const read=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{index:0,status:{},source:''}}catch{return {index:0,status:{},source:''}}};
   const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
