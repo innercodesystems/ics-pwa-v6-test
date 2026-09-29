@@ -61,7 +61,7 @@
     if(e.target.closest('[data-wf-look]')){const s=read(),{step}=current(s);s.status[step.id]='done';save(s);openStep(step);return;}
     if(e.target.closest('[data-wf-list]')){showOpen();return;}
     if(e.target.closest('[data-wf-close]')){document.getElementById('icsWfModal')?.remove();return;}
-    if(e.target.closest('[data-wf-open-first]')){const s=read(),idx=steps.findIndex(x=>s.status?.[x.id]==='open');if(idx>=0){s.index=idx;delete s.status[steps[idx].id];save(s);mount();}return;}
+    if(e.target.closest('[data-wf-open-first]')){const s=read();let idx=steps.findIndex(x=>s.status?.[x.id]==='open');if(idx<0){idx=steps.findIndex(x=>s.status?.[x.id]!=='done');}if(idx<0){s.index=0;s.status={};}else{s.index=idx;if(s.status?.[steps[idx].id]==='open')delete s.status[steps[idx].id];}save(s);mount();return;}
     if(e.target.closest('[data-view="meinics"]'))setTimeout(mount,250);
   });
   // Mount only when needed. Avoid observing our own DOM updates, which can create a render loop.
