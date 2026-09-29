@@ -7184,6 +7184,13 @@ document.querySelectorAll('.guide-choice').forEach((button) => {
 });
 
     selectedGuideTarget = recommendation.target;
+    try {
+      localStorage.setItem('ics_guide_origin_v1', JSON.stringify({
+        state,
+        title: button.querySelector('strong')?.textContent?.trim() || '',
+        selectedAt: new Date().toISOString()
+      }));
+    } catch (e) {}
 
     guideRecommendationTitle.textContent =
       recommendation.title;
@@ -7465,6 +7472,17 @@ if (demoState === 'orientation') {
     guideRecommendations[selectedState];
 
   if (recommendation) {
+    try {
+      localStorage.setItem('ics_guide_origin_v1', JSON.stringify({
+        state: selectedState,
+        title: document.querySelector('.guide-choice.active strong')?.textContent?.trim() || '',
+        selectedAt: new Date().toISOString(),
+        started: true
+      }));
+      const routeStart = {mind:0,energy:3,body:3,pressure:3,orientation:4,impulse:4};
+      const wf = {index: routeStart[selectedState] ?? 0, status:{}, source:selectedState};
+      localStorage.setItem('ics_wayfinder_v2', JSON.stringify(wf));
+    } catch (e) {}
     saveMentorChoice({
       id:
         globalThis.crypto?.randomUUID?.() ||
