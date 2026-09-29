@@ -137,7 +137,26 @@
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
 
-    cards.innerHTML = `<section>
+    let evaluationHtml = '';
+    try {
+      const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
+      if (ev && ev.completed) {
+        const survival = Number(ev.survivalMode), creator = Number(ev.creatorMode);
+        const themes = Array.isArray(ev.themes) ? ev.themes.filter(Boolean) : [];
+        const counters = Array.isArray(ev.counterfields) ? ev.counterfields.filter(Boolean) : [];
+        const focus = ev.weakestCodeLabel || ev.weakestCode || '';
+        evaluationHtml = '<section id="icsLatestEvaluation" style="margin-bottom:24px;padding:18px;border:1px solid rgba(184,146,79,.42);border-radius:18px;background:rgba(184,146,79,.06);">'
+          + '<small style="color:'+GOLD+';letter-spacing:.10em;">DEINE LETZTE ICS-AUSWERTUNG</small>'
+          + '<h3 style="margin:7px 0 12px;color:'+CREAM+';">Dein aktueller Stand</h3>'
+          + (Number.isFinite(survival)&&Number.isFinite(creator) ? '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;"><strong style="color:'+CREAM+';">Überlebensmodus '+survival+'%</strong><span style="opacity:.45;">·</span><strong style="color:'+GOLD+';">Schöpfermodus '+creator+'%</strong></div>' : '')
+          + (focus ? '<p style="margin:0 0 8px;"><span style="opacity:.62;">Schwerpunkt:</span> <strong style="color:'+CREAM+';">'+escapeHtml(focus)+'</strong></p>' : '')
+          + (themes.length ? '<p style="margin:0 0 8px;"><span style="opacity:.62;">Was sich zeigt:</span> '+themes.map(escapeHtml).join(' · ')+'</p>' : '')
+          + (counters.length ? '<p style="margin:0;"><span style="opacity:.62;">Neue Richtung:</span> <strong style="color:'+GOLD+';">'+counters.map(escapeHtml).join(' · ')+'</strong></p>' : '')
+          + '</section>';
+      }
+    } catch(e) {}
+
+    cards.innerHTML = evaluationHtml + `<section>
       <small style="color:${GOLD};letter-spacing:.10em;">JETZT</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Wo du gerade stehst</h3>
       <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Deine aktuelle Orientierung und dein nächster Schritt.</p>
