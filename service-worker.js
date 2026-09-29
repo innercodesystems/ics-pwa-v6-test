@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v12-wayfinder';
+const CACHE = 'ics-v6-test-v13-routing';
 
 const ASSETS = [
   './',
