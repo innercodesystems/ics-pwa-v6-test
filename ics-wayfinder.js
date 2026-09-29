@@ -22,6 +22,15 @@
     if(!box){box=document.createElement('section');box.id='icsWayfinder';}
     if(box.parentElement!==host) host.replaceChildren(box);
     const s=read(), {i,step}=current(s), done=Object.values(s.status||{}).filter(x=>x==='done').length, open=Object.values(s.status||{}).filter(x=>x==='open').length;
+    let origin={}; try{origin=JSON.parse(localStorage.getItem('ics_guide_origin_v1')||'{}')}catch(e){}
+    const originReasons={
+      mind:'Du hast „Meine Gedanken drehen sich“ gewählt. ICS beginnt deshalb bei Gedankenmustern und inneren Sätzen.',
+      energy:'Du hast „Ich bin energielos“ gewählt. ICS bietet dir zuerst Entlastung und einen kleinen RESET statt tiefer Analyse.',
+      body:'Du hast „Mein Körper meldet sich“ gewählt. Nach der Körperwahrnehmung bietet ICS zunächst Entlastung an; Musterarbeit ist nur eine spätere Möglichkeit.',
+      pressure:'Du hast „Ich setze mich gerade unter Druck“ gewählt. Deshalb steht zuerst Unterbrechen und RESET im Vordergrund.',
+      orientation:'Du hast „Ich weiß gerade nicht weiter“ gewählt. ICS richtet den Fokus zuerst auf einen machbaren nächsten Schritt.',
+      impulse:'Du wolltest einfach einen Impuls. ICS hält den Weg deshalb leicht und führt nicht automatisch in eine tiefe Musteranalyse.'
+    };
     const finished=(s.index||0)>=steps.length;
     box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
     if(finished){
@@ -29,6 +38,7 @@
       return true;
     }
     box.innerHTML=`<small style="color:${GOLD};letter-spacing:.11em;">DEIN NÄCHSTER SCHRITT</small>
+      ${origin.state?'<p style="margin:8px 0 12px;padding:10px 12px;border-left:2px solid '+GOLD+';background:rgba(184,146,79,.06);opacity:.82;line-height:1.45;">'+esc(originReasons[origin.state]||('Ausgangspunkt: '+origin.title))+'</p>':''}
       <h3 style="margin:7px 0 5px;color:${CREAM};font-size:1.45rem;">${esc(step.title)}</h3>
       <p style="margin:0;opacity:.72;line-height:1.5;">${esc(step.text)}</p>
       <details style="margin-top:12px;"><summary style="color:${GOLD};cursor:pointer;font-weight:700;">Warum schlägt ICS das vor?</summary><p style="margin:8px 0 0;opacity:.68;line-height:1.5;">${esc(step.why||'Dieser Schritt ist eine mögliche Richtung – du entscheidest, ob sie gerade zu dir passt.')}</p></details>
