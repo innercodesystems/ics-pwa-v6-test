@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v29-currentstate';
+const CACHE = 'ics-v6-test-v30-pressureflow';
 
 const ASSETS = [
   './',
