@@ -7058,48 +7058,91 @@ const icsMentorStateMatrix = {
 };
 
 const guideRecommendations = {
+  mind: {
+    title: 'Deine Gedanken kommen gerade nicht zur Ruhe.',
+    text: 'Wir unterbrechen zuerst das Kreisen und schaffen etwas Abstand. Du musst jetzt noch nichts lösen.',
+    area: 'Gedanken · Abstand schaffen',
+    target: 'guide-mind'
+  },
   energy: {
     title: 'Deine Energie braucht gerade Aufmerksamkeit.',
-    text: 'Du musst gerade nicht mehr leisten. Nimm zuerst wahr, wie es dir wirklich geht und welcher kleine Schritt jetzt möglich ist.',
-    area: 'ICS Energie',
-    target: 'icsstate-energy'
+    text: 'Nimm zuerst wahr, wie viel gerade wirklich möglich ist. Danach folgt nur ein kleiner passender Schritt.',
+    area: 'Energie · wahrnehmen',
+    target: 'guide-energy'
   },
-
-body: {
-  title: 'Dein Körper möchte gerade wahrgenommen werden.',
-  text: 'Schau zuerst hin, was dein Körper dir gerade zeigt. Im Körpersignale-Nachschlagewerk kannst du dein aktuelles Signal auswählen und bewusst reflektieren.',
-  area: 'ICS Körpersignale',
-  target: 'icsstate-body'
-},
-  
-mind: {
-  title: 'Dein Kopf braucht gerade etwas Entlastung.',
-  text: 'Lass uns zuerst schauen, was jetzt wirklich möglich ist. Du musst gerade nichts lösen.',
-  area: 'ICS führt dich · Kopf voll',
-  target: 'icsstate-kopf'
-},
-
+  body: {
+    title: 'Dein Körper möchte gerade wahrgenommen werden.',
+    text: 'Wähle dein aktuelles Körpersignal. Danach folgen Wahrnehmen, ein kleiner eigener Schritt und eine erneute Prüfung.',
+    area: 'Körpersignale · wahrnehmen',
+    target: 'guide-body'
+  },
   pressure: {
-    title: 'Du darfst den inneren Druck unterbrechen.',
-    text: 'Bevor du weiter versuchst, etwas zu lösen, darfst du dich neu ausrichten und aus der automatischen Reaktion aussteigen.',
-    area: 'RESET · Neuausrichtung',
-    target: 'icsstate-pressure'
+    title: 'Du darfst den inneren Druck zuerst unterbrechen.',
+    text: 'Bevor du analysierst oder weiterfunktionierst, schaffen wir kurz Abstand zur automatischen Reaktion.',
+    area: 'Druck · unterbrechen',
+    target: 'guide-pressure'
   },
-
   orientation: {
-    title: 'Du brauchst gerade nicht den ganzen Weg.',
-    text: 'Richte deine Aufmerksamkeit auf einen einzigen nächsten Schritt. Klarheit entsteht oft erst durch Bewegung.',
-    area: 'Action Code · nächster Schritt',
-    target: 'icsstate-orientation'
+    title: 'Du brauchst gerade nur den nächsten machbaren Schritt.',
+    text: 'Wir sortieren nicht dein ganzes Leben. Wir schaffen zuerst Orientierung für genau jetzt.',
+    area: 'Orientierung · nächster Schritt',
+    target: 'guide-orientation'
   },
-
   impulse: {
-    title: 'Lass dich für einen Moment inspirieren.',
-    text: 'Du musst gerade nichts analysieren. Ein passender Gedanke kann genügen, um deine Aufmerksamkeit neu auszurichten.',
-    area: 'ICS Impulse',
-    target: 'impulse'
+    title: 'Ein Impuls darf für jetzt genügen.',
+    text: 'Du musst nichts analysieren. Nimm einen Gedanken mit und entscheide danach selbst, ob du vertiefen möchtest.',
+    area: 'Impuls · leicht bleiben',
+    target: 'guide-impulse'
   }
 };
+
+// EINZIGER ROUTER für "ICS, führe mich".
+// Auswahl -> Wahrnehmen/Entlasten -> bestehendes passendes Werkzeug.
+// Mein ICS speichert Ergebnisse; es routet diesen Einstieg nicht.
+function startCanonicalGuideRoute(state) {
+  try {
+    localStorage.setItem('ics_guide_origin_v1', JSON.stringify({
+      state,
+      title: document.querySelector('.guide-choice.active strong')?.textContent?.trim() || '',
+      selectedAt: new Date().toISOString(),
+      started: true,
+      routerVersion: 1
+    }));
+    // Alte generische Wegweiser-Zustände dürfen den neuen Weg nicht überschreiben.
+    localStorage.removeItem('ics_wayfinder_v2');
+  } catch(e) {}
+
+  if (state === 'body') {
+    try { sessionStorage.setItem('ICS_RETURN_VIEW','fuehremich'); } catch(e) {}
+    window.location.href='https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html?from=app&return='+
+      encodeURIComponent(window.location.origin+window.location.pathname+'?view=fuehremich')+'&v=20260930-router1';
+    return true;
+  }
+  if (state === 'energy') {
+    resetEnergyJourney();
+    energyJourneyState.mentorState='energy';
+    openView('icsenergy');
+    renderEnergyHistory();
+    return true;
+  }
+  if (state === 'mind') {
+    openView('gedankenloslassen');
+    return true;
+  }
+  if (state === 'pressure') {
+    openView('resetmeditation');
+    return true;
+  }
+  if (state === 'orientation') {
+    openView('actioncode');
+    return true;
+  }
+  if (state === 'impulse') {
+    openView('impulse');
+    return true;
+  }
+  return false;
+}
 
 const icsDemoScenarios = {
   mind: {
@@ -7504,6 +7547,9 @@ if (demoState === 'orientation') {
       target: recommendation.target
     });
   }
+
+// Canonical production routing. Legacy state branches below remain only for old direct entries.
+  if (startCanonicalGuideRoute(selectedState)) return;
 
 if (selectedGuideTarget === 'icsenergy') {
   resetEnergyJourney();
