@@ -7583,36 +7583,14 @@ if (selectedGuideTarget === 'icsstate-energy') {
 }
 
 if (selectedGuideTarget === 'icsstate-body') {
-  selectedIcsState = 'angespannt';
-  selectedIcsDuration = null;
-
-  icsStateButtons.forEach((button) => {
-    const selected =
-      button.dataset.icsState === 'angespannt';
-
-    button.classList.toggle('is-selected', selected);
-    button.setAttribute('aria-pressed', String(selected));
-  });
-
-  icsDurationButtons.forEach((button) => {
-    button.classList.remove('is-selected');
-    button.setAttribute('aria-pressed', 'false');
-  });
-
-  showIcsNextStepForState('angespannt');
-  updateIcsStateStartButton();
-
-  openView('meinics');
-
-  setTimeout(() => {
-    document
-      .querySelector('.ics-state-entry')
-      ?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-  }, 100);
-
+  // Körper-Einstieg führt direkt in das Körpersignale-Nachschlagewerk.
+  // Der Rückweg bleibt eindeutig bei "Führe mich".
+  try {
+    sessionStorage.setItem('ICS_RETURN_VIEW', 'fuehremich');
+  } catch (e) {}
+  window.location.href =
+    'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html?from=app&return=' +
+    encodeURIComponent(window.location.origin + window.location.pathname + '?view=fuehremich');
   return;
 }
 
