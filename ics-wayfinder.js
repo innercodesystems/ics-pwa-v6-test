@@ -21,8 +21,21 @@
     let box=document.getElementById('icsWayfinder');
     if(!box){box=document.createElement('section');box.id='icsWayfinder';}
     if(box.parentElement!==host) host.replaceChildren(box);
-    const s=read(), {i,step}=current(s), done=Object.values(s.status||{}).filter(x=>x==='done').length, open=Object.values(s.status||{}).filter(x=>x==='open').length;
+    let s=read();
+    let evaluation=null;
+    try{evaluation=JSON.parse(localStorage.getItem('ics_wayfinder_result_v1')||localStorage.getItem('ics_auswertung_result_v1')||'null')}catch(e){}
+    if(evaluation&&evaluation.completed){
+      const focus=String(evaluation.weakestCodeLabel||evaluation.weakestCode||'').toLowerCase();
+      let preferred='gestaltung';
+      if(focus.includes('inner')) preferred='muster';
+      else if(focus.includes('body')) preferred='reset';
+      else if(focus.includes('action')) preferred='gestaltung';
+      const idx=steps.findIndex(x=>x.id===preferred), stamp=String(evaluation.at||'');
+      if(s.evaluationStamp!==stamp||s.source!=='evaluation'){s.index=idx>=0?idx:0;s.source='evaluation';s.evaluationStamp=stamp;save(s);}
+    }
+    const {i,step}=current(s), done=Object.values(s.status||{}).filter(x=>x==='done').length, open=Object.values(s.status||{}).filter(x=>x==='open').length;
     let origin={}; try{origin=JSON.parse(localStorage.getItem('ics_guide_origin_v1')||'{}')}catch(e){}
+    if(evaluation&&evaluation.completed) origin={};
     const originReasons={
       mind:'Du hast „Meine Gedanken drehen sich“ gewählt. ICS beginnt deshalb bei Gedankenmustern und inneren Sätzen.',
       energy:'Du hast „Ich bin energielos“ gewählt. ICS bietet dir zuerst Entlastung und einen kleinen RESET statt tiefer Analyse.',
