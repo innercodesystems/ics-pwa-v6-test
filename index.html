@@ -1959,15 +1959,27 @@
   >
     Als erledigt markieren
   </button>
+
+  <div id="actionStepEffect" hidden style="margin-top:22px; padding-top:18px; border-top:1px solid rgba(184,146,79,.35);">
+    <small>WAS HAT SICH VERÄNDERT?</small>
+    <div class="energy-duration" style="margin-top:10px;">
+      <button type="button" class="energy-choice action-step-effect" data-action-effect="leichter">Leichter</button>
+      <button type="button" class="energy-choice action-step-effect" data-action-effect="klarer">Klarer</button>
+      <button type="button" class="energy-choice action-step-effect" data-action-effect="unveraendert">Unverändert</button>
+      <button type="button" class="energy-choice action-step-effect" data-action-effect="anders">Anders</button>
+    </div>
+    <p id="actionStepEffectFeedback" style="margin-top:12px; opacity:.8;"></p>
+  </div>
 </section>
 
 <div style="margin-top:24px; text-align:center;">
   <button
     type="button"
-    class="gold-button"
+    class="menu-card"
     id="backFromActionNext"
+    style="display:inline-flex; width:auto; min-width:260px;"
   >
-    ← Zurück zu Action Code
+    <div><strong>← Zurück zu Action Code</strong></div>
   </button>
 </div>
 
