@@ -7134,7 +7134,9 @@ function startCanonicalGuideRoute(state) {
     return true;
   }
   if (state === 'orientation') {
-    openView('actioncode');
+    // Geführter ICS-Weg: Der Nutzer hat bereits gesagt, dass er nicht weiterweiß.
+    // Deshalb keine zweite Auswahl im Action Code, sondern direkt zum passenden Fokus-Tool.
+    openView('actionnext');
     return true;
   }
   if (state === 'impulse') {
