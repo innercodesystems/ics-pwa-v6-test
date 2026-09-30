@@ -2303,32 +2303,82 @@ document.addEventListener('click', (event) => {
       later: 'Der Schritt bleibt gespeichert und erscheint in „Meine Schritte“.'
     }[when] || '';
   }
+
+  if (completeActionCurrentStep) {
+    completeActionCurrentStep.textContent = {
+      now: 'Als erledigt markieren',
+      today: 'Für heute festhalten',
+      later: 'Für später merken'
+    }[when] || 'Als erledigt markieren';
+  }
 });
 
 completeActionCurrentStep?.addEventListener('click', () => {
   const stepId = actionCurrentStepCard?.dataset.stepId;
-
   if (!stepId) return;
 
   const steps = getActionNextSteps();
+  const current = steps.find((item) => item.id === stepId);
+  if (!current) return;
 
-  const updatedSteps = steps.map((item) => {
-    if (item.id !== stepId) return item;
+  const when = current.when || 'now';
 
-    return {
-      ...item,
-      done: true,
-      completedAt: new Date().toISOString()
-    };
-  });
+  if (when !== 'now') {
+    if (actionNextFeedback) {
+      actionNextFeedback.textContent =
+        when === 'today'
+          ? 'Für heute festgehalten. ICS hält deinen Schritt für dich offen. ✓'
+          : 'Für später gespeichert. Du findest ihn unter „Meine Schritte“. ✓';
+    }
+    openView('heute');
+    return;
+  }
+
+  const updatedSteps = steps.map((item) =>
+    item.id === stepId
+      ? { ...item, done: true, completedAt: new Date().toISOString() }
+      : item
+  );
 
   saveActionNextSteps(updatedSteps);
-  renderCurrentActionStep();
+
+  const effect = document.getElementById('actionStepEffect');
+  if (effect) {
+    effect.hidden = false;
+    effect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  completeActionCurrentStep.hidden = true;
 
   if (actionNextFeedback) {
     actionNextFeedback.textContent =
       'Schritt erledigt. ✓ Nimm kurz wahr, was sich dadurch verändert hat.';
   }
+});
+
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.action-step-effect');
+  if (!button) return;
+
+  const stepId = actionCurrentStepCard?.dataset.stepId;
+  if (!stepId) return;
+
+  const effect = button.dataset.actionEffect || '';
+  const steps = getActionNextSteps().map((item) =>
+    item.id === stepId
+      ? { ...item, effect, reflectedAt: new Date().toISOString() }
+      : item
+  );
+  saveActionNextSteps(steps);
+
+  document.querySelectorAll('.action-step-effect').forEach((choice) => {
+    choice.classList.toggle('active', choice === button);
+  });
+
+  const feedback = document.getElementById('actionStepEffectFeedback');
+  if (feedback) feedback.textContent = 'Gespeichert. ICS nimmt diese Erfahrung mit. ✓';
+
+  setTimeout(() => openView('heute'), 650);
 });
 
 const resetToImpulse = document.getElementById('resetToImpulse');
