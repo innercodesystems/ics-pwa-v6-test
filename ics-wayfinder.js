@@ -7,7 +7,7 @@
     {id:'trigger',title:'Trigger & Auslöser',text:'Erkenne, welche Situation dein Muster immer wieder aktiviert.',why:'Manchmal beginnt ein Gedankenkreislauf mit einer bestimmten Situation oder Reaktion. Hier kannst du prüfen, ob es einen Auslöser gibt.',href:'./trigger-kompass-app.html'},
     {id:'gegenpol',title:'Gegenpol',text:'Finde eine neue innere Richtung und einen konkreten nächsten Schritt.',why:'Wenn du ein Muster erkannt hast, kann ein bewusster Gegenpol helfen, eine neue Richtung zu wählen.',target:'#openGegenpolGenerator'},
     {id:'reset',title:'RESET',text:'Komm aus dem Reagieren zurück in einen bewussten Zustand.',why:'Wenn gerade Entlastung wichtiger ist als Analyse, kann RESET dir helfen, erst einmal wieder Raum zu schaffen.',target:'#openResetCheck'},
-    {id:'gestaltung',title:'In den Schöpfermodus',text:'Übersetze deine Erkenntnis in einen bewussten Schöpfer-Schritt.',why:'Wenn genug Klarheit da ist, kann aus der Erkenntnis ein konkreter nächster Schritt entstehen.',href:'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html?from=meinics'}
+    {id:'gestaltung',title:'In den Schöpfermodus',text:'Übersetze deine Erkenntnis in einen bewussten Schöpfer-Schritt.',why:'Wenn genug Klarheit da ist, kann aus der Erkenntnis ein konkreter nächster Schritt entstehen.',href:'https://www.innercodesystems.com/ics-gestaltungs-codefinder.html?from=meinics'}
   ];
   const read=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{index:0,status:{},source:''}}catch{return {index:0,status:{},source:''}}};
   const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
