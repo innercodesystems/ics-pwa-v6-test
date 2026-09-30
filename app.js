@@ -11,7 +11,7 @@
   (async () => {
     try {
       await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
-      await loadScript('app-core.js?v=20260930-route6');
+      await loadScript('app-core.js?v=20260930-guide-router1');
       await loadScript('supabase-auth.js?v=20260916-2');
       await loadScript('cloud-sync.js');
       await loadScript('life-phase.js?v=20260916-5');
