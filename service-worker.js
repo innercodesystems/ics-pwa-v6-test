@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v31-pressurehtml';
+const CACHE = 'ics-v6-test-v32-pressurebuttons';
 
 const ASSETS = [
   './',
