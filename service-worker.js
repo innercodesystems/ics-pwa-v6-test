@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v24-choiceui';
+const CACHE = 'ics-v6-test-v25-currentstep';
 
 const ASSETS = [
   './',
