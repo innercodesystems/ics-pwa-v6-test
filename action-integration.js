@@ -58,10 +58,24 @@
       window.setTimeout(() => {
         const card = document.getElementById('icsActionIntegrationCard');
         if (!card) return;
-        card.innerHTML = `<p class="section-kicker">INTEGRATION ABGESCHLOSSEN</p><h2 style="margin-bottom:8px;">Gespeichert ✓</h2><p style="margin:0;opacity:.78;">${escapeHtml(completedStep)} ist jetzt mit deiner Entwicklung in Mein ICS verbunden.</p>`;
+        card.innerHTML = `<p class="section-kicker">INTEGRATION ABGESCHLOSSEN</p><h2 style="margin-bottom:8px;">Gespeichert ✓</h2><p style="margin:0;opacity:.78;">${escapeHtml(completedStep)} ist jetzt mit deiner Entwicklung in Mein ICS verbunden.</p><button type="button" class="gold-button" id="icsActionIntegrationToToday" style="margin-top:22px;">Weiter zu Heute</button>`;
         card.hidden = false;
         card.style.paddingTop = '';
         card.style.borderTop = '';
+
+        // Der Schritt ist abgeschlossen: die alte Aktionskarte nicht weiter anzeigen.
+        const currentCard = document.getElementById('actionCurrentStepCard');
+        if (currentCard) currentCard.hidden = true;
+
+        const backButton = document.getElementById('backFromActionNext');
+        const backWrap = backButton?.parentElement;
+        if (backWrap) backWrap.hidden = true;
+
+        document.getElementById('icsActionIntegrationToToday')?.addEventListener('click', () => {
+          if (typeof window.openView === 'function') window.openView('heute');
+          else document.querySelector('.nav-item[data-view="heute"]')?.click();
+        });
+
         pendingStep = null;
         window.dispatchEvent(new CustomEvent('ics:action-integration-collapsed'));
       }, 900);
