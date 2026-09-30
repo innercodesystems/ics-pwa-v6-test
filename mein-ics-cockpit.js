@@ -175,8 +175,24 @@
     } catch(e) { return false; }
   }
 
+  function importCreatorCodeFromUrl() {
+    try {
+      const params = new URLSearchParams(location.search);
+      const raw = params.get('creatorcode');
+      if (!raw) return;
+      const b64 = raw.replace(/-/g,'+').replace(/_/g,'/');
+      const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
+      const data = JSON.parse(decodeURIComponent(escape(atob(padded))));
+      if (data && data.creator) localStorage.setItem('ics_creator_code_v1', JSON.stringify(data));
+      params.delete('creatorcode');
+      const qs = params.toString();
+      history.replaceState({}, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    } catch(e) {}
+  }
+
   function renderHome() {
     importEvaluationFromUrl();
+    importCreatorCodeFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
@@ -212,7 +228,19 @@
       }
     } catch(e) {}
 
-    cards.innerHTML = evaluationHtml + `<section>
+    let creatorCodeHtml = '';
+    try {
+      const cc = JSON.parse(localStorage.getItem('ics_creator_code_v1') || 'null');
+      if (cc && cc.creator) {
+        creatorCodeHtml = '<section style="margin-bottom:24px;padding:18px;border:1px solid rgba(184,146,79,.55);border-radius:18px;background:rgba(184,146,79,.10);">'
+          + '<small style="color:'+GOLD+';letter-spacing:.10em;">MEIN AKTUELLER SCHÖPFER-CODE</small>'
+          + '<h3 style="margin:8px 0;color:'+CREAM+';">„'+escapeHtml(cc.creator)+'“</h3>'
+          + (cc.survival ? '<p style="margin:8px 0 0;opacity:.62;">Aus: „'+escapeHtml(cc.survival)+'“</p>' : '')
+          + '</section>';
+      }
+    } catch(e) {}
+
+    cards.innerHTML = evaluationHtml + creatorCodeHtml + `<section>
       <small style="color:${GOLD};letter-spacing:.10em;">JETZT</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Wo du gerade stehst</h3>
       <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Deine aktuelle Orientierung und dein nächster Schritt.</p>
