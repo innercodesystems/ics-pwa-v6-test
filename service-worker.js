@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v15-bodyflow';
+const CACHE = 'ics-v6-test-v16-bodyflow';
 
 const ASSETS = [
   './',
