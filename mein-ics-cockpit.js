@@ -161,6 +161,24 @@
       return true;
     }catch(e){return false;}
   }
+  function applyMindResultToWayfinder() {
+    try {
+      const mr=JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null');
+      const host=document.getElementById('icsWayfinderHost');
+      if(!mr||!mr.result||!host) return false;
+      const result=String(mr.result);
+      let message='Du hast bewusst Abstand zu deinen Gedanken geschaffen. Nimm wahr, wie sich dein innerer Zustand weiterentwickelt.';
+      if(result==='Ruhiger') message='Du hast etwas Abstand geschaffen. Lass die neue Ruhe für jetzt genügen.';
+      else if(result==='Gleich') message='Es ist im Moment gleich geblieben. Du musst nichts erzwingen; nimm weiter wahr, was du brauchst.';
+      else if(result==='Unruhiger') message='Es ist gerade unruhiger. Beende den Weg für jetzt bewusst und wähle später nur dann einen weiteren Schritt, wenn er dir guttut.';
+      host.innerHTML='<section style="padding:18px;border:1px solid rgba(184,146,79,.46);border-radius:18px;background:rgba(184,146,79,.09);">'
+        +'<small style="display:block;color:'+GOLD+';letter-spacing:.10em;">DEIN AKTUELLER STAND</small>'
+        +'<h3 style="margin:12px 0 7px;color:'+CREAM+';font-size:1.25rem;">Gedanken · '+escapeHtml(result.toLowerCase())+'</h3>'
+        +'<p style="margin:0;opacity:.72;line-height:1.5;">'+escapeHtml(message)+'</p></section>';
+      return true;
+    }catch(e){return false;}
+  }
+
 
   function applyEvaluationToWayfinder() {
     try {
@@ -272,9 +290,13 @@
       } catch(e) {}
     }
 
-    // A completed Körpersignal step is the current state and replaces an older guide suggestion.
-    const hasBodyStatus = applyBodyResultToWayfinder();
-    if (hasBodyStatus) {
+    // Completed guide results are current state; newest result wins.
+    let bodySaved=0, mindSaved=0;
+    try{ bodySaved=Date.parse(JSON.parse(localStorage.getItem('ics_body_result_v1')||'null')?.savedAt||0)||0; }catch(e){}
+    try{ mindSaved=Date.parse(JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null')?.savedAt||0)||0; }catch(e){}
+    const hasBodyStatus = bodySaved>=mindSaved ? applyBodyResultToWayfinder() : false;
+    const hasMindStatus = mindSaved>bodySaved ? applyMindResultToWayfinder() : false;
+    if (hasBodyStatus || hasMindStatus) {
       try {
         localStorage.removeItem('ics_guide_origin_v1');
         localStorage.removeItem('ics_wayfinder_v2');
@@ -291,6 +313,15 @@
     const developmentText = 'Sieh, was sich auf deinem bisherigen ICS-Weg bereits bewegt und verändert hat.';
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
+
+    let mindResultHtml = '';
+    try {
+      const mr=JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null');
+      if(mr&&mr.result){
+        const when=mr.savedAt?new Date(mr.savedAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+        mindResultHtml='<section style="margin-bottom:18px;padding:18px;border:1px solid rgba(184,146,79,.42);border-radius:18px;background:rgba(184,146,79,.06);"><small style="color:'+GOLD+';letter-spacing:.10em;">INNER · DEIN LETZTER SCHRITT</small><h3 style="margin:8px 0;color:'+CREAM+';">Gedanken loslassen</h3><p style="margin:0;opacity:.72;">Bewusst Abstand zu den Gedanken geschaffen.</p><p style="margin:8px 0 0;color:'+GOLD+';"><strong>Veränderung: '+escapeHtml(mr.result)+'</strong></p>'+(when?'<small style="display:block;margin-top:8px;opacity:.5;">'+escapeHtml(when)+'</small>':'')+'</section>';
+      }
+    }catch(e){}
 
     let bodyResultHtml = '';
     try {
@@ -337,7 +368,7 @@
       }
     } catch(e) {}
 
-    cards.innerHTML = bodyResultHtml + evaluationHtml + creatorCodeHtml + `<section>
+    cards.innerHTML = mindResultHtml + bodyResultHtml + evaluationHtml + creatorCodeHtml + `<section>
       <small style="color:${GOLD};letter-spacing:.10em;">DEIN COCKPIT</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Dein Weg auf einen Blick</h3>
       <p style="margin:0 0 14px;opacity:.64;font-size:.9rem;">Nur das Wesentliche hier. Alles Weitere öffnest du bei Bedarf.</p>
