@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v32-pressurebuttons';
+const CACHE = 'ics-v6-test-v33-neutralchoices';
 
 const ASSETS = [
   './',
