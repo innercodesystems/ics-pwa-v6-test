@@ -6254,7 +6254,7 @@ bodyToImpulse?.addEventListener('click', () => {
 });
 
 bodyToKoerpersignale?.addEventListener('click', () => {
-  window.location.href = bodyToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html';
+  window.location.href = (bodyToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html') + '?from=app&return=' + encodeURIComponent(window.location.origin + window.location.pathname + '?view=bodycode') + '&v=20260930-3';
 });
 
 backFromKoerpersignale?.addEventListener('click', () => {
@@ -7590,7 +7590,7 @@ if (selectedGuideTarget === 'icsstate-body') {
   } catch (e) {}
   window.location.href =
     'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html?from=app&return=' +
-    encodeURIComponent(window.location.origin + window.location.pathname + '?view=fuehremich');
+    encodeURIComponent(window.location.origin + window.location.pathname + '?view=fuehremich') + '&v=20260930-3';
   return;
 }
 
