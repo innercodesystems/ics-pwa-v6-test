@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v20-wayfinderfix';
+const CACHE = 'ics-v6-test-v21-guide-router';
 
 const ASSETS = [
   './',
