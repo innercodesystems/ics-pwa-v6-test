@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v22-mindcomplete';
+const CACHE = 'ics-v6-test-v23-mindcomplete2';
 
 const ASSETS = [
   './',
