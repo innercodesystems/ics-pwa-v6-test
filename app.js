@@ -19,7 +19,7 @@
       await loadScript('action-integration.js?v=20260916-4');
       await loadScript('energy-cloud-sync.js?v=20260916-2');
       await loadScript('development-journey.js?v=20260916-3');
-      await loadScript('mein-ics-cockpit.js?v=20260930-8');
+      await loadScript('mein-ics-cockpit.js?v=20260930-codechoice1');
       await loadScript('ics-wayfinder.js?v=20260930-route4');
       await loadScript('mein-ics-ui-fix.js?v=20260916-2');
       await loadScript('today-personal.js?v=20260916-3');
