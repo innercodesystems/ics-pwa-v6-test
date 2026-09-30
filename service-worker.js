@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v33-neutralchoices';
+const CACHE = 'ics-v6-test-v34-choiceoutline';
 
 const ASSETS = [
   './',
