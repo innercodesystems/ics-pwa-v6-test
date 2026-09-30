@@ -19,8 +19,8 @@
       await loadScript('action-integration.js?v=20260916-4');
       await loadScript('energy-cloud-sync.js?v=20260916-2');
       await loadScript('development-journey.js?v=20260916-3');
-      await loadScript('mein-ics-cockpit.js?v=20260930-mindcomplete1');
-      await loadScript('ics-wayfinder.js?v=20260930-bodystatus2');
+      await loadScript('mein-ics-cockpit.js?v=20260930-currentstate1');
+      await loadScript('ics-wayfinder.js?v=20260930-currentstate1');
       await loadScript('mein-ics-ui-fix.js?v=20260916-2');
       await loadScript('today-personal.js?v=20260916-3');
       await loadScript('action-cockpit.js?v=20260916-7');
