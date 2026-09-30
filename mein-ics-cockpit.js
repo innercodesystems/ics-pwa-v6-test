@@ -266,13 +266,8 @@
         if (legacy && legacy.creator) codes = [legacy];
       }
       if (codes.length) {
-        creatorCodeHtml = '<section style="margin-bottom:24px;padding:18px;border:1px solid rgba(184,146,79,.55);border-radius:18px;background:rgba(184,146,79,.10);">'
-          + '<small style="color:'+GOLD+';letter-spacing:.10em;">MEINE SCHÖPFER-CODES</small>'
-          + '<h3 style="margin:7px 0 12px;color:'+CREAM+';">Was für mich gerade zutrifft</h3>'
-          + codes.map((cc,i) => '<div style="padding:'+(i?'14px 0 0':'0')+';margin-top:'+(i?'14px':'0')+';border-top:'+(i?'1px solid rgba(184,146,79,.22)':'0')+';">'
-              + '<strong style="color:'+CREAM+';">„'+escapeHtml(cc.creator)+'“</strong>'
-              + (cc.survival ? '<p style="margin:6px 0 0;opacity:.58;font-size:.86rem;">Aus: „'+escapeHtml(cc.survival)+'“</p>' : '')
-            + '</div>').join('')
+        creatorCodeHtml = '<section style="margin-bottom:20px;">'
+          + card('✦','Schöpfer-Codes',codes.length+' aktive'+(codes.length===1?'r Code':' Codes'),'Deine gewählten neuen Ausrichtungen.','creatorcodes')
           + '</section>';
       }
     } catch(e) {}
@@ -316,10 +311,18 @@
   }
 
   function detailTitle(type) {
-    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration',development:'Deine Entwicklung'})[type] || 'Dein ICS';
+    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration',development:'Deine Entwicklung',creatorcodes:'Meine Schöpfer-Codes'})[type] || 'Dein ICS';
   }
 
   function appendDetailContent(type, target) {
+    if (type === 'creatorcodes') {
+      let codes=[]; try { codes=JSON.parse(localStorage.getItem('ics_creator_codes_v1')||'[]'); } catch(e) {}
+      if (!Array.isArray(codes)) codes=[];
+      target.innerHTML = codes.length
+        ? '<p style="margin:0 0 18px;opacity:.65;">Deine aktuell gewählten Ausrichtungen.</p>'+codes.map((cc,i)=>'<section style="padding:18px 0;'+(i?'border-top:1px solid rgba(184,146,79,.24);':'')+'"><small style="color:'+GOLD+';letter-spacing:.08em;">SCHÖPFERMODUS</small><h3 style="margin:7px 0;color:'+CREAM+';">„'+escapeHtml(cc.creator)+'“</h3>'+(cc.survival?'<p style="margin:8px 0 0;opacity:.58;">Aus dem Muster: „'+escapeHtml(cc.survival)+'“</p>':'')+'</section>').join('')
+        : '<p>Aktuell sind keine Schöpfer-Codes gespeichert.</p>';
+      return;
+    }
     const ids = ({
       life:['icsLifeCycleOverview'],
       energy:['icsLatestEnergy'],
