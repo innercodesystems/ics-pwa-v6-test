@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v14-codechoice';
+const CACHE = 'ics-v6-test-v15-bodyroute';
 
 const ASSETS = [
   './',
