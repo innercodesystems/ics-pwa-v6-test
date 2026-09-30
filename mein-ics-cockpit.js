@@ -197,9 +197,31 @@
     } catch(e) {}
   }
 
+  function importCreatorCodesFromUrl() {
+    try {
+      const params = new URLSearchParams(location.search);
+      const raw = params.get('creatorcodes');
+      if (!raw) return;
+      const b64 = raw.replace(/-/g,'+').replace(/_/g,'/');
+      const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
+      const incoming = JSON.parse(decodeURIComponent(escape(atob(padded))));
+      if (Array.isArray(incoming)) {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem('ics_creator_codes_v1') || '[]'); } catch(e) {}
+        if (!Array.isArray(list)) list = [];
+        incoming.forEach(data => { if (data && data.creator && !list.some(x => x.creator===data.creator && x.survival===data.survival)) list.push(data); });
+        localStorage.setItem('ics_creator_codes_v1', JSON.stringify(list));
+      }
+      params.delete('creatorcodes');
+      const qs=params.toString();
+      history.replaceState({},'',location.pathname+(qs?'?'+qs:'')+location.hash);
+    } catch(e) {}
+  }
+
   function renderHome() {
     importEvaluationFromUrl();
     importCreatorCodeFromUrl();
+    importCreatorCodesFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
