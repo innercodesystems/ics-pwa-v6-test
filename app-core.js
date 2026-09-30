@@ -2115,6 +2115,19 @@ function renderCurrentActionStep() {
   actionCurrentStepCard.dataset.stepId =
     currentStep.id;
 
+  const when = currentStep.when || 'now';
+  document.querySelectorAll('.action-step-when').forEach((button) => {
+    button.classList.toggle('active', button.dataset.actionWhen === when);
+  });
+  const timingFeedback = document.getElementById('actionStepTimingFeedback');
+  if (timingFeedback) {
+    timingFeedback.textContent = {
+      now: 'Gut. Bleib bei genau diesem einen Schritt.',
+      today: 'ICS hält diesen Schritt für heute für dich offen.',
+      later: 'Der Schritt bleibt gespeichert und erscheint in „Meine Schritte“.'
+    }[when] || '';
+  }
+
   actionCurrentStepCard.hidden = false;
 }
 
@@ -2264,6 +2277,33 @@ saveActionNextStep?.addEventListener('click', () => {
 });
 
 renderCurrentActionStep();
+
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.action-step-when');
+  if (!button) return;
+
+  const stepId = actionCurrentStepCard?.dataset.stepId;
+  if (!stepId) return;
+
+  const when = button.dataset.actionWhen || 'now';
+  const steps = getActionNextSteps().map((item) =>
+    item.id === stepId ? { ...item, when, plannedAt: new Date().toISOString() } : item
+  );
+  saveActionNextSteps(steps);
+
+  document.querySelectorAll('.action-step-when').forEach((choice) => {
+    choice.classList.toggle('active', choice === button);
+  });
+
+  const feedback = document.getElementById('actionStepTimingFeedback');
+  if (feedback) {
+    feedback.textContent = {
+      now: 'Gut. Bleib bei genau diesem einen Schritt.',
+      today: 'ICS hält diesen Schritt für heute für dich offen.',
+      later: 'Der Schritt bleibt gespeichert und erscheint in „Meine Schritte“.'
+    }[when] || '';
+  }
+});
 
 completeActionCurrentStep?.addEventListener('click', () => {
   const stepId = actionCurrentStepCard?.dataset.stepId;
