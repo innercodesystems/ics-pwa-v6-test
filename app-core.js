@@ -7772,3 +7772,46 @@ function initMindGuideCompletion(){
   });
 }
 setTimeout(initMindGuideCompletion,0);
+
+/* ICS Druck-Weg: RESET-Abschluss -> Mein ICS */
+let selectedPressureGuideResult = '';
+function initPressureGuideCompletion(){
+  const view=document.getElementById('view-resetmeditation');
+  if(!view) return;
+
+  // Der bisherige Journal-Abschluss wird im geführten Druck-Weg durch
+  // denselben 3er-Check-in ersetzt, den auch INNER/BODY verwenden.
+  const oldAction=document.getElementById('resetMeditationNextStepAction');
+  const oldCard=oldAction?.closest('section, .premium-card, .card');
+  if(oldCard) oldCard.style.display='none';
+
+  let checkin=document.getElementById('pressureGuideCheckin');
+  if(!checkin){
+    const back=document.getElementById('backFromResetMeditation')?.parentElement;
+    checkin=document.createElement('section');
+    checkin.id='pressureGuideCheckin';
+    checkin.className='premium-card';
+    checkin.style.cssText='margin-top:24px;text-align:center;';
+    checkin.innerHTML='<p class="section-kicker">DANACH KURZ WAHRNEHMEN</p><h2>Wie ist es jetzt?</h2><p>Spüre kurz nach, ohne etwas bewerten zu müssen.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;"><button class="pressure-result-choice" data-pressure-result="Entspannter">Entspannter</button><button class="pressure-result-choice" data-pressure-result="Gleich">Gleich</button><button class="pressure-result-choice" data-pressure-result="Angespannter">Angespannter</button></div><button class="gold-button" id="savePressureGuideResult" disabled style="width:100%;margin-top:18px;">In Mein ICS speichern →</button>';
+    if(back) view.insertBefore(checkin,back); else view.appendChild(checkin);
+  }
+  const choices=[...checkin.querySelectorAll('.pressure-result-choice')];
+  const save=document.getElementById('savePressureGuideResult');
+  choices.forEach(btn=>btn.addEventListener('click',()=>{
+    selectedPressureGuideResult=btn.dataset.pressureResult||'';
+    choices.forEach(x=>{const on=x===btn;x.style.background=on?'linear-gradient(135deg,#f3c34e,#d99b1d)':'transparent';x.style.color=on?'#17120a':'#f6f1e7';x.style.border='1px solid rgba(212,160,58,.55)';x.style.borderRadius='14px';x.style.padding='14px 8px';x.style.fontWeight='700';});
+    if(save) save.disabled=!selectedPressureGuideResult;
+  }));
+  save?.addEventListener('click',()=>{
+    if(!selectedPressureGuideResult) return;
+    try{
+      localStorage.setItem('ics_pressure_last_step_v1',JSON.stringify({title:'RESET Meditation',result:selectedPressureGuideResult,savedAt:new Date().toISOString()}));
+      localStorage.removeItem('ics_guide_origin_v1');
+      localStorage.removeItem('ics_wayfinder_v2');
+    }catch(e){}
+    selectedPressureGuideResult='';
+    openView('meinics');
+    setTimeout(()=>{try{window.icsOrganizeMeinIcsCockpit?.();}catch(e){}},100);
+  });
+}
+setTimeout(initPressureGuideCompletion,0);
