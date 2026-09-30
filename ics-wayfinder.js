@@ -40,6 +40,24 @@
       }
     } catch(e) {}
 
+    // Newest completed guided step wins the current-state slot.
+    try {
+      const body=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
+      const mind=JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null');
+      const bodyTime=body&&body.savedAt ? (Date.parse(body.savedAt)||0) : 0;
+      const mindTime=mind&&mind.savedAt ? (Date.parse(mind.savedAt)||0) : 0;
+      if(mind&&mind.result&&mindTime>=bodyTime){
+        const result=String(mind.result);
+        let msg='Du hast bewusst Abstand zu deinen Gedanken geschaffen. Nimm wahr, wie sich dein innerer Zustand weiterentwickelt.';
+        if(result==='Ruhiger') msg='Du hast etwas Abstand geschaffen. Lass die neue Ruhe für jetzt genügen.';
+        else if(result==='Gleich') msg='Es ist im Moment gleich geblieben. Du musst nichts erzwingen; nimm weiter wahr, was du brauchst.';
+        else if(result==='Unruhiger') msg='Es ist gerade unruhiger. Beende den Weg für jetzt bewusst und wähle später nur dann einen weiteren Schritt, wenn er dir guttut.';
+        box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
+        box.innerHTML='<small style="color:'+GOLD+';letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:8px 0;color:'+CREAM+';font-size:1.35rem;">Gedanken · '+esc(result.toLowerCase())+'</h3><p style="margin:0;opacity:.72;line-height:1.5;">'+esc(msg)+'</p>';
+        return true;
+      }
+    } catch(e) {}
+
     let evaluation=null;
     try{evaluation=JSON.parse(localStorage.getItem('ics_wayfinder_result_v1')||localStorage.getItem('ics_auswertung_result_v1')||'null')}catch(e){}
     if(evaluation&&evaluation.completed){
