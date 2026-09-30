@@ -23,29 +23,15 @@
     if(box.parentElement!==host) host.replaceChildren(box);
     let s=read();
 
-    // A completed body step owns the current-state slot. Do not overwrite it
-    // with an older generic wayfinder suggestion such as RESET.
-    try {
-      const br=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
-      if(br&&br.title&&br.change){
-        const label={geringer:'geringer',gleich:'gleich',stärker:'stärker'}[br.change]||br.change;
-        let msg='Dein kleiner Schritt ist abgeschlossen. Nimm wahr, wie sich dein Körpersignal weiterentwickelt.';
-        let note='';
-        if(br.change==='geringer') msg='Dein kleiner Schritt hat etwas verändert. Nimm wahr, wie es sich weiterentwickelt.';
-        if(br.change==='gleich') msg='Es ist im Moment gleich geblieben. Du kannst weiter wahrnehmen oder einen anderen passenden Weg wählen.';
-        if(br.change==='stärker'){msg='Das Signal ist stärker geworden. Nimm es ernst und entscheide bewusst über den nächsten passenden Weg.';note='<p style="margin:12px 0 0;color:'+GOLD+';">Bei neuen, starken, anhaltenden oder unklaren Beschwerden bitte medizinisch abklären lassen.</p>';}
-        box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
-        box.innerHTML='<small style="color:'+GOLD+';letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:8px 0;color:'+CREAM+';font-size:1.35rem;">'+esc(br.title)+' · '+esc(label)+'</h3><p style="margin:0;opacity:.72;line-height:1.5;">'+esc(msg)+'</p>'+note;
-        return true;
-      }
-    } catch(e) {}
-
-    // Newest completed guided step wins the current-state slot.
+    // The newest completed guided step owns the current-state slot.
+    // Keep older completed steps in the history cards below, but never let
+    // an older BODY result hide a newer INNER result (or vice versa).
     try {
       const body=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
       const mind=JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null');
       const bodyTime=body&&body.savedAt ? (Date.parse(body.savedAt)||0) : 0;
       const mindTime=mind&&mind.savedAt ? (Date.parse(mind.savedAt)||0) : 0;
+
       if(mind&&mind.result&&mindTime>=bodyTime){
         const result=String(mind.result);
         let msg='Du hast bewusst Abstand zu deinen Gedanken geschaffen. Nimm wahr, wie sich dein innerer Zustand weiterentwickelt.';
@@ -54,6 +40,18 @@
         else if(result==='Unruhiger') msg='Es ist gerade unruhiger. Beende den Weg für jetzt bewusst und wähle später nur dann einen weiteren Schritt, wenn er dir guttut.';
         box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
         box.innerHTML='<small style="color:'+GOLD+';letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:8px 0;color:'+CREAM+';font-size:1.35rem;">Gedanken · '+esc(result.toLowerCase())+'</h3><p style="margin:0;opacity:.72;line-height:1.5;">'+esc(msg)+'</p>';
+        return true;
+      }
+
+      if(body&&body.title&&body.change){
+        const label={geringer:'geringer',gleich:'gleich',stärker:'stärker'}[body.change]||body.change;
+        let msg='Dein kleiner Schritt ist abgeschlossen. Nimm wahr, wie sich dein Körpersignal weiterentwickelt.';
+        let note='';
+        if(body.change==='geringer') msg='Dein kleiner Schritt hat etwas verändert. Nimm wahr, wie es sich weiterentwickelt.';
+        if(body.change==='gleich') msg='Es ist im Moment gleich geblieben. Du kannst weiter wahrnehmen oder einen anderen passenden Weg wählen.';
+        if(body.change==='stärker'){msg='Das Signal ist stärker geworden. Nimm es ernst und entscheide bewusst über den nächsten passenden Weg.';note='<p style="margin:12px 0 0;color:'+GOLD+';">Bei neuen, starken, anhaltenden oder unklaren Beschwerden bitte medizinisch abklären lassen.</p>';}
+        box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
+        box.innerHTML='<small style="color:'+GOLD+';letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:8px 0;color:'+CREAM+';font-size:1.35rem;">'+esc(body.title)+' · '+esc(label)+'</h3><p style="margin:0;opacity:.72;line-height:1.5;">'+esc(msg)+'</p>'+note;
         return true;
       }
     } catch(e) {}
