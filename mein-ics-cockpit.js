@@ -235,11 +235,19 @@
     importEvaluationFromUrl();
     importCreatorCodeFromUrl();
     importCreatorCodesFromUrl();
-    importBodyResultFromUrl();
+    const incomingBodyResult = importBodyResultFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
     setOverviewOnlyMode(false);
+    if (incomingBodyResult) {
+      try {
+        localStorage.removeItem('ics_guide_origin_v1');
+        localStorage.removeItem('ics_wayfinder_v2');
+      } catch(e) {}
+      const host=document.getElementById('icsWayfinderHost');
+      if(host) host.innerHTML='';
+    }
 
     const life = getLifePhaseSummary();
     const trigger = getTriggerSummary();
