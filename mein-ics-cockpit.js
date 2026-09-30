@@ -206,11 +206,10 @@
       const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
       const incoming = JSON.parse(decodeURIComponent(escape(atob(padded))));
       if (Array.isArray(incoming)) {
-        let list = [];
-        try { list = JSON.parse(localStorage.getItem('ics_creator_codes_v1') || '[]'); } catch(e) {}
-        if (!Array.isArray(list)) list = [];
-        incoming.forEach(data => { if (data && data.creator && !list.some(x => x.creator===data.creator && x.survival===data.survival)) list.push(data); });
+        const list = incoming.filter(data => data && data.creator);
         localStorage.setItem('ics_creator_codes_v1', JSON.stringify(list));
+        if (list.length) localStorage.setItem('ics_creator_code_v1', JSON.stringify(list[list.length - 1]));
+        else localStorage.removeItem('ics_creator_code_v1');
       }
       params.delete('creatorcodes');
       const qs=params.toString();
