@@ -325,7 +325,7 @@ openGegenpolGenerator?.addEventListener('click', () => {
 });
 
 openGestaltungsCodefinder?.addEventListener('click', () => {
-  let url = 'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html';
+  let url = 'https://www.innercodesystems.com/ics-gestaltungs-codefinder.html';
   try {
     const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
     if (ev && ev.completed) {
