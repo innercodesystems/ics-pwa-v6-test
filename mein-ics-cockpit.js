@@ -217,10 +217,25 @@
     } catch(e) {}
   }
 
+  function importBodyResultFromUrl() {
+    try {
+      const params = new URLSearchParams(location.search);
+      const raw = params.get('bodyresult');
+      if (!raw) return null;
+      let b64=raw.replace(/-/g,'+').replace(/_/g,'/'); while(b64.length%4)b64+='=';
+      const data=JSON.parse(decodeURIComponent(escape(atob(b64))));
+      if(data && data.title && data.change) localStorage.setItem('ics_body_result_v1',JSON.stringify(data));
+      params.delete('bodyresult');
+      const qs=params.toString(); history.replaceState({},'',location.pathname+(qs?'?'+qs:'')+location.hash);
+      return data;
+    } catch(e){ return null; }
+  }
+
   function renderHome() {
     importEvaluationFromUrl();
     importCreatorCodeFromUrl();
     importCreatorCodesFromUrl();
+    importBodyResultFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
@@ -236,6 +251,16 @@
     const developmentText = 'Sieh, was sich auf deinem bisherigen ICS-Weg bereits bewegt und verändert hat.';
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
+
+    let bodyResultHtml = '';
+    try {
+      const br=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
+      if(br&&br.title){
+        const changeLabel={geringer:'Geringer',gleich:'Gleich',stärker:'Stärker'}[br.change]||br.change||'';
+        const when=br.savedAt?new Date(br.savedAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+        bodyResultHtml='<section style="margin-bottom:18px;padding:18px;border:1px solid rgba(184,146,79,.42);border-radius:18px;background:rgba(184,146,79,.06);"><small style="color:'+GOLD+';letter-spacing:.10em;">BODY · DEIN LETZTER SCHRITT</small><h3 style="margin:8px 0;color:'+CREAM+';">'+escapeHtml(br.title)+'</h3><p style="margin:0;opacity:.72;">Kleinen ICS-Schritt durchgeführt.</p><p style="margin:8px 0 0;color:'+GOLD+';"><strong>Veränderung: '+escapeHtml(changeLabel)+'</strong></p>'+(when?'<small style="display:block;margin-top:8px;opacity:.5;">'+escapeHtml(when)+'</small>':'')+'</section>';
+      }
+    }catch(e){}
 
     let evaluationHtml = '';
     try {
@@ -272,7 +297,7 @@
       }
     } catch(e) {}
 
-    cards.innerHTML = evaluationHtml + creatorCodeHtml + `<section>
+    cards.innerHTML = bodyResultHtml + evaluationHtml + creatorCodeHtml + `<section>
       <small style="color:${GOLD};letter-spacing:.10em;">DEIN COCKPIT</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Dein Weg auf einen Blick</h3>
       <p style="margin:0 0 14px;opacity:.64;font-size:.9rem;">Nur das Wesentliche hier. Alles Weitere öffnest du bei Bedarf.</p>
