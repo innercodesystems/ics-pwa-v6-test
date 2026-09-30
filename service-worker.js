@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v19-bodystatus';
+const CACHE = 'ics-v6-test-v20-wayfinderfix';
 
 const ASSETS = [
   './',
