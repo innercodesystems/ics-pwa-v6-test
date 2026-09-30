@@ -93,9 +93,8 @@ navItems.forEach((item) => {
 const requestedView =
   new URLSearchParams(window.location.search).get('view');
 
-if (requestedView === 'meinics') {
-  openView('meinics', false);
-}
+// requestedView wird unten gemeinsam mit Nutzerstatus/returnView entschieden.
+// Kein vorzeitiges Öffnen von Mein ICS: verhindert sichtbares Umspringen beim Start.
 
 const returnView =
   new URLSearchParams(window.location.search).get('return');
