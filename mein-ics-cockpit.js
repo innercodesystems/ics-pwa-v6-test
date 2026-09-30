@@ -181,7 +181,6 @@
     if (!shell) return false;
     storeExistingDetails();
     setOverviewOnlyMode(false);
-    applyEvaluationToWayfinder();
 
     const life = getLifePhaseSummary();
     const trigger = getTriggerSummary();
