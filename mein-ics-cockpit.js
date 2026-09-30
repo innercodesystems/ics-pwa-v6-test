@@ -137,12 +137,51 @@
     } catch(e) { return false; }
   }
 
+  function applyEvaluationToWayfinder() {
+    try {
+      const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
+      const host = document.getElementById('icsWayfinderHost');
+      if (!ev || !ev.completed || !host) return false;
+
+      const survival = Number(ev.survivalMode);
+      const focusRaw = String(ev.weakestCodeLabel || ev.weakestCode || '').trim();
+      const focus = focusRaw || 'deinem aktuellen Schwerpunkt';
+      const themes = Array.isArray(ev.themes) ? ev.themes.filter(Boolean) : [];
+      const counters = Array.isArray(ev.counterfields) ? ev.counterfields.filter(Boolean) : [];
+
+      let title = 'ACTION · ein bewusster nächster Schritt';
+      let description = 'Deine Auswertung ist jetzt die Grundlage. Wähle eine kleine konkrete Handlung, die deine neue Richtung im Alltag verankert.';
+      let reason = 'Deine aktuelle Auswertung zeigt den Schwerpunkt ' + focus + (Number.isFinite(survival) ? ' bei ' + survival + '% Überlebensmodus' : '') + '. Deshalb führt dich ICS jetzt von der Analyse in eine kleine bewusste Handlung.';
+
+      if (/inner/i.test(focusRaw)) {
+        title = 'INNER · Klarheit schaffen';
+        description = 'Deine Auswertung zeigt, dass zuerst innere Klarheit hilfreich ist. Schau auf das stärkste Muster, bevor du handelst.';
+        reason = 'Der schwächste Bereich deiner aktuellen Auswertung ist INNER. Deshalb geht es zuerst um Wahrnehmen und Verstehen statt um Aktion.';
+      } else if (/body/i.test(focusRaw)) {
+        title = 'BODY · regulieren und spüren';
+        description = 'Deine Auswertung zeigt, dass dein Körper jetzt Vorrang hat. Nimm zuerst Druck aus dem System und komm zurück ins Spüren.';
+        reason = 'Der schwächste Bereich deiner aktuellen Auswertung ist BODY. Deshalb setzt ICS zuerst bei Regulation und Körperwahrnehmung an.';
+      }
+
+      host.innerHTML = '<section style="padding:18px;border:1px solid rgba(184,146,79,.46);border-radius:18px;background:rgba(184,146,79,.09);">'
+        + '<small style="display:block;color:'+GOLD+';letter-spacing:.10em;">DEIN NÄCHSTER SCHRITT · AUS DEINER AUSWERTUNG</small>'
+        + '<h3 style="margin:12px 0 7px;color:'+CREAM+';font-size:1.25rem;">'+escapeHtml(title)+'</h3>'
+        + '<p style="margin:0;opacity:.72;line-height:1.5;">'+escapeHtml(description)+'</p>'
+        + (themes.length ? '<p style="margin:14px 0 0;"><span style="opacity:.58;">Im Blick:</span> '+themes.map(escapeHtml).join(' · ')+'</p>' : '')
+        + (counters.length ? '<p style="margin:7px 0 0;"><span style="opacity:.58;">Deine Richtung:</span> <strong style="color:'+GOLD+';">'+counters.map(escapeHtml).join(' · ')+'</strong></p>' : '')
+        + '<details style="margin-top:14px;"><summary style="cursor:pointer;color:'+GOLD+';font-weight:700;">Warum schlägt ICS das vor?</summary><p style="margin:9px 0 0;opacity:.7;line-height:1.5;">'+escapeHtml(reason)+'</p></details>'
+        + '</section>';
+      return true;
+    } catch(e) { return false; }
+  }
+
   function renderHome() {
     importEvaluationFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
     setOverviewOnlyMode(false);
+    applyEvaluationToWayfinder();
 
     const life = getLifePhaseSummary();
     const trigger = getTriggerSummary();
