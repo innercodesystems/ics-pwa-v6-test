@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v18-scriptversions';
+const CACHE = 'ics-v6-test-v19-bodystatus';
 
 const ASSETS = [
   './',
