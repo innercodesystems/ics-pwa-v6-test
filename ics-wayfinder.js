@@ -65,7 +65,11 @@
     const finished=(s.index||0)>=steps.length;
     box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
     if(finished){
-      box.innerHTML=`<small style="color:${GOLD};letter-spacing:.11em;">DEIN ICS WEG</small><h3 style="margin:7px 0;color:${CREAM};font-size:1.35rem;">Dein Weg ist für jetzt durchlaufen.</h3><p style="opacity:.72;line-height:1.5;">${done} angeschaut · ${open} für später offen. Du kannst offene Themen jederzeit wieder aufnehmen.</p><button class="gold-button" data-wf-open-first>Offenen Weg fortsetzen →</button>`;
+      if(open>0){
+        box.innerHTML=`<small style="color:${GOLD};letter-spacing:.11em;">DEIN ICS WEG</small><h3 style="margin:7px 0;color:${CREAM};font-size:1.35rem;">Dein Weg ist für jetzt durchlaufen.</h3><p style="opacity:.72;line-height:1.5;">${done} angeschaut · ${open} für später offen. Du kannst offene Themen jederzeit wieder aufnehmen.</p><button class="gold-button" data-wf-open-first>Offenen Weg fortsetzen →</button>`;
+      } else {
+        box.innerHTML=`<small style="color:${GOLD};letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:7px 0;color:${CREAM};font-size:1.35rem;">Für jetzt ist nichts offen.</h3><p style="margin:0;opacity:.72;line-height:1.5;">Du hast aktuell kein Thema für später vorgemerkt. Dein letzter Schritt und deine Entwicklung bleiben darunter sichtbar.</p>`;
+      }
       return true;
     }
     box.innerHTML=`<small style="color:${GOLD};letter-spacing:.11em;">DEIN NÄCHSTER SCHRITT</small>
