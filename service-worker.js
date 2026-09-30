@@ -1,4 +1,4 @@
-const CACHE = 'ics-v6-test-v13-routing';
+const CACHE = 'ics-v6-test-v14-codechoice';
 
 const ASSETS = [
   './',
@@ -50,6 +50,7 @@ self.addEventListener('fetch', event => {
     url.pathname.endsWith('/supabase-auth.js') ||
     url.pathname.endsWith('/massage-link-fix.js') ||
     url.pathname.endsWith('/ics-wayfinder.js') ||
+    url.pathname.endsWith('/mein-ics-cockpit.js') ||
     url.pathname.endsWith('/99-inner-codes.html');
 
   if (alwaysFresh) {
