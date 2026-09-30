@@ -294,8 +294,17 @@
     let bodySaved=0, mindSaved=0;
     try{ bodySaved=Date.parse(JSON.parse(localStorage.getItem('ics_body_result_v1')||'null')?.savedAt||0)||0; }catch(e){}
     try{ mindSaved=Date.parse(JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null')?.savedAt||0)||0; }catch(e){}
-    const hasBodyStatus = bodySaved>=mindSaved ? applyBodyResultToWayfinder() : false;
-    const hasMindStatus = mindSaved>bodySaved ? applyMindResultToWayfinder() : false;
+    // Always render the newest completed ICS step as "Dein aktueller Stand".
+    // If timestamps are equal, prefer the mind step only when it actually exists;
+    // otherwise fall back to the body step.
+    let hasBodyStatus = false, hasMindStatus = false;
+    if (mindSaved && mindSaved >= bodySaved) {
+      hasMindStatus = applyMindResultToWayfinder();
+      if (!hasMindStatus && bodySaved) hasBodyStatus = applyBodyResultToWayfinder();
+    } else if (bodySaved) {
+      hasBodyStatus = applyBodyResultToWayfinder();
+      if (!hasBodyStatus && mindSaved) hasMindStatus = applyMindResultToWayfinder();
+    }
     if (hasBodyStatus || hasMindStatus) {
       try {
         localStorage.removeItem('ics_guide_origin_v1');
