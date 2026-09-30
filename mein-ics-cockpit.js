@@ -137,6 +137,31 @@
     } catch(e) { return false; }
   }
 
+  function applyBodyResultToWayfinder() {
+    try {
+      const br=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
+      const host=document.getElementById('icsWayfinderHost');
+      if(!br||!br.title||!br.change||!host) return false;
+      const label={geringer:'geringer',gleich:'gleich',stärker:'stärker'}[br.change]||br.change;
+      let message='Dein kleiner Schritt ist abgeschlossen. Nimm wahr, wie sich dein Körpersignal weiterentwickelt.';
+      let extra='';
+      if(br.change==='geringer'){
+        message='Dein kleiner Schritt hat etwas verändert. Nimm wahr, wie es sich weiterentwickelt.';
+      } else if(br.change==='gleich'){
+        message='Es ist im Moment gleich geblieben. Du kannst weiter wahrnehmen oder einen anderen passenden Weg wählen.';
+        extra='<p style="margin:12px 0 0;color:'+GOLD+';">Mögliche nächste Wege: Körperarbeit · persönliches Gespräch · später erneut prüfen.</p>';
+      } else if(br.change==='stärker'){
+        message='Das Signal ist stärker geworden. Nimm es ernst und entscheide bewusst, ob Ruhe, Körperarbeit, ein Gespräch oder medizinische Abklärung passend ist.';
+        extra='<p style="margin:12px 0 0;color:'+GOLD+';">Bei neuen, starken, anhaltenden oder unklaren Beschwerden bitte medizinisch abklären lassen.</p>';
+      }
+      host.innerHTML='<section style="padding:18px;border:1px solid rgba(184,146,79,.46);border-radius:18px;background:rgba(184,146,79,.09);">'
+        +'<small style="display:block;color:'+GOLD+';letter-spacing:.10em;">DEIN AKTUELLER STAND</small>'
+        +'<h3 style="margin:12px 0 7px;color:'+CREAM+';font-size:1.25rem;">'+escapeHtml(br.title)+' · '+escapeHtml(label)+'</h3>'
+        +'<p style="margin:0;opacity:.72;line-height:1.5;">'+escapeHtml(message)+'</p>'+extra+'</section>';
+      return true;
+    }catch(e){return false;}
+  }
+
   function applyEvaluationToWayfinder() {
     try {
       const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
@@ -245,8 +270,6 @@
         localStorage.removeItem('ics_guide_origin_v1');
         localStorage.removeItem('ics_wayfinder_v2');
       } catch(e) {}
-      const host=document.getElementById('icsWayfinderHost');
-      if(host) host.innerHTML='';
     }
 
     const life = getLifePhaseSummary();
