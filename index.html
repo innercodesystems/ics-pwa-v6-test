@@ -3670,28 +3670,17 @@
 
   </section>
 
-  <section
-  class="premium-card"
-  id="resetMeditationNextStep"
-  style="margin-top:24px;"
->
-  <p class="section-kicker">DEIN NÄCHSTER SCHRITT</p>
-
-  <h2>Was ist jetzt anders?</h2>
-
-  <p>
-    Nimm einen Moment wahr, was sich in dir verändert hat.
-    Wenn du möchtest, kannst du deine Wahrnehmung direkt festhalten.
-  </p>
-
-  <button
-    type="button"
-    class="gold-button"
-    id="resetMeditationNextStepAction"
-  >
-    Im Journal festhalten →
-  </button>
-</section>
+  <section class="premium-card" id="pressureGuideCheckin" style="margin-top:24px;text-align:center;">
+    <p class="section-kicker">DANACH KURZ WAHRNEHMEN</p>
+    <h2>Wie ist es jetzt?</h2>
+    <p>Spüre kurz nach, ohne etwas bewerten zu müssen.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;">
+      <button class="pressure-result-choice" data-pressure-result="Entspannter">Entspannter</button>
+      <button class="pressure-result-choice" data-pressure-result="Gleich">Gleich</button>
+      <button class="pressure-result-choice" data-pressure-result="Angespannter">Angespannter</button>
+    </div>
+    <button class="gold-button" id="savePressureGuideResult" disabled style="width:100%;margin-top:18px;">In Mein ICS speichern →</button>
+  </section>
 
   <div style="margin-top:24px; text-align:center;">
     <button class="gold-button" id="backFromResetMeditation">
