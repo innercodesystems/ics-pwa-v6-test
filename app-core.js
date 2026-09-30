@@ -7743,6 +7743,21 @@ backFromIcsEnergy?.addEventListener('click', () => {
 /* ICS Gedanken-Weg: Abschluss -> Mein ICS */
 let selectedMindGuideResult = '';
 function initMindGuideCompletion(){
+  // Build the completion UI dynamically too, so an installed PWA with an older
+  // cached index.html still receives the current Gedanken flow.
+  let checkin=document.getElementById('mindGuideCheckin');
+  if(!checkin){
+    const view=document.getElementById('view-gedankenloslassenmeditation');
+    const back=document.getElementById('backFromGedankenLoslassenMeditation')?.parentElement;
+    if(view&&back){
+      checkin=document.createElement('section');
+      checkin.id='mindGuideCheckin';
+      checkin.className='premium-card';
+      checkin.style.cssText='margin-top:24px;text-align:center;';
+      checkin.innerHTML='<p class="section-kicker">DANACH KURZ WAHRNEHMEN</p><h2>Wie ist es jetzt?</h2><p>Spüre kurz nach, ohne etwas bewerten zu müssen.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;"><button class="mind-result-choice" data-mind-result="Ruhiger">Ruhiger</button><button class="mind-result-choice" data-mind-result="Gleich">Gleich</button><button class="mind-result-choice" data-mind-result="Unruhiger">Unruhiger</button></div><button class="gold-button" id="saveMindGuideResult" disabled style="width:100%;margin-top:18px;">In Mein ICS speichern →</button>';
+      view.insertBefore(checkin,back);
+    }
+  }
   const choices=[...document.querySelectorAll('.mind-result-choice')], save=document.getElementById('saveMindGuideResult');
   if(!choices.length || !save) return;
   choices.forEach(btn=>btn.addEventListener('click',()=>{
