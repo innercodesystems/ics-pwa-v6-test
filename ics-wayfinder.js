@@ -7,7 +7,7 @@
     {id:'trigger',title:'Trigger & Auslöser',text:'Erkenne, welche Situation dein Muster immer wieder aktiviert.',why:'Manchmal beginnt ein Gedankenkreislauf mit einer bestimmten Situation oder Reaktion. Hier kannst du prüfen, ob es einen Auslöser gibt.',href:'./trigger-kompass-app.html'},
     {id:'gegenpol',title:'Gegenpol',text:'Finde eine neue innere Richtung und einen konkreten nächsten Schritt.',why:'Wenn du ein Muster erkannt hast, kann ein bewusster Gegenpol helfen, eine neue Richtung zu wählen.',target:'#openGegenpolGenerator'},
     {id:'reset',title:'RESET',text:'Komm aus dem Reagieren zurück in einen bewussten Zustand.',why:'Wenn gerade Entlastung wichtiger ist als Analyse, kann RESET dir helfen, erst einmal wieder Raum zu schaffen.',target:'#openResetCheck'},
-    {id:'gestaltung',title:'In den Schöpfermodus',text:'Übersetze deine Erkenntnis in einen bewussten Gestaltungs-Schritt.',why:'Wenn genug Klarheit da ist, kann aus der Erkenntnis ein konkreter nächster Schritt entstehen.',target:'#openGestaltungsCodefinder'}
+    {id:'gestaltung',title:'In den Schöpfermodus',text:'Übersetze deine Erkenntnis in einen bewussten Schöpfer-Schritt.',why:'Wenn genug Klarheit da ist, kann aus der Erkenntnis ein konkreter nächster Schritt entstehen.',href:'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html?from=meinics'}
   ];
   const read=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{index:0,status:{},source:''}}catch{return {index:0,status:{},source:''}}};
   const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
@@ -67,7 +67,17 @@
   function advance(s){let n=(s.index||0)+1; while(n<steps.length && ['done','open'].includes(s.status?.[steps[n].id])) n++; s.index=n; save(s); mount();}
   function openStep(step){
     sessionStorage.setItem('ICS_WAYFINDER_RETURN','1');
-    if(step.href){location.href=step.href;return;}
+    if(step.href){
+      let href=step.href;
+      if(step.id==='gestaltung'){
+        try{
+          const ev=JSON.parse(localStorage.getItem('ics_wayfinder_result_v1')||localStorage.getItem('ics_auswertung_result_v1')||'null');
+          const personal=ev&&ev.completed?[...(ev.themes||[]),...(ev.counterfields||[])].filter(Boolean).join(' · '):'';
+          if(personal) href += '&themes='+encodeURIComponent(personal);
+        }catch(e){}
+      }
+      location.href=href;return;
+    }
     const el=document.querySelector(step.target);
     if(el){el.click();} else {alert('Dieser ICS-Bereich wird gerade verbunden. Das Thema bleibt gespeichert.');}
   }
