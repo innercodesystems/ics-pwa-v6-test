@@ -120,7 +120,25 @@
     if (state && state.parentElement !== vault && !state.closest('#icsCockpitDetailContent')) vault.appendChild(state);
   }
 
+  function importEvaluationFromUrl() {
+    try {
+      const url = new URL(window.location.href);
+      const payload = url.searchParams.get('icsresult');
+      if (!payload) return false;
+      let b64 = payload.replace(/-/g,'+').replace(/_/g,'/');
+      while (b64.length % 4) b64 += '=';
+      const result = JSON.parse(decodeURIComponent(escape(atob(b64))));
+      if (!result || result.tool !== 'ics-auswertung') return false;
+      localStorage.setItem('ics_wayfinder_result_v1', JSON.stringify(result));
+      localStorage.setItem('ics_auswertung_result_v1', JSON.stringify(result));
+      url.searchParams.delete('icsresult');
+      window.history.replaceState({}, '', url.pathname + (url.search ? url.search : '') + url.hash);
+      return true;
+    } catch(e) { return false; }
+  }
+
   function renderHome() {
+    importEvaluationFromUrl();
     const shell = createShell();
     if (!shell) return false;
     storeExistingDetails();
