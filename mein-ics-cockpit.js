@@ -180,6 +180,25 @@
   }
 
 
+  function applyPressureResultToWayfinder() {
+    try {
+      const pr=JSON.parse(localStorage.getItem('ics_pressure_last_step_v1')||'null');
+      const host=document.getElementById('icsWayfinderHost');
+      if(!pr||!pr.result||!host) return false;
+      const result=String(pr.result);
+      let message='Du hast den inneren Druck bewusst unterbrochen. Nimm wahr, was du jetzt brauchst.';
+      if(result==='Entspannter') message='Der innere Druck ist etwas gesunken. Lass diese Entlastung für jetzt genügen.';
+      else if(result==='Gleich') message='Der Druck ist im Moment gleich geblieben. Du musst nichts erzwingen; nimm weiter wahr, was du brauchst.';
+      else if(result==='Angespannter') message='Der Druck ist gerade stärker spürbar. Beende den Weg bewusst und gib dir Raum, bevor du einen weiteren Schritt wählst.';
+      host.innerHTML='<section style="padding:18px;border:1px solid rgba(184,146,79,.46);border-radius:18px;background:rgba(184,146,79,.09);">'
+        +'<small style="display:block;color:'+GOLD+';letter-spacing:.10em;">DEIN AKTUELLER STAND</small>'
+        +'<h3 style="margin:12px 0 7px;color:'+CREAM+';font-size:1.25rem;">Druck · '+escapeHtml(result.toLowerCase())+'</h3>'
+        +'<p style="margin:0;opacity:.72;line-height:1.5;">'+escapeHtml(message)+'</p></section>';
+      return true;
+    }catch(e){return false;}
+  }
+
+
   function applyEvaluationToWayfinder() {
     try {
       const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
@@ -291,21 +310,19 @@
     }
 
     // Completed guide results are current state; newest result wins.
-    let bodySaved=0, mindSaved=0;
+    let bodySaved=0, mindSaved=0, pressureSaved=0;
     try{ bodySaved=Date.parse(JSON.parse(localStorage.getItem('ics_body_result_v1')||'null')?.savedAt||0)||0; }catch(e){}
     try{ mindSaved=Date.parse(JSON.parse(localStorage.getItem('ics_mind_last_step_v1')||'null')?.savedAt||0)||0; }catch(e){}
+    try{ pressureSaved=Date.parse(JSON.parse(localStorage.getItem('ics_pressure_last_step_v1')||'null')?.savedAt||0)||0; }catch(e){}
     // Always render the newest completed ICS step as "Dein aktueller Stand".
     // If timestamps are equal, prefer the mind step only when it actually exists;
     // otherwise fall back to the body step.
-    let hasBodyStatus = false, hasMindStatus = false;
-    if (mindSaved && mindSaved >= bodySaved) {
-      hasMindStatus = applyMindResultToWayfinder();
-      if (!hasMindStatus && bodySaved) hasBodyStatus = applyBodyResultToWayfinder();
-    } else if (bodySaved) {
-      hasBodyStatus = applyBodyResultToWayfinder();
-      if (!hasBodyStatus && mindSaved) hasMindStatus = applyMindResultToWayfinder();
-    }
-    if (hasBodyStatus || hasMindStatus) {
+    let hasBodyStatus = false, hasMindStatus = false, hasPressureStatus = false;
+    const newest=Math.max(bodySaved,mindSaved,pressureSaved);
+    if (newest===pressureSaved && pressureSaved) hasPressureStatus=applyPressureResultToWayfinder();
+    else if (newest===mindSaved && mindSaved) hasMindStatus=applyMindResultToWayfinder();
+    else if (bodySaved) hasBodyStatus=applyBodyResultToWayfinder();
+    if (hasBodyStatus || hasMindStatus || hasPressureStatus) {
       try {
         localStorage.removeItem('ics_guide_origin_v1');
         localStorage.removeItem('ics_wayfinder_v2');
@@ -322,6 +339,15 @@
     const developmentText = 'Sieh, was sich auf deinem bisherigen ICS-Weg bereits bewegt und verändert hat.';
     const cards = document.getElementById('icsCockpitCards');
     if (!cards) return false;
+
+    let pressureResultHtml = '';
+    try {
+      const pr=JSON.parse(localStorage.getItem('ics_pressure_last_step_v1')||'null');
+      if(pr&&pr.result){
+        const when=pr.savedAt?new Date(pr.savedAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+        pressureResultHtml='<section style="margin-bottom:18px;padding:18px;border:1px solid rgba(184,146,79,.42);border-radius:18px;background:rgba(184,146,79,.06);"><small style="color:'+GOLD+';letter-spacing:.10em;">RESET · DEIN LETZTER SCHRITT</small><h3 style="margin:8px 0;color:'+CREAM+';">RESET Meditation</h3><p style="margin:0;opacity:.72;">Den inneren Druck bewusst unterbrochen.</p><p style="margin:8px 0 0;color:'+GOLD+';"><strong>Veränderung: '+escapeHtml(pr.result)+'</strong></p>'+(when?'<small style="display:block;margin-top:8px;opacity:.5;">'+escapeHtml(when)+'</small>':'')+'</section>';
+      }
+    }catch(e){}
 
     let mindResultHtml = '';
     try {
@@ -377,7 +403,7 @@
       }
     } catch(e) {}
 
-    cards.innerHTML = mindResultHtml + bodyResultHtml + evaluationHtml + creatorCodeHtml + `<section>
+    cards.innerHTML = pressureResultHtml + mindResultHtml + bodyResultHtml + evaluationHtml + creatorCodeHtml + `<section>
       <small style="color:${GOLD};letter-spacing:.10em;">DEIN COCKPIT</small>
       <h3 style="margin:6px 0 4px;color:${CREAM};">Dein Weg auf einen Blick</h3>
       <p style="margin:0 0 14px;opacity:.64;font-size:.9rem;">Nur das Wesentliche hier. Alles Weitere öffnest du bei Bedarf.</p>
