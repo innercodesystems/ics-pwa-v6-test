@@ -273,37 +273,16 @@
     } catch(e) {}
 
     cards.innerHTML = evaluationHtml + creatorCodeHtml + `<section>
-      <small style="color:${GOLD};letter-spacing:.10em;">JETZT</small>
-      <h3 style="margin:6px 0 4px;color:${CREAM};">Wo du gerade stehst</h3>
-      <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Deine aktuelle Orientierung und dein nächster Schritt.</p>
+      <small style="color:${GOLD};letter-spacing:.10em;">DEIN COCKPIT</small>
+      <h3 style="margin:6px 0 4px;color:${CREAM};">Dein Weg auf einen Blick</h3>
+      <p style="margin:0 0 14px;opacity:.64;font-size:.9rem;">Nur das Wesentliche hier. Alles Weitere öffnest du bei Bedarf.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;">
-        ${card('◌','Lebensphase',life.title,life.text,'life')}
-        ${card('▥','Aktueller Zustand','Wie geht es dir gerade?',energy,'energy')}
-        ${card('➜','Handlung',action.title,action.text,'action')}
+        ${card('◌','Stand','Wo du gerade stehst','Lebensphase, Zustand und Orientierung.','status')}
+        ${card('◎','Erkennen','Erkenntnisse & Muster','Trigger, Journal und Mentor-Erkenntnisse.','insights')}
+        ${card('✓','Handeln','Handlung & Integration','Deine nächsten Schritte und Umsetzungen.','integration')}
+        ${card('↗','Weg','Deine Entwicklung','Was sich über deine ICS-Schritte verändert.','development')}
       </div>
-    </section>
-    <section style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(184,146,79,.24);">
-      <small style="color:${GOLD};letter-spacing:.10em;">WAS SICH ZEIGT</small>
-      <h3 style="margin:6px 0 4px;color:${CREAM};">Erkenntnisse & Muster</h3>
-      <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Nur das Wesentliche. Details öffnest du bei Bedarf.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;">
-        ${card('◎','Trigger-Kompass',trigger.title,trigger.text,'trigger')}
-        ${card('✎','Journal','Dein letzter Check-in',journal,'journal')}
-        ${card('✦','Mentor','Letzte Erkenntnis',mentor,'mentor')}
-      </div>
-    </section>
-    <section style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(184,146,79,.24);">
-      <small style="color:${GOLD};letter-spacing:.10em;">WAS DU VERÄNDERST</small>
-      <h3 style="margin:6px 0 4px;color:${CREAM};">Handlung & Integration</h3>
-      <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Was du umgesetzt hast und was daraus in dir entsteht.</p>
-      ${card('✓','Integration',action.title,action.text,'integration')}
-    </section>
-    <section style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(184,146,79,.24);">
-      <small style="color:${GOLD};letter-spacing:.10em;">DEIN WEG</small>
-      <h3 style="margin:6px 0 4px;color:${CREAM};">Entwicklung</h3>
-      <p style="margin:0 0 13px;opacity:.64;font-size:.9rem;">Was sich über deine gespeicherten ICS-Schritte hinweg bewegt.</p>
-      ${card('↗','Entwicklung',developmentTitle,developmentText,'development')}
-    </section>`;
+    </section>`
 
     document.getElementById('icsCockpitHome').hidden = false;
     document.getElementById('icsCockpitDetail').hidden = true;
@@ -311,10 +290,28 @@
   }
 
   function detailTitle(type) {
-    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration',development:'Deine Entwicklung',creatorcodes:'Meine Schöpfer-Codes'})[type] || 'Dein ICS';
+    return ({life:'Deine Lebensphase',energy:'Wie geht es dir gerade?',trigger:'Trigger & Muster',journal:'Dein Journal-Impuls',mentor:'Deine Mentor-Erkenntnis',action:'Deine ACTION',integration:'Handlung & Integration',development:'Deine Entwicklung',creatorcodes:'Meine Schöpfer-Codes',status:'Wo du gerade stehst',insights:'Erkenntnisse & Muster'})[type] || 'Dein ICS';
   }
 
   function appendDetailContent(type, target) {
+    if (type === 'status') {
+      target.innerHTML = '<div id="icsStatusCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;"></div>';
+      const box=target.querySelector('#icsStatusCards');
+      const life=readText('icsLifeCycleOverview','Aktuelle Lebensphase');
+      const energy=readText('icsLatestEnergy','Noch kein aktueller Check-in');
+      const action=readText('icsLatestActionIntegration','Noch kein nächster Schritt gespeichert');
+      box.innerHTML=card('◌','Lebensphase',life.title,life.text,'life')+card('▥','Aktueller Zustand','Wie geht es dir gerade?',energy,'energy')+card('➜','Handlung',action.title,action.text,'action');
+      return;
+    }
+    if (type === 'insights') {
+      target.innerHTML = '<div id="icsInsightCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;"></div>';
+      const box=target.querySelector('#icsInsightCards');
+      const trigger=readText('icsLatestTrigger','Noch kein Trigger gespeichert');
+      const journal=readText('icsLatestCloudActivity','Noch kein Journal-Eintrag');
+      const mentor=readText('icsLatestMentorInsight','Noch keine Mentor-Erkenntnis');
+      box.innerHTML=card('◎','Trigger-Kompass',trigger.title,trigger.text,'trigger')+card('✎','Journal','Dein letzter Check-in',journal,'journal')+card('✦','Mentor','Letzte Erkenntnis',mentor,'mentor');
+      return;
+    }
     if (type === 'creatorcodes') {
       let codes=[]; try { codes=JSON.parse(localStorage.getItem('ics_creator_codes_v1')||'[]'); } catch(e) {}
       if (!Array.isArray(codes)) codes=[];
