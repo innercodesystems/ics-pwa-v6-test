@@ -183,7 +183,14 @@
       const b64 = raw.replace(/-/g,'+').replace(/_/g,'/');
       const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
       const data = JSON.parse(decodeURIComponent(escape(atob(padded))));
-      if (data && data.creator) localStorage.setItem('ics_creator_code_v1', JSON.stringify(data));
+      if (data && data.creator) {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem('ics_creator_codes_v1') || '[]'); } catch(e) {}
+        if (!Array.isArray(list)) list = [];
+        if (!list.some(x => x.creator === data.creator && x.survival === data.survival)) list.push(data);
+        localStorage.setItem('ics_creator_codes_v1', JSON.stringify(list));
+        localStorage.setItem('ics_creator_code_v1', JSON.stringify(data));
+      }
       params.delete('creatorcode');
       const qs = params.toString();
       history.replaceState({}, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
@@ -230,12 +237,21 @@
 
     let creatorCodeHtml = '';
     try {
-      const cc = JSON.parse(localStorage.getItem('ics_creator_code_v1') || 'null');
-      if (cc && cc.creator) {
+      let codes = [];
+      try { codes = JSON.parse(localStorage.getItem('ics_creator_codes_v1') || '[]'); } catch(e) {}
+      if (!Array.isArray(codes)) codes = [];
+      if (!codes.length) {
+        const legacy = JSON.parse(localStorage.getItem('ics_creator_code_v1') || 'null');
+        if (legacy && legacy.creator) codes = [legacy];
+      }
+      if (codes.length) {
         creatorCodeHtml = '<section style="margin-bottom:24px;padding:18px;border:1px solid rgba(184,146,79,.55);border-radius:18px;background:rgba(184,146,79,.10);">'
-          + '<small style="color:'+GOLD+';letter-spacing:.10em;">MEIN AKTUELLER SCHÖPFER-CODE</small>'
-          + '<h3 style="margin:8px 0;color:'+CREAM+';">„'+escapeHtml(cc.creator)+'“</h3>'
-          + (cc.survival ? '<p style="margin:8px 0 0;opacity:.62;">Aus: „'+escapeHtml(cc.survival)+'“</p>' : '')
+          + '<small style="color:'+GOLD+';letter-spacing:.10em;">MEINE SCHÖPFER-CODES</small>'
+          + '<h3 style="margin:7px 0 12px;color:'+CREAM+';">Was für mich gerade zutrifft</h3>'
+          + codes.map((cc,i) => '<div style="padding:'+(i?'14px 0 0':'0')+';margin-top:'+(i?'14px':'0')+';border-top:'+(i?'1px solid rgba(184,146,79,.22)':'0')+';">'
+              + '<strong style="color:'+CREAM+';">„'+escapeHtml(cc.creator)+'“</strong>'
+              + (cc.survival ? '<p style="margin:6px 0 0;opacity:.58;font-size:.86rem;">Aus: „'+escapeHtml(cc.survival)+'“</p>' : '')
+            + '</div>').join('')
           + '</section>';
       }
     } catch(e) {}
