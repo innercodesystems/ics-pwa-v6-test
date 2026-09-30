@@ -22,6 +22,24 @@
     if(!box){box=document.createElement('section');box.id='icsWayfinder';}
     if(box.parentElement!==host) host.replaceChildren(box);
     let s=read();
+
+    // A completed body step owns the current-state slot. Do not overwrite it
+    // with an older generic wayfinder suggestion such as RESET.
+    try {
+      const br=JSON.parse(localStorage.getItem('ics_body_result_v1')||'null');
+      if(br&&br.title&&br.change){
+        const label={geringer:'geringer',gleich:'gleich',stärker:'stärker'}[br.change]||br.change;
+        let msg='Dein kleiner Schritt ist abgeschlossen. Nimm wahr, wie sich dein Körpersignal weiterentwickelt.';
+        let note='';
+        if(br.change==='geringer') msg='Dein kleiner Schritt hat etwas verändert. Nimm wahr, wie es sich weiterentwickelt.';
+        if(br.change==='gleich') msg='Es ist im Moment gleich geblieben. Du kannst weiter wahrnehmen oder einen anderen passenden Weg wählen.';
+        if(br.change==='stärker'){msg='Das Signal ist stärker geworden. Nimm es ernst und entscheide bewusst über den nächsten passenden Weg.';note='<p style="margin:12px 0 0;color:'+GOLD+';">Bei neuen, starken, anhaltenden oder unklaren Beschwerden bitte medizinisch abklären lassen.</p>';}
+        box.style.cssText='margin:0 0 24px;padding:20px;border:1px solid rgba(184,146,79,.5);border-radius:18px;background:linear-gradient(180deg,rgba(184,146,79,.10),rgba(184,146,79,.025));';
+        box.innerHTML='<small style="color:'+GOLD+';letter-spacing:.11em;">DEIN AKTUELLER STAND</small><h3 style="margin:8px 0;color:'+CREAM+';font-size:1.35rem;">'+esc(br.title)+' · '+esc(label)+'</h3><p style="margin:0;opacity:.72;line-height:1.5;">'+esc(msg)+'</p>'+note;
+        return true;
+      }
+    } catch(e) {}
+
     let evaluation=null;
     try{evaluation=JSON.parse(localStorage.getItem('ics_wayfinder_result_v1')||localStorage.getItem('ics_auswertung_result_v1')||'null')}catch(e){}
     if(evaluation&&evaluation.completed){
