@@ -11,7 +11,7 @@
   (async () => {
     try {
       await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
-      await loadScript('app-core.js?v=20260930-route5');
+      await loadScript('app-core.js?v=20260930-route6');
       await loadScript('supabase-auth.js?v=20260916-2');
       await loadScript('cloud-sync.js');
       await loadScript('life-phase.js?v=20260916-5');
@@ -19,7 +19,7 @@
       await loadScript('action-integration.js?v=20260916-4');
       await loadScript('energy-cloud-sync.js?v=20260916-2');
       await loadScript('development-journey.js?v=20260916-3');
-      await loadScript('mein-ics-cockpit.js?v=20260930-compact2');
+      await loadScript('mein-ics-cockpit.js?v=20260930-bodyresult1');
       await loadScript('ics-wayfinder.js?v=20260930-route4');
       await loadScript('mein-ics-ui-fix.js?v=20260916-2');
       await loadScript('today-personal.js?v=20260916-3');
