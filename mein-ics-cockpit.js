@@ -272,6 +272,15 @@
       } catch(e) {}
     }
 
+    // A completed Körpersignal step is the current state and replaces an older guide suggestion.
+    const hasBodyStatus = applyBodyResultToWayfinder();
+    if (hasBodyStatus) {
+      try {
+        localStorage.removeItem('ics_guide_origin_v1');
+        localStorage.removeItem('ics_wayfinder_v2');
+      } catch(e) {}
+    }
+
     const life = getLifePhaseSummary();
     const trigger = getTriggerSummary();
     const action = getActionSummary();
