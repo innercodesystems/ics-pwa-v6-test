@@ -7739,3 +7739,21 @@ backFromEnergyHistory?.addEventListener('click', () => {
 backFromIcsEnergy?.addEventListener('click', () => {
   goBackView('welten');
 });
+
+/* ICS Gedanken-Weg: Abschluss -> Mein ICS */
+let selectedMindGuideResult = '';
+function initMindGuideCompletion(){
+  const choices=[...document.querySelectorAll('.mind-result-choice')], save=document.getElementById('saveMindGuideResult');
+  if(!choices.length || !save) return;
+  choices.forEach(btn=>btn.addEventListener('click',()=>{
+    selectedMindGuideResult=btn.dataset.mindResult||'';
+    choices.forEach(x=>{const on=x===btn;x.style.background=on?'linear-gradient(135deg,#f3c34e,#d99b1d)':'transparent';x.style.color=on?'#17120a':'#f6f1e7';x.style.border='1px solid rgba(212,160,58,.55)';x.style.borderRadius='14px';x.style.padding='14px 8px';x.style.fontWeight='700';});
+    save.disabled=!selectedMindGuideResult;
+  }));
+  save.addEventListener('click',()=>{
+    if(!selectedMindGuideResult) return;
+    try{localStorage.setItem('ics_mind_last_step_v1',JSON.stringify({title:'Gedanken loslassen',result:selectedMindGuideResult,savedAt:new Date().toISOString()}));localStorage.removeItem('ics_wayfinder_v2');}catch(e){}
+    selectedMindGuideResult='';openView('meinics');setTimeout(()=>{try{window.dispatchEvent(new Event('ics:mind-result-saved'));}catch(e){}},80);
+  });
+}
+setTimeout(initMindGuideCompletion,0);
