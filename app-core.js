@@ -361,7 +361,7 @@ todayToNachschlagewerk?.addEventListener('click', () => {
 });
 
 nachschlagewerkToKoerpersignale?.addEventListener('click', () => {
-  window.location.href = nachschlagewerkToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html';
+  window.location.href = (nachschlagewerkToKoerpersignale.dataset.centralTool || 'https://innercodesystems.github.io/ics-auswertungstool/ics-koerpersignale.html') + '?from=app&return=' + encodeURIComponent('https://app.innercodesystems.com/?view=nachschlagewerk') + '&v=20260930-2';
 });
 
 backFromNachschlagewerk?.addEventListener('click', () => {
