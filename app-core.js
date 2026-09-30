@@ -325,8 +325,17 @@ openGegenpolGenerator?.addEventListener('click', () => {
 });
 
 openGestaltungsCodefinder?.addEventListener('click', () => {
-  window.location.href =
-    'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html';
+  let url = 'https://innercodesystems.github.io/ics-auswertungstool/ics-gestaltungs-codefinder.html';
+  try {
+    const ev = JSON.parse(localStorage.getItem('ics_wayfinder_result_v1') || localStorage.getItem('ics_auswertung_result_v1') || 'null');
+    if (ev && ev.completed) {
+      const themes = Array.isArray(ev.themes) ? ev.themes.filter(Boolean) : [];
+      const counters = Array.isArray(ev.counterfields) ? ev.counterfields.filter(Boolean) : [];
+      const personal = [...themes, ...counters].join(' · ');
+      if (personal) url += '?themes=' + encodeURIComponent(personal) + '&from=meinics';
+    }
+  } catch(e) {}
+  window.location.href = url;
 });
 
 openErkenntnisse?.addEventListener('click', () => {
