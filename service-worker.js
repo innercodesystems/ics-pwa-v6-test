@@ -50,6 +50,7 @@ self.addEventListener('fetch', event => {
     url.pathname.endsWith('/supabase-auth.js') ||
     url.pathname.endsWith('/massage-link-fix.js') ||
     url.pathname.endsWith('/ics-wayfinder.js') ||
+    url.pathname.endsWith('/ics-quicksearch.js') ||
     url.pathname.endsWith('/mein-ics-cockpit.js') ||
     url.pathname.endsWith('/99-inner-codes.html');
 
