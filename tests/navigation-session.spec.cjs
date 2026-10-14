@@ -7,6 +7,8 @@ test('navigation after simulated signed-in session', async ({ page }) => {
   }));
   await page.goto('http://127.0.0.1:4173/index.html');
   await expect(page.locator('#ics-auth-gate')).toHaveCount(0);
+  await expect(page.locator('#view-welcome')).toHaveClass(/active/);
+  await page.locator('.bottom-nav .nav-item[data-view="heute"]').click();
   await expect(page.locator('#view-heute')).toHaveClass(/active/);
   await page.locator('#todayToNachschlagewerk').click();
   await expect(page.locator('#view-nachschlagewerk')).toHaveClass(/active/);
