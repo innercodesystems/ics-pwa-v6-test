@@ -128,11 +128,8 @@
     document.getElementById('ics-auth-gate')?.remove();
     installAccountControls(user);
 
-    const script = document.createElement('script');
-    script.src = 'app-core.js';
-    script.defer = false;
-    script.addEventListener('load', () => openRequestedViewAfterLogin(targetView));
-    document.body.appendChild(script);
+    // app-core.js is already loaded by app.js before authentication.
+    openRequestedViewAfterLogin(targetView);
   }
 
   async function ensureProfile(user) {
