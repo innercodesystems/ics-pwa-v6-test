@@ -10,7 +10,12 @@
 
   (async () => {
     try {
-      await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+      try {
+        await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+      } catch (primaryError) {
+        console.warn('ICS: Supabase CDN fallback', primaryError);
+        await loadScript('https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js');
+      }
       await loadScript('app-core.js?v=20260930-mindcomplete2');
       await loadScript('supabase-auth.js?v=20260916-2');
       await loadScript('cloud-sync.js');
