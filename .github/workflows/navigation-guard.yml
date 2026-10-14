@@ -1,0 +1,16 @@
+name: ICS Navigation Guard
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  navigation-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check ICS navigation wiring
+        run: node tests/navigation-guard.cjs
