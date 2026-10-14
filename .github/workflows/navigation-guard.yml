@@ -26,4 +26,4 @@ jobs:
       - name: Start local test server
         run: python3 -m http.server 4173 --bind 127.0.0.1 &
       - name: Click-test navigation in Chromium
-        run: npx playwright test tests/navigation-click.spec.cjs --reporter=line
+        run: npx playwright test tests/navigation-click.spec.cjs tests/navigation-session.spec.cjs tests/navigation-login.spec.cjs --reporter=line
