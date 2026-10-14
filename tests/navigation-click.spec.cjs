@@ -12,6 +12,9 @@ test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ pag
     console.log('ICS BEFORE', name, await page.locator('.bottom-nav .nav-item[data-view="'+name+'"]').evaluate(el => ({outer:el.outerHTML.slice(0,200),connected:el.isConnected})));
     await page.locator('.bottom-nav .nav-item[data-view="'+name+'"]').click();
     console.log('ICS AFTER', name, await page.evaluate(() => ({activeViews:[...document.querySelectorAll('.app-view.active')].map(x=>x.id),activeTabs:[...document.querySelectorAll('.nav-item.active')].map(x=>x.dataset.view), openViewType:typeof openView, appViewsCount:typeof appViews!=='undefined'?appViews.length:-1, domViewsCount:document.querySelectorAll('.app-view').length, heuteInSnapshot:typeof appViews!=='undefined'&&appViews.includes(document.getElementById('view-heute')), nachschlagewerkInSnapshot:typeof appViews!=='undefined'&&appViews.includes(document.getElementById('view-nachschlagewerk'))})));
+    if(name === 'heute') {
+      console.log('ICS DIRECT CALL', await page.evaluate(() => { openView('heute'); return {activeViews:[...document.querySelectorAll('.app-view.active')].map(x=>x.id),activeTabs:[...document.querySelectorAll('.nav-item.active')].map(x=>x.dataset.view)}; }));
+    }
     console.log('ICS NAV:', name, 'active=', await page.locator('.app-view.active').evaluateAll(nodes => nodes.map(n => n.id)));
     await expect(page.locator('#view-'+name)).toHaveClass(/active/);
   }
