@@ -8,6 +8,7 @@ test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ pag
   await expect(page.locator('#view-nachschlagewerk')).toHaveClass(/active/);
   for (const name of ['heute','meinics','journal','welten','mehr']) {
     await page.locator('.bottom-nav .nav-item[data-view="'+name+'"]').click();
+    console.log('ICS NAV:', name, 'active=', await page.locator('.app-view.active').evaluateAll(nodes => nodes.map(n => n.id)));
     await expect(page.locator('#view-'+name)).toHaveClass(/active/);
   }
 });
