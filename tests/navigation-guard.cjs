@@ -6,8 +6,8 @@ const core = fs.readFileSync('app-core.js', 'utf8');
 const bootstrap = fs.readFileSync('app.js', 'utf8');
 const nav = ['heute', 'meinics', 'journal', 'welten', 'mehr'];
 for (const view of nav) {
-  assert.match(html, new RegExp('id=["\\']view-' + view + '["\\']'), 'Missing view: ' + view);
-  assert.match(html, new RegExp('data-view=["\\']' + view + '["\\']'), 'Missing nav button: ' + view);
+  assert.match(html, new RegExp(`id=["']view-${view}["']`), 'Missing view: ' + view);
+  assert.match(html, new RegExp(`data-view=["']${view}["']`), 'Missing nav button: ' + view);
 }
 assert.match(html, /id=["']view-nachschlagewerk["']/);
 assert.match(html, /id=["']todayToNachschlagewerk["']/);
