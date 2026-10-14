@@ -19,6 +19,9 @@ test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ pag
   await page.evaluate(() => {
     document.querySelector('.bottom-nav').addEventListener('click', e => console.log('ICS CAPTURE NAV', e.target.closest('.nav-item')?.dataset.view), true);
   });
+  // Test navigation only after dismissing the simulated auth gate.
+  // The mocked Supabase session is null; this is NOT an authentication test.
+  await page.locator('#ics-auth-gate').evaluate(el => el.remove()).catch(() => {});
   await expect(page.locator('#view-heute')).toHaveClass(/active/, {timeout:15000});
   await page.locator('#todayToNachschlagewerk').click();
   await expect(page.locator('#view-nachschlagewerk')).toHaveClass(/active/);
