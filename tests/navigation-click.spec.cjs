@@ -5,7 +5,7 @@ test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ pag
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function(type, listener, options) {
       if(type === 'click' && this?.matches?.('.bottom-nav .nav-item')) {
-        console.log('ICS REGISTER TAB', this.dataset.view, String(listener).slice(0,130));
+        console.log('ICS REGISTER TAB', this.dataset.view, String(listener).slice(0,130), new Error('handler registration').stack?.split('\\n').slice(1,5).join(' | '));
         const wrapped = function(event) { console.log('ICS INVOKE TAB', this.dataset.view); return listener.call(this,event); };
         return original.call(this,type,wrapped,options);
       }
