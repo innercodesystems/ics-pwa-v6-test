@@ -1,9 +1,20 @@
 const { test, expect } = require('@playwright/test');
 test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('ICS_USER_NAME', 'ICS Test'));
+  await page.addInitScript(() => {
+    localStorage.setItem('ICS_USER_NAME', 'ICS Test');
+    const original = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+      if(type === 'click' && this?.matches?.('.bottom-nav .nav-item')) {
+        console.log('ICS REGISTER TAB', this.dataset.view, String(listener).slice(0,130));
+        const wrapped = function(event) { console.log('ICS INVOKE TAB', this.dataset.view); return listener.call(this,event); };
+        return original.call(this,type,wrapped,options);
+      }
+      return original.call(this,type,listener,options);
+    };
+  });
   await page.route('https://cdn.jsdelivr.net/npm/@supabase/**', route => route.fulfill({ status: 200, contentType: 'application/javascript', body: 'window.supabase={createClient:()=>({auth:{getSession:async()=>({data:{session:null}}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})}})};' }));
   page.on('pageerror', error => console.log('ICS PAGE ERROR', error.message));
-  page.on('console', msg => { if(msg.type()==='error') console.log('ICS CONSOLE ERROR',msg.text()); });
+  page.on('console', msg => { if(msg.type()==='error' || msg.text().startsWith('ICS ')) console.log('ICS BROWSER',msg.text()); });
   await page.goto('http://127.0.0.1:4173/index.html');
   await page.evaluate(() => {
     document.querySelector('.bottom-nav').addEventListener('click', e => console.log('ICS CAPTURE NAV', e.target.closest('.nav-item')?.dataset.view), true);
