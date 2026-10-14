@@ -5,6 +5,9 @@ test('ICS bottom navigation and Nachschlagewerk respond to clicks', async ({ pag
   page.on('pageerror', error => console.log('ICS PAGE ERROR', error.message));
   page.on('console', msg => { if(msg.type()==='error') console.log('ICS CONSOLE ERROR',msg.text()); });
   await page.goto('http://127.0.0.1:4173/index.html');
+  await page.evaluate(() => {
+    document.querySelector('.bottom-nav').addEventListener('click', e => console.log('ICS CAPTURE NAV', e.target.closest('.nav-item')?.dataset.view), true);
+  });
   await expect(page.locator('#view-heute')).toHaveClass(/active/, {timeout:15000});
   await page.locator('#todayToNachschlagewerk').click();
   await expect(page.locator('#view-nachschlagewerk')).toHaveClass(/active/);
