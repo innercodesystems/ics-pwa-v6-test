@@ -24,7 +24,9 @@ test('ICS login: error, successful sign-in and navigation', async ({ page }) => 
   await page.locator('#ics-login-password').fill('correct-test-password');
   await page.locator('#ics-login-button').click();
   await expect(page.locator('#ics-auth-gate')).toHaveCount(0);
-  await expect(page.locator('#view-heute')).toHaveClass(/active/, {timeout:15000});
+  await expect(page.locator('#view-welcome')).toHaveClass(/active/, {timeout:15000});
+  await page.locator('.bottom-nav .nav-item[data-view="heute"]').click();
+  await expect(page.locator('#view-heute')).toHaveClass(/active/);
   await page.locator('#todayToNachschlagewerk').click();
   await expect(page.locator('#view-nachschlagewerk')).toHaveClass(/active/);
   await page.locator('.bottom-nav .nav-item[data-view="meinics"]').click();
